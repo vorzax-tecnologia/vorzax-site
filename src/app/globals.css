@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #020611;
+  --foreground: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+[id] {
+  scroll-margin-top: 96px;
+}
+
+::selection {
+  background: rgba(56, 189, 248, 0.28);
+  color: #ffffff;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.85) 55%, transparent 100%);
+}
+
+.hero-dots {
+  background-image: radial-gradient(circle, rgba(125, 211, 252, 0.38) 1px, transparent 1.5px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at 65% 35%, black 0%, rgba(0, 0, 0, 0.5) 42%, transparent 74%);
+}
+
+.mobile-whatsapp {
+  bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 640px) {
+  .mobile-whatsapp {
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.animate-float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020611;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #14223a;
+  border: 2px solid #020611;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1d3558;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
