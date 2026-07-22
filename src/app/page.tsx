@@ -3,8 +3,9 @@
 import { useState } from "react";
 
 const WHATSAPP_URL =
-  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
+  "https://wa.me/5531990681495o?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
 
+const INSTAGRAM_URL = "https://www.instagram.com/vorzaxoficial/";
 const services = [
   {
     number: "01",
@@ -752,7 +753,14 @@ export default function Home() {
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-400">CONTATO</p>
             <div className="mt-5 space-y-3 text-sm text-slate-500">
               <a className="block transition hover:text-white" href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
-              <span className="block">Minas Gerais, Brasil</span>
+              <a
+  className="block transition hover:text-white"
+  href={INSTAGRAM_URL}
+  target="_blank"
+  rel="noreferrer"
+>
+  Instagram
+</a><span className="block">Minas Gerais, Brasil</span>
               <span className="block">Atendimento online</span>
             </div>
           </div>
