@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const WHATSAPP_URL =
-  "https://wa.me/5531997611295?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
+  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
 
 const services = [
   {
