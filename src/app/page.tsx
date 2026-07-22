@@ -285,7 +285,7 @@ function ProjectVisual({ type }: { type: string }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+const [whatsappOpen, setWhatsappOpen] = useState(false);
   return (
     <main className="min-h-screen overflow-hidden bg-[#020611] text-white">
       <a
