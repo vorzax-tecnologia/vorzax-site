@@ -288,15 +288,55 @@ export default function Home() {
 const [whatsappOpen, setWhatsappOpen] = useState(false);
   return (
     <main className="min-h-screen overflow-hidden bg-[#020611] text-white">
-      <a
-        href={WHATSAPP_URL}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Falar com a Vorzax no WhatsApp"
-        className="mobile-whatsapp fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition hover:-translate-y-1 hover:bg-emerald-400 sm:right-6 sm:h-14 sm:w-14"
-      >
-        <WhatsAppIcon />
-      </a>
+      <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:right-6">
+  {whatsappOpen && (
+    <div className="w-[min(340px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-white/10 bg-[#07101f]/95 shadow-2xl shadow-black/40 backdrop-blur-xl">
+      <div className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4">
+        <div>
+          <p className="text-sm font-semibold text-white">Olá! 👋</p>
+          <p className="mt-1 text-xs leading-5 text-slate-400">
+            Como podemos ajudar sua empresa?
+          </p>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Fechar conversa"
+          onClick={() => setWhatsappOpen(false)}
+          className="text-xl leading-none text-slate-500 transition hover:text-white"
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="px-5 py-4">
+        <p className="text-xs leading-5 text-slate-400">
+          Fale com a Vorzax e solicite um diagnóstico gratuito.
+        </p>
+
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-400"
+        >
+          Abrir conversa
+          <ArrowIcon />
+        </a>
+      </div>
+    </div>
+  )}
+
+  <button
+    type="button"
+    aria-label={whatsappOpen ? "Fechar WhatsApp" : "Abrir WhatsApp"}
+    aria-expanded={whatsappOpen}
+    onClick={() => setWhatsappOpen((open) => !open)}
+    className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 sm:w-14"
+  >
+    <WhatsAppIcon />
+  </button>
+</div>
 
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#020611]/78 backdrop-blur-2xl">
         <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
