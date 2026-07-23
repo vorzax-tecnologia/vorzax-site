@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { supabase } from "../lib/supabase";
 const WHATSAPP_URL =
   "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
 
@@ -311,13 +312,11 @@ export default function Home() {
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [diagnosticError, setDiagnosticError] = useState("");
-  const [diagnosticWhatsappUrl, setDiagnosticWhatsappUrl] = useState(WHATSAPP_URL);
 
   const openDiagnostic = () => {
     setWhatsappOpen(false);
     setDiagnosticStatus("idle");
     setDiagnosticError("");
-    setDiagnosticWhatsappUrl(WHATSAPP_URL);
     setDiagnosticOpen(true);
   };
 
@@ -352,46 +351,36 @@ export default function Home() {
     setDiagnosticData((current) => ({ ...current, [name]: value }));
   };
 
-  const handleDiagnosticSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleDiagnosticSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDiagnosticStatus("sending");
     setDiagnosticError("");
 
     try {
-      const message = [
-        "Olá! Vim pelo site da Vorzax e preenchi o diagnóstico.",
-        "",
-        "*NOVO DIAGNÓSTICO VORZAX*",
-        `*Nome:* ${diagnosticData.nome.trim()}`,
-        `*WhatsApp:* ${diagnosticData.telefone.trim()}`,
-        `*E-mail:* ${diagnosticData.email.trim() || "Não informado"}`,
-        `*Empresa:* ${diagnosticData.empresa.trim()}`,
-        `*Segmento:* ${diagnosticData.segmento}`,
-        `*Solução desejada:* ${diagnosticData.tipo_solucao}`,
-        `*Objetivo ou dificuldade:* ${diagnosticData.objetivo.trim()}`,
-        `*Prazo desejado:* ${diagnosticData.prazo || "Ainda não definido"}`,
-        "",
-        "Mensagem gerada pelo formulário de diagnóstico do site da Vorzax.",
-      ].join("\n");
+      const { error } = await supabase.from("atendimentos").insert({
+        nome: diagnosticData.nome.trim(),
+        telefone: diagnosticData.telefone.trim(),
+        email: diagnosticData.email.trim() || null,
+        empresa: diagnosticData.empresa.trim(),
+        segmento: diagnosticData.segmento,
+        tipo_solucao: diagnosticData.tipo_solucao,
+        objetivo: diagnosticData.objetivo.trim(),
+        prazo: diagnosticData.prazo || null,
+        origem: "site",
+        status: "novo",
+        observacoes: "Lead recebido pelo formulário de diagnóstico do site.",
+        proximo_passo: "Fazer contato inicial",
+      });
 
-      const whatsappUrl = `https://wa.me/5531990681495?text=${encodeURIComponent(message)}`;
-      setDiagnosticWhatsappUrl(whatsappUrl);
+      if (error) throw error;
 
-      const whatsappWindow = window.open(whatsappUrl, "_blank");
-
-      if (whatsappWindow) {
-        whatsappWindow.opener = null;
-        setDiagnosticStatus("success");
-        setDiagnosticData(initialDiagnosticForm);
-        return;
-      }
-
-      window.location.assign(whatsappUrl);
+      setDiagnosticData(initialDiagnosticForm);
+      setDiagnosticStatus("success");
     } catch (error) {
-      console.error("Erro ao abrir o WhatsApp:", error);
+      console.error("Erro ao salvar diagnóstico:", error);
       setDiagnosticStatus("error");
       setDiagnosticError(
-        "Não foi possível abrir o WhatsApp agora. Verifique sua conexão e tente novamente."
+        "Não foi possível enviar o diagnóstico agora. Tente novamente em alguns instantes."
       );
     }
   };
@@ -447,28 +436,19 @@ export default function Home() {
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400/10 text-2xl text-emerald-400">
                   ✓
                 </div>
-                <h3 className="mt-6 text-2xl font-semibold">Diagnóstico pronto para envio.</h3>
+                <h3 className="mt-6 text-2xl font-semibold">
+                  Diagnóstico enviado com sucesso.
+                </h3>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-400">
-                  Suas respostas foram organizadas e o WhatsApp foi aberto. Para concluir, envie a mensagem para a Vorzax.
+                  Recebemos suas informações. A Vorzax vai analisar o pedido e entrar em contato pelo WhatsApp informado.
                 </p>
-                <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                  <a
-                    href={diagnosticWhatsappUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-400"
-                  >
-                    Abrir WhatsApp novamente
-                    <ArrowIcon />
-                  </a>
-                  <button
-                    type="button"
-                    onClick={closeDiagnostic}
-                    className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:text-white"
-                  >
-                    Fechar
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={closeDiagnostic}
+                  className="mt-8 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:text-white"
+                >
+                  Fechar
+                </button>
               </div>
             ) : (
               <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
