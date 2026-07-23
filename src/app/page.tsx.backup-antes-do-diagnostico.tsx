@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { supabase } from "../lib/supabase";
 
 const WHATSAPP_URL =
@@ -326,25 +326,6 @@ export default function Home() {
     setDiagnosticOpen(false);
   };
 
-  useEffect(() => {
-    if (!diagnosticOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && diagnosticStatus !== "sending") {
-        setDiagnosticOpen(false);
-      }
-    };
-
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [diagnosticOpen, diagnosticStatus]);
-
   const handleDiagnosticChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -401,7 +382,6 @@ export default function Home() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="diagnostico-titulo"
-            aria-describedby="diagnostico-descricao"
             className="relative z-10 max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-[28px] border border-white/10 bg-[#07101f] shadow-2xl shadow-black/60"
             style={{ position: "relative", zIndex: 1 }}
           >
@@ -413,7 +393,7 @@ export default function Home() {
                 <h2 id="diagnostico-titulo" className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                   Vamos entender sua operação.
                 </h2>
-                <p id="diagnostico-descricao" className="mt-2 max-w-xl text-sm leading-6 text-slate-400">
+                <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">
                   Responda algumas perguntas. Com isso, avaliamos o melhor caminho para seu projeto.
                 </p>
               </div>
@@ -598,7 +578,7 @@ export default function Home() {
                 )}
 
                 <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs leading-5 text-slate-500">Seus dados serão usados somente para analisar seu pedido e entrar em contato sobre este diagnóstico.</p>
+                  <p className="text-xs leading-5 text-slate-500">Seus dados serão usados apenas para entrar em contato sobre este diagnóstico.</p>
                   <button
                     type="submit"
                     disabled={diagnosticStatus === "sending"}
@@ -688,21 +668,23 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={openDiagnostic}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
               className="hidden rounded-full border border-sky-400/30 bg-sky-400/10 px-5 py-3 text-sm font-semibold text-sky-300 transition hover:border-sky-300 hover:bg-sky-400 hover:text-[#020611] sm:inline-flex"
             >
               Solicitar orçamento
-            </button>
+            </a>
 
-            <button
-              type="button"
-              onClick={openDiagnostic}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-2.5 text-xs font-semibold text-sky-300 transition hover:border-sky-300 hover:bg-sky-400 hover:text-[#020611] sm:hidden"
             >
               Orçamento
-            </button>
+            </a>
 
             <button
               type="button"
@@ -899,7 +881,7 @@ export default function Home() {
                 </div>
                 <div>
                   <p className="text-xs text-slate-500">Status da operação</p>
-                  <p className="mt-1 text-sm font-semibold">Exemplo de status</p>
+                  <p className="mt-1 text-sm font-semibold">Tudo funcionando</p>
                 </div>
               </div>
             </div>
