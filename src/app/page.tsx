@@ -309,15 +309,13 @@ export default function Home() {
   const [whatsappOpen, setWhatsappOpen] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
-  const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "error">("idle");
   const [diagnosticError, setDiagnosticError] = useState("");
-  const [diagnosticWhatsappUrl, setDiagnosticWhatsappUrl] = useState(WHATSAPP_URL);
 
   const openDiagnostic = () => {
     setWhatsappOpen(false);
     setDiagnosticStatus("idle");
     setDiagnosticError("");
-    setDiagnosticWhatsappUrl(WHATSAPP_URL);
     setDiagnosticOpen(true);
   };
 
@@ -375,17 +373,19 @@ export default function Home() {
       ].join("\n");
 
       const whatsappUrl = `https://wa.me/5531990681495?text=${encodeURIComponent(message)}`;
-      setDiagnosticWhatsappUrl(whatsappUrl);
-
       const whatsappWindow = window.open(whatsappUrl, "_blank");
 
       if (whatsappWindow) {
         whatsappWindow.opener = null;
-        setDiagnosticStatus("success");
         setDiagnosticData(initialDiagnosticForm);
+        setDiagnosticStatus("idle");
+        setDiagnosticOpen(false);
         return;
       }
 
+      setDiagnosticData(initialDiagnosticForm);
+      setDiagnosticStatus("idle");
+      setDiagnosticOpen(false);
       window.location.assign(whatsappUrl);
     } catch (error) {
       console.error("Erro ao abrir o WhatsApp:", error);
@@ -442,36 +442,7 @@ export default function Home() {
               </button>
             </div>
 
-            {diagnosticStatus === "success" ? (
-              <div className="px-6 py-12 text-center sm:px-8">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400/10 text-2xl text-emerald-400">
-                  ✓
-                </div>
-                <h3 className="mt-6 text-2xl font-semibold">Diagnóstico pronto para envio.</h3>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-400">
-                  Suas respostas foram organizadas e o WhatsApp foi aberto. Para concluir, envie a mensagem para a Vorzax.
-                </p>
-                <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                  <a
-                    href={diagnosticWhatsappUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-400"
-                  >
-                    Abrir WhatsApp novamente
-                    <ArrowIcon />
-                  </a>
-                  <button
-                    type="button"
-                    onClick={closeDiagnostic}
-                    className="rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:text-white"
-                  >
-                    Fechar
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
+            <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label className="block">
                     <span className="text-xs font-semibold text-slate-300">Seu nome *</span>
@@ -622,8 +593,7 @@ export default function Home() {
                     {diagnosticStatus !== "sending" && <ArrowIcon />}
                   </button>
                 </div>
-              </form>
-            )}
+            </form>
           </div>
         </div>
       )}
