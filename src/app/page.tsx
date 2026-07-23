@@ -310,7 +310,7 @@ export default function Home() {
   const [whatsappOpen, setWhatsappOpen] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
-  const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "error">("idle");
   const [diagnosticError, setDiagnosticError] = useState("");
 
   const openDiagnostic = () => {
@@ -356,6 +356,30 @@ export default function Home() {
     setDiagnosticStatus("sending");
     setDiagnosticError("");
 
+    const mensagem = [
+      "Olá, Vorzax! Acabei de preencher o diagnóstico pelo site.",
+      "",
+      "*DIAGNÓSTICO VORZAX*",
+      `Nome: ${diagnosticData.nome.trim()}`,
+      `WhatsApp: ${diagnosticData.telefone.trim()}`,
+      diagnosticData.email.trim() ? `E-mail: ${diagnosticData.email.trim()}` : null,
+      `Empresa: ${diagnosticData.empresa.trim()}`,
+      `Segmento: ${diagnosticData.segmento}`,
+      `Solução desejada: ${diagnosticData.tipo_solucao}`,
+      `Objetivo ou dificuldade: ${diagnosticData.objetivo.trim()}`,
+      `Prazo: ${diagnosticData.prazo || "Ainda não definido"}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const whatsappUrl = `https://wa.me/5531990681495?text=${encodeURIComponent(mensagem)}`;
+    const whatsappWindow = window.open("about:blank", "_blank");
+
+    if (whatsappWindow) {
+      whatsappWindow.opener = null;
+      whatsappWindow.document.title = "Abrindo WhatsApp...";
+    }
+
     try {
       const { error } = await supabase.from("atendimentos").insert({
         nome: diagnosticData.nome.trim(),
@@ -368,19 +392,27 @@ export default function Home() {
         prazo: diagnosticData.prazo || null,
         origem: "site",
         status: "novo",
-        observacoes: "Lead recebido pelo formulário de diagnóstico do site.",
-        proximo_passo: "Fazer contato inicial",
+        observacoes: "Lead recebido pelo formulário de diagnóstico do site e encaminhado ao WhatsApp.",
+        proximo_passo: "Aguardar mensagem do cliente no WhatsApp",
       });
 
       if (error) throw error;
 
+      if (whatsappWindow) {
+        whatsappWindow.location.href = whatsappUrl;
+      } else {
+        window.location.href = whatsappUrl;
+      }
+
       setDiagnosticData(initialDiagnosticForm);
-      setDiagnosticStatus("success");
+      setDiagnosticStatus("idle");
+      setDiagnosticOpen(false);
     } catch (error) {
+      whatsappWindow?.close();
       console.error("Erro ao salvar diagnóstico:", error);
       setDiagnosticStatus("error");
       setDiagnosticError(
-        "Não foi possível enviar o diagnóstico agora. Tente novamente em alguns instantes."
+        "Não foi possível preparar o diagnóstico agora. Tente novamente em alguns instantes."
       );
     }
   };
@@ -431,179 +463,158 @@ export default function Home() {
               </button>
             </div>
 
-            {diagnosticStatus === "success" ? (
-              <div className="px-6 py-12 text-center sm:px-8">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400/10 text-2xl text-emerald-400">
-                  ✓
-                </div>
-                <h3 className="mt-6 text-2xl font-semibold">
-                  Diagnóstico enviado com sucesso.
-                </h3>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-400">
-                  Recebemos suas informações. A Vorzax vai analisar o pedido e entrar em contato pelo WhatsApp informado.
-                </p>
-                <button
-                  type="button"
-                  onClick={closeDiagnostic}
-                  className="mt-8 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:text-white"
-                >
-                  Fechar
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">Seu nome *</span>
-                    <input
-                      name="nome"
-                      value={diagnosticData.nome}
-                      onChange={handleDiagnosticChange}
-                      required
-                      autoComplete="name"
-                      placeholder="Como podemos chamar você?"
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">WhatsApp *</span>
-                    <input
-                      name="telefone"
-                      value={diagnosticData.telefone}
-                      onChange={handleDiagnosticChange}
-                      required
-                      autoComplete="tel"
-                      placeholder="(31) 99999-9999"
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">E-mail <span className="font-normal text-slate-500">(opcional)</span></span>
-                    <input
-                      name="email"
-                      type="email"
-                      value={diagnosticData.email}
-                      onChange={handleDiagnosticChange}
-                      autoComplete="email"
-                      placeholder="voce@empresa.com.br"
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">Empresa *</span>
-                    <input
-                      name="empresa"
-                      value={diagnosticData.empresa}
-                      onChange={handleDiagnosticChange}
-                      required
-                      autoComplete="organization"
-                      placeholder="Nome da empresa"
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
-                    />
-                  </label>
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">Segmento da empresa *</span>
-                    <select
-                      name="segmento"
-                      value={diagnosticData.segmento}
-                      onChange={handleDiagnosticChange}
-                      required
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
-                    >
-                      <option value="">Selecione uma opção</option>
-                      <option>Transportes e logística</option>
-                      <option>Serviços técnicos e manutenção</option>
-                      <option>Comércio e distribuição</option>
-                      <option>Indústria e manufatura</option>
-                      <option>Construção civil e engenharia</option>
-                      <option>Tecnologia, software e telecomunicações</option>
-                      <option>Saúde e clínicas</option>
-                      <option>Educação e cursos</option>
-                      <option>Serviços profissionais</option>
-                      <option>Financeiro e seguros</option>
-                      <option>Imobiliário</option>
-                      <option>Agronegócio</option>
-                      <option>Alimentação, hotelaria e turismo</option>
-                      <option>Energia e serviços essenciais</option>
-                      <option>Outro segmento</option>
-                    </select>
-                  </label>
-
-                  <label className="block">
-                    <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? *</span>
-                    <select
-                      name="tipo_solucao"
-                      value={diagnosticData.tipo_solucao}
-                      onChange={handleDiagnosticChange}
-                      required
-                      className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
-                    >
-                      <option value="">Selecione uma opção</option>
-                      <option>Site institucional</option>
-                      <option>Landing page</option>
-                      <option>Sistema sob medida</option>
-                      <option>CRM</option>
-                      <option>Plataforma empresarial</option>
-                      <option>Automação de processos</option>
-                      <option>Dashboard e BI</option>
-                      <option>Ainda não sei; preciso de orientação</option>
-                    </select>
-                  </label>
-                </div>
-
+            <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
+              <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Qual é o principal objetivo ou dificuldade? *</span>
-                  <textarea
-                    name="objetivo"
-                    value={diagnosticData.objetivo}
+                  <span className="text-xs font-semibold text-slate-300">Seu nome *</span>
+                  <input
+                    name="nome"
+                    value={diagnosticData.nome}
                     onChange={handleDiagnosticChange}
                     required
-                    rows={4}
-                    placeholder="Conte brevemente o que precisa melhorar ou construir."
-                    className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                    autoComplete="name"
+                    placeholder="Como podemos chamar você?"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
                   />
                 </label>
 
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Existe um prazo desejado? <span className="font-normal text-slate-500">(opcional)</span></span>
-                  <select
-                    name="prazo"
-                    value={diagnosticData.prazo}
+                  <span className="text-xs font-semibold text-slate-300">WhatsApp *</span>
+                  <input
+                    name="telefone"
+                    value={diagnosticData.telefone}
                     onChange={handleDiagnosticChange}
+                    required
+                    autoComplete="tel"
+                    placeholder="(31) 99999-9999"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="text-xs font-semibold text-slate-300">E-mail <span className="font-normal text-slate-500">(opcional)</span></span>
+                  <input
+                    name="email"
+                    type="email"
+                    value={diagnosticData.email}
+                    onChange={handleDiagnosticChange}
+                    autoComplete="email"
+                    placeholder="voce@empresa.com.br"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="text-xs font-semibold text-slate-300">Empresa *</span>
+                  <input
+                    name="empresa"
+                    value={diagnosticData.empresa}
+                    onChange={handleDiagnosticChange}
+                    required
+                    autoComplete="organization"
+                    placeholder="Nome da empresa"
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                  />
+                </label>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="block">
+                  <span className="text-xs font-semibold text-slate-300">Segmento da empresa *</span>
+                  <select
+                    name="segmento"
+                    value={diagnosticData.segmento}
+                    onChange={handleDiagnosticChange}
+                    required
                     className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
-                    <option value="">Ainda não definido</option>
-                    <option>Até 30 dias</option>
-                    <option>De 1 a 3 meses</option>
-                    <option>Mais de 3 meses</option>
+                    <option value="">Selecione uma opção</option>
+                    <option>Transportes e logística</option>
+                    <option>Serviços técnicos e manutenção</option>
+                    <option>Comércio e distribuição</option>
+                    <option>Indústria e manufatura</option>
+                    <option>Construção civil e engenharia</option>
+                    <option>Tecnologia, software e telecomunicações</option>
+                    <option>Saúde e clínicas</option>
+                    <option>Educação e cursos</option>
+                    <option>Serviços profissionais</option>
+                    <option>Financeiro e seguros</option>
+                    <option>Imobiliário</option>
+                    <option>Agronegócio</option>
+                    <option>Alimentação, hotelaria e turismo</option>
+                    <option>Energia e serviços essenciais</option>
+                    <option>Outro segmento</option>
                   </select>
                 </label>
 
-                {diagnosticStatus === "error" && (
-                  <p className="rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm leading-6 text-red-200">
-                    {diagnosticError}
-                  </p>
-                )}
-
-                <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs leading-5 text-slate-500">Seus dados serão usados somente para analisar seu pedido e entrar em contato sobre este diagnóstico.</p>
-                  <button
-                    type="submit"
-                    disabled={diagnosticStatus === "sending"}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 py-3 text-sm font-bold text-[#020611] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"
+                <label className="block">
+                  <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? *</span>
+                  <select
+                    name="tipo_solucao"
+                    value={diagnosticData.tipo_solucao}
+                    onChange={handleDiagnosticChange}
+                    required
+                    className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
-                    {diagnosticStatus === "sending" ? "Enviando..." : "Enviar diagnóstico"}
-                    {diagnosticStatus !== "sending" && <ArrowIcon />}
-                  </button>
-                </div>
-              </form>
-            )}
+                    <option value="">Selecione uma opção</option>
+                    <option>Site institucional</option>
+                    <option>Landing page</option>
+                    <option>Sistema sob medida</option>
+                    <option>CRM</option>
+                    <option>Plataforma empresarial</option>
+                    <option>Automação de processos</option>
+                    <option>Dashboard e BI</option>
+                    <option>Ainda não sei; preciso de orientação</option>
+                  </select>
+                </label>
+              </div>
+
+              <label className="block">
+                <span className="text-xs font-semibold text-slate-300">Qual é o principal objetivo ou dificuldade? *</span>
+                <textarea
+                  name="objetivo"
+                  value={diagnosticData.objetivo}
+                  onChange={handleDiagnosticChange}
+                  required
+                  rows={4}
+                  placeholder="Conte brevemente o que precisa melhorar ou construir."
+                  className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-xs font-semibold text-slate-300">Existe um prazo desejado? <span className="font-normal text-slate-500">(opcional)</span></span>
+                <select
+                  name="prazo"
+                  value={diagnosticData.prazo}
+                  onChange={handleDiagnosticChange}
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
+                >
+                  <option value="">Ainda não definido</option>
+                  <option>Até 30 dias</option>
+                  <option>De 1 a 3 meses</option>
+                  <option>Mais de 3 meses</option>
+                </select>
+              </label>
+
+              {diagnosticStatus === "error" && (
+                <p className="rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm leading-6 text-red-200">
+                  {diagnosticError}
+                </p>
+              )}
+
+              <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs leading-5 text-slate-500">Seus dados serão salvos e o WhatsApp será aberto com a mensagem pronta para você confirmar o envio.</p>
+                <button
+                  type="submit"
+                  disabled={diagnosticStatus === "sending"}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 py-3 text-sm font-bold text-[#020611] transition hover:bg-white disabled:cursor-wait disabled:opacity-60"
+                >
+                  {diagnosticStatus === "sending" ? "Preparando..." : "Enviar pelo WhatsApp"}
+                  {diagnosticStatus !== "sending" && <ArrowIcon />}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
