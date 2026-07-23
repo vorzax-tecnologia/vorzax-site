@@ -49,27 +49,21 @@ const sectors = [
 const process = [
   {
     step: "01",
-    title: "Diagnóstico",
+    title: "Você envia o diagnóstico",
     description:
-      "Entendemos o problema, o processo atual e o resultado que sua empresa precisa alcançar.",
+      "Preencha o formulário em menos de 2 minutos e conte o que sua empresa precisa melhorar ou construir.",
   },
   {
     step: "02",
-    title: "Estratégia",
+    title: "Nós analisamos",
     description:
-      "Definimos a solução, as prioridades e um plano de execução claro antes de desenvolver.",
+      "A Vorzax avalia sua necessidade, identifica as prioridades e define o melhor caminho para o projeto.",
   },
   {
     step: "03",
-    title: "Construção",
+    title: "Você recebe uma proposta personalizada",
     description:
-      "Criamos a experiência, desenvolvemos a tecnologia e validamos cada etapa com você.",
-  },
-  {
-    step: "04",
-    title: "Evolução",
-    description:
-      "Entregamos, acompanhamos o uso e evoluímos a solução conforme a operação cresce.",
+      "Entramos em contato com uma solução e um plano de implementação pensados para a sua empresa.",
   },
 ];
 
@@ -672,9 +666,10 @@ export default function Home() {
     aria-label={whatsappOpen ? "Fechar WhatsApp" : "Abrir WhatsApp"}
     aria-expanded={whatsappOpen}
     onClick={() => setWhatsappOpen((open) => !open)}
-    className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 sm:w-14"
+    className="flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-3 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 sm:px-5"
   >
     <WhatsAppIcon />
+    <span className="hidden text-sm font-bold sm:inline">Fale conosco</span>
   </button>
 </div>
 
@@ -687,6 +682,7 @@ export default function Home() {
           <nav className="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
             <a className="transition hover:text-white" href="#inicio">Início</a>
             <a className="transition hover:text-white" href="#solucoes">Soluções</a>
+            <a className="transition hover:text-white" href="#processo">Como funciona</a>
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
             <a className="transition hover:text-white" href="#portfolio">Portfólio</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
@@ -742,6 +738,7 @@ export default function Home() {
               {[
                 ["Início", "#inicio"],
                 ["Soluções", "#solucoes"],
+                ["Como funciona", "#processo"],
                 ["Sobre", "#sobre"],
                 ["Portfólio", "#portfolio"],
                 ["Contato", "#contato"],
@@ -779,23 +776,23 @@ export default function Home() {
         <div className="absolute right-[-100px] top-[150px] -z-20 h-[520px] w-[520px] rounded-full bg-cyan-500/12 blur-[140px]" />
         <div className="absolute left-[40%] top-[10%] -z-20 h-[420px] w-[420px] rounded-full bg-indigo-600/10 blur-[150px]" />
 
-        <div className="mx-auto grid min-h-[820px] max-w-7xl items-center gap-16 px-6 py-24 lg:grid-cols-[1.05fr_0.95fr] lg:px-10">
+        <div className="mx-auto grid min-h-[820px] max-w-7xl items-center gap-10 px-6 py-24 lg:grid-cols-[1.12fr_0.88fr] lg:px-10 xl:gap-14">
           <div className="relative z-10">
             <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-sky-300 backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_18px_#38bdf8]" />
               TECNOLOGIA PARA EMPRESAS
             </div>
 
-            <h1 className="max-w-4xl text-balance text-5xl font-semibold leading-[1.01] tracking-[-0.058em] text-white sm:text-6xl lg:text-[82px]">
-              Tecnologia que
+            <h1 className="max-w-[720px] text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl lg:text-[54px] xl:text-[60px]">
+              Tecnologia que organiza processos
               <span className="block bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                transforma operações.
+                e faz sua empresa trabalhar melhor.
               </span>
             </h1>
 
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-400">
-              Criamos sistemas, automações e experiências digitais para reduzir
-              retrabalho, aumentar o controle e preparar sua empresa para crescer.
+            <p className="mt-7 max-w-[650px] text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
+              Criamos sistemas, automações, dashboards e experiências digitais sob medida
+              para reduzir retrabalho, aumentar o controle e melhorar a operação da sua empresa.
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -804,7 +801,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-sky-300"
               >
-                Começar um projeto
+                Solicitar diagnóstico gratuito
                 <ArrowIcon />
               </button>
 
@@ -908,6 +905,46 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="processo" className="relative border-y border-white/10 bg-white/[0.02]">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO FUNCIONA</p>
+            <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              Do diagnóstico à proposta em 3 passos.
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-400">
+              Um processo simples para entender sua necessidade e apresentar uma solução sob medida.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+            {process.map((item) => (
+              <article
+                key={item.step}
+                className="group rounded-[26px] border border-white/10 bg-[#050b16] p-7 transition hover:-translate-y-1 hover:border-sky-400/25 hover:bg-[#091427] sm:p-8"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-400/10 font-mono text-sm font-semibold text-sky-300">
+                  {item.step}
+                </div>
+                <h3 className="mt-7 text-xl font-semibold leading-7">{item.title}</h3>
+                <p className="mt-4 text-sm leading-6 text-slate-500">{item.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <button
+              type="button"
+              onClick={openDiagnostic}
+              className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
+            >
+              Quero meu diagnóstico
+              <ArrowIcon />
+            </button>
           </div>
         </div>
       </section>
@@ -1016,32 +1053,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="processo" className="relative">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO TRABALHAMOS</p>
-              <h2 className="mt-5 max-w-3xl text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-                Da ideia ao resultado, com um processo claro.
-              </h2>
-            </div>
-            <p className="max-w-md text-sm leading-6 text-slate-500">
-              Cada etapa reduz incertezas, evita retrabalho e mantém o projeto alinhado ao que realmente importa para sua empresa.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {process.map((item) => (
-              <article key={item.step} className="group rounded-[26px] border border-white/10 bg-white/[0.035] p-7 transition hover:-translate-y-1 hover:border-sky-400/25 hover:bg-white/[0.055]">
-                <span className="font-mono text-xs text-sky-400">{item.step}</span>
-                <h3 className="mt-10 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-4 text-sm leading-6 text-slate-500">{item.description}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
