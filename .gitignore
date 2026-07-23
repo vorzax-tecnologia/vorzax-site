@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.vorzax-ultimo-backup*.txt
+src/app/page.tsx.backup-*
