@@ -6,6 +6,9 @@ const WHATSAPP_URL =
   "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
 
 const INSTAGRAM_URL = "https://www.instagram.com/vorzaxoficial/";
+const CONTACT_EMAIL = "contato@vorzax.com.br";
+const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
+const CONTACT_PHONE = "(31) 99068-1495";
 const services = [
   {
     number: "01",
@@ -162,6 +165,43 @@ function WhatsAppIcon() {
   );
 }
 
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
+function OnlineIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z" />
+    </svg>
+  );
+}
+
 function ProjectVisual({ type }: { type: string }) {
   if (type === "fleet") {
     return (
@@ -269,7 +309,7 @@ function ProjectVisual({ type }: { type: string }) {
       <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] p-3">
         <div className="flex h-24 items-end gap-2">
           {[35, 48, 43, 66, 58, 79, 72, 92].map((height, index) => (
-            <div key={index} className="flex-1 rounded-t bg-gradient-to-t from-blue-700 to-sky-400" style={{ height: `${height}%` }} />
+            <div key={index} className="metric-bar flex-1 rounded-t bg-gradient-to-t from-blue-700 to-sky-400" style={{ height: `${height}%`, animationDelay: `${index * 70}ms` }} />
           ))}
         </div>
       </div>
@@ -302,6 +342,7 @@ const initialDiagnosticForm: DiagnosticFormData = {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [whatsappOpen, setWhatsappOpen] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "error">("idle");
@@ -337,6 +378,44 @@ export default function Home() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [diagnosticOpen, diagnosticStatus]);
+
+
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      elements.forEach((element) => element.setAttribute("data-visible", "true"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.setAttribute("data-visible", "true");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.08 }
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
 
   const handleDiagnosticChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -413,6 +492,29 @@ export default function Home() {
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+      <style>{`
+        [data-reveal] {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 650ms cubic-bezier(.2,.7,.2,1), transform 650ms cubic-bezier(.2,.7,.2,1);
+        }
+        [data-reveal="left"] { transform: translateX(-36px); }
+        [data-reveal="right"] { transform: translateX(36px); }
+        [data-reveal="scale"] { transform: scale(.96); }
+        [data-reveal][data-visible="true"] { opacity: 1; transform: none; }
+        .contact-icon { transition: transform 300ms ease, box-shadow 300ms ease, background-color 300ms ease; }
+        .contact-card:hover .contact-icon { transform: translateY(-3px) scale(1.05); }
+        .metric-bar { transform-origin: bottom; animation: bar-rise 900ms cubic-bezier(.2,.7,.2,1) both; }
+        .hero-orbit { animation: orbit-soft 13s linear infinite; }
+        .hero-glow { animation: glow-pulse 5s ease-in-out infinite; }
+        @keyframes bar-rise { from { transform: scaleY(.08); opacity: .25; } to { transform: scaleY(1); opacity: .85; } }
+        @keyframes orbit-soft { to { transform: rotate(360deg); } }
+        @keyframes glow-pulse { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: .9; transform: scale(1.08); } }
+        @media (prefers-reduced-motion: reduce) {
+          [data-reveal], [data-reveal="left"], [data-reveal="right"], [data-reveal="scale"] { opacity: 1; transform: none; transition: none; }
+          .metric-bar, .hero-orbit, .hero-glow { animation: none; }
+        }
+      `}</style>
       {diagnosticOpen && (
         <div
           className="fixed inset-0 isolate flex items-center justify-center p-4 sm:p-6 pointer-events-auto"
@@ -525,7 +627,7 @@ export default function Home() {
                     <option value="">Selecione uma opção</option>
                     <option>Transportes e logística</option>
                     <option>Serviços técnicos e manutenção</option>
-                    <option>Comércio e distribuição</option>
+                    <option>Comércio, varejo e distribuição</option>
                     <option>Indústria e manufatura</option>
                     <option>Construção civil e engenharia</option>
                     <option>Tecnologia, software e telecomunicações</option>
@@ -666,10 +768,12 @@ export default function Home() {
     aria-label={whatsappOpen ? "Fechar WhatsApp" : "Abrir WhatsApp"}
     aria-expanded={whatsappOpen}
     onClick={() => setWhatsappOpen((open) => !open)}
-    className="flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-3 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 sm:px-5"
+    className={`flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 ${
+      footerVisible ? "w-12 px-0 sm:w-14 sm:px-0" : "px-3 sm:px-5"
+    }`}
   >
     <WhatsAppIcon />
-    <span className="hidden text-sm font-bold sm:inline">Fale conosco</span>
+    {!footerVisible && <span className="hidden text-sm font-bold sm:inline">Fale conosco</span>}
   </button>
 </div>
 
@@ -777,7 +881,7 @@ export default function Home() {
         <div className="absolute left-[40%] top-[10%] -z-20 h-[420px] w-[420px] rounded-full bg-indigo-600/10 blur-[150px]" />
 
         <div className="mx-auto grid min-h-[820px] max-w-7xl items-center gap-10 px-6 py-24 lg:grid-cols-[1.12fr_0.88fr] lg:px-10 xl:gap-14">
-          <div className="relative z-10">
+          <div className="relative z-10" data-reveal="left">
             <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-sky-300 backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_18px_#38bdf8]" />
               TECNOLOGIA PARA EMPRESAS
@@ -829,8 +933,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[580px] animate-float-soft">
-            <div className="absolute -inset-10 rounded-full bg-blue-600/10 blur-[90px]" />
+          <div className="relative mx-auto w-full max-w-[580px] animate-float-soft" data-reveal="right" style={{ transitionDelay: "120ms" }}>
+            <div className="hero-glow absolute -inset-10 rounded-full bg-blue-600/10 blur-[90px]" />
+            <div className="hero-orbit absolute -right-8 top-8 h-24 w-24 rounded-full border border-sky-400/15 border-l-sky-300/70" />
 
             <div className="relative overflow-hidden rounded-[34px] border border-white/12 bg-gradient-to-b from-white/[0.11] to-white/[0.025] p-3 shadow-2xl shadow-blue-950/50">
               <div className="rounded-[26px] border border-white/10 bg-[#07101f]/95 p-6 backdrop-blur-xl">
@@ -877,8 +982,8 @@ export default function Home() {
                     {[34, 45, 40, 61, 55, 74, 68, 88, 80, 96].map((height, index) => (
                       <div
                         key={index}
-                        className="flex-1 rounded-t-md bg-gradient-to-t from-blue-700 to-sky-400 opacity-85"
-                        style={{ height: `${height}%` }}
+                        className="metric-bar flex-1 rounded-t-md bg-gradient-to-t from-blue-700 to-sky-400 opacity-85"
+                        style={{ height: `${height}%`, animationDelay: `${index * 70}ms` }}
                       />
                     ))}
                   </div>
@@ -911,7 +1016,7 @@ export default function Home() {
 
       <section id="processo" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-3xl text-center" data-reveal>
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO FUNCIONA</p>
             <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
               Do diagnóstico à proposta em 3 passos.
@@ -925,6 +1030,8 @@ export default function Home() {
             {process.map((item) => (
               <article
                 key={item.step}
+                data-reveal="scale"
+                style={{ transitionDelay: `${Number(item.step) * 90}ms` }}
                 className="group rounded-[26px] border border-white/10 bg-[#050b16] p-7 transition hover:-translate-y-1 hover:border-sky-400/25 hover:bg-[#091427] sm:p-8"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-400/10 font-mono text-sm font-semibold text-sky-300">
@@ -951,7 +1058,7 @@ export default function Home() {
 
       <section className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto max-w-7xl px-6 py-7 lg:px-10">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-xs font-semibold tracking-[0.16em] text-slate-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-xs font-semibold tracking-[0.16em] text-slate-500" data-reveal>
             <span className="text-sky-400">SOLUÇÕES PARA</span>
             {sectors.map((sector) => (
               <span key={sector}>{sector.toUpperCase()}</span>
@@ -963,7 +1070,7 @@ export default function Home() {
       <section id="solucoes" className="relative">
         <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr]">
-            <div>
+            <div data-reveal="left">
               <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">NOSSAS SOLUÇÕES</p>
               <h2 className="mt-5 max-w-lg text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
                 Tecnologia criada para resolver problemas reais.
@@ -982,16 +1089,15 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2">
+            <div className="grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2" data-reveal="right" style={{ transitionDelay: "120ms" }}>
               {services.map((service) => (
-                <article key={service.number} className="group bg-[#050b16] p-8 transition duration-300 hover:bg-[#091427]">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-sky-400">{service.number}</span>
+                <article key={service.title} className="group bg-[#050b16] p-8 transition duration-300 hover:bg-[#091427]">
+                  <div className="flex justify-end">
                     <span className="text-slate-600 transition group-hover:translate-x-1 group-hover:text-sky-400">
                       <ArrowIcon />
                     </span>
                   </div>
-                  <h3 className="mt-12 text-xl font-semibold">{service.title}</h3>
+                  <h3 className="mt-8 text-xl font-semibold">{service.title}</h3>
                   <p className="mt-4 text-sm leading-6 text-slate-500">{service.description}</p>
                   <div className="mt-6 flex items-center gap-2 text-xs text-slate-400">
                     <span className="text-emerald-400"><CheckIcon /></span>
@@ -1006,7 +1112,7 @@ export default function Home() {
 
       <section id="sobre" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-28 lg:grid-cols-[0.95fr_1.05fr] lg:px-10">
-          <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#06101f] p-7">
+          <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#06101f] p-7" data-reveal="left">
             <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-sky-500/15 blur-[80px]" />
             <div className="relative">
               <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VISÃO VORZAX</p>
@@ -1031,7 +1137,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div>
+          <div data-reveal="right" style={{ transitionDelay: "120ms" }}>
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">SOBRE A VORZAX</p>
             <h2 className="mt-5 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
               Uma empresa de tecnologia construída para entender empresas.
@@ -1059,7 +1165,7 @@ export default function Home() {
 
       <section id="portfolio" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end" data-reveal>
             <div>
               <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">PORTFÓLIO CONCEITUAL</p>
               <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Soluções pensadas para crescer.</h2>
@@ -1071,7 +1177,7 @@ export default function Home() {
 
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {projects.map((project, index) => (
-              <article key={project.title} className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035]">
+              <article key={project.title} data-reveal="scale" style={{ transitionDelay: `${index * 100}ms` }} className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035]">
                 <div className="relative h-72 overflow-hidden border-b border-white/10 bg-[#06101f] p-6">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(14,165,233,0.2),transparent_40%)]" />
                   <ProjectVisual type={project.type} />
@@ -1092,7 +1198,7 @@ export default function Home() {
       <section id="contato" className="relative overflow-hidden">
         <div className="absolute left-1/2 top-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[150px]" />
         <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#07182f] via-[#07101f] to-[#020611] px-7 py-16 text-center sm:px-12 lg:px-16 lg:py-20">
+          <div className="overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#07182f] via-[#07101f] to-[#020611] px-7 py-16 text-center sm:px-12 lg:px-16 lg:py-20" data-reveal="scale">
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VAMOS CONVERSAR</p>
             <h2 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl">
               Sua empresa está pronta para operar em outro nível?
@@ -1110,7 +1216,40 @@ export default function Home() {
                 Solicitar diagnóstico gratuito
                 <ArrowIcon />
               </button>
-              <span className="text-xs text-slate-500">Resposta pelo WhatsApp</span>
+            </div>
+
+            <div className="mx-auto mt-10 grid max-w-3xl gap-3 text-left md:grid-cols-2">
+              <a
+                href={EMAIL_URL}
+                data-reveal="scale"
+                style={{ transitionDelay: "100ms" }}
+                className="contact-card group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:-translate-y-1 hover:border-sky-400/30 hover:bg-white/[0.06]"
+              >
+                <span className="contact-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 group-hover:bg-sky-400 group-hover:text-[#020611]">
+                  <MailIcon />
+                </span>
+                <span>
+                  <span className="text-[10px] font-semibold tracking-[0.18em] text-sky-400">E-MAIL</span>
+                  <span className="mt-1 block text-sm font-semibold text-white transition group-hover:text-sky-300">{CONTACT_EMAIL}</span>
+                </span>
+              </a>
+
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                data-reveal="scale"
+                style={{ transitionDelay: "180ms" }}
+                className="contact-card group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:-translate-y-1 hover:border-emerald-400/30 hover:bg-white/[0.06]"
+              >
+                <span className="contact-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300 group-hover:bg-emerald-500 group-hover:text-white">
+                  <WhatsAppIcon />
+                </span>
+                <span>
+                  <span className="text-[10px] font-semibold tracking-[0.18em] text-emerald-400">WHATSAPP</span>
+                  <span className="mt-1 block text-sm font-semibold text-white transition group-hover:text-emerald-300">{CONTACT_PHONE}</span>
+                </span>
+              </a>
             </div>
           </div>
         </div>
@@ -1118,14 +1257,14 @@ export default function Home() {
 
       <footer className="relative border-t border-white/10">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10">
-          <div>
+          <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
               Tecnologia inteligente para empresas que querem organizar processos, ganhar produtividade e crescer com controle.
             </p>
           </div>
 
-          <div>
+          <div data-reveal style={{ transitionDelay: "100ms" }}>
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-400">NAVEGAÇÃO</p>
             <div className="mt-5 space-y-3 text-sm text-slate-500">
               <a className="block transition hover:text-white" href="#inicio">Início</a>
@@ -1135,19 +1274,29 @@ export default function Home() {
             </div>
           </div>
 
-          <div>
+          <div data-reveal="right" style={{ transitionDelay: "180ms" }}>
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-400">CONTATO</p>
             <div className="mt-5 space-y-3 text-sm text-slate-500">
-              <a className="block transition hover:text-white" href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a
-  className="block transition hover:text-white"
-  href={INSTAGRAM_URL}
-  target="_blank"
-  rel="noreferrer"
->
-  Instagram
-</a><span className="block">Minas Gerais, Brasil</span>
-              <span className="block">Atendimento online</span>
+              <a className="group flex items-center gap-3 transition hover:text-white" href={EMAIL_URL}>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-400/10 text-sky-300 transition group-hover:bg-sky-400 group-hover:text-[#020611]"><MailIcon /></span>
+                <span>{CONTACT_EMAIL}</span>
+              </a>
+              <a className="group flex items-center gap-3 transition hover:text-white" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-400/10 text-emerald-300 transition group-hover:bg-emerald-500 group-hover:text-white"><WhatsAppIcon /></span>
+                <span>{CONTACT_PHONE}</span>
+              </a>
+              <a className="group flex items-center gap-3 transition hover:text-white" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-fuchsia-400/10 text-fuchsia-300 transition group-hover:bg-fuchsia-500 group-hover:text-white"><InstagramIcon /></span>
+                <span>@vorzaxoficial</span>
+              </a>
+              <span className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.05] text-slate-400"><LocationIcon /></span>
+                <span>Minas Gerais, Brasil</span>
+              </span>
+              <span className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.05] text-slate-400"><OnlineIcon /></span>
+                <span>Atendimento online</span>
+              </span>
             </div>
           </div>
         </div>
