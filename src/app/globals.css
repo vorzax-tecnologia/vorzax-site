@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   color-scheme: dark;
@@ -109,21 +109,22 @@ body {
   }
 }
 
-/* WORDMARK-OFICIAL-VORZAX
-   O A da marca oficial nao possui barra horizontal. */
-svg[aria-label="SÃ­mbolo Vorzax"] + div > div:first-child {
-  font-size: 0;
-  line-height: 1;
+/* WORDMARK-VORZAX-V2
+   A letra A oficial da marca nao possui barra horizontal. */
+svg[aria-label$="Vorzax"] + div > div:first-child {
+  font-size: 0 !important;
+  line-height: 1 !important;
 }
 
-svg[aria-label="SÃ­mbolo Vorzax"] + div > div:first-child::after {
-  content: "VORZ\039B X";
+svg[aria-label$="Vorzax"] + div > div:first-child::after {
+  content: "VORZ\039B\0058";
   display: block;
   white-space: nowrap;
   color: #ffffff;
-  font-family: Arial Black, var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: Arial Black, Arial, Helvetica, sans-serif;
   font-size: 1.25rem;
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: 0.18em;
 }
+
