@@ -108,3 +108,22 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* WORDMARK-OFICIAL-VORZAX
+   O A da marca oficial nao possui barra horizontal. */
+svg[aria-label="SÃ­mbolo Vorzax"] + div > div:first-child {
+  font-size: 0;
+  line-height: 1;
+}
+
+svg[aria-label="SÃ­mbolo Vorzax"] + div > div:first-child::after {
+  content: "VORZ\039B X";
+  display: block;
+  white-space: nowrap;
+  color: #ffffff;
+  font-family: Arial Black, var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.18em;
+}
