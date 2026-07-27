@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://vorzax.com.br/sitemap.xml",
-    host: "https://vorzax.com.br",
+    sitemap: "https://www.vorzax.com.br/sitemap.xml",
+    host: "https://www.vorzax.com.br",
   };
 }
