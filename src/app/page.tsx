@@ -1,3 +1,4 @@
+// TESTE VORZAX: primeira alteração realizada com ajuda da IA.
 "use client";
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
