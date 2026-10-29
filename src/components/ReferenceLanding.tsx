@@ -5,10 +5,10 @@ import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 import { MotionFilm } from "@/components/MotionFilm";
 
 const cards = [
-  { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", img: "/vorzax-reference-service-4.webp", alt: "Exemplo conceitual de site institucional em computador", examples: ["Climatização comercial","Escritório contábil","Arquitetura"] },
-  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", img: "/vorzax-reference-service-2.webp", alt: "Simulação conceitual de processo automatizado entre ferramentas", examples: ["Captação de leads","Agendamento","Cobranças"] },
-  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios", examples: ["BI comercial","BI operacional","BI financeiro"] },
-  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos", examples: ["Ordens de serviço","Estoque","Projetos"] },
+  { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", examples: ["Climatização comercial","Escritório contábil","Arquitetura"] },
+  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", examples: ["Captação de leads","Agendamento","Cobranças"] },
+  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", examples: ["BI comercial","BI operacional","BI financeiro"] },
+  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", examples: ["Ordens de serviço","Estoque","Projetos"] },
 ];
 
 function selectDemo(slug: string, example = 0) {
@@ -68,7 +68,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">EXPLORE NOSSAS SOLUÇÕES</span>
               <h2 className="mt-2 text-[clamp(1.55rem,2.4vw,2.2rem)] font-semibold tracking-[-.045em] text-white">Explore soluções antes de começar seu projeto.</h2>
             </div>
-            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Selecione um card para abrir uma demonstração interativa.</span>
+            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Selecione um exemplo para trocar a prévia; depois abra a interface completa.</span>
           </div>
 
           <div role="region" aria-label="Vitrine de soluções — deslize para explorar no celular" className="vx-services-rail flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
@@ -81,7 +81,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
                 <h3 className="mt-4 min-h-[3.85rem] text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
                 <p className="mt-2 min-h-[4rem] text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
-                  <div className="relative w-full overflow-hidden">
+                  <div key={selectedExamples[card.slug as DemoCategory]} className="vx-card-preview relative w-full overflow-hidden">
                     {card.slug === "sites" && <span className="absolute left-3 top-3 z-10 rounded-md border border-sky-300/25 bg-[#06203b]/90 px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[.14em] text-[#a4dcff] shadow-lg backdrop-blur-sm">Oferta principal</span>}
                     <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact />
                   </div>
