@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Arquitetura de plataforma SaaS para empresas",
+  title: "Conceito de arquitetura de plataforma empresarial",
   description:
-    "Roteiro de implementação enterprise para operação, frota, manutenção, pessoas e finanças em uma única base.",
+    "Proposta conceitual de arquitetura empresarial para operação, frota, manutenção, dados e finanças.",
   alternates: { canonical: "/plataforma" },
   openGraph: {
     title: "Plataforma Vorzax | Arquitetura completa para negócio",
@@ -559,37 +560,37 @@ function ChecklistSection() {
 
 export default function Plataforma() {
   return (
-    <main className="relative min-h-screen bg-[#02050b] text-white">
+    <main className="vx-platform relative min-h-screen overflow-hidden bg-[#030b17] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[760px] bg-[radial-gradient(circle_at_78%_8%,rgba(14,165,233,0.18),transparent_30%),radial-gradient(circle_at_16%_20%,rgba(79,70,229,0.12),transparent_30%),linear-gradient(180deg,#07172d_0%,#02050b_82%)]" />
       <div className="absolute inset-x-0 top-16 -z-10 opacity-30 [background-image:linear-gradient(rgba(125,211,252,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
 
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-[#02050b]/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
-          <p className="text-sm font-black tracking-[0.18em] text-sky-300">VORZAX</p>
+      <header className="sticky top-0 z-20 border-b border-[#193c58] bg-[#020a15]/90 backdrop-blur-2xl">
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-10 xl:px-16">
+          <Link href="/" aria-label="Vorzax Tecnologia — início"><Image src="/vorzax-logo-oficial.png" alt="Vorzax Tecnologia" width={604} height={172} className="h-auto w-[160px] sm:w-[185px]" priority /></Link>
           <nav aria-label="Navegação da plataforma" className="hidden items-center gap-6 text-xs font-medium text-slate-400 lg:flex">
             <Link href="#arquitetura" className="transition hover:text-white">Arquitetura</Link>
             <Link href="#modulos" className="transition hover:text-white">Módulos</Link>
             <Link href="#roadmap" className="transition hover:text-white">Roadmap</Link>
             <Link href="#implementacao" className="transition hover:text-white">Implantação</Link>
           </nav>
-          <Link href="/#contato" className="rounded-full bg-sky-400 px-4 py-2 text-xs font-bold text-[#020611] transition hover:bg-white">
+          <Link href="/#contato" className="rounded-full border border-[#156995] bg-[#06243b] px-4 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:text-white">
             Solicitar diagnóstico
           </Link>
         </div>
       </header>
 
-      <section className="relative border-b border-white/10">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-24">
+      <section className="relative border-b border-[#193951]">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-24 xl:px-16">
           <div>
-            <p className="text-xs font-semibold tracking-[0.28em] text-sky-400">PLATAFORMA ENTERPRISE VORZAX</p>
-            <h1 className="mt-6 text-balance text-5xl font-semibold leading-[0.96] tracking-[-0.07em]">
-              Arquitetura de SaaS completa para empresa que precisa crescer sem travar
+            <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> CONCEITO DE PLATAFORMA / VORZAX</p>
+            <h1 className="vx-heading mt-6 max-w-3xl">
+              Uma visão de plataforma para operações que precisam evoluir.
             </h1>
             <p className="mt-7 max-w-xl leading-8 text-slate-300">
-              A plataforma parte de uma base única e escalável, com governança e trilhas de auditoria desde o primeiro acesso. Cada domínio conecta execução, dados, controles e indicadores para a empresa operar sem depender de planilhas isoladas.
+              Esta é uma proposta conceitual de arquitetura de software empresarial. Ela reúne módulos de operação, dados e governança, com possibilidades de implantação gradual conforme as necessidades de cada empresa.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#modulos" className="rounded-full bg-white px-6 py-3 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-sky-300">
+              <a href="#modulos" className="vx-primary-button inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-semibold text-white">
                 Ver matriz de módulos
               </a>
               <Link href="/#contato" className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.08]">
@@ -612,9 +613,9 @@ export default function Plataforma() {
             </div>
           </div>
 
-          <aside className="rounded-[34px] border border-white/10 bg-[#060f1f] p-6">
+          <aside className="rounded-[22px] border border-[#2b5b7e] bg-[#091e32] p-6 shadow-[0_25px_75px_rgba(0,0,0,.22)] sm:p-8">
             <p className="text-xs font-semibold tracking-[0.24em] text-sky-300">PÚBLICO-ALVO</p>
-            <p className="mt-4 text-2xl font-semibold leading-tight text-white">Empresas que precisam de software para operação contínua</p>
+            <p className="mt-4 text-2xl font-semibold leading-tight text-white">Cenários de aplicação em operações empresariais</p>
             <p className="mt-3 text-sm text-slate-400">
               Transportes, serviços técnicos, manutenção, logística e operação de campo, oficinas e empresas de serviços com ativos físicos.
             </p>
@@ -633,7 +634,7 @@ export default function Plataforma() {
         </div>
       </section>
 
-      <section id="arquitetura" className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+      <section id="arquitetura" className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
         <SectionHeader
           title="ARQUITETURA"
           subtitle="Camadas que sustentam operação previsível e crescimento real"
@@ -646,10 +647,10 @@ export default function Plataforma() {
       </section>
 
       <section id="modulos" className="border-y border-white/10 bg-[#050a13]">
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
           <SectionHeader title="MÓDULOS" subtitle="Matriz de módulos por maturidade e governança" />
           <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400">
-            Cada linha mostra escopo mínimo (MVP) e escopo empresarial (Enterprise). O time decide a ordem de implantação por retorno de operação e risco.
+            Cada linha representa possibilidades de escopo mínimo (MVP) e avançado. A priorização de módulos depende de viabilidade, risco e necessidades verificadas no projeto.
           </p>
           <div className="mt-8">
             <ModuleTable />
@@ -657,10 +658,10 @@ export default function Plataforma() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-        <SectionHeader title="COMPETITIVO" subtitle="Benchmark técnico incorporado aos pontos fortes" />
+      <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
+        <SectionHeader title="COMPETITIVO" subtitle="Referências técnicas para decisões futuras" />
           <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400">
-            O desenho incorpora padrões públicos de ERP e gestão de ativos presentes em SAP, TOTVS e Engeman, adaptados à realidade de pequenas e médias empresas e operações de médio porte.
+            A proposta conceitual considera práticas comuns de ERP e gestão de ativos. Citações a sistemas do mercado não representam parceria, integração existente ou comparação funcional homologada.
           </p>
         <div className="mt-8">
           <BenchmarkPillars />
@@ -668,7 +669,7 @@ export default function Plataforma() {
       </section>
 
       <section id="roadmap" className="border-y border-white/10 bg-[#050a13]">
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
           <SectionHeader title="ROADMAP DE IMPLANTAÇÃO" subtitle="Etapas com metas e critérios objetivos" />
           <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-400">
             Estrutura recomendada para implantação sem rupturas operacionais. A cada fase são validados riscos, qualidade de dado e KPIs antes de avançar.
@@ -679,7 +680,7 @@ export default function Plataforma() {
         </div>
       </section>
 
-      <section id="implementacao" className="mx-auto max-w-7xl space-y-8 px-6 py-24 lg:px-10">
+      <section id="implementacao" className="mx-auto max-w-[1440px] space-y-8 px-5 py-20 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
         <SectionHeader title="EXECUÇÃO" subtitle="Checklist de entrada em produção segura" />
         <ChecklistSection />
         <div className="rounded-3xl border border-white/10 bg-[#070f1a] p-6">
@@ -692,8 +693,8 @@ export default function Plataforma() {
         </div>
       </section>
 
-      <footer className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-6 py-8 text-sm text-slate-500 sm:flex-row sm:items-center lg:px-10">
+      <footer className="border-t border-[#193c56] bg-[#030a14]">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-start justify-between gap-3 px-5 py-8 text-sm text-[#8197aa] sm:flex-row sm:items-center sm:px-8 lg:px-10 xl:px-16">
           <span>© 2026 Vorzax Tecnologia</span>
           <div className="flex gap-6">
             <Link href="/" className="transition hover:text-white">Site</Link>
