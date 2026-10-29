@@ -539,7 +539,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+    <main className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
       <style>{`
         [data-reveal] {
           /* Keep the page usable even when the browser blocks client-side JS. */
@@ -848,10 +848,10 @@ export default function Home() {
 
   <button
     type="button"
-    aria-label={whatsappOpen ? "Fechar WhatsApp" : "Abrir WhatsApp"}
+    aria-label={whatsappOpen ? (footerVisible ? "Fechar opções do WhatsApp" : "Fale conosco — fechar opções") : footerVisible ? "Abrir WhatsApp" : "Fale conosco pelo WhatsApp"}
     aria-expanded={whatsappOpen}
     onClick={() => setWhatsappOpen((open) => !open)}
-    className={`flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 text-white shadow-[0_18px_50px_rgba(16,185,129,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-400 sm:h-14 ${
+    className={`flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-700 text-white shadow-[0_18px_50px_rgba(4,120,87,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-600 sm:h-14 ${
       footerVisible ? "w-12 px-0 sm:w-14 sm:px-0" : "px-3 sm:px-5"
     }`}
   >
