@@ -96,6 +96,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
 
   const current = scenes[scene];
   const isBrand = !current.category;
+  const buttonLabel = reduced && !allowMotion ? "Reproduzir filme" : running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme";
   return (
     <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate ${compact ? "aspect-[1.50]" : "aspect-video"} w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
@@ -127,9 +128,9 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         <span>VORZAX TECNOLOGIA</span>
       </div>
       {showPlayButton && (
-        <button type="button" onClick={toggle} aria-label={running ? "Pausar filme" : scene === scenes.length - 1 && !loop ? "Rever filme" : "Reproduzir filme"} className="absolute bottom-[8%] right-[4%] flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
-          <span aria-hidden="true">{running ? "Ⅱ" : "▶"}</span>
-          <span className="hidden sm:inline">{running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme"}</span>
+        <button type="button" onClick={toggle} aria-label={buttonLabel} className="absolute bottom-[8%] right-[4%] flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
+          <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
+          <span className="hidden sm:inline">{buttonLabel}</span>
         </button>
       )}
     </div>
