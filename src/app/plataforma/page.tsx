@@ -8,9 +8,9 @@ export const metadata: Metadata = {
     "Proposta conceitual de arquitetura empresarial para operação, frota, manutenção, dados e finanças.",
   alternates: { canonical: "/plataforma" },
   openGraph: {
-    title: "Plataforma Vorzax | Arquitetura completa para negócio",
+    title: "Plataforma Vorzax | Conceito de arquitetura empresarial",
     description:
-      "Módulos completos, governança, trilhas de implantação e automações para operação de alto desempenho.",
+      "Conceito de plataforma empresarial com possibilidades de módulos, governança e implantação por etapas.",
     url: "https://www.vorzax.com.br/plataforma",
   },
 };
@@ -600,7 +600,7 @@ export default function Plataforma() {
             <div className="mt-10 grid grid-cols-3 gap-5 border-t border-white/10 pt-7 text-sm">
               <div>
                 <p className="text-3xl font-semibold">{modules.length}</p>
-                <p className="mt-1 text-slate-500">módulos e domínios conectados</p>
+                <p className="mt-1 text-slate-500">módulos previstos no conceito</p>
               </div>
               <div>
                 <p className="text-3xl font-semibold">{architectureLayers.length}</p>
@@ -608,13 +608,13 @@ export default function Plataforma() {
               </div>
               <div>
                 <p className="text-3xl font-semibold">1</p>
-                <p className="mt-1 text-slate-500">fonte operacional de verdade</p>
+                <p className="mt-1 text-slate-500">modelo de dados unificado proposto</p>
               </div>
             </div>
           </div>
 
           <aside className="rounded-[22px] border border-[#2b5b7e] bg-[#091e32] p-6 shadow-[0_25px_75px_rgba(0,0,0,.22)] sm:p-8">
-            <p className="text-xs font-semibold tracking-[0.24em] text-sky-300">PÚBLICO-ALVO</p>
+            <p className="text-xs font-semibold tracking-[0.24em] text-sky-300">APLICAÇÕES POSSÍVEIS</p>
             <p className="mt-4 text-2xl font-semibold leading-tight text-white">Cenários de aplicação em operações empresariais</p>
             <p className="mt-3 text-sm text-slate-400">
               Transportes, serviços técnicos, manutenção, logística e operação de campo, oficinas e empresas de serviços com ativos físicos.
