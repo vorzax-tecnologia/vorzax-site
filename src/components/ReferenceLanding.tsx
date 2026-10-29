@@ -33,7 +33,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
               Criamos sites institucionais profissionais para apresentar sua empresa com clareza. Também desenvolvemos automações, dashboards, BI e sistemas sob medida para necessidades específicas.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <button type="button" onClick={onSiteContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0879fa] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#2694ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+              <button type="button" onClick={onSiteContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
                 Quero um site profissional <span aria-hidden="true">↗</span>
               </button>
               <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
