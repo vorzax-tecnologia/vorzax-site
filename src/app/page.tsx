@@ -1041,52 +1041,41 @@ export default function Home() {
 
       <TechnologyInMotion />
 
-      <section id="sobre" className="relative border-y border-white/10 bg-white/[0.02]">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-28 lg:grid-cols-[0.95fr_1.05fr] lg:px-10">
-          <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#06101f] p-7" data-reveal="left">
-            <div className="absolute right-[-80px] top-[-80px] h-56 w-56 rounded-full bg-sky-500/15 blur-[80px]" />
-            <div className="relative">
-              <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VISÃO VORZAX</p>
-              <h3 className="mt-5 text-3xl font-semibold tracking-[-0.035em]">Estratégia, design e tecnologia trabalhando juntos.</h3>
 
-              <div className="mt-10 grid gap-3 sm:grid-cols-2">
-                {[
-                  ["Clareza", "Soluções fáceis de entender e operar."],
-                  ["Eficiência", "Menos retrabalho e mais produtividade."],
-                  ["Escala", "Estrutura preparada para acompanhar o crescimento."],
-                  ["Resultado", "Tecnologia ligada a objetivos reais do negócio."],
-                ].map(([title, description]) => (
-                  <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300">
-                      <CheckIcon />
-                    </div>
-                    <h4 className="mt-5 font-semibold">{title}</h4>
-                    <p className="mt-2 text-sm leading-6 text-slate-500">{description}</p>
-                  </div>
-                ))}
-              </div>
+      <section id="sobre" className="vx-section relative overflow-hidden border-b border-[#173450] bg-[#040e1b]">
+        <div className="pointer-events-none absolute right-[-180px] top-[-150px] h-[580px] w-[580px] rounded-full bg-[#125baf]/10 blur-[140px]" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-[1440px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.03fr_.97fr] lg:gap-20 lg:px-10 lg:py-28 xl:px-16">
+          <div className="vx-capability-panel relative overflow-hidden rounded-[24px] border border-[#245277] bg-[#061a2b] p-5 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-8" data-reveal>
+            <div className="absolute right-[-70px] top-[-80px] h-56 w-56 rounded-full bg-[#137ac7]/15 blur-[65px]" aria-hidden="true"/>
+            <div className="relative flex items-start justify-between gap-5 border-b border-[#20415e] pb-5">
+              <div><span className="vx-eyebrow">VISÃO VORZAX / 01</span><h3 className="mt-3 max-w-sm text-[26px] font-semibold leading-tight tracking-[-.045em] text-white sm:text-[31px]">Boas soluções começam com clareza.</h3></div>
+              <span className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#2d6d9e] bg-[#0e3555] text-[#89d4ff] sm:flex"><ArrowIcon /></span>
             </div>
+            <div className="relative mt-6 grid gap-3 sm:grid-cols-2">
+              {[
+                ["01", "Clareza", "Entender o problema antes de desenvolver."],
+                ["02", "Eficiência", "Simplificar atividades e reduzir retrabalho."],
+                ["03", "Evolução", "Construir uma base preparada para novas etapas."],
+                ["04", "Propósito", "Conectar tecnologia às necessidades do negócio."],
+              ].map(([number,title,description]) => (
+                <div key={title} className="vx-capability-tile group min-h-[165px] rounded-[16px] border border-[#244762] bg-[#0a2135] p-5">
+                  <div className="flex items-center justify-between"><span className="font-mono text-[11px] text-[#76beec]">{number} / 04</span><span className="h-1.5 w-1.5 rounded-full bg-[#3ebcff] transition group-hover:shadow-[0_0_13px_#38bdf8]"/></div>
+                  <h4 className="mt-6 text-lg font-semibold text-white">{title}</h4>
+                  <p className="mt-2 text-xs leading-6 text-[#99b1c7]">{description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="relative mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#22415e] pt-5"><span className="font-mono text-[10px] tracking-[.12em] text-[#7daaca]">ESTRATÉGIA + DESIGN + TECNOLOGIA</span><span className="text-[10px] text-[#6e91b1]">PRINCÍPIOS DE TRABALHO</span></div>
           </div>
-
-          <div data-reveal="right" style={{ transitionDelay: "120ms" }}>
-            <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">SOBRE A VORZAX</p>
-            <h2 className="mt-5 text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-              Uma empresa de tecnologia construída para entender empresas.
-            </h2>
-            <p className="mt-6 leading-7 text-slate-400">
-              A Vorzax é uma empresa brasileira de tecnologia focada em digitalização empresarial, automação e desenvolvimento de soluções inteligentes. Nosso objetivo é transformar processos complexos em operações mais organizadas, produtivas e preparadas para crescer.
-            </p>
-            <p className="mt-4 leading-7 text-slate-400">
-              Além dos serviços digitais, estamos desenvolvendo nossa própria plataforma de gestão empresarial, com foco em operações, frotas e manutenção.
-            </p>
-
-            <div className="mt-8 space-y-3">
-              {["Atendimento próximo e consultivo", "Soluções personalizadas para cada operação", "Construção por etapas, com validação contínua"].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-sm text-slate-300">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-400/10 text-emerald-400">
-                    <CheckIcon />
-                  </span>
-                  {item}
+          <div data-reveal>
+            <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SOBRE A VORZAX</p>
+            <h2 className="vx-heading mt-5 max-w-xl">Tecnologia com visão de negócio, <span className="vx-gradient-text">sem complicar o essencial.</span></h2>
+            <p className="mt-6 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia em desenvolvimento, dedicada a criar soluções digitais para negócios. Nosso trabalho reúne planejamento, desenvolvimento e atenção à experiência de quem vai usar a tecnologia.</p>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-[#a6b9cf]">Trabalhamos com sistemas sob medida, automações, dashboards e sites profissionais, avaliando cada demanda para propor um escopo adequado. Também desenvolvemos conceitos de produtos próprios, ainda não apresentados como soluções entregues a clientes.</p>
+            <div className="mt-8 space-y-4 border-t border-[#24435f] pt-7">
+              {["Contato direto e alinhamento de expectativas", "Propostas com escopo e etapas definidos", "Design, performance e experiência de uso"].map((item) => (
+                <div key={item} className="flex items-start gap-3 text-sm text-[#c8d8e7]">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#103957] text-[#74d3ff]"><CheckIcon /></span>{item}
                 </div>
               ))}
             </div>
@@ -1094,34 +1083,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="portfolio" className="relative border-y border-white/10 bg-white/[0.02]">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end" data-reveal>
-            <div>
-              <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">PORTFÓLIO CONCEITUAL</p>
-              <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Soluções pensadas para crescer.</h2>
+      <section id="portfolio" className="vx-section relative overflow-hidden border-b border-[#173450]">
+        <div className="vx-section-mesh pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
+        <div className="relative mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end" data-reveal>
+            <div className="max-w-3xl">
+              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> LABORATÓRIO / CONCEITOS</p>
+              <h2 className="vx-heading mt-5">Ideias visualizadas. <span className="vx-gradient-text">Experiências em foco.</span></h2>
             </div>
-            <p className="max-w-md text-sm leading-6 text-slate-500">
-              Projetos demonstrativos que apresentam nossa visão de produto, experiência e capacidade de execução. Não representam clientes reais.
-            </p>
+            <p className="max-w-md text-sm leading-7 text-[#a1b4cb]">Interfaces demonstrativas para visualizar possibilidades de produto. Não são clientes, contratos ou projetos comerciais entregues.</p>
           </div>
-
-          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {projects.map((project, index) => (
-              <article key={project.title} data-reveal="scale" style={{ transitionDelay: `${index * 100}ms` }} className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.035]">
-                <div className="relative h-72 overflow-hidden border-b border-white/10 bg-[#06101f] p-6">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(14,165,233,0.2),transparent_40%)]" />
-                  <ProjectVisual type={project.type} />
-                  <span className="absolute bottom-4 right-5 font-mono text-xs text-slate-600">0{index + 1}</span>
+              <article key={project.title} className="vx-portfolio-card group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#245071] bg-[#071727]" data-reveal>
+                <div className="flex items-center justify-between border-b border-[#1d405b] px-5 py-4">
+                  <span className="text-[10px] font-semibold uppercase tracking-[.15em] text-[#77c8f5]">{project.tag}</span>
+                  <span className="rounded-md border border-[#2b5474] bg-[#0d2b45] px-2 py-1 text-[9px] font-semibold tracking-[.1em] text-[#9dd8fa]">CONCEITO 0{index + 1}</span>
                 </div>
-
-                <div className="p-7">
-                  <p className="text-[10px] font-semibold tracking-[0.2em] text-sky-400">{project.tag}</p>
-                  <h3 className="mt-3 text-2xl font-semibold">{project.title}</h3>
-                  <p className="mt-4 text-sm leading-6 text-slate-500">{project.description}</p>
+                <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#07192c] p-4 sm:p-5">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(29,112,209,.22),transparent_65%)]" aria-hidden="true"/>
+                  <div className="relative h-[240px] sm:h-[260px]"><ProjectVisual type={project.type} /></div>
                 </div>
+                <div className="flex min-h-[162px] flex-col border-t border-[#1d405b] p-6">
+                  <h3 className="text-[24px] font-semibold tracking-[-.045em] text-white">{project.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-[#9cb1c9]">{project.description}</p>
+                </div>
+                <div className="flex items-center justify-between border-t border-[#23445f] px-6 py-4 text-[10px] font-medium text-[#85bfe5]"><span>PROJETO DEMONSTRATIVO</span><span className="font-mono tracking-[.1em]">0{index + 1} / 03</span></div>
               </article>
             ))}
+          </div>
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-4 rounded-[17px] border border-[#1c3c58] bg-[#081b2e] px-5 py-4 text-xs text-[#a6bed4]">
+            <span>Quer ver as interfaces de sistemas, automação, BI e sites em funcionamento?</span>
+            <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 font-semibold text-[#91d7ff] hover:text-white">Explorar demonstrações <ArrowIcon /></a>
           </div>
         </div>
       </section>
