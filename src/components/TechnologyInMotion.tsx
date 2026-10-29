@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 type Chapter = "sistemas" | "automacao" | "bi" | "sites";
 
 const chapters: { id: Chapter; number: string; nav: string; tag: string; heading: string; desc: string; caption: string }[] = [
-  { id: "sistemas", number: "01", nav: "Sistemas", tag: "PLATAFORMAS SOB MEDIDA", heading: "Cada processo no seu lugar.", desc: "Uma operação complexa fica mais clara quando equipes, tarefas e informações trabalham no mesmo ambiente.", caption: "Uma interface pensada para a operação — não um sistema genérico." },
-  { id: "automacao", number: "02", nav: "Automação", tag: "FLUXOS INTELIGENTES", heading: "O trabalho avança sem retrabalho.", desc: "A informação percorre as etapas certas, aciona tarefas e mantém a equipe informada.", caption: "Da entrada de uma solicitação até a confirmação de execução." },
-  { id: "bi", number: "03", nav: "Dashboards e BI", tag: "INTELIGÊNCIA DE NEGÓCIO", heading: "Dados organizados. Decisões claras.", desc: "Acompanhe tendências, compare períodos e enxergue o que merece atenção.", caption: "Um painel executivo com filtros e dados exclusivamente ilustrativos." },
-  { id: "sites", number: "04", nav: "Sites", tag: "PRESENÇA DIGITAL", heading: "Uma marca bem apresentada muda a conversa.", desc: "Experiências digitais claras, rápidas e adaptadas à tela de quem visita.", caption: "Design responsivo pensado para transformar interesse em contato." },
+  { id: "sites", number: "01", nav: "Sites", tag: "PRESENÇA DIGITAL", heading: "Sua marca merece ser bem apresentada.", desc: "Uma experiência responsiva que explica seus serviços e facilita o contato com sua empresa.", caption: "Design e informação em uma interface conceitual, sem clientes reais." },
+  { id: "automacao", number: "02", nav: "Automação", tag: "FLUXOS INTELIGENTES", heading: "O trabalho avança sem retrabalho.", desc: "A informação percorre etapas definidas, aciona tarefas e mantém a equipe informada.", caption: "Da solicitação à confirmação, em uma simulação de processo." },
+  { id: "bi", number: "03", nav: "Dashboards e BI", tag: "INTELIGÊNCIA DE NEGÓCIO", heading: "Dados organizados. Decisões mais claras.", desc: "Acompanhe tendências, compare períodos e identifique o que merece atenção.", caption: "Painel executivo com filtros e dados exclusivamente ilustrativos." },
+  { id: "sistemas", number: "04", nav: "Sistemas", tag: "PLATAFORMAS SOB MEDIDA", heading: "Cada processo no seu lugar.", desc: "Uma operação complexa fica mais clara quando equipes, tarefas e informações trabalham no mesmo ambiente.", caption: "Uma interface conceitual pensada para a operação." },
 ];
 
 function Arrow({ right = false }: { right?: boolean }) {
@@ -84,7 +84,7 @@ function SitesStage({ step }: { step: number }) {
 }
 
 export function TechnologyInMotion() {
-  const [active,setActive]=useState<Chapter>("sistemas");
+  const [active,setActive]=useState<Chapter>("sites");
   const [step,setStep]=useState(0);
   const [playing,setPlaying]=useState(true);
   const [visible,setVisible]=useState(false);
