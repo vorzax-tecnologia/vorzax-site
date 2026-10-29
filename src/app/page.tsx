@@ -496,10 +496,17 @@ export default function Home() {
     const whatsappUrl = `https://wa.me/5531990681495?text=${encodeURIComponent(mensagem)}`;
     const whatsappWindow = window.open("about:blank", "_blank");
 
+    // O contato não deve aguardar a resposta do banco para abrir o WhatsApp.
     if (whatsappWindow) {
       whatsappWindow.opener = null;
-      whatsappWindow.document.title = "Abrindo WhatsApp...";
+      whatsappWindow.location.replace(whatsappUrl);
+    } else {
+      window.location.assign(whatsappUrl);
     }
+
+    setDiagnosticData(initialDiagnosticForm);
+    setDiagnosticStatus("idle");
+    setDiagnosticOpen(false);
 
     try {
       const supabase = getSupabaseClient();
@@ -529,15 +536,6 @@ export default function Home() {
       console.warn("Não foi possível registrar o diagnóstico no Supabase:", error);
     }
 
-    if (whatsappWindow) {
-      whatsappWindow.location.href = whatsappUrl;
-    } else {
-      window.location.href = whatsappUrl;
-    }
-
-    setDiagnosticData(initialDiagnosticForm);
-    setDiagnosticStatus("idle");
-    setDiagnosticOpen(false);
   };
 
   return (
@@ -785,7 +783,7 @@ export default function Home() {
               )}
 
               <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs leading-5 text-slate-500">As informações serão encaminhadas para a Vorzax e o WhatsApp será aberto com a mensagem pronta para você confirmar o envio.</p>
+                <p className="text-xs leading-5 text-slate-500">O WhatsApp abrirá com uma mensagem pronta: revise e confirme o envio no aplicativo. O site poderá registrar seus dados para atendimento.</p>
                 <button
                   type="submit"
                   disabled={diagnosticStatus === "sending"}
