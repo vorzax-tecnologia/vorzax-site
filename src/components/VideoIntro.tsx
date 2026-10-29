@@ -72,15 +72,15 @@ export function VideoIntro() {
       <div className="relative mx-auto flex w-full max-w-[1450px] flex-1 flex-col justify-center gap-4 px-5 pb-9 sm:px-10 sm:pb-12">
         <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[.17em] text-[#88c9f3]">
           <span>VORZAX / APRESENTAÇÃO CINEMATOGRÁFICA</span>
-          <span>QUATRO FRENTES • UMA EMPRESA DE TECNOLOGIA</span>
+          <span>CINCO FRENTES • UMA EMPRESA DE TECNOLOGIA</span>
         </div>
         <div className="vx-intro-screen relative mx-auto w-full overflow-hidden rounded-[17px] border border-[#2e648b] bg-[#051222] shadow-[0_30px_85px_rgba(0,0,0,.5)] sm:rounded-[24px]">
-          <BrandReel autoPlay showPlayButton={false} onEnded={finish} />
+          <BrandReel autoPlay showPlayButton={false} pauseOnHover onEnded={finish} />
         </div>
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#73bdf1]">TECNOLOGIA PARA EMPRESAS</p>
-            <p className="mt-2 text-lg font-semibold tracking-[-.04em] text-white sm:text-2xl">Presença digital, processos, dados e sistemas em movimento.</p>
+            <p className="mt-2 text-lg font-semibold tracking-[-.04em] text-white sm:text-2xl">Presença digital, processos, dados, sistemas e IA em movimento.</p>
             <p className="mt-2 text-xs leading-5 text-[#9bb4c9]">Interfaces e dados conceituais. Não representam clientes, contratos ou resultados reais.</p>
           </div>
           <button type="button" onClick={finish} className="vx-intro-enter vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Entrar no site <span aria-hidden="true">→</span></button>
