@@ -4,14 +4,14 @@ import Image from "next/image";
 import { MotionFilm } from "@/components/MotionFilm";
 
 const cards = [
-  { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", img: "/vorzax-reference-service-4.webp", alt: "Exemplo conceitual de site institucional em computador" },
-  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", img: "/vorzax-reference-service-2.webp", alt: "Simulação conceitual de processo automatizado entre ferramentas" },
-  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios" },
-  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos" },
+  { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", img: "/vorzax-reference-service-4.webp", alt: "Exemplo conceitual de site institucional em computador", examples: ["Climatização comercial","Escritório contábil","Arquitetura"] },
+  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", img: "/vorzax-reference-service-2.webp", alt: "Simulação conceitual de processo automatizado entre ferramentas", examples: ["Captação de leads","Agendamento","Cobranças"] },
+  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios", examples: ["BI comercial","BI operacional","BI financeiro"] },
+  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos", examples: ["Ordens de serviço","Estoque","Projetos"] },
 ];
 
-function selectDemo(slug: string) {
-  window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug } }));
+function selectDemo(slug: string, example = 0) {
+  window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug, example } }));
 }
 
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
@@ -67,7 +67,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
 
           <div role="region" aria-label="Vitrine de soluções — deslize para explorar no celular" className="vx-services-rail flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
             {cards.map((card) => (
-              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
+              <article key={card.slug} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
                 <div className="flex min-h-9 items-start justify-between gap-3">
                   <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition group-hover:bg-[#116ee6]" aria-hidden="true">↗</span>
@@ -80,11 +80,13 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
                     <Image src={card.img} alt={card.alt} fill sizes="(max-width: 640px) 92vw, (max-width: 1280px) 45vw, 24vw" className="object-cover object-center brightness-[1.10] contrast-[1.08] transition-transform duration-700 group-hover:scale-[1.045]" />
                   </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between border-t border-white/[.07] pt-3 text-[11px] font-medium text-[#9cd7ff]">
-                  <span>Explorar demonstração</span>
-                  <span className="font-mono tracking-[.06em] text-[#6e8ca7]">{card.number} / 04</span>
+                <div className="mt-4 border-t border-white/[.07] pt-3">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[.1em] text-[#93c9ef]">Escolha um dos 3 exemplos</p>
+                  <div className="flex flex-wrap gap-2">
+                    {card.examples.map((example, i) => <a key={example} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, i)} className="inline-flex min-h-8 items-center rounded-md border border-[#315c7b] bg-[#0a2842] px-2.5 py-1.5 text-[10px] font-medium text-[#d0e9fc] transition-colors hover:border-[#70caff] hover:bg-[#15517a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">{example} <span aria-hidden="true" className="ml-1.5">↗</span></a>)}
+                  </div>
                 </div>
-              </a>
+              </article>
             ))}
           </div>
           <p className="mt-3 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para o lado e explore as outras soluções →</p>
