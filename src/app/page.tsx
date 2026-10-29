@@ -868,7 +868,7 @@ export default function Home() {
             <Logo />
           </a>
 
-          <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:gap-7 lg:flex">
+          <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:flex xl:gap-7">
             <a className="transition hover:text-white" href="#inicio">Início</a>
             <a className="transition hover:text-white" href="#solucoes">Soluções</a>
             <a className="transition hover:text-white" href="#processo">Como funciona</a>
@@ -902,7 +902,7 @@ export default function Home() {
               aria-expanded={menuOpen}
               aria-controls="menu-mobile"
               onClick={() => setMenuOpen((open) => !open)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white transition hover:border-white/20 hover:bg-white/[0.08] lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white transition hover:border-white/20 hover:bg-white/[0.08] xl:hidden"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                 {menuOpen ? (
@@ -924,7 +924,7 @@ export default function Home() {
           {menuOpen && (
             <div
               id="menu-mobile"
-              className="absolute left-4 right-4 top-[68px] z-50 overflow-hidden rounded-2xl border border-[#245072] bg-[#071a2d]/98 p-2 shadow-2xl shadow-black/50 backdrop-blur-2xl sm:left-auto sm:right-6 sm:top-[72px] sm:w-72 lg:hidden"
+              className="absolute left-4 right-4 top-[68px] z-50 overflow-hidden rounded-2xl border border-[#245072] bg-[#071a2d]/98 p-2 shadow-2xl shadow-black/50 backdrop-blur-2xl sm:left-auto sm:right-6 sm:top-[72px] sm:w-72 xl:hidden"
             >
               {[
                 ["Início", "#inicio"],
