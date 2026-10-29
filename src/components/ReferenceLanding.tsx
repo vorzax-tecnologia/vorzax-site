@@ -63,9 +63,9 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
             </div>
             <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#9edaff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Explorar o Laboratório <span aria-hidden="true">↗</span></a>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div role="region" aria-label="Áreas de atuação da Vorzax: deslize para explorar no celular" className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
             {cards.map((card) => (
-              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="group relative flex h-full min-h-[223px] flex-col overflow-hidden rounded-[18px] border border-[#224565] bg-[linear-gradient(145deg,#0b2037,#061425_80%)] px-5 py-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-[#55aff0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="group relative flex h-full min-h-[210px] w-[min(83vw,330px)] shrink-0 snap-start flex-col overflow-hidden sm:min-h-[215px] sm:w-auto sm:shrink rounded-[18px] border border-[#224565] bg-[linear-gradient(145deg,#0b2037,#061425_80%)] px-5 py-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-[#55aff0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-semibold text-[#6cc9ff]">{card.number} / 04</span>
                   <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-xl border border-[#2f5f82] bg-[#102e4b] text-[#b1e3ff] transition group-hover:bg-[#116ee6] group-hover:text-white">↗</span>
@@ -79,7 +79,8 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
             ))}
           </div>
-          <p className="mt-4 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 12 interfaces demonstrativas em desktop e mobile.</p>
+          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as quatro áreas →</p>
+          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 12 interfaces demonstrativas em desktop e mobile.</p>
         </div>
       </div>
     </section>
