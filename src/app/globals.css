@@ -355,3 +355,12 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 @media (prefers-reduced-motion: reduce) {
   .vx-draw-bar, .vx-demo-line { animation:none !important;stroke-dashoffset:0 !important; }
 }
+
+/* Filme visual: apenas dissolve de opacidade, sem zoom, tremor ou loop permanente. */
+@media (prefers-reduced-motion: no-preference) {
+  .vx-reel-scene { animation: vx-reel-fade .65s ease-out both; }
+  @keyframes vx-reel-fade { from { opacity: .08; } to { opacity: 1; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-reel-scene { animation: none !important; }
+}
