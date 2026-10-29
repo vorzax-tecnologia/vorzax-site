@@ -37,7 +37,7 @@ export function DemoVisual({category,variant,device="desktop",compact=false,step
     category==="automacao"?<AutomationDemo {...props}/>:
     category==="bi"?<DashboardDemo {...props}/>:
     <SystemsDemo {...props}/>;
-  if(!compact)return <div data-demo-layout={category+"-"+variant} className="w-full min-w-0">{content}</div>;
+  if(!compact)return <div data-demo-layout={category+"-"+variant} className={`w-full min-w-0 ${playing?"":"vx-motion-paused"}`}>{content}</div>;
   return <div data-demo-thumbnail={category+"-"+variant} className="relative aspect-[1.53] w-full overflow-hidden bg-[#0b2037]" aria-hidden="true" inert>
     <div className="pointer-events-none absolute left-0 top-0 origin-top-left" style={{width:"300%",transform:"scale(0.333333)"}}>{content}</div>
     <span className="absolute bottom-2 right-2 rounded-md border border-[#b8e0ff]/20 bg-[#04182c]/90 px-2 py-1.5 text-[9px] font-bold tracking-[.04em] text-[#d1efff]">PRÉVIA 0{variant+1} / 03</span>
