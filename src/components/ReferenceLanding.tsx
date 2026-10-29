@@ -37,7 +37,7 @@ function selectDemo(slug: string) {
 /** Editorial, image-led landing inspired by the concept approved by the founder. */
 export function ReferenceLanding({ onContact }: { onContact: () => void }) {
   return <section id="inicio" className="vx-reference relative isolate overflow-hidden bg-[#030912]">
-    <div className="vx-reference-photo pointer-events-none absolute inset-y-0 right-0 top-0 hidden w-[63%] lg:block" aria-hidden="true">
+    <div className="vx-reference-photo pointer-events-none absolute right-0 top-0 hidden h-[535px] w-[63%] lg:block" aria-hidden="true">
       <Image src="/vorzax-reference-hero.webp" alt="" fill priority sizes="(max-width: 1024px) 0px, 65vw" className="object-cover object-[center_23%]" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#030912] via-[#030912]/15 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#030912] via-transparent to-[#030912]/5" />
