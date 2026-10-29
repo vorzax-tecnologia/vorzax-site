@@ -1080,7 +1080,7 @@ export default function Home() {
             </div>
             <p className="max-w-md text-sm leading-7 text-[#a1b4cb]">Explorações internas de design e produto, sem representar contratos, clientes ou entregas comerciais.</p>
           </div>
-          <div role="region" aria-label="Estudos visuais conceituais — deslize no celular" className="vx-concepts-rail mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:pb-0">
+          <div role="region" aria-label="Estudos visuais conceituais — deslize no celular" tabIndex={0} className="vx-concepts-rail focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:pb-0">
             {projects.map((project, index) => (
               <article key={project.title} className="vx-portfolio-card group flex w-[min(82vw,345px)] shrink-0 snap-start flex-col overflow-hidden rounded-[22px] border border-[#245071] bg-[#071727] lg:w-auto" data-reveal>
                 <div className="flex items-center justify-between border-b border-[#1d405b] px-5 py-4">
