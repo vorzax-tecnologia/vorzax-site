@@ -348,6 +348,7 @@ export default function Home() {
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "error">("idle");
   const [diagnosticError, setDiagnosticError] = useState("");
+  const [diagnosticTrap, setDiagnosticTrap] = useState("");
 
   const openDiagnostic = () => {
     setWhatsappOpen(false);
@@ -427,6 +428,8 @@ export default function Home() {
 
   const handleDiagnosticSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Ignore bot submissions that fill the hidden honeypot field.
+    if (diagnosticTrap.trim()) return;
     setDiagnosticStatus("sending");
     setDiagnosticError("");
 
@@ -561,6 +564,10 @@ export default function Home() {
             </div>
 
             <form onSubmit={handleDiagnosticSubmit} className="space-y-5 px-6 py-6 sm:px-8 sm:py-8">
+              <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden">
+                <label htmlFor="diagnostic-website">Website (deixe em branco)</label>
+                <input id="diagnostic-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={diagnosticTrap} onChange={(event) => setDiagnosticTrap(event.target.value)} />
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block">
                   <span className="text-xs font-semibold text-slate-300">Seu nome *</span>
