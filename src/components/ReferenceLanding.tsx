@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
+import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 import { MotionFilm } from "@/components/MotionFilm";
 
 const cards = [
@@ -16,6 +17,11 @@ function selectDemo(slug: string, example = 0) {
 
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
 export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void }) {
+  const [selectedExamples, setSelectedExamples] = useState<Record<DemoCategory, number>>({sites:0,automacao:0,bi:0,sistemas:0});
+  function previewExample(category: DemoCategory, index: number) {
+    setSelectedExamples(current => ({...current,[category]:index}));
+    selectDemo(category,index);
+  }
   return (
     <section id="inicio" className="vx-home-opening relative isolate overflow-hidden bg-[#030a15]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_80%_at_80%_35%,rgba(10,84,175,.18),transparent_80%)]" aria-hidden="true" />
@@ -70,21 +76,22 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
               <article key={card.slug} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
                 <div className="flex min-h-9 items-start justify-between gap-3">
                   <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition group-hover:bg-[#116ee6]" aria-hidden="true">↗</span>
+                  <a href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, selectedExamples[card.slug as DemoCategory])} aria-label={"Abrir demonstração selecionada de " + card.kicker} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition hover:bg-[#116ee6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">↗</a>
                 </div>
                 <h3 className="mt-4 min-h-[3.85rem] text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
                 <p className="mt-2 min-h-[4rem] text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
-                  <div className="relative aspect-[1.53] w-full overflow-hidden">
+                  <div className="relative w-full overflow-hidden">
                     {card.slug === "sites" && <span className="absolute left-3 top-3 z-10 rounded-md border border-sky-300/25 bg-[#06203b]/90 px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[.14em] text-[#a4dcff] shadow-lg backdrop-blur-sm">Oferta principal</span>}
-                    <Image src={card.img} alt={card.alt} fill sizes="(max-width: 640px) 92vw, (max-width: 1280px) 45vw, 24vw" className="object-cover object-center brightness-[1.10] contrast-[1.08] transition-transform duration-700 group-hover:scale-[1.045]" />
+                    <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact />
                   </div>
                 </div>
                 <div className="mt-4 border-t border-white/[.07] pt-3">
                   <p className="mb-2 text-[10px] font-semibold uppercase tracking-[.1em] text-[#93c9ef]">Escolha um dos 3 exemplos</p>
                   <div className="flex flex-wrap gap-2">
-                    {card.examples.map((example, i) => <a key={example} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, i)} className="inline-flex min-h-8 items-center rounded-md border border-[#315c7b] bg-[#0a2842] px-2.5 py-1.5 text-[10px] font-medium text-[#d0e9fc] transition-colors hover:border-[#70caff] hover:bg-[#15517a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">{example} <span aria-hidden="true" className="ml-1.5">↗</span></a>)}
+                    {card.examples.map((example, i) => <button key={example} type="button" aria-pressed={selectedExamples[card.slug as DemoCategory] === i} onClick={() => previewExample(card.slug as DemoCategory, i)} className={`inline-flex min-h-8 items-center rounded-md border px-2.5 py-1.5 text-[10px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${selectedExamples[card.slug as DemoCategory] === i ? "border-[#6bbdff] bg-[#144b73] text-white" : "border-[#315c7b] bg-[#0a2842] text-[#d0e9fc] hover:border-[#70caff] hover:bg-[#15517a]"}`}>{example}</button>)}
                   </div>
+                  <a href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, selectedExamples[card.slug as DemoCategory])} className="mt-3 inline-flex min-h-8 items-center gap-2 text-[11px] font-semibold text-[#98d8ff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Abrir este conceito no laboratório <span aria-hidden="true">↗</span></a>
                 </div>
               </article>
             ))}
