@@ -1,7 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+const subscribeReduced = (callback: () => void) => { const media=window.matchMedia("(prefers-reduced-motion: reduce)"); media.addEventListener("change",callback); return ()=>media.removeEventListener("change",callback); };
+const snapshotReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const serverReduced = () => false;
 import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 
 const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; headline: string; highlight: string; caption: string }[] = [
@@ -54,12 +58,9 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const [hovered, setHovered] = useState(false);
   const [touching, setTouching] = useState(false);
   const [interacted, setInteracted] = useState(false);
-  const playing = running && !hovered && !touching;
-
-  // Não iniciar animações automaticamente quando o usuário solicita redução de movimento.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setRunning(false);
-  }, []);
+  const [allowMotion, setAllowMotion] = useState(false);
+  const reduced = useSyncExternalStore(subscribeReduced, snapshotReduced, serverReduced);
+  const playing = running && !hovered && !touching && (!reduced || allowMotion);
 
   useEffect(() => {
     if (!playing) return;
@@ -82,6 +83,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
     setInteracted(true);
   }
   function toggle() {
+    if (reduced && !allowMotion) { setAllowMotion(true); setRunning(true); setInteracted(true); return; }
     if (running) {
       setRunning(false);
       setInteracted(true);
