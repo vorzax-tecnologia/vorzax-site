@@ -1,6 +1,9 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { MotionFilm } from "@/components/MotionFilm";
+import { TechnologyInMotion } from "@/components/TechnologyInMotion";
 import {
   useEffect,
   useRef,
@@ -102,35 +105,8 @@ const projects = [
 ];
 
 function Logo() {
-  return (
-    <div className="flex items-center gap-3">
-      <svg
-        viewBox="0 0 64 64"
-        className="h-10 w-10 shrink-0"
-        aria-label="Símbolo Vorzax"
-      >
-        <defs>
-          <linearGradient id="vorzax-gradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#10d6ff" />
-            <stop offset="50%" stopColor="#1687ff" />
-            <stop offset="100%" stopColor="#3345ff" />
-          </linearGradient>
-        </defs>
-        <path d="M7 12h13l13 22-8 14L7 12Z" fill="url(#vorzax-gradient)" />
-        <path d="M57 12H43L25 42l8 10 24-40Z" fill="url(#vorzax-gradient)" />
-        <path d="M45 29h12L39 58l-7-10 13-19Z" fill="#1259e8" opacity="0.92" />
-      </svg>
-
-      <div>
-        <div className="text-xl font-black tracking-[0.18em] text-white" aria-label="Vorzax">
-          VORZ<span aria-hidden="true">Λ</span>X
-        </div>
-        <div className="text-[9px] font-semibold tracking-[0.4em] text-sky-400">
-          TECNOLOGIA
-        </div>
-      </div>
-    </div>
-  );
+  // Original mark supplied by Vorzax. Never redraw as text or a generated symbol.
+  return <Image src="/vorzax-logo-oficial.png" alt="Vorzax Tecnologia" width={604} height={172} className="h-auto w-[174px] sm:w-[193px]" priority />;
 }
 function ArrowIcon() {
   return (
@@ -896,6 +872,7 @@ export default function Home() {
             <a className="transition hover:text-white" href="#inicio">Início</a>
             <a className="transition hover:text-white" href="#solucoes">Soluções</a>
             <a className="transition hover:text-white" href="#processo">Como funciona</a>
+            <a className="transition hover:text-white" href="#tecnologia-em-acao">Demonstrações</a>
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
             <a className="transition hover:text-white" href="#portfolio">Portfólio</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
@@ -953,6 +930,7 @@ export default function Home() {
                 ["Início", "#inicio"],
                 ["Soluções", "#solucoes"],
                 ["Como funciona", "#processo"],
+                ["Demonstrações", "#tecnologia-em-acao"],
                 ["Sobre", "#sobre"],
                 ["Portfólio", "#portfolio"],
                 ["Contato", "#contato"],
@@ -1049,82 +1027,14 @@ export default function Home() {
               </Link>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[580px] animate-float-soft" data-reveal="right" style={{ transitionDelay: "120ms" }}>
-            <div className="hero-glow absolute -inset-10 rounded-full bg-blue-600/10 blur-[90px]" />
-            <div className="hero-orbit absolute -right-8 top-8 h-24 w-24 rounded-full border border-sky-400/15 border-l-sky-300/70" />
-
-            <div className="relative overflow-hidden rounded-[34px] border border-white/12 bg-gradient-to-b from-white/[0.11] to-white/[0.025] p-3 shadow-2xl shadow-blue-950/50">
-              <div className="rounded-[26px] border border-white/10 bg-[#07101f]/95 p-6 backdrop-blur-xl">
-                <div className="mb-6 flex items-start justify-between gap-4">
-                  <div>
-                    <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-[9px] tracking-[0.18em] text-sky-300">
-                      DEMONSTRAÇÃO DE PAINEL
-                    </div>
-                    <h2 className="text-xl font-semibold">Central de resultados</h2>
-                    <p className="mt-1 text-xs text-slate-500">Dados ilustrativos</p>
-                  </div>
-
-                  <div className="flex gap-2 pt-1">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-700" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-700" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-sky-400" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                    <span className="text-xs text-slate-500">Eficiência operacional</span>
-                    <strong className="mt-3 block text-3xl">94,8%</strong>
-                    <span className="mt-2 block text-xs text-emerald-400">+12,4% no período</span>
-                  </div>
-
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                    <span className="text-xs text-slate-500">Processos monitorados</span>
-                    <strong className="mt-3 block text-3xl">38</strong>
-                    <span className="mt-2 block text-xs text-sky-400">7 novos fluxos</span>
-                  </div>
-                </div>
-
-                <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                  <div className="mb-8 flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-slate-500">Evolução de performance</p>
-                      <p className="mt-1 text-lg font-semibold">Crescimento contínuo</p>
-                    </div>
-                    <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs text-emerald-400">+28,6%</span>
-                  </div>
-
-                  <div className="flex h-36 items-end gap-3">
-                    {[34, 45, 40, 61, 55, 74, 68, 88, 80, 96].map((height, index) => (
-                      <div
-                        key={index}
-                        className="metric-bar flex-1 rounded-t-md bg-gradient-to-t from-blue-700 to-sky-400 opacity-85"
-                        style={{ height: `${height}%`, animationDelay: `${index * 70}ms` }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-3 grid grid-cols-3 gap-3">
-                  {["Financeiro", "Operações", "Comercial"].map((item) => (
-                    <div key={item} className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3 text-center text-xs text-slate-400">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="relative mx-auto w-full max-w-[620px]" data-reveal="right" style={{ transitionDelay: "120ms" }}>
+            <div className="hero-glow pointer-events-none absolute -inset-8 rounded-full bg-sky-500/10 blur-[90px]" />
+            <div className="relative z-10">
+              <MotionFilm />
             </div>
-
-            <div className="absolute -bottom-8 -left-8 hidden rounded-2xl border border-white/10 bg-[#07101f]/90 p-4 shadow-xl backdrop-blur-xl sm:block">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/10">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_#34d399]" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500">Status da operação</p>
-                  <p className="mt-1 text-sm font-semibold">Exemplo de status</p>
-                </div>
-              </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 px-2 text-[11px] text-slate-400">
+              <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300"/> Tecnologia em movimento</span>
+              <a href="#tecnologia-em-acao" className="font-semibold text-sky-300 transition hover:text-white">Explorar demonstrações →</a>
             </div>
           </div>
         </div>
@@ -1226,6 +1136,8 @@ export default function Home() {
         </div>
       </section>
 
+      <TechnologyInMotion />
+
       <section id="sobre" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-28 lg:grid-cols-[0.95fr_1.05fr] lg:px-10">
           <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#06101f] p-7" data-reveal="left">
@@ -1276,6 +1188,17 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section aria-label="Outra perspectiva da tecnologia Vorzax" className="border-b border-white/10 bg-[#040b18] py-12">
+        <div className="mx-auto grid max-w-7xl items-center gap-9 px-6 lg:grid-cols-[.75fr_1.25fr] lg:px-10">
+          <div>
+            <p className="text-xs font-semibold tracking-[.23em] text-cyan-300">MOVIMENTO CONTÍNUO</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Diferentes soluções. Uma visão conectada.</h2>
+            <p className="mt-4 text-sm leading-7 text-slate-400">Um segundo filme ilustra como sistemas, automação, dados e presença digital se complementam na operação.</p>
+          </div>
+          <MotionFilm variant="fluxos" />
         </div>
       </section>
 
