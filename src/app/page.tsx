@@ -78,7 +78,7 @@ const process = [
 
 function Logo() {
   // Original mark supplied by Vorzax. Never redraw as text or a generated symbol.
-  return <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized alt="Vorzax Tecnologia" width={539} height={165} className="h-auto w-[174px] sm:w-[193px]" priority />;
+  return <Image src="/vorzax-logo-header.webp" alt="Vorzax Tecnologia" width={539} height={165} className="h-auto w-[174px] sm:w-[193px]" priority />;
 }
 function ArrowIcon() {
   return (
