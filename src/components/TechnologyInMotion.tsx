@@ -56,7 +56,7 @@ export function TechnologyInMotion() {
           <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-10 items-center gap-2 rounded-lg px-4 text-[11px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white shadow-md":"text-[#b4cde1] hover:bg-[#14415f]"}`}><span aria-hidden="true">▯</span>Visão mobile</button>
         </div>
         <div className="flex items-center gap-3">
-          {(active==="automacao"||active==="sistemas")&&<button type="button" onClick={()=>setPlaying(v=>!v)} className="rounded-full border border-[#315572] px-4 py-2.5 text-[11px] font-semibold text-[#bfdef3] transition hover:border-[#61b9ee]">{playing?"Pausar movimento":"Reproduzir movimento"}</button>}
+          <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="rounded-full border border-[#315572] px-4 py-2.5 text-[11px] font-semibold text-[#bfdef3] transition hover:border-[#61b9ee]">{playing?"Pausar animações":"Reproduzir animações"}</button>
           <span className="text-[10px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
        </div>
