@@ -14,10 +14,11 @@ const geistMono = Geist_Mono({
 
 const siteUrl = "https://www.vorzax.com.br";
 const siteName = "Vorzax Tecnologia";
+const isProduction = process.env.VERCEL_ENV === "production";
 const title =
-  "Vorzax Tecnologia | Sistemas, Automação, BI e Sites";
+  "Vorzax Tecnologia | Sites Profissionais, Automação e Sistemas";
 const description =
-  "Sistemas sob medida, automação de processos, dashboards, Business Intelligence, sites e landing pages para empresas. Conheça as soluções da Vorzax.";
+  "Sites institucionais e landing pages profissionais para empresas. A Vorzax também desenvolve automações, dashboards, BI e sistemas sob medida.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,11 +41,11 @@ export const metadata: Metadata = {
     telephone: false,
   },
   robots: {
-    index: true,
-    follow: true,
+    index: isProduction,
+    follow: isProduction,
     googleBot: {
-      index: true,
-      follow: true,
+      index: isProduction,
+      follow: isProduction,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
