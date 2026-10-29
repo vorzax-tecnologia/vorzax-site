@@ -4,97 +4,91 @@ import Image from "next/image";
 import { MotionFilm } from "@/components/MotionFilm";
 
 const cards = [
-  {
-    slug: "sistemas", number: "01", kicker: "SISTEMAS SOB MEDIDA",
-    title: "Soluções feitas para o seu negócio",
-    description: "Plataformas para organizar a operação, reunir informações e simplificar a rotina.",
-    img: "/vorzax-reference-service-1.webp", alt: "Interface conceitual de gestão de projetos",
-  },
-  {
-    slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS",
-    title: "Mais eficiência para o seu dia a dia",
-    description: "Etapas conectadas, tarefas automatizadas e informações no caminho certo.",
-    img: "/vorzax-reference-service-2.webp", alt: "Fluxo conceitual com registro, processamento e notificações",
-  },
-  {
-    slug: "bi", number: "03", kicker: "DASHBOARDS E BI",
-    title: "Dados que geram decisões",
-    description: "Indicadores organizados para entender o negócio e agir com mais clareza.",
-    img: "/vorzax-reference-service-3.webp", alt: "Painel de indicadores ilustrativos e gráficos de BI",
-  },
-  {
-    slug: "sites", number: "04", kicker: "SITES E LANDING PAGES",
-    title: "Presença digital que representa sua marca",
-    description: "Sites profissionais, responsivos e preparados para conversas comerciais.",
-    img: "/vorzax-reference-service-4.webp", alt: "Conceito de site institucional empresarial responsivo",
-  },
+  { slug: "sistemas", number: "01", kicker: "SISTEMAS SOB MEDIDA", title: "Soluções feitas para o seu negócio", description: "Plataformas para organizar a operação, reunir informações e simplificar a rotina.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos" },
+  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Mais eficiência para o seu dia a dia", description: "Etapas conectadas, tarefas automatizadas e informações no caminho certo.", img: "/vorzax-reference-service-2.webp", alt: "Simulação conceitual de processo automatizado entre ferramentas" },
+  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Dados que geram decisões", description: "Indicadores organizados para entender o negócio e agir com mais clareza.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios" },
+  { slug: "sites", number: "04", kicker: "SITES E LANDING PAGES", title: "Presença digital que representa sua marca", description: "Sites profissionais, responsivos e preparados para conversas comerciais.", img: "/vorzax-reference-service-4.webp", alt: "Exemplo conceitual de site institucional em computador" },
 ];
 
 function selectDemo(slug: string) {
   window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug } }));
 }
 
-/** Editorial, image-led landing inspired by the concept approved by the founder. */
+/** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
 export function ReferenceLanding({ onContact }: { onContact: () => void }) {
-  return <section id="inicio" className="vx-reference relative isolate overflow-hidden bg-[#030912]">
-    <div className="vx-reference-photo pointer-events-none absolute right-0 top-0 hidden h-[535px] w-[63%] lg:block" aria-hidden="true">
-      <Image src="/vorzax-reference-hero.webp" alt="" fill priority sizes="(max-width: 1024px) 0px, 65vw" className="object-cover object-[center_23%]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#030912] via-[#030912]/15 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#030912] via-transparent to-[#030912]/5" />
-    </div>
-    <div className="pointer-events-none absolute inset-x-0 top-[490px] h-60 bg-gradient-to-b from-[#030912] to-transparent" aria-hidden="true" />
-
-    <div className="relative mx-auto w-full max-w-[1680px] px-5 pb-8 pt-10 sm:px-8 lg:px-10 lg:pb-14 lg:pt-16 xl:px-16">
-      <div className="relative z-10 flex min-h-[390px] flex-col items-start justify-center pb-7 sm:min-h-[410px] lg:max-w-[665px] lg:pb-12 xl:min-h-[415px]">
-        <div className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.25em] text-[#55caff] sm:text-xs">
-          <span className="h-px w-8 bg-[#22b4ff]" /> TECNOLOGIA PARA EMPRESAS
-        </div>
-        <h1 className="max-w-[690px] text-balance text-[clamp(2.55rem,3.65vw,4rem)] font-bold leading-[1.055] tracking-[-.063em] text-white">
-          <span className="lg:block">Soluções tecnológicas</span>{" "}
-          <span className="lg:block">para empresas que</span>{" "}
-          <span className="lg:block">querem <span className="text-[#168eff]">evoluir.</span></span>
-        </h1>
-        <p className="mt-6 max-w-[570px] text-base leading-[1.75] text-[#b6c3d4] sm:text-lg">
-          Desenvolvemos sistemas, automações, dashboards e sites para organizar processos, tornar a informação mais clara e ajudar empresas a crescer com estrutura.
-        </p>
-        <div className="mt-7 flex w-full flex-wrap gap-3">
-          <button type="button" onClick={onContact} className="vx-reference-cta inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0878f9] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_40px_rgba(2,105,246,.2)] transition hover:bg-[#2e93ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Conversar sobre meu projeto <span aria-hidden="true">↗</span></button>
-          <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3688c5]/60 bg-[#020a13]/70 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73c4ff] hover:bg-[#102841] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Conhecer nossas soluções</a>
-        </div>
-        <div className="mt-7 flex items-center gap-2 text-[11px] text-[#8298b2]"><span className="h-1.5 w-1.5 rounded-full bg-[#43bfff]" /> Tecnologia sob medida • Atendimento empresarial</div>
-      </div>
-
-      <div className="relative z-10 mb-5 overflow-hidden rounded-[20px] border border-[#17304b] bg-[#06101d] shadow-[0_25px_55px_rgba(0,0,0,.3)] lg:hidden">
-        <div className="relative aspect-[1.9] sm:aspect-[2.3]"><Image src="/vorzax-reference-hero.webp" alt="Conceito de uma interface de gestão no notebook da Vorzax" fill sizes="(max-width: 1024px) 95vw, 0px" className="object-cover" /></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030912]/45 to-transparent" aria-hidden="true" />
-        <span className="absolute bottom-3 left-4 rounded-full border border-[#55aafa]/25 bg-[#05111c]/75 px-3 py-1.5 text-[10px] font-medium text-[#accbe1] backdrop-blur-md">Interface conceitual · Dados ilustrativos</span>
-      </div>
-
-      <div className="relative z-20 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {cards.map(card => <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="vx-reference-card group relative isolate flex min-h-[410px] flex-col overflow-hidden rounded-[19px] border border-[#1a3550] bg-[#050e1c] p-5 text-left shadow-[0_25px_60px_rgba(0,0,0,.2)] transition-[border-color,transform] duration-300 hover:-translate-y-1.5 hover:border-[#378ee1] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:min-h-[395px] 2xl:min-h-[425px]">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#081728] to-[#050d1b]" aria-hidden="true" />
-          <div className="relative z-10 flex items-start justify-between gap-3">
-            <span className="text-[10px] font-bold tracking-[.15em] text-[#39b7ff]">{card.kicker}</span>
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#102238] text-lg text-white transition group-hover:bg-[#0f71dc]" aria-hidden="true">↗</span>
+  return (
+    <section id="inicio" className="vx-home-opening relative isolate overflow-hidden bg-[#030a15]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_80%_at_80%_35%,rgba(10,84,175,.18),transparent_80%)]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[linear-gradient(100deg,transparent_62%,rgba(25,103,189,.045)_80%,transparent)]" aria-hidden="true" />
+      <div className="relative mx-auto w-full max-w-[1680px] px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-20 lg:pt-16 xl:px-16">
+        <div className="grid items-center gap-8 pb-10 lg:min-h-[470px] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-9 lg:pb-14 xl:gap-16">
+          <div className="order-2 min-w-0 lg:order-1">
+            <div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.20em] text-[#4abfff] sm:text-[11px]">
+              <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
+            </div>
+            <h1 className="max-w-[700px] text-balance text-[clamp(2.4rem,3.65vw,4rem)] font-bold leading-[1.07] tracking-[-.058em] text-white">
+              Soluções tecnológicas para empresas que querem <span className="text-[#2299ff]">evoluir.</span>
+            </h1>
+            <p className="mt-5 max-w-[585px] text-[15px] leading-[1.75] text-[#bac8d9] sm:text-[17px]">
+              Sistemas sob medida, automações, dashboards, BI e sites para organizar processos, tomar decisões e construir uma presença digital profissional.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={onContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0879fa] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#2694ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                Conversar sobre meu projeto <span aria-hidden="true">↗</span>
+              </button>
+              <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
+            </div>
+            <div className="mt-6 flex items-center gap-2 text-[11px] text-[#8a9bb0]"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Tecnologia sob medida · Atendimento empresarial</div>
           </div>
-          <h2 className="relative z-10 mt-3 max-w-[290px] text-[clamp(1.35rem,1.7vw,1.65rem)] font-semibold leading-[1.16] tracking-[-.04em] text-white">{card.title}</h2>
-          <p className="relative z-10 mt-3 max-w-[320px] text-[13px] leading-[1.55] text-[#b0bfd2]">{card.description}</p>
-          <div className="relative z-10 mt-auto overflow-hidden rounded-xl border border-[#1a324a] bg-[#081323] pt-1 shadow-[0_15px_40px_rgba(0,0,0,.3)]">
-            <div className="relative aspect-[1.55] overflow-hidden">
-              <Image src={card.img} alt={card.alt} fill sizes="(max-width: 640px) 95vw, (max-width: 1280px) 48vw, 24vw" className="object-cover object-top opacity-95 transition duration-700 group-hover:scale-[1.055] group-hover:opacity-100" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05101d]/25 to-transparent" aria-hidden="true" />
+
+          <div className="order-1 min-w-0 lg:order-2">
+            <div className="mb-3 flex items-center justify-between gap-2 px-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[.19em] text-[#73bff0]">VORZAX / TECNOLOGIA EM MOVIMENTO</span>
+              <span className="text-[10px] tracking-[.09em] text-[#768ca6]">FILME CONCEITUAL</span>
+            </div>
+            <div className="vx-hero-video-frame relative mx-auto w-full overflow-hidden rounded-[19px] border border-[#21496f] bg-[#071426] p-[4px] shadow-[0_24px_80px_rgba(0,0,0,.50),0_0_65px_rgba(0,127,255,.12)] sm:rounded-[25px]">
+              <MotionFilm variant="principal" />
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
+              <span>Interfaces demonstrativas. Nenhum cliente ou resultado real é representado.</span>
+              <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 04</span>
             </div>
           </div>
-          <span className="relative z-10 mt-3 inline-flex items-center justify-between text-[10px] font-medium tracking-[.02em] text-[#8ac9fc]">Explorar demonstração <span className="text-[#617a93]">{card.number} / 04</span></span>
-        </a>)}
+        </div>
+
+        <div id="demonstracoes" className="relative border-t border-[#193149]/70 pt-9 sm:pt-11">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">EXPLORE NOSSAS SOLUÇÕES</span>
+              <h2 className="mt-2 text-[clamp(1.55rem,2.4vw,2.2rem)] font-semibold tracking-[-.045em] text-white">Tecnologia aplicada a desafios reais.</h2>
+            </div>
+            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Escolha uma solução para ver a demonstração em ação.</span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {cards.map((card) => (
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="vx-demo-card group flex h-full min-w-0 flex-col rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5">
+                <div className="flex min-h-9 items-start justify-between gap-3">
+                  <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition group-hover:bg-[#116ee6]" aria-hidden="true">↗</span>
+                </div>
+                <h3 className="mt-4 h-[3.85rem] overflow-hidden text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
+                <p className="mt-2 h-[4rem] overflow-hidden text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
+                <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
+                  <div className="relative aspect-[1.53] w-full overflow-hidden">
+                    <Image src={card.img} alt={card.alt} fill sizes="(max-width: 640px) 92vw, (max-width: 1280px) 45vw, 24vw" className="object-cover object-center brightness-[1.10] contrast-[1.08] transition-transform duration-700 group-hover:scale-[1.045]" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between border-t border-white/[.07] pt-3 text-[11px] font-medium text-[#9cd7ff]">
+                  <span>Explorar demonstração</span>
+                  <span className="font-mono tracking-[.06em] text-[#6e8ca7]">{card.number} / 04</span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p className="mt-6 text-[11px] leading-5 text-[#8395aa]">Demonstrações conceituais. Telas, números e situações são ilustrativos; não representam clientes, projetos entregues ou resultados comprovados.</p>
+        </div>
       </div>
-      <div className="relative z-10 mt-6 flex flex-col items-start justify-between gap-3 border-t border-white/[.07] pt-5 sm:flex-row sm:items-center">
-        <span className="max-w-2xl text-[11px] leading-5 text-[#7588a0]">Demonstrações conceituais. Interfaces e números são ilustrativos e não representam clientes ou resultados reais.</span>
-        <details className="vx-reference-reel w-full max-w-[650px] sm:w-auto">
-          <summary className="cursor-pointer text-[12px] font-semibold text-[#8bd7ff] transition hover:text-white">▶ Assistir ao vídeo da Vorzax</summary>
-          <div className="mt-3 w-full min-w-[290px] sm:w-[520px]"><MotionFilm /></div>
-        </details>
-      </div>
-    </div>
-  </section>;
+    </section>
+  );
 }

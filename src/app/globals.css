@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
@@ -142,3 +142,11 @@ body {
 .vx-reference-reel[open] > div { margin-left: auto; }
 @keyframes vx-reference-reveal { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .vx-reference-photo { animation: none !important; } .vx-reference-card:hover { transform: none !important; } }
+
+/* Vorzax premium hero film and aligned editorial demonstrations */
+.vx-hero-video-frame { transform: translateZ(0); }
+.vx-demo-card { isolation: isolate; }
+@media (prefers-reduced-motion: reduce) {
+  .vx-demo-card:hover { transform: none !important; }
+  .vx-demo-card img { transition: none !important; }
+}
