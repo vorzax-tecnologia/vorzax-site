@@ -1,9 +1,16 @@
-"use client";
+﻿"use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { supabase } from "../lib/supabase";
+import Link from "next/link";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
+import { getSupabaseClient } from "../lib/supabase";
 const WHATSAPP_URL =
-  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
+  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
 
 const INSTAGRAM_URL = "https://www.instagram.com/vorzaxoficial/";
 const CONTACT_EMAIL = "contato@vorzax.com.br";
@@ -14,29 +21,29 @@ const services = [
     number: "01",
     title: "Sistemas sob medida",
     description:
-      "Plataformas web criadas para organizar operações, eliminar retrabalho e acompanhar o crescimento da empresa.",
-    result: "Mais controle da operação",
+      "Desenvolvemos sistemas adaptados às necessidades da empresa para centralizar informações, organizar fluxos de trabalho e facilitar a gestão.",
+    result: "Processos mais organizados",
   },
   {
     number: "02",
     title: "Automação de processos",
     description:
-      "Conectamos tarefas, dados e ferramentas para reduzir atividades manuais e acelerar o trabalho da equipe.",
-    result: "Menos tempo desperdiçado",
+      "Criamos automações para conectar ferramentas, reduzir tarefas repetitivas e simplificar atividades do dia a dia.",
+    result: "Menos tarefas repetitivas",
   },
   {
     number: "03",
     title: "Dashboards e BI",
     description:
-      "Transformamos dados empresariais em indicadores claros para decisões mais rápidas e bem fundamentadas.",
-    result: "Decisões com dados",
+      "Organizamos dados em dashboards e indicadores visuais para facilitar o acompanhamento do negócio e apoiar decisões.",
+    result: "Indicadores mais claros",
   },
   {
     number: "04",
     title: "Sites e landing pages",
     description:
-      "Experiências digitais rápidas, profissionais e orientadas a gerar autoridade, contatos e oportunidades.",
-    result: "Presença que vende",
+      "Desenvolvemos sites e landing pages profissionais para apresentar empresas, valorizar serviços e facilitar o contato.",
+    result: "Presença digital profissional",
   },
 ];
 
@@ -52,21 +59,21 @@ const sectors = [
 const process = [
   {
     step: "01",
-    title: "Você envia o diagnóstico",
+    title: "Você apresenta sua necessidade",
     description:
-      "Preencha o formulário em menos de 2 minutos e conte o que sua empresa precisa melhorar ou construir.",
+      "Conte o que sua empresa deseja desenvolver ou melhorar: um sistema, automação, dashboard, site ou outra solução.",
   },
   {
     step: "02",
-    title: "Nós analisamos",
+    title: "Planejamos a solução",
     description:
-      "A Vorzax avalia sua necessidade, identifica as prioridades e define o melhor caminho para o projeto.",
+      "Avaliamos a necessidade e apresentamos uma proposta com escopo, etapas e condições adequadas ao projeto.",
   },
   {
     step: "03",
-    title: "Você recebe uma proposta personalizada",
+    title: "Desenvolvemos por etapas",
     description:
-      "Entramos em contato com uma solução e um plano de implementação pensados para a sua empresa.",
+      "Após a aprovação e a contratação, executamos o projeto conforme o escopo e as validações combinadas.",
   },
 ];
 
@@ -115,8 +122,8 @@ function Logo() {
       </svg>
 
       <div>
-        <div className="text-xl font-black tracking-[0.18em] text-white">
-          VORZAX
+        <div className="text-xl font-black tracking-[0.18em] text-white" aria-label="Vorzax">
+          VORZ<span aria-hidden="true">Λ</span>X
         </div>
         <div className="text-[9px] font-semibold tracking-[0.4em] text-sky-400">
           TECNOLOGIA
@@ -125,7 +132,6 @@ function Logo() {
     </div>
   );
 }
-
 function ArrowIcon() {
   return (
     <svg
@@ -345,13 +351,21 @@ export default function Home() {
   const [footerVisible, setFooterVisible] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [website, setWebsite] = useState("");
   const [diagnosticStatus, setDiagnosticStatus] = useState<"idle" | "sending" | "error">("idle");
   const [diagnosticError, setDiagnosticError] = useState("");
+  const diagnosticDialogRef = useRef<HTMLDivElement>(null);
+  const diagnosticFirstFieldRef = useRef<HTMLInputElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const openDiagnostic = () => {
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
     setWhatsappOpen(false);
     setDiagnosticStatus("idle");
     setDiagnosticError("");
+    setPrivacyAccepted(false);
+    setWebsite("");
     setDiagnosticOpen(true);
   };
 
@@ -367,17 +381,42 @@ export default function Home() {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && diagnosticStatus !== "sending") {
         setDiagnosticOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = diagnosticDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'
+      );
+      if (!focusable?.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
+    window.setTimeout(() => diagnosticFirstFieldRef.current?.focus(), 0);
 
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [diagnosticOpen, diagnosticStatus]);
+
+  useEffect(() => {
+    if (diagnosticOpen || !previousFocusRef.current) return;
+    previousFocusRef.current.focus();
+    previousFocusRef.current = null;
+  }, [diagnosticOpen]);
 
 
   useEffect(() => {
@@ -422,24 +461,57 @@ export default function Home() {
   ) => {
     const { name, value } = event.target;
     setDiagnosticData((current) => ({ ...current, [name]: value }));
+    if (diagnosticStatus === "error") {
+      setDiagnosticStatus("idle");
+      setDiagnosticError("");
+    }
   };
 
   const handleDiagnosticSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const nome = diagnosticData.nome.trim();
+    const telefone = diagnosticData.telefone.trim();
+    const empresa = diagnosticData.empresa.trim();
+    const objetivo = diagnosticData.objetivo.trim();
+
+    if (!privacyAccepted) {
+      setDiagnosticStatus("error");
+      setDiagnosticError("Confirme a Política de Privacidade para continuar.");
+      return;
+    }
+
+    if (!nome || !telefone || !empresa || !diagnosticData.segmento || !diagnosticData.tipo_solucao) {
+      setDiagnosticStatus("error");
+      setDiagnosticError("Preencha os campos obrigatórios para enviar.");
+      return;
+    }
+
+    if (objetivo.length < 20) {
+      setDiagnosticStatus("error");
+      setDiagnosticError("Descreva seu objetivo com mais detalhes (no mínimo 20 caracteres).");
+      return;
+    }
+
+    if (website) {
+      setDiagnosticStatus("idle");
+      setDiagnosticOpen(false);
+      return;
+    }
+
     setDiagnosticStatus("sending");
     setDiagnosticError("");
 
     const mensagem = [
-      "Olá, Vorzax! Acabei de preencher o diagnóstico pelo site.",
+      "Olá, Vorzax! Compartilhei informações sobre um projeto pelo site.",
       "",
-      "*DIAGNÓSTICO VORZAX*",
-      `Nome: ${diagnosticData.nome.trim()}`,
-      `WhatsApp: ${diagnosticData.telefone.trim()}`,
+      "*FALE SOBRE SEU PROJETO*",
+      `Nome: ${nome}`,
+      `WhatsApp: ${telefone}`,
       diagnosticData.email.trim() ? `E-mail: ${diagnosticData.email.trim()}` : null,
-      `Empresa: ${diagnosticData.empresa.trim()}`,
+      `Empresa: ${empresa}`,
       `Segmento: ${diagnosticData.segmento}`,
       `Solução desejada: ${diagnosticData.tipo_solucao}`,
-      `Objetivo ou dificuldade: ${diagnosticData.objetivo.trim()}`,
+      `Objetivo ou dificuldade: ${objetivo}`,
       `Prazo: ${diagnosticData.prazo || "Ainda não definido"}`,
     ]
       .filter(Boolean)
@@ -454,53 +526,53 @@ export default function Home() {
     }
 
     try {
-      const { error } = await supabase.from("atendimentos").insert({
-        nome: diagnosticData.nome.trim(),
-        telefone: diagnosticData.telefone.trim(),
-        email: diagnosticData.email.trim() || null,
-        empresa: diagnosticData.empresa.trim(),
-        segmento: diagnosticData.segmento,
-        tipo_solucao: diagnosticData.tipo_solucao,
-        objetivo: diagnosticData.objetivo.trim(),
-        prazo: diagnosticData.prazo || null,
-        origem: "site",
-        status: "novo",
-        observacoes: "Lead recebido pelo formulário de diagnóstico do site e encaminhado ao WhatsApp.",
-        proximo_passo: "Aguardar mensagem do cliente no WhatsApp",
-      });
+      const supabase = getSupabaseClient();
+      if (supabase) {
+        const { error } = await supabase.from("atendimentos").insert({
+          nome,
+          telefone,
+          email: diagnosticData.email.trim() || null,
+          empresa,
+          segmento: diagnosticData.segmento,
+          tipo_solucao: diagnosticData.tipo_solucao,
+          objetivo,
+          prazo: diagnosticData.prazo || null,
+          origem: "site",
+          status: "novo",
+          observacoes: "Lead recebido pelo formulário de contato sobre projetos e encaminhado ao WhatsApp.",
+          proximo_passo: "Aguardar mensagem do cliente no WhatsApp",
+        });
 
-      if (error) throw error;
-
-      if (whatsappWindow) {
-        whatsappWindow.location.href = whatsappUrl;
+        if (error) {
+          console.warn("Não foi possível registrar o diagnóstico no Supabase:", error);
+        }
       } else {
-        window.location.href = whatsappUrl;
+        console.warn("Supabase não configurado; o diagnóstico seguirá apenas pelo WhatsApp.");
       }
-
-      setDiagnosticData(initialDiagnosticForm);
-      setDiagnosticStatus("idle");
-      setDiagnosticOpen(false);
     } catch (error) {
-      whatsappWindow?.close();
-      console.error("Erro ao salvar diagnóstico:", error);
-      setDiagnosticStatus("error");
-      setDiagnosticError(
-        "Não foi possível preparar o diagnóstico agora. Tente novamente em alguns instantes."
-      );
+      console.warn("Não foi possível registrar o diagnóstico no Supabase:", error);
     }
+
+    if (whatsappWindow) {
+      whatsappWindow.location.href = whatsappUrl;
+    } else {
+      window.location.href = whatsappUrl;
+    }
+
+    setDiagnosticData(initialDiagnosticForm);
+    setDiagnosticStatus("idle");
+    setDiagnosticOpen(false);
   };
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
       <style>{`
         [data-reveal] {
-          opacity: 0;
-          transform: translateY(30px);
+          /* Keep the page usable even when the browser blocks client-side JS. */
+          opacity: 1;
+          transform: none;
           transition: opacity 650ms cubic-bezier(.2,.7,.2,1), transform 650ms cubic-bezier(.2,.7,.2,1);
         }
-        [data-reveal="left"] { transform: translateX(-36px); }
-        [data-reveal="right"] { transform: translateX(36px); }
-        [data-reveal="scale"] { transform: scale(.96); }
         [data-reveal][data-visible="true"] { opacity: 1; transform: none; }
         .contact-icon { transition: transform 300ms ease, box-shadow 300ms ease, background-color 300ms ease; }
         .contact-card:hover .contact-icon { transform: translateY(-3px) scale(1.05); }
@@ -522,13 +594,14 @@ export default function Home() {
         >
           <button
             type="button"
-            aria-label="Fechar diagnóstico"
+            aria-label="Fechar formulário de contato"
             onClick={closeDiagnostic}
             className="absolute inset-0 z-0 bg-black/75 backdrop-blur-sm"
             style={{ position: "absolute", inset: 0, zIndex: 0 }}
           />
 
           <div
+            ref={diagnosticDialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="diagnostico-titulo"
@@ -539,19 +612,19 @@ export default function Home() {
             <div className="sticky top-0 z-10 flex items-start justify-between gap-5 border-b border-white/10 bg-[#07101f]/95 px-6 py-5 backdrop-blur-xl sm:px-8">
               <div>
                 <p className="text-[10px] font-semibold tracking-[0.22em] text-sky-400">
-                  DIAGNÓSTICO VORZAX
+                  FALE SOBRE SEU PROJETO
                 </p>
                 <h2 id="diagnostico-titulo" className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Vamos entender sua operação.
+                  Conte o que deseja desenvolver.
                 </h2>
                 <p id="diagnostico-descricao" className="mt-2 max-w-xl text-sm leading-6 text-slate-400">
-                  Responda algumas perguntas. Com isso, avaliamos o melhor caminho para seu projeto.
+                  Compartilhe sua necessidade para avaliarmos como a Vorzax pode ajudar.
                 </p>
               </div>
 
               <button
                 type="button"
-                aria-label="Fechar diagnóstico"
+                aria-label="Fechar formulário de contato"
                 onClick={closeDiagnostic}
                 className="shrink-0 text-2xl leading-none text-slate-500 transition hover:text-white"
               >
@@ -565,6 +638,7 @@ export default function Home() {
                   <span className="text-xs font-semibold text-slate-300">Seu nome *</span>
                   <input
                     name="nome"
+                    ref={diagnosticFirstFieldRef}
                     value={diagnosticData.nome}
                     onChange={handleDiagnosticChange}
                     required
@@ -672,6 +746,7 @@ export default function Home() {
                   value={diagnosticData.objetivo}
                   onChange={handleDiagnosticChange}
                   required
+                  minLength={20}
                   rows={4}
                   placeholder="Conte brevemente o que precisa melhorar ou construir."
                   className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
@@ -693,6 +768,40 @@ export default function Home() {
                 </select>
               </label>
 
+              <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden">
+                <label>
+                  Não preencher este campo
+                  <input
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
+                  />
+                </label>
+              </div>
+
+              <label className="flex items-start gap-3 text-xs leading-5 text-slate-500">
+                <input
+                  type="checkbox"
+                  required
+                  checked={privacyAccepted}
+                  onChange={(event) => setPrivacyAccepted(event.target.checked)}
+                  className="mt-1 h-4 w-4 shrink-0 accent-sky-400"
+                />
+                <span>
+                  Concordo com o uso dos meus dados para contato, conforme a{" "}
+                  <Link
+                    className="text-sky-300 underline decoration-sky-400/40 underline-offset-2 hover:text-white"
+                    href="/privacidade"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Política de Privacidade
+                  </Link>
+                  .
+                </span>
+              </label>
+
               {diagnosticStatus === "error" && (
                 <p className="rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm leading-6 text-red-200">
                   {diagnosticError}
@@ -700,7 +809,7 @@ export default function Home() {
               )}
 
               <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs leading-5 text-slate-500">Seus dados serão salvos e o WhatsApp será aberto com a mensagem pronta para você confirmar o envio.</p>
+                <p className="text-xs leading-5 text-slate-500">As informações serão encaminhadas para a Vorzax e o WhatsApp será aberto com a mensagem pronta para você confirmar o envio.</p>
                 <button
                   type="submit"
                   disabled={diagnosticStatus === "sending"}
@@ -738,7 +847,7 @@ export default function Home() {
 
       <div className="px-5 py-4">
         <p className="text-xs leading-5 text-slate-400">
-          Fale com a Vorzax e solicite um diagnóstico gratuito.
+          Converse com a Vorzax sobre sistemas, automações, BI, sites e outras soluções digitais.
         </p>
 
         <button
@@ -746,7 +855,7 @@ export default function Home() {
           onClick={openDiagnostic}
           className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-4 py-3 text-sm font-bold text-[#020611] transition hover:bg-white"
         >
-          Preencher diagnóstico
+          Contar sobre meu projeto
           <ArrowIcon />
         </button>
 
@@ -790,6 +899,7 @@ export default function Home() {
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
             <a className="transition hover:text-white" href="#portfolio">Portfólio</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
+            <Link className="transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -846,6 +956,7 @@ export default function Home() {
                 ["Sobre", "#sobre"],
                 ["Portfólio", "#portfolio"],
                 ["Contato", "#contato"],
+                ["Plataforma", "/plataforma"],
               ].map(([label, href]) => (
                 <a
                   key={href}
@@ -888,15 +999,15 @@ export default function Home() {
             </div>
 
             <h1 className="max-w-[720px] text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl lg:text-[54px] xl:text-[60px]">
-              Tecnologia que organiza processos
+              Tecnologia sob medida para
               <span className="block bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                e faz sua empresa trabalhar melhor.
+                transformar sua empresa.
               </span>
             </h1>
 
             <p className="mt-7 max-w-[650px] text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
-              Criamos sistemas, automações, dashboards e experiências digitais sob medida
-              para reduzir retrabalho, aumentar o controle e melhorar a operação da sua empresa.
+              Desenvolvemos sistemas, automações, dashboards, sites e soluções digitais para organizar
+              processos, apoiar decisões e fortalecer a presença da sua empresa.
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -905,7 +1016,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-sky-300"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
 
@@ -931,6 +1042,11 @@ export default function Home() {
                 <span className="mt-1 block text-xs text-slate-500">Visão do processo</span>
               </div>
             </div>
+
+              <Link href="/plataforma" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-sky-300 transition hover:text-white">
+                Conheça a plataforma modular da Vorzax
+                <ArrowIcon />
+              </Link>
           </div>
 
           <div className="relative mx-auto w-full max-w-[580px] animate-float-soft" data-reveal="right" style={{ transitionDelay: "120ms" }}>
@@ -1019,10 +1135,10 @@ export default function Home() {
           <div className="mx-auto max-w-3xl text-center" data-reveal>
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO FUNCIONA</p>
             <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Do diagnóstico à proposta em 3 passos.
+              Do primeiro contato à entrega, com clareza.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-400">
-              Um processo simples para entender sua necessidade e apresentar uma solução sob medida.
+              Entendemos sua necessidade, alinhamos a proposta e desenvolvemos a solução contratada por etapas.
             </p>
           </div>
 
@@ -1049,7 +1165,7 @@ export default function Home() {
               onClick={openDiagnostic}
               className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
             >
-              Quero meu diagnóstico
+              Falar sobre meu projeto
               <ArrowIcon />
             </button>
           </div>
@@ -1073,10 +1189,10 @@ export default function Home() {
             <div data-reveal="left">
               <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">NOSSAS SOLUÇÕES</p>
               <h2 className="mt-5 max-w-lg text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-                Tecnologia criada para resolver problemas reais.
+                Soluções para diferentes desafios da sua empresa.
               </h2>
               <p className="mt-6 max-w-lg leading-7 text-slate-400">
-                Entendemos sua operação antes de propor qualquer ferramenta. O resultado é uma solução mais simples de usar, mais útil e alinhada ao negócio.
+                De sistemas e automações a dashboards e sites, avaliamos os objetivos do seu negócio antes de propor a solução.
               </p>
 
               <button
@@ -1084,7 +1200,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="mt-8 inline-flex items-center gap-3 text-sm font-semibold text-white transition hover:text-sky-300"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
             </div>
@@ -1201,10 +1317,10 @@ export default function Home() {
           <div className="overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#07182f] via-[#07101f] to-[#020611] px-7 py-16 text-center sm:px-12 lg:px-16 lg:py-20" data-reveal="scale">
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VAMOS CONVERSAR</p>
             <h2 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl">
-              Sua empresa está pronta para operar em outro nível?
+              Qual é o próximo passo tecnológico da sua empresa?
             </h2>
             <p className="mx-auto mt-6 max-w-2xl leading-7 text-slate-400">
-              Conte o que está travando sua operação. Vamos analisar o cenário e mostrar um caminho tecnológico possível, sem compromisso.
+              Seja para desenvolver um sistema, automatizar processos, visualizar indicadores ou criar uma presença digital profissional, conte sua necessidade.
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -1213,7 +1329,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-8 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
             </div>
@@ -1260,7 +1376,7 @@ export default function Home() {
           <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
-              Tecnologia inteligente para empresas que querem organizar processos, ganhar produtividade e crescer com controle.
+              Sistemas, automações, dashboards e presença digital para empresas que desejam evoluir com tecnologia.
             </p>
           </div>
 
@@ -1271,6 +1387,7 @@ export default function Home() {
               <a className="block transition hover:text-white" href="#solucoes">Soluções</a>
               <a className="block transition hover:text-white" href="#sobre">Sobre</a>
               <a className="block transition hover:text-white" href="#portfolio">Portfólio</a>
+              <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
             </div>
           </div>
 
@@ -1304,7 +1421,10 @@ export default function Home() {
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between lg:px-10">
             <p>© 2026 Vorzax Tecnologia. Todos os direitos reservados.</p>
-            <p>Site institucional • Portfólio conceitual</p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <span>Site institucional • Portfólio conceitual</span>
+              <Link className="transition hover:text-slate-300" href="/privacidade">Privacidade</Link>
+            </div>
           </div>
         </div>
       </footer>
