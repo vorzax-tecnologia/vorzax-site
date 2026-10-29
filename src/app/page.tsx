@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReferenceLanding } from "@/components/ReferenceLanding";
+import { VideoIntro } from "@/components/VideoIntro";
 import { TechnologyInMotion } from "@/components/TechnologyInMotion";
 import {
   useEffect,
@@ -72,30 +73,6 @@ const process = [
     title: "Desenvolvemos por etapas",
     description:
       "Após a aprovação e a contratação, executamos o projeto conforme o escopo e as validações combinadas.",
-  },
-];
-
-const projects = [
-  {
-    tag: "GESTÃO DE FROTAS",
-    title: "Gestão de frotas",
-    description:
-      "Conceito de plataforma para veículos, custos, abastecimentos, documentos e manutenção preventiva.",
-    type: "fleet",
-  },
-  {
-    tag: "GESTÃO DE SERVIÇOS",
-    title: "Operações de serviço",
-    description:
-      "Conceito de sistema para ordens de serviço, equipes, clientes, agenda e acompanhamento de execução.",
-    type: "service",
-  },
-  {
-    tag: "INTELIGÊNCIA DE NEGÓCIO",
-    title: "Indicadores executivos",
-    description:
-      "Conceito de dashboard executivo para consolidar resultados financeiros, comerciais e operacionais.",
-    type: "bi",
   },
 ];
 
@@ -176,121 +153,6 @@ function OnlineIcon() {
       <circle cx="12" cy="12" r="9" />
       <path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z" />
     </svg>
-  );
-}
-
-function ProjectVisual({ type }: { type: string }) {
-  if (type === "fleet") {
-    return (
-      <div className="relative h-full rounded-2xl border border-white/10 bg-[#081526] p-4 shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg]">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-slate-600" />
-            <span className="h-2 w-2 rounded-full bg-slate-600" />
-            <span className="h-2 w-2 rounded-full bg-sky-400" />
-          </div>
-          <span className="text-[9px] tracking-[0.2em] text-slate-500">FROTA</span>
-        </div>
-
-        <div className="grid grid-cols-[0.8fr_1.2fr] gap-3">
-          <div className="space-y-2">
-            {["Visão geral", "Veículos", "Manutenção", "Custos"].map((item, index) => (
-              <div
-                key={item}
-                className={`rounded-lg border px-3 py-2 text-[9px] ${
-                  index === 0
-                    ? "border-sky-400/30 bg-sky-400/10 text-sky-300"
-                    : "border-white/8 bg-white/[0.03] text-slate-500"
-                }`}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-2">
-            {["VAN-2048", "TRK-1092", "UTIL-3381"].map((vehicle, index) => (
-              <div key={vehicle} className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-semibold text-slate-300">{vehicle}</span>
-                  <span className={`h-2 w-2 rounded-full ${index === 1 ? "bg-amber-400" : "bg-emerald-400"}`} />
-                </div>
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-800">
-                  <div className="h-full rounded-full bg-gradient-to-r from-blue-600 to-sky-400" style={{ width: `${82 - index * 17}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "service") {
-    return (
-      <div className="relative h-full rounded-2xl border border-white/10 bg-[#081526] p-4 shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-[1deg]">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-slate-600" />
-            <span className="h-2 w-2 rounded-full bg-slate-600" />
-            <span className="h-2 w-2 rounded-full bg-sky-400" />
-          </div>
-          <span className="text-[9px] tracking-[0.2em] text-slate-500">SERVIÇOS</span>
-        </div>
-
-        <div className="grid grid-cols-4 gap-2 text-center text-[8px] text-slate-500">
-          {["08:00", "10:00", "13:00", "15:00"].map((time) => (
-            <div key={time}>{time}</div>
-          ))}
-        </div>
-
-        <div className="mt-3 space-y-2">
-          {[
-            ["OS #1842", "Manutenção preventiva", "Em execução"],
-            ["OS #1843", "Instalação técnica", "Agendado"],
-            ["OS #1844", "Vistoria operacional", "Concluído"],
-          ].map(([order, title, status], index) => (
-            <div key={order} className="grid grid-cols-[0.7fr_1.4fr_0.8fr] items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3">
-              <span className="text-[9px] font-semibold text-sky-300">{order}</span>
-              <span className="text-[9px] text-slate-400">{title}</span>
-              <span className={`rounded-full px-2 py-1 text-center text-[8px] ${index === 0 ? "bg-sky-400/10 text-sky-300" : index === 1 ? "bg-amber-400/10 text-amber-300" : "bg-emerald-400/10 text-emerald-300"}`}>
-                {status}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative h-full rounded-2xl border border-white/10 bg-[#081526] p-4 shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1deg]">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-slate-600" />
-          <span className="h-2 w-2 rounded-full bg-slate-600" />
-          <span className="h-2 w-2 rounded-full bg-sky-400" />
-        </div>
-        <span className="text-[9px] tracking-[0.2em] text-slate-500">BI EXECUTIVO</span>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2">
-        {["Receita", "Margem", "Conversão"].map((label, index) => (
-          <div key={label} className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-            <p className="text-[8px] text-slate-500">{label}</p>
-            <p className="mt-2 text-sm font-semibold text-white">{["R$ 84k", "31%", "18,7%"][index]}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.04] p-3">
-        <div className="flex h-24 items-end gap-2">
-          {[35, 48, 43, 66, 58, 79, 72, 92].map((height, index) => (
-            <div key={index} className="metric-bar flex-1 rounded-t bg-gradient-to-t from-blue-700 to-sky-400" style={{ height: `${height}%`, animationDelay: `${index * 70}ms` }} />
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -535,6 +397,7 @@ export default function Home() {
 
   return (
     <main className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+      <VideoIntro />
       <style>{`
         [data-reveal] {
           /* Keep the page usable even when the browser blocks client-side JS. */
@@ -867,7 +730,6 @@ export default function Home() {
             <a className="transition hover:text-white" href="#processo">Como funciona</a>
             <a className="transition hover:text-white" href="#tecnologia-em-acao">Demonstrações</a>
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
-            <a className="transition hover:text-white" href="#portfolio">Conceitos</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
             <Link className="transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
           </nav>
@@ -925,7 +787,6 @@ export default function Home() {
                 ["Como funciona", "#processo"],
                 ["Demonstrações", "#tecnologia-em-acao"],
                 ["Sobre", "#sobre"],
-                ["Portfólio", "#portfolio"],
                 ["Contato", "#contato"],
                 ["Plataforma", "/plataforma"],
               ].map(([label, href]) => (
@@ -961,38 +822,6 @@ export default function Home() {
       }} />
 
 
-      <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
-        <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
-          <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-            <div className="max-w-3xl" data-reveal>
-              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> COMO FUNCIONA / 01—03</p>
-              <h2 className="vx-heading mt-5 max-w-3xl">Um processo objetivo. <span className="vx-gradient-text">Do primeiro contato à entrega.</span></h2>
-            </div>
-            <p className="max-w-md text-sm leading-7 text-[#a4b7ca] sm:text-base">Uma conversa inicial, uma proposta definida e a execução por etapas. Sem complexidade desnecessária.</p>
-          </div>
-          <div className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">
-            <div className="pointer-events-none absolute left-[10%] right-[10%] top-[30px] hidden border-t border-dashed border-[#2e79af]/70 lg:block" aria-hidden="true" />
-            {process.map((item) => (
-              <article key={item.step} className="vx-process-card group relative flex flex-col overflow-hidden rounded-[22px] border border-[#234864] bg-[#08182a] px-6 pb-7 pt-6 sm:p-8" data-reveal>
-                <div className="relative flex items-center justify-between">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-[13px] border border-[#2e6491] bg-[#0e3458] font-mono text-base font-semibold text-[#6fceff] shadow-[0_0_26px_rgba(20,116,218,.12)]">{item.step}</span>
-                  <span className="font-mono text-[10px] tracking-[.16em] text-[#6a8ba8]">FASE {item.step} / 03</span>
-                </div>
-                <div className="mt-9 h-[3px] w-11 rounded-full bg-[#178cf4] transition-all duration-500 group-hover:w-20" />
-                <h3 className="mt-5 max-w-xs text-[22px] font-semibold leading-[1.2] tracking-[-.04em] text-white">{item.title}</h3>
-                <p className="mt-4 max-w-sm text-sm leading-7 text-[#9eb3c9]">{item.description}</p>
-                <div className="mt-auto pt-9 text-[10px] font-semibold uppercase tracking-[.15em] text-[#529ed4]">PROCESSO VORZAX</div>
-              </article>
-            ))}
-          </div>
-          <div className="mt-9 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
-            <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
-            <button type="button" onClick={openDiagnostic} className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></button>
-          </div>
-        </div>
-      </section>
-
       <section id="solucoes" className="vx-section relative overflow-hidden border-b border-[#173451]">
         <div className="pointer-events-none absolute -left-44 top-20 h-[450px] w-[450px] rounded-full bg-[#0e72ce]/10 blur-[115px]" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-[1440px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-20 lg:px-10 lg:py-24 xl:px-16">
@@ -1027,6 +856,40 @@ export default function Home() {
       </section>
 
       <TechnologyInMotion />
+
+      <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
+        <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="relative mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
+          <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+            <div className="max-w-3xl" data-reveal>
+              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> COMO FUNCIONA / 01—03</p>
+              <h2 className="vx-heading mt-5 max-w-3xl">Um processo objetivo. <span className="vx-gradient-text">Do primeiro contato à entrega.</span></h2>
+            </div>
+            <p className="max-w-md text-sm leading-7 text-[#a4b7ca] sm:text-base">Uma conversa inicial, uma proposta definida e a execução por etapas. Sem complexidade desnecessária.</p>
+          </div>
+          <div className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">
+            <div className="pointer-events-none absolute left-[10%] right-[10%] top-[30px] hidden border-t border-dashed border-[#2e79af]/70 lg:block" aria-hidden="true" />
+            {process.map((item) => (
+              <article key={item.step} className="vx-process-card group relative flex flex-col overflow-hidden rounded-[22px] border border-[#234864] bg-[#08182a] px-6 pb-7 pt-6 sm:p-8" data-reveal>
+                <div className="relative flex items-center justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-[13px] border border-[#2e6491] bg-[#0e3458] font-mono text-base font-semibold text-[#6fceff] shadow-[0_0_26px_rgba(20,116,218,.12)]">{item.step}</span>
+                  <span className="font-mono text-[10px] tracking-[.16em] text-[#6a8ba8]">FASE {item.step} / 03</span>
+                </div>
+                <div className="mt-9 h-[3px] w-11 rounded-full bg-[#178cf4] transition-all duration-500 group-hover:w-20" />
+                <h3 className="mt-5 max-w-xs text-[22px] font-semibold leading-[1.2] tracking-[-.04em] text-white">{item.title}</h3>
+                <p className="mt-4 max-w-sm text-sm leading-7 text-[#9eb3c9]">{item.description}</p>
+                <div className="mt-auto pt-9 text-[10px] font-semibold uppercase tracking-[.15em] text-[#529ed4]">PROCESSO VORZAX</div>
+              </article>
+            ))}
+          </div>
+          <div className="mt-9 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
+            <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
+            <button type="button" onClick={openDiagnostic} className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></button>
+          </div>
+        </div>
+      </section>
+
+
 
 
       <section id="sobre" className="vx-section relative overflow-hidden border-b border-[#173450] bg-[#040e1b]">
@@ -1070,44 +933,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="portfolio" className="vx-section relative overflow-hidden border-b border-[#173450]">
-        <div className="vx-section-mesh pointer-events-none absolute inset-0 opacity-30" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
-          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end" data-reveal>
-            <div className="max-w-3xl">
-              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> LABORATÓRIO / CONCEITOS</p>
-              <h2 className="vx-heading mt-5">Conceitos de interface. <span className="vx-gradient-text">Possibilidades em tela.</span></h2>
-            </div>
-            <p className="max-w-md text-sm leading-7 text-[#a1b4cb]">Explorações internas de design e produto, sem representar contratos, clientes ou entregas comerciais.</p>
-          </div>
-          <div role="region" aria-label="Estudos visuais conceituais — deslize no celular" tabIndex={0} className="vx-concepts-rail focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:pb-0">
-            {projects.map((project, index) => (
-              <article key={project.title} className="vx-portfolio-card group flex w-[min(82vw,345px)] shrink-0 snap-start flex-col overflow-hidden rounded-[22px] border border-[#245071] bg-[#071727] lg:w-auto" data-reveal>
-                <div className="flex items-center justify-between border-b border-[#1d405b] px-5 py-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[.15em] text-[#77c8f5]">{project.tag}</span>
-                  <span className="rounded-md border border-[#2b5474] bg-[#0d2b45] px-2 py-1 text-[9px] font-semibold tracking-[.1em] text-[#9dd8fa]">CONCEITO 0{index + 1}</span>
-                </div>
-                <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#07192c] p-4 sm:p-5">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(29,112,209,.22),transparent_65%)]" aria-hidden="true"/>
-                  <div className="relative h-[240px] sm:h-[260px]"><ProjectVisual type={project.type} /></div>
-                </div>
-                <div className="flex min-h-[162px] flex-col border-t border-[#1d405b] p-6">
-                  <h3 className="text-[24px] font-semibold tracking-[-.045em] text-white">{project.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-[#9cb1c9]">{project.description}</p>
-                </div>
-                <div className="flex items-center justify-between border-t border-[#23445f] px-6 py-4 text-[10px] font-medium text-[#85bfe5]"><span>ESTUDO VISUAL · CONCEITUAL</span><span className="font-mono tracking-[.1em]">0{index + 1} / 03</span></div>
-              </article>
-            ))}
-          </div>
-          <p className="mt-1 text-[11px] font-medium text-[#91c8ed] lg:hidden">Deslize para conhecer outros conceitos →</p>
-          <div className="mt-7 flex flex-wrap items-center justify-between gap-4 rounded-[17px] border border-[#1c3c58] bg-[#081b2e] px-5 py-4 text-xs text-[#a6bed4]">
-            <span>Explore as experiências interativas de sites, automação, sistemas e indicadores.</span>
-            <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 font-semibold text-[#91d7ff] hover:text-white">Explorar demonstrações <ArrowIcon /></a>
-          </div>
-        </div>
-      </section>
-
-
       <section id="contato" className="relative overflow-hidden bg-[#030b17]">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0563bb]/10 blur-[150px]" aria-hidden="true" />
         <div className="relative mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
@@ -1148,7 +973,7 @@ export default function Home() {
           <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
-              Sistemas, automações, dashboards e presença digital para empresas que desejam evoluir com tecnologia.
+              Sites profissionais, automações e soluções digitais para empresas.
             </p>
           </div>
 
@@ -1158,7 +983,7 @@ export default function Home() {
               <a className="block transition hover:text-white" href="#inicio">Início</a>
               <a className="block transition hover:text-white" href="#solucoes">Soluções</a>
               <a className="block transition hover:text-white" href="#sobre">Sobre</a>
-              <a className="block transition hover:text-white" href="#portfolio">Conceitos</a>
+              <button type="button" onClick={() => window.dispatchEvent(new Event("vorzax:replay-intro"))} className="block text-left text-[#9bd5fa] transition hover:text-white">Rever apresentação ↗</button>
               <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
             </div>
           </div>
