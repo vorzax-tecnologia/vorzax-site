@@ -1080,9 +1080,9 @@ export default function Home() {
             </div>
             <p className="max-w-md text-sm leading-7 text-[#a1b4cb]">Explorações internas de design e produto, sem representar contratos, clientes ou entregas comerciais.</p>
           </div>
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div role="region" aria-label="Estudos visuais conceituais — deslize no celular" className="vx-concepts-rail mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:pb-0">
             {projects.map((project, index) => (
-              <article key={project.title} className="vx-portfolio-card group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#245071] bg-[#071727]" data-reveal>
+              <article key={project.title} className="vx-portfolio-card group flex w-[min(82vw,345px)] shrink-0 snap-start flex-col overflow-hidden rounded-[22px] border border-[#245071] bg-[#071727] lg:w-auto" data-reveal>
                 <div className="flex items-center justify-between border-b border-[#1d405b] px-5 py-4">
                   <span className="text-[10px] font-semibold uppercase tracking-[.15em] text-[#77c8f5]">{project.tag}</span>
                   <span className="rounded-md border border-[#2b5474] bg-[#0d2b45] px-2 py-1 text-[9px] font-semibold tracking-[.1em] text-[#9dd8fa]">CONCEITO 0{index + 1}</span>
@@ -1099,6 +1099,7 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <p className="mt-1 text-[11px] font-medium text-[#91c8ed] lg:hidden">Deslize para conhecer outros conceitos →</p>
           <div className="mt-7 flex flex-wrap items-center justify-between gap-4 rounded-[17px] border border-[#1c3c58] bg-[#081b2e] px-5 py-4 text-xs text-[#a6bed4]">
             <span>Explore as experiências interativas de sites, automação, sistemas e indicadores.</span>
             <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 font-semibold text-[#91d7ff] hover:text-white">Explorar demonstrações <ArrowIcon /></a>
