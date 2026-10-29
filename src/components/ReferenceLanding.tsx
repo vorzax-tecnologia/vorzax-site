@@ -67,13 +67,13 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {cards.map((card) => (
-              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="vx-demo-card group flex h-full min-w-0 flex-col rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5">
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="vx-demo-card group grid h-full min-w-0 grid-rows-[auto_auto_1fr_auto_auto] rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5">
                 <div className="flex min-h-9 items-start justify-between gap-3">
                   <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition group-hover:bg-[#116ee6]" aria-hidden="true">↗</span>
                 </div>
-                <h3 className="mt-4 h-[3.85rem] overflow-hidden text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
-                <p className="mt-2 h-[4rem] overflow-hidden text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
+                <h3 className="mt-4 min-h-[3.85rem] text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
+                <p className="mt-2 min-h-[4rem] text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
                   <div className="relative aspect-[1.53] w-full overflow-hidden">
                     <Image src={card.img} alt={card.alt} fill sizes="(max-width: 640px) 92vw, (max-width: 1280px) 45vw, 24vw" className="object-cover object-center brightness-[1.10] contrast-[1.08] transition-transform duration-700 group-hover:scale-[1.045]" />
