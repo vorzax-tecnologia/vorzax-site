@@ -119,3 +119,16 @@ body {
   .motion-task-enter, .motion-line-draw { animation:none !important; }
   .motion-line-draw { stroke-dashoffset:0; }
 }
+
+/* VORZAX / Studio-grade product storytelling */
+.showcase-blueprint {
+  background-image: linear-gradient(rgba(77,204,211,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(77,204,211,.08) 1px,transparent 1px);
+  background-size: 33px 33px;
+  mask-image: linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);
+}
+.showcase-appear {animation:showcase-appear .45s cubic-bezier(.2,.78,.3,1) both}
+.showcase-stage-appear {animation:showcase-appear .55s cubic-bezier(.2,.78,.3,1) both}
+.showcase-graph-draw {stroke-dasharray:600;stroke-dashoffset:600;animation:showcase-graph 1.4s ease-out forwards}
+@keyframes showcase-graph{to{stroke-dashoffset:0}}
+@keyframes showcase-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.showcase-graph-draw{stroke-dashoffset:0;animation:none}.showcase-appear,.showcase-stage-appear{animation:none}}

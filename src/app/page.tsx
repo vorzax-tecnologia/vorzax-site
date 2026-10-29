@@ -1191,17 +1191,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section aria-label="Outra perspectiva da tecnologia Vorzax" className="border-b border-white/10 bg-[#040b18] py-12">
-        <div className="mx-auto grid max-w-7xl items-center gap-9 px-6 lg:grid-cols-[.75fr_1.25fr] lg:px-10">
-          <div>
-            <p className="text-xs font-semibold tracking-[.23em] text-cyan-300">MOVIMENTO CONTÍNUO</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Diferentes soluções. Uma visão conectada.</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-400">Um segundo filme ilustra como sistemas, automação, dados e presença digital se complementam na operação.</p>
-          </div>
-          <MotionFilm variant="fluxos" />
-        </div>
-      </section>
-
       <section id="portfolio" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end" data-reveal>
