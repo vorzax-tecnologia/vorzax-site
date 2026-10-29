@@ -6,8 +6,8 @@ import { MotionFilm } from "@/components/MotionFilm";
 const cards = [
   { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", img: "/vorzax-reference-service-4.webp", alt: "Exemplo conceitual de site institucional em computador" },
   { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", img: "/vorzax-reference-service-2.webp", alt: "Simulação conceitual de processo automatizado entre ferramentas" },
-  { slug: "sistemas", number: "03", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos" },
-  { slug: "bi", number: "04", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios" },
+  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", img: "/vorzax-reference-service-3.webp", alt: "Dashboard ilustrativo com gráficos e indicadores fictícios" },
+  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", img: "/vorzax-reference-service-1.webp", alt: "Demonstração conceitual de software de gestão de projetos" },
 ];
 
 function selectDemo(slug: string) {
