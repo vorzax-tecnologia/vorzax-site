@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 export const runtime = "nodejs";
 
-export const alt = "Vorzax Tecnologia — Sites profissionais, automação e soluções digitais";
+export const alt = "Vorzax Tecnologia — Sites, automações, BI e sistemas";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -38,10 +38,10 @@ export default async function OpenGraphImage() {
         <div style={{ display: "flex", flexDirection: "column", gap: "26px" }}>
           <div style={{ width: "84px", height: "4px", background: "#289bfb", display: "flex" }} />
           <div style={{ fontSize: 65, fontWeight: 750, letterSpacing: "-0.055em", lineHeight: 1.05, maxWidth: 1020 }}>
-            Sites profissionais e tecnologia para sua empresa evoluir.
+            Tecnologia para empresas que querem evoluir.
           </div>
           <div style={{ fontSize: 24, lineHeight: 1.35, color: "#a8bed2", display: "flex" }}>
-            Sites • Automações • Dashboards e BI • Sistemas
+            Sites • Automações • Dashboards e BI • Sistemas sob medida
           </div>
         </div>
 
