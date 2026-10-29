@@ -895,27 +895,24 @@ export default function Home() {
       <section id="sobre" className="vx-section relative overflow-hidden border-b border-[#173450] bg-[#040e1b]">
         <div className="pointer-events-none absolute right-[-180px] top-[-150px] h-[580px] w-[580px] rounded-full bg-[#125baf]/10 blur-[140px]" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-[1440px] items-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.03fr_.97fr] lg:gap-20 lg:px-10 lg:py-24 xl:px-16">
-          <div className="vx-capability-panel relative overflow-hidden rounded-[24px] border border-[#245277] bg-[#061a2b] p-5 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-8" data-reveal>
-            <div className="absolute right-[-70px] top-[-80px] h-56 w-56 rounded-full bg-[#137ac7]/15 blur-[65px]" aria-hidden="true"/>
-            <div className="relative flex items-start justify-between gap-5 border-b border-[#20415e] pb-5">
-              <div><span className="vx-eyebrow">VISÃO VORZAX / 01</span><h3 className="mt-3 max-w-sm text-[26px] font-semibold leading-tight tracking-[-.045em] text-white sm:text-[31px]">Boas soluções começam com clareza.</h3></div>
-              <span className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#2d6d9e] bg-[#0e3555] text-[#89d4ff] sm:flex"><ArrowIcon /></span>
+          <div className="vx-capability-panel relative flex min-h-[450px] flex-col justify-between overflow-hidden rounded-[24px] border border-[#245277] bg-[radial-gradient(circle_at_70%_45%,#10395d_0%,#071b30_45%,#061324_100%)] p-7 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-10" data-reveal>
+            <div className="vx-section-mesh pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"/>
+            <div className="pointer-events-none absolute -right-28 top-12 h-[330px] w-[330px] rounded-full border border-[#327bab]/25 shadow-[0_0_90px_rgba(14,135,242,.12)]" aria-hidden="true"/>
+            <div className="pointer-events-none absolute -right-12 top-28 h-[215px] w-[215px] rounded-full border border-[#53b6ec]/25" aria-hidden="true"/>
+            <div className="pointer-events-none absolute right-16 top-52 h-3 w-3 rounded-full bg-[#59c9ff] shadow-[0_0_25px_#3bb6fa]" aria-hidden="true"/>
+            <div className="relative flex flex-wrap items-center justify-between gap-4">
+              <span className="vx-eyebrow">VORZAX / NOSSA VISÃO</span>
+              <span className="rounded-full border border-[#30658c] bg-[#0b304d]/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.13em] text-[#afddf8]">Tecnologia com propósito</span>
             </div>
-            <div className="relative mt-6 grid gap-3 sm:grid-cols-2">
-              {[
-                ["01", "Clareza", "Entender o problema antes de desenvolver."],
-                ["02", "Eficiência", "Simplificar atividades e reduzir retrabalho."],
-                ["03", "Evolução", "Construir uma base preparada para novas etapas."],
-                ["04", "Propósito", "Conectar tecnologia às necessidades do negócio."],
-              ].map(([number,title,description]) => (
-                <div key={title} className="vx-capability-tile group min-h-[165px] rounded-[16px] border border-[#244762] bg-[#0a2135] p-5">
-                  <div className="flex items-center justify-between"><span className="font-mono text-[11px] text-[#76beec]">{number} / 04</span><span className="h-1.5 w-1.5 rounded-full bg-[#3ebcff] transition group-hover:shadow-[0_0_13px_#38bdf8]"/></div>
-                  <h4 className="mt-6 text-lg font-semibold text-white">{title}</h4>
-                  <p className="mt-2 text-xs leading-6 text-[#99b1c7]">{description}</p>
-                </div>
-              ))}
+            <div className="relative my-10 max-w-[460px]">
+              <h3 className="text-[clamp(2.1rem,4vw,3.7rem)] font-semibold leading-[1.08] tracking-[-.06em] text-white">
+                Menos ruído.<br/><span className="text-[#77c6f8]">Mais direção.</span>
+              </h3>
+              <p className="mt-6 max-w-sm text-sm leading-7 text-[#b1c8dd]">O projeto certo começa entendendo o problema. Depois, cada escolha de design e tecnologia precisa fazer sentido para o negócio.</p>
             </div>
-            <div className="relative mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#22415e] pt-5"><span className="font-mono text-[10px] tracking-[.12em] text-[#7daaca]">ESTRATÉGIA + DESIGN + TECNOLOGIA</span><span className="text-[10px] text-[#6e91b1]">PRINCÍPIOS DE TRABALHO</span></div>
+            <div className="relative flex flex-wrap gap-x-5 gap-y-3 border-t border-[#315576] pt-6 text-[11px] font-semibold uppercase tracking-[.1em] text-[#8bc6ed]">
+              <span>01 / Escutar</span><span>02 / Planejar</span><span>03 / Construir</span>
+            </div>
           </div>
           <div data-reveal>
             <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SOBRE A VORZAX</p>
