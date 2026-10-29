@@ -3,7 +3,7 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { supabase } from "../lib/supabase";
 const WHATSAPP_URL =
-  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20solicitar%20um%20diagn%C3%B3stico%20gratuito.";
+  "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
 
 const INSTAGRAM_URL = "https://www.instagram.com/vorzaxoficial/";
 const CONTACT_EMAIL = "contato@vorzax.com.br";
@@ -14,29 +14,29 @@ const services = [
     number: "01",
     title: "Sistemas sob medida",
     description:
-      "Plataformas web criadas para organizar operações, eliminar retrabalho e acompanhar o crescimento da empresa.",
-    result: "Mais controle da operação",
+      "Desenvolvemos sistemas adaptados às necessidades da empresa para centralizar informações, organizar fluxos de trabalho e facilitar a gestão.",
+    result: "Processos mais organizados",
   },
   {
     number: "02",
     title: "Automação de processos",
     description:
-      "Conectamos tarefas, dados e ferramentas para reduzir atividades manuais e acelerar o trabalho da equipe.",
-    result: "Menos tempo desperdiçado",
+      "Criamos automações para conectar ferramentas, reduzir tarefas repetitivas e simplificar atividades do dia a dia.",
+    result: "Menos tarefas repetitivas",
   },
   {
     number: "03",
     title: "Dashboards e BI",
     description:
-      "Transformamos dados empresariais em indicadores claros para decisões mais rápidas e bem fundamentadas.",
-    result: "Decisões com dados",
+      "Organizamos dados em dashboards e indicadores visuais para facilitar o acompanhamento do negócio e apoiar decisões.",
+    result: "Indicadores mais claros",
   },
   {
     number: "04",
     title: "Sites e landing pages",
     description:
-      "Experiências digitais rápidas, profissionais e orientadas a gerar autoridade, contatos e oportunidades.",
-    result: "Presença que vende",
+      "Desenvolvemos sites e landing pages profissionais para apresentar empresas, valorizar serviços e facilitar o contato.",
+    result: "Presença digital profissional",
   },
 ];
 
@@ -52,21 +52,21 @@ const sectors = [
 const process = [
   {
     step: "01",
-    title: "Você envia o diagnóstico",
+    title: "Você apresenta sua necessidade",
     description:
-      "Preencha o formulário em menos de 2 minutos e conte o que sua empresa precisa melhorar ou construir.",
+      "Conte o que sua empresa deseja desenvolver ou melhorar: um sistema, automação, dashboard, site ou outra solução.",
   },
   {
     step: "02",
-    title: "Nós analisamos",
+    title: "Planejamos a solução",
     description:
-      "A Vorzax avalia sua necessidade, identifica as prioridades e define o melhor caminho para o projeto.",
+      "Avaliamos a necessidade e apresentamos uma proposta com escopo, etapas e condições adequadas ao projeto.",
   },
   {
     step: "03",
-    title: "Você recebe uma proposta personalizada",
+    title: "Desenvolvemos por etapas",
     description:
-      "Entramos em contato com uma solução e um plano de implementação pensados para a sua empresa.",
+      "Após a aprovação e a contratação, executamos o projeto conforme o escopo e as validações combinadas.",
   },
 ];
 
@@ -430,9 +430,9 @@ export default function Home() {
     setDiagnosticError("");
 
     const mensagem = [
-      "Olá, Vorzax! Acabei de preencher o diagnóstico pelo site.",
+      "Olá, Vorzax! Compartilhei informações sobre um projeto pelo site.",
       "",
-      "*DIAGNÓSTICO VORZAX*",
+      "*CONTATO VORZAX — NOVO PROJETO*",
       `Nome: ${diagnosticData.nome.trim()}`,
       `WhatsApp: ${diagnosticData.telefone.trim()}`,
       diagnosticData.email.trim() ? `E-mail: ${diagnosticData.email.trim()}` : null,
@@ -465,7 +465,7 @@ export default function Home() {
         prazo: diagnosticData.prazo || null,
         origem: "site",
         status: "novo",
-        observacoes: "Lead recebido pelo formulário de diagnóstico do site e encaminhado ao WhatsApp.",
+        observacoes: "Lead recebido pelo formulário de contato sobre projetos e encaminhado ao WhatsApp.",
         proximo_passo: "Aguardar mensagem do cliente no WhatsApp",
       });
 
@@ -522,7 +522,7 @@ export default function Home() {
         >
           <button
             type="button"
-            aria-label="Fechar diagnóstico"
+            aria-label="Fechar formulário de contato"
             onClick={closeDiagnostic}
             className="absolute inset-0 z-0 bg-black/75 backdrop-blur-sm"
             style={{ position: "absolute", inset: 0, zIndex: 0 }}
@@ -539,19 +539,19 @@ export default function Home() {
             <div className="sticky top-0 z-10 flex items-start justify-between gap-5 border-b border-white/10 bg-[#07101f]/95 px-6 py-5 backdrop-blur-xl sm:px-8">
               <div>
                 <p className="text-[10px] font-semibold tracking-[0.22em] text-sky-400">
-                  DIAGNÓSTICO VORZAX
+                  FALE SOBRE SEU PROJETO
                 </p>
                 <h2 id="diagnostico-titulo" className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Vamos entender sua operação.
+                  Conte o que deseja desenvolver.
                 </h2>
                 <p id="diagnostico-descricao" className="mt-2 max-w-xl text-sm leading-6 text-slate-400">
-                  Responda algumas perguntas. Com isso, avaliamos o melhor caminho para seu projeto.
+                  Compartilhe sua necessidade para avaliarmos como a Vorzax pode ajudar.
                 </p>
               </div>
 
               <button
                 type="button"
-                aria-label="Fechar diagnóstico"
+                aria-label="Fechar formulário de contato"
                 onClick={closeDiagnostic}
                 className="shrink-0 text-2xl leading-none text-slate-500 transition hover:text-white"
               >
@@ -738,7 +738,7 @@ export default function Home() {
 
       <div className="px-5 py-4">
         <p className="text-xs leading-5 text-slate-400">
-          Fale com a Vorzax e solicite um diagnóstico gratuito.
+          Converse com a Vorzax sobre sistemas, automações, BI, sites e outras soluções digitais.
         </p>
 
         <button
@@ -746,7 +746,7 @@ export default function Home() {
           onClick={openDiagnostic}
           className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-4 py-3 text-sm font-bold text-[#020611] transition hover:bg-white"
         >
-          Preencher diagnóstico
+          Contar sobre meu projeto
           <ArrowIcon />
         </button>
 
@@ -888,15 +888,15 @@ export default function Home() {
             </div>
 
             <h1 className="max-w-[720px] text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl lg:text-[54px] xl:text-[60px]">
-              Tecnologia que organiza processos
+              Tecnologia sob medida para
               <span className="block bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                e faz sua empresa trabalhar melhor.
+                transformar sua empresa.
               </span>
             </h1>
 
             <p className="mt-7 max-w-[650px] text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
-              Criamos sistemas, automações, dashboards e experiências digitais sob medida
-              para reduzir retrabalho, aumentar o controle e melhorar a operação da sua empresa.
+              Desenvolvemos sistemas, automações, dashboards, sites e soluções digitais para organizar
+              processos, apoiar decisões e fortalecer a presença da sua empresa.
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -905,7 +905,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-sky-300"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
 
@@ -1019,10 +1019,10 @@ export default function Home() {
           <div className="mx-auto max-w-3xl text-center" data-reveal>
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO FUNCIONA</p>
             <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Do diagnóstico à proposta em 3 passos.
+              Do primeiro contato à entrega, com clareza.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-400">
-              Um processo simples para entender sua necessidade e apresentar uma solução sob medida.
+              Entendemos sua necessidade, alinhamos a proposta e desenvolvemos a solução contratada por etapas.
             </p>
           </div>
 
@@ -1049,7 +1049,7 @@ export default function Home() {
               onClick={openDiagnostic}
               className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
             >
-              Quero meu diagnóstico
+              Falar sobre meu projeto
               <ArrowIcon />
             </button>
           </div>
@@ -1073,10 +1073,10 @@ export default function Home() {
             <div data-reveal="left">
               <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">NOSSAS SOLUÇÕES</p>
               <h2 className="mt-5 max-w-lg text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-                Tecnologia criada para resolver problemas reais.
+                Soluções para diferentes desafios da sua empresa.
               </h2>
               <p className="mt-6 max-w-lg leading-7 text-slate-400">
-                Entendemos sua operação antes de propor qualquer ferramenta. O resultado é uma solução mais simples de usar, mais útil e alinhada ao negócio.
+                De sistemas e automações a dashboards e sites, avaliamos os objetivos do seu negócio antes de propor a solução.
               </p>
 
               <button
@@ -1084,7 +1084,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="mt-8 inline-flex items-center gap-3 text-sm font-semibold text-white transition hover:text-sky-300"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
             </div>
@@ -1201,10 +1201,10 @@ export default function Home() {
           <div className="overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#07182f] via-[#07101f] to-[#020611] px-7 py-16 text-center sm:px-12 lg:px-16 lg:py-20" data-reveal="scale">
             <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VAMOS CONVERSAR</p>
             <h2 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl">
-              Sua empresa está pronta para operar em outro nível?
+              Qual é o próximo passo tecnológico da sua empresa?
             </h2>
             <p className="mx-auto mt-6 max-w-2xl leading-7 text-slate-400">
-              Conte o que está travando sua operação. Vamos analisar o cenário e mostrar um caminho tecnológico possível, sem compromisso.
+              Seja para desenvolver um sistema, automatizar processos, visualizar indicadores ou criar uma presença digital profissional, conte sua necessidade.
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -1213,7 +1213,7 @@ export default function Home() {
                 onClick={openDiagnostic}
                 className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-8 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
               >
-                Solicitar diagnóstico gratuito
+                Conversar sobre meu projeto
                 <ArrowIcon />
               </button>
             </div>
@@ -1260,7 +1260,7 @@ export default function Home() {
           <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
-              Tecnologia inteligente para empresas que querem organizar processos, ganhar produtividade e crescer com controle.
+              Sistemas, automações, dashboards e presença digital para empresas que desejam evoluir com tecnologia.
             </p>
           </div>
 
