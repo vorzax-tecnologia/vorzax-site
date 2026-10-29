@@ -316,3 +316,7 @@ main.vx-institutional .text-slate-400 { color: #a7b9cb; }
   .vx-hero-copy, .vx-hero-media { animation: none !important; }
   .vx-hero-video-frame { transition: none !important; }
 }
+
+/* As cores secundárias da interface escura não podem vazar para o mockup claro. */
+main.vx-institutional .showcase-stage-sites .text-slate-500 { color: #475569; }
+main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
