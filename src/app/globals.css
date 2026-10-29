@@ -320,3 +320,22 @@ main.vx-institutional .text-slate-400 { color: #a7b9cb; }
 /* As cores secundárias da interface escura não podem vazar para o mockup claro. */
 main.vx-institutional .showcase-stage-sites .text-slate-500 { color: #475569; }
 main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
+
+
+/* Cinematic entry and simulated data motion, kept on compositor properties. */
+.vx-intro-dialog { isolation:isolate; animation:vx-intro-enter .35s ease-out both; }
+.vx-intro-screen { transform:translateZ(0); }
+@keyframes vx-intro-enter { from {opacity:0} to {opacity:1} }
+@media (prefers-reduced-motion: no-preference) {
+  .vx-bi-meter { transform-origin:left; animation:vx-bi-grow 1.1s cubic-bezier(.2,.75,.2,1) both; }
+  .vx-bi-ring { transform-origin:center; animation:vx-bi-ring-grow 1.3s ease both; }
+  .vx-bi-area { animation:vx-bi-area-show 1.4s ease both; }
+  .vx-bi-point { animation:vx-bi-point-show .45s ease both; }
+  @keyframes vx-bi-grow { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes vx-bi-ring-grow { from { stroke-dasharray:0 245; } }
+  @keyframes vx-bi-area-show { from { opacity:0; } to { opacity:1; } }
+  @keyframes vx-bi-point-show { from { opacity:0;transform:scale(.25);transform-origin:center; } to {opacity:1;transform:scale(1);} }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-intro-dialog, .vx-bi-meter, .vx-bi-ring, .vx-bi-area, .vx-bi-point { animation:none!important; }
+}
