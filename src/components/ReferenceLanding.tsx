@@ -15,7 +15,7 @@ function selectDemo(slug: string) {
 }
 
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
-export function ReferenceLanding({ onContact }: { onContact: () => void }) {
+export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void }) {
   return (
     <section id="inicio" className="vx-home-opening relative isolate overflow-hidden bg-[#030a15]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_80%_at_80%_35%,rgba(10,84,175,.18),transparent_80%)]" aria-hidden="true" />
@@ -30,15 +30,15 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               Soluções tecnológicas para empresas que querem <span className="text-[#2299ff]">evoluir.</span>
             </h1>
             <p className="mt-5 max-w-[585px] text-[15px] leading-[1.75] text-[#bac8d9] sm:text-[17px]">
-              Sistemas sob medida, automações, dashboards, BI e sites para organizar processos, tomar decisões e construir uma presença digital profissional.
+              Criamos sites institucionais profissionais para apresentar sua empresa com clareza. Também desenvolvemos automações, dashboards, BI e sistemas sob medida para necessidades específicas.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <button type="button" onClick={onContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0879fa] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#2694ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
-                Conversar sobre meu projeto <span aria-hidden="true">↗</span>
+              <button type="button" onClick={onSiteContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0879fa] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#2694ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                Quero um site profissional <span aria-hidden="true">↗</span>
               </button>
               <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex items-center gap-2 text-[11px] text-[#8a9bb0]"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Tecnologia sob medida · Atendimento empresarial</div>
+            <div className="mt-6 flex items-center gap-2 text-[11px] text-[#8a9bb0]"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites profissionais · Soluções digitais para empresas</div>
           </div>
 
           <div className="order-1 min-w-0 lg:order-2">
