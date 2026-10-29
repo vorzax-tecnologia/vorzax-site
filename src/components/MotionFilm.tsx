@@ -15,7 +15,7 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
     change();
     mq.addEventListener("change", change);
     return () => mq.removeEventListener("change", change);
-  }, []);
+  }, [userEnabled]);
   useEffect(() => {
     const player = ref.current;
     if (!player) return;
