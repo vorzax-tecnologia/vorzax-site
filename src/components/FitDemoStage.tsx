@@ -24,7 +24,7 @@ export function FitDemoStage({category,variant,device,step,playing}:{category:De
         if(!w||!h)return;
         const contentHeight=inner.scrollHeight;
         if(!contentHeight)return;
-        const next=Math.min(1,Math.max(.20,h/contentHeight));
+        const next=Math.min(1,Math.max(.18,(h*.95)/contentHeight));
         setScale(prev=>Math.abs(prev-next)>.012?next:prev);
       });
     };
