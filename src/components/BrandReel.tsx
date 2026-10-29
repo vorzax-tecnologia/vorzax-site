@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 
 const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; headline: string; highlight: string; caption: string }[] = [
@@ -12,6 +12,31 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
   { category: "sistemas", variant: 2, eyebrow: "04 / SISTEMAS SOB MEDIDA", headline: "Operação", highlight: "em movimento.", caption: "Sistemas adaptados ao seu negócio" },
   { eyebrow: "VORZAX TECNOLOGIA", headline: "Um universo", highlight: "de soluções.", caption: "Presença digital · Processos · Gestão · Tecnologia" },
 ];
+
+/** A vitrine do filme utiliza a interface REAL do Laboratório, sem miniatura 33%.
+ * Ajusta a largura do desktop ao painel e recorta apenas o conteúdo abaixo da dobra.
+ * Assim a tela ocupa toda a largura do filme, inclusive em resoluções menores.
+ */
+function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
+  const stageRef=useRef<HTMLDivElement>(null);
+  const [scale,setScale]=useState(1);
+  const baseWidth=720;
+  useEffect(()=>{
+    const stage=stageRef.current;
+    if(!stage)return;
+    const resize=()=>setScale(Math.max(.25,stage.clientWidth/baseWidth));
+    resize();
+    const observer=new ResizeObserver(resize);
+    observer.observe(stage);
+    return ()=>observer.disconnect();
+  },[]);
+  return <div ref={stageRef} data-reel-preview={category} className="relative h-full w-full min-w-0 overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
+    <div className="pointer-events-none absolute left-0 top-0 origin-top-left" style={{width:baseWidth,transform:`scale(${scale})`}}>
+      <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+    </div>
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-[#061a2b]/70 to-transparent" />
+  </div>;
+}
 
 type BrandReelProps = {
   autoPlay?: boolean;
@@ -69,15 +94,15 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
             <p className="mt-3 hidden text-[clamp(9px,1vw,14px)] text-[#a5c2da] sm:block">{current.caption}</p>
           </div>
         ) : (
-          <div className="grid w-full grid-cols-[.58fr_1.42fr] items-center gap-[2%]">
+          <div className="grid h-full w-full grid-cols-[.34fr_.66fr] items-center gap-[2%] max-sm:grid-cols-[.28fr_.72fr]">
             <div className="min-w-0">
-              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="mb-[8%] h-auto w-[min(26vw,235px)]" />
+              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="mb-[8%] h-auto w-full max-w-[220px]" />
               <p className="text-[clamp(7px,1vw,13px)] font-bold uppercase tracking-[.11em] text-[#78cfff]">{current.eyebrow}</p>
               <p className="mt-2 text-[clamp(15px,3vw,41px)] font-semibold leading-[1.08] tracking-[-.055em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
               <p className="mt-3 hidden text-[clamp(10px,1.1vw,15px)] text-[#abc9df] sm:block">{current.caption}</p>
             </div>
-            <div className="min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[2px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-1">
-              <DemoVisual category={current.category ?? "sites"} variant={current.variant ?? 0} compact step={playing ? scene % 4 : 0} playing={playing} />
+            <div className="relative h-full min-h-0 min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[2px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-1">
+              <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} />
             </div>
           </div>
         )}
