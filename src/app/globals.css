@@ -361,3 +361,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
   .vx-intro-scene, .vx-gallery-stage, .vx-gallery-line { animation: none !important; }
   .vx-preview-device { transition: none !important; }
 }
+
+/* Troca discreta de prévias, sem movimento permanente. */
+@media (prefers-reduced-motion: no-preference) { .vx-card-preview { animation: vx-gallery-enter .42s ease-out both; } }
+@media (prefers-reduced-motion: reduce) { .vx-card-preview { animation: none !important; } }
