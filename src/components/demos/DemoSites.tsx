@@ -26,7 +26,7 @@ function HvacSite({ mobile }: { mobile:boolean }) {
         <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#54d5ff]">ENGENHARIA DE CLIMATIZAÇÃO</p>
         <h4 className="mt-4 max-w-[450px] text-[clamp(23px,3.6vw,42px)] font-bold leading-[1.09] tracking-[-.06em]">Sua operação no clima certo.</h4>
         <p className="mt-4 max-w-[390px] text-xs leading-6 text-[#bad1e1]">Instalação e manutenção de ar-condicionado para estabelecimentos comerciais.</p>
-        <div className="mt-5 flex flex-wrap gap-2"><span className="rounded-lg bg-[#0084cf] px-4 py-2.5 text-[10px] font-bold text-white">Solicitar orçamento ↗</span><span className="rounded-lg border border-[#32617a] px-4 py-2.5 text-[10px] text-[#b7d4e4]">Nossos serviços</span></div>
+        <div className="mt-5 flex flex-wrap gap-2"><span className="rounded-lg bg-[#075f9b] px-4 py-2.5 text-[10px] font-bold text-white">Solicitar orçamento ↗</span><span className="rounded-lg border border-[#32617a] px-4 py-2.5 text-[10px] text-[#b7d4e4]">Nossos serviços</span></div>
       </div>
       <div className="relative min-h-[225px] overflow-hidden rounded-[16px] bg-[radial-gradient(circle_at_63%_45%,#246b94,#0e3453_55%,#08243d)]">
         <div className="absolute -right-10 -top-12 h-48 w-48 rounded-full border-[20px] border-[#4db8dd]/15"/>
@@ -44,7 +44,7 @@ function AccountingSite({ mobile }: { mobile:boolean }) {
  return <div className="min-h-[475px] bg-[#f5f3ec] text-[#243d35]">
   <div className="flex items-center justify-between border-b border-[#d5dbd1] px-5 py-5"><strong className="font-serif text-[22px] tracking-[-.04em]"><span className="mr-1 text-[#2a8974]">◈</span>norte<span className="font-sans text-[10px] font-semibold uppercase tracking-[.2em]"> contábil</span></strong><div className="flex gap-5 text-[10px]">{mobile ? <span>☰</span> : <><span>Especialidades</span><span>Nosso escritório</span><span className="text-[#287762]">Conversar ↗</span></>}</div></div>
   <div className="mx-auto max-w-[690px] px-6 pb-7 pt-10 text-center"><div className="mx-auto w-fit rounded-full border border-[#b9cfc0] bg-[#e5efe8] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.12em] text-[#287762]">CONTABILIDADE CONSULTIVA</div><h4 className="mx-auto mt-5 max-w-[570px] font-serif text-[clamp(26px,3.8vw,46px)] leading-[1.08] tracking-[-.04em]">Boas decisões começam com <em className="font-normal text-[#287762]">clareza.</em></h4><p className="mx-auto mt-4 max-w-[460px] text-xs leading-6 text-[#58685e]">Uma contabilidade próxima da sua empresa, com atenção à gestão, ao fiscal e ao crescimento.</p><div className="mx-auto mt-5 inline-flex rounded-full bg-[#226f59] px-6 py-3 text-[11px] font-semibold text-white">Agendar uma conversa ↗</div></div>
-  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#77877e]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{[["01","Contabilidade empresarial"],["02","Planejamento tributário"],["03","Gestão de folha"]].map(([n,x])=><div key={n} className="min-h-[90px] rounded-xl border border-[#d4ddd3] bg-white/90 p-4 text-left"><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></div>)}</div></div>
+  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#536a59]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{[["01","Contabilidade empresarial"],["02","Planejamento tributário"],["03","Gestão de folha"]].map(([n,x])=><div key={n} className="min-h-[90px] rounded-xl border border-[#d4ddd3] bg-white/90 p-4 text-left"><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></div>)}</div></div>
  </div>;
 }
 
@@ -59,9 +59,9 @@ function ArchitectureSite({ mobile }: { mobile:boolean }) {
        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#151916]/85 to-transparent"/>
        <span className="absolute bottom-5 left-5 text-[10px] font-semibold uppercase tracking-[.23em] text-white">FORMAS / LUZ / ESPAÇO</span>
      </div>
-     <div className="flex flex-col justify-between bg-[#d5ccbf] p-5"><div><span className="text-[10px] uppercase tracking-[.2em] text-[#796b5e]">ARQUITETURA AUTORAL</span><h4 className="mt-5 font-serif text-[clamp(25px,3vw,40px)] leading-[1.1] tracking-[-.04em]">Espaços que contam histórias.</h4><p className="mt-4 text-xs leading-6 text-[#6e655c]">Interiores, arquitetura e experiências que refletem uma identidade.</p></div><span className="mt-5 w-fit border-b border-[#3c3831] pb-1 text-xs font-semibold">Explorar projetos ↗</span></div>
+     <div className="flex flex-col justify-between bg-[#d5ccbf] p-5"><div><span className="text-[10px] uppercase tracking-[.2em] text-[#554739]">ARQUITETURA AUTORAL</span><h4 className="mt-5 font-serif text-[clamp(25px,3vw,40px)] leading-[1.1] tracking-[-.04em]">Espaços que contam histórias.</h4><p className="mt-4 text-xs leading-6 text-[#50483f]">Interiores, arquitetura e experiências que refletem uma identidade.</p></div><span className="mt-5 w-fit border-b border-[#3c3831] pb-1 text-xs font-semibold">Explorar projetos ↗</span></div>
    </div>
-   <div className="flex flex-wrap justify-between gap-3 px-6 pb-5 text-[10px] uppercase tracking-[.15em] text-[#6e655b]"><span>RESIDENCIAL</span><span>COMERCIAL</span><span>INTERIORES</span><span>PROJETOS CONCEITUAIS</span></div>
+   <div className="flex flex-wrap justify-between gap-3 px-6 pb-5 text-[10px] uppercase tracking-[.15em] text-[#544a40]"><span>RESIDENCIAL</span><span>COMERCIAL</span><span>INTERIORES</span><span>PROJETOS CONCEITUAIS</span></div>
  </div>;
 }
 
