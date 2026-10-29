@@ -23,9 +23,10 @@ export function VideoIntro() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let alreadySeen = false;
     try { alreadySeen = sessionStorage.getItem(SESSION_KEY) === "1"; } catch { /* storage may be disabled */ }
+    let frame = 0;
     if (!alreadySeen && !reducedMotion) {
       previousFocusRef.current = document.activeElement as HTMLElement | null;
-      setOpen(true);
+      frame = window.requestAnimationFrame(() => setOpen(true));
     }
     const replay = () => {
       previousFocusRef.current = document.activeElement as HTMLElement | null;
@@ -34,7 +35,10 @@ export function VideoIntro() {
       setOpen(true);
     };
     window.addEventListener("vorzax:replay-intro", replay);
-    return () => window.removeEventListener("vorzax:replay-intro", replay);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("vorzax:replay-intro", replay);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,8 +71,6 @@ export function VideoIntro() {
       window.removeEventListener("keydown", onKeyDown);
       video?.pause();
     };
-    // The dialog is intentionally managed as a single open/close lifetime.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   function closeIntro() {
