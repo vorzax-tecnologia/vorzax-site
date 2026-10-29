@@ -57,26 +57,26 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const current = scenes[scene];
   const isBrand = !current.category;
   return (
-    <div className="vx-brand-reel relative isolate aspect-video w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]" aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div className={`vx-brand-reel relative isolate ${compact ? "aspect-[1.50]" : "aspect-video"} w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[6%] py-[4%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
-            <Image src="/vorzax-logo-oficial.png" width={604} height={172} priority alt="Vorzax Tecnologia" className={`h-auto ${compact ? "w-[min(32vw,280px)]" : "w-[min(41vw,460px)]"}`} />
+            <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[min(43vw,415px)]" : "w-[min(50vw,490px)]"}`} />
             <p className="mt-3 text-[clamp(8px,1vw,13px)] font-bold uppercase tracking-[.15em] text-[#83d0ff]">{current.eyebrow}</p>
             <p className="mt-4 text-[clamp(16px,3.4vw,47px)] font-semibold leading-[1.05] tracking-[-.06em]">{current.headline} <span className="text-[#70c8ff]">{current.highlight}</span></p>
             <p className="mt-3 hidden text-[clamp(9px,1vw,14px)] text-[#a5c2da] sm:block">{current.caption}</p>
           </div>
         ) : (
-          <div className="grid w-full grid-cols-[.78fr_1.22fr] items-center gap-[3%]">
+          <div className="grid w-full grid-cols-[.58fr_1.42fr] items-center gap-[2%]">
             <div className="min-w-0">
-              <Image src="/vorzax-logo-oficial.png" width={604} height={172} alt="" className="mb-[8%] h-auto w-[min(21vw,200px)]" />
+              <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized width={539} height={165} alt="" className="mb-[8%] h-auto w-[min(26vw,235px)]" />
               <p className="text-[clamp(7px,1vw,13px)] font-bold uppercase tracking-[.11em] text-[#78cfff]">{current.eyebrow}</p>
               <p className="mt-2 text-[clamp(15px,3vw,41px)] font-semibold leading-[1.08] tracking-[-.055em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
               <p className="mt-3 hidden text-[clamp(10px,1.1vw,15px)] text-[#abc9df] sm:block">{current.caption}</p>
             </div>
-            <div className="min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[3px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-2">
+            <div className="min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[2px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-1">
               <DemoVisual category={current.category ?? "sites"} variant={current.variant ?? 0} compact step={playing ? scene % 4 : 0} playing={playing} />
             </div>
           </div>
