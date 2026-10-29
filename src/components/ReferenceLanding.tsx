@@ -16,7 +16,7 @@ function selectDemo(slug: string, example = 0) {
 }
 
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
-export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void }) {
+export function ReferenceLanding({ onContact }: { onContact: () => void }) {
   const [selectedExamples, setSelectedExamples] = useState<Record<DemoCategory, number>>({sites:0,automacao:0,bi:0,sistemas:0});
   function previewExample(category: DemoCategory, index: number) {
     setSelectedExamples(current => ({...current,[category]:index}));
@@ -30,21 +30,21 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
         <div className="grid items-center gap-8 pb-10 lg:min-h-[470px] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-9 lg:pb-14 xl:gap-16">
           <div className="vx-hero-copy order-2 min-w-0 lg:order-1">
             <div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.20em] text-[#4abfff] sm:text-[11px]">
-              <span className="h-px w-8 bg-[#25b4ff]" /> DESIGN E TECNOLOGIA PARA NEGÓCIOS
+              <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
             </div>
             <h1 className="max-w-[720px] text-balance text-[clamp(2.3rem,3.8vw,4.3rem)] font-bold leading-[1.065] tracking-[-.062em] text-white">
-              Sua empresa merece um site <span className="vx-hero-highlight text-[#69bcff]">à altura do que entrega.</span>
+              Tecnologia para empresas <span className="vx-hero-highlight text-[#69bcff]">que querem evoluir.</span>
             </h1>
             <p className="mt-5 max-w-[585px] text-[15px] leading-[1.75] text-[#bac8d9] sm:text-[17px]">
-              Criamos sites profissionais para apresentar seus serviços com clareza, valorizar sua marca e facilitar o contato. Também desenvolvemos automações, dashboards e sistemas para necessidades específicas.
+              Unimos presença digital, automação, dados e desenvolvimento de sistemas para criar soluções tecnológicas que ajudam empresas a apresentar, organizar e evoluir seus negócios.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <button type="button" onClick={onSiteContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
-                Quero um site profissional <span aria-hidden="true">↗</span>
+              <button type="button" onClick={onContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                Conversar sobre meu projeto <span aria-hidden="true">↗</span>
               </button>
               <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites profissionais · Soluções digitais</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20um%20site%20profissional%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · Dashboards e BI · Sistemas</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
           </div>
 
           <div className="vx-hero-media order-1 min-w-0 lg:order-2">
@@ -66,14 +66,14 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">EXPLORE NOSSAS SOLUÇÕES</span>
-              <h2 className="mt-2 text-[clamp(1.55rem,2.4vw,2.2rem)] font-semibold tracking-[-.045em] text-white">Explore soluções antes de começar seu projeto.</h2>
+              <h2 className="mt-2 text-[clamp(1.55rem,2.4vw,2.2rem)] font-semibold tracking-[-.045em] text-white">Um universo de soluções. Diferentes possibilidades.</h2>
             </div>
-            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Selecione um exemplo para trocar a prévia; depois abra a interface completa.</span>
+            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Compare soluções interativas e conheça diferentes formas de aplicar tecnologia.</span>
           </div>
 
           <div role="region" aria-label="Vitrine de soluções — deslize para explorar no celular" className="vx-services-rail flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
             {cards.map((card) => (
-              <article key={card.slug} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
+              <article key={card.slug} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5`}>
                 <div className="flex min-h-9 items-start justify-between gap-3">
                   <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
                   <a href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, selectedExamples[card.slug as DemoCategory])} aria-label={"Abrir demonstração selecionada de " + card.kicker} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition hover:bg-[#116ee6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">↗</a>
@@ -82,7 +82,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
                 <p className="mt-2 min-h-[4rem] text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
                   <div key={selectedExamples[card.slug as DemoCategory]} className="vx-card-preview relative w-full overflow-hidden">
-                    {card.slug === "sites" && <span className="absolute left-3 top-3 z-10 rounded-md border border-sky-300/25 bg-[#06203b]/90 px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-[.14em] text-[#a4dcff] shadow-lg backdrop-blur-sm">Oferta principal</span>}
+                    
                     <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact />
                   </div>
                 </div>
