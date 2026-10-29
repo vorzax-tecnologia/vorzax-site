@@ -964,98 +964,77 @@ export default function Home() {
 
       <ReferenceLanding onContact={openDiagnostic} />
 
-      <section id="processo" className="relative border-y border-white/10 bg-white/[0.02]">
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center" data-reveal>
-            <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">COMO FUNCIONA</p>
-            <h2 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Do primeiro contato à entrega, com clareza.
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-400">
-              Entendemos sua necessidade, alinhamos a proposta e desenvolvemos a solução contratada por etapas.
-            </p>
-          </div>
 
-          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+      <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
+        <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="relative mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
+          <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+            <div className="max-w-3xl" data-reveal>
+              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> COMO FUNCIONA / 01—03</p>
+              <h2 className="vx-heading mt-5 max-w-3xl">Um processo claro. <span className="vx-gradient-text">Do início à entrega.</span></h2>
+            </div>
+            <p className="max-w-md text-sm leading-7 text-[#a4b7ca] sm:text-base">Entendemos o desafio, definimos o caminho e construímos a solução por etapas, com alinhamento em cada fase.</p>
+          </div>
+          <div className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">
+            <div className="pointer-events-none absolute left-[10%] right-[10%] top-[30px] hidden border-t border-dashed border-[#2e79af]/70 lg:block" aria-hidden="true" />
             {process.map((item) => (
-              <article
-                key={item.step}
-                data-reveal="scale"
-                style={{ transitionDelay: `${Number(item.step) * 90}ms` }}
-                className="group rounded-[26px] border border-white/10 bg-[#050b16] p-7 transition hover:-translate-y-1 hover:border-sky-400/25 hover:bg-[#091427] sm:p-8"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-400/10 font-mono text-sm font-semibold text-sky-300">
-                  {item.step}
+              <article key={item.step} className="vx-process-card group relative flex flex-col overflow-hidden rounded-[22px] border border-[#234864] bg-[#08182a] px-6 pb-7 pt-6 sm:p-8" data-reveal>
+                <div className="relative flex items-center justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-[13px] border border-[#2e6491] bg-[#0e3458] font-mono text-base font-semibold text-[#6fceff] shadow-[0_0_26px_rgba(20,116,218,.12)]">{item.step}</span>
+                  <span className="font-mono text-[10px] tracking-[.16em] text-[#6a8ba8]">FASE {item.step} / 03</span>
                 </div>
-                <h3 className="mt-7 text-xl font-semibold leading-7">{item.title}</h3>
-                <p className="mt-4 text-sm leading-6 text-slate-500">{item.description}</p>
+                <div className="mt-9 h-[3px] w-11 rounded-full bg-[#178cf4] transition-all duration-500 group-hover:w-20" />
+                <h3 className="mt-5 max-w-xs text-[22px] font-semibold leading-[1.2] tracking-[-.04em] text-white">{item.title}</h3>
+                <p className="mt-4 max-w-sm text-sm leading-7 text-[#9eb3c9]">{item.description}</p>
+                <div className="mt-auto pt-9 text-[10px] font-semibold uppercase tracking-[.15em] text-[#529ed4]">PROCESSO VORZAX</div>
               </article>
             ))}
           </div>
-
-          <div className="mt-10 text-center">
-            <button
-              type="button"
-              onClick={openDiagnostic}
-              className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
-            >
-              Falar sobre meu projeto
-              <ArrowIcon />
-            </button>
+          <div className="mt-9 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
+            <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
+            <button type="button" onClick={openDiagnostic} className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></button>
           </div>
         </div>
       </section>
 
-      <section className="relative border-y border-white/10 bg-white/[0.02]">
-        <div className="mx-auto max-w-7xl px-6 py-7 lg:px-10">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-xs font-semibold tracking-[0.16em] text-slate-500" data-reveal>
-            <span className="text-sky-400">SOLUÇÕES PARA</span>
-            {sectors.map((sector) => (
-              <span key={sector}>{sector.toUpperCase()}</span>
+      <section className="relative border-y border-[#142b43] bg-[#051120]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-5 py-7 sm:px-8 lg:flex-row lg:items-center lg:px-10 xl:px-16">
+          <span className="shrink-0 text-[10px] font-bold uppercase tracking-[.2em] text-[#61bfff]">TECNOLOGIA PARA</span>
+          <div className="flex flex-wrap gap-2">
+            {sectors.map((sector) => <span key={sector} className="rounded-full border border-[#1e3a55] bg-[#0a1e33] px-3 py-2 text-[10px] font-medium tracking-[.035em] text-[#9eb4cb]">{sector}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <section id="solucoes" className="vx-section relative overflow-hidden border-b border-[#173451]">
+        <div className="pointer-events-none absolute -left-44 top-20 h-[450px] w-[450px] rounded-full bg-[#0e72ce]/10 blur-[115px]" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-[1440px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-20 lg:px-10 lg:py-28 xl:px-16">
+          <div data-reveal>
+            <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> O QUE DESENVOLVEMOS</p>
+            <h2 className="vx-heading mt-5 max-w-xl">Tecnologia que se adapta <span className="vx-gradient-text">à sua operação.</span></h2>
+            <p className="mt-6 max-w-lg text-sm leading-7 text-[#a6b8ce] sm:text-base">Cada negócio tem um desafio diferente. Nossa abordagem parte da necessidade da empresa, não de uma solução pronta.</p>
+            <button type="button" onClick={openDiagnostic} className="mt-8 inline-flex min-h-12 items-center gap-3 border-b border-[#4388b7] text-sm font-semibold text-[#b9e5ff] transition hover:gap-5 hover:text-white">Conversar sobre uma solução <ArrowIcon /></button>
+            <div className="vx-solution-aside relative mt-10 hidden overflow-hidden rounded-[20px] border border-[#1d456b] bg-[#07192e] p-6 lg:block">
+              <div className="flex items-center justify-between"><span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#7ebbe7]">VORZAX / DIGITAL</span><span className="h-2 w-2 rounded-full bg-[#279fff] shadow-[0_0_16px_#279fff]" /></div>
+              <div className="mt-8 grid grid-cols-4 gap-2">
+                {["SISTEMAS","FLUXOS","DADOS","WEB"].map((word,index) => <div key={word} className="flex min-h-20 flex-col justify-between rounded-xl border border-[#27527b] bg-[#0c2844] p-2"><span className="text-[9px] font-mono text-[#68bdf9]">0{index+1}</span><span className="text-[9px] font-semibold tracking-[.04em] text-white">{word}</span></div>)}
+              </div>
+              <p className="mt-5 text-xs text-[#89a5bd]">Quatro frentes. Uma direção: soluções úteis para o negócio.</p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3" data-reveal>
+            {services.map((service) => (
+              <article key={service.title} className="vx-solution-row group grid gap-4 rounded-[20px] border border-[#244562] bg-[#081827] p-5 transition sm:grid-cols-[54px_1fr_auto] sm:gap-5 sm:p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2b628f] bg-[#103154] font-mono text-sm font-semibold text-[#76caff]">{service.number}</div>
+                <div>
+                  <h3 className="text-xl font-semibold leading-tight tracking-[-.035em] text-white sm:text-[22px]">{service.title}</h3>
+                  <p className="mt-2 max-w-lg text-sm leading-6 text-[#9cb0c6]">{service.description}</p>
+                  <div className="mt-4 flex items-center gap-2 text-xs text-[#8ed0fb]"><CheckIcon />{service.result}</div>
+                </div>
+                <span className="hidden h-10 w-10 items-center justify-center rounded-xl border border-[#315b7b] text-[#8fd2ff] transition group-hover:translate-x-1 group-hover:border-[#3ab6ff] group-hover:bg-[#0d3b65] sm:flex"><ArrowIcon /></span>
+              </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="solucoes" className="relative">
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr]">
-            <div data-reveal="left">
-              <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">NOSSAS SOLUÇÕES</p>
-              <h2 className="mt-5 max-w-lg text-balance text-4xl font-semibold leading-tight tracking-[-0.04em] sm:text-5xl">
-                Soluções para diferentes desafios da sua empresa.
-              </h2>
-              <p className="mt-6 max-w-lg leading-7 text-slate-400">
-                De sistemas e automações a dashboards e sites, avaliamos os objetivos do seu negócio antes de propor a solução.
-              </p>
-
-              <button
-                type="button"
-                onClick={openDiagnostic}
-                className="mt-8 inline-flex items-center gap-3 text-sm font-semibold text-white transition hover:text-sky-300"
-              >
-                Conversar sobre meu projeto
-                <ArrowIcon />
-              </button>
-            </div>
-
-            <div className="grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2" data-reveal="right" style={{ transitionDelay: "120ms" }}>
-              {services.map((service) => (
-                <article key={service.title} className="group bg-[#050b16] p-8 transition duration-300 hover:bg-[#091427]">
-                  <div className="flex justify-end">
-                    <span className="text-slate-600 transition group-hover:translate-x-1 group-hover:text-sky-400">
-                      <ArrowIcon />
-                    </span>
-                  </div>
-                  <h3 className="mt-8 text-xl font-semibold">{service.title}</h3>
-                  <p className="mt-4 text-sm leading-6 text-slate-500">{service.description}</p>
-                  <div className="mt-6 flex items-center gap-2 text-xs text-slate-400">
-                    <span className="text-emerald-400"><CheckIcon /></span>
-                    {service.result}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <p className="mt-3 text-[11px] leading-5 text-[#718ba4]">Conheça os exemplos interativos na seção de demonstrações. As interfaces são ilustrativas.</p>
           </div>
         </div>
       </section>
