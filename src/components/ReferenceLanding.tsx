@@ -49,8 +49,10 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
         <div className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.25em] text-[#55caff] sm:text-xs">
           <span className="h-px w-8 bg-[#22b4ff]" /> TECNOLOGIA PARA EMPRESAS
         </div>
-        <h1 className="max-w-[690px] text-balance text-[clamp(2.6rem,4.3vw,4.45rem)] font-bold leading-[1.055] tracking-[-.063em] text-white">
-          Soluções tecnológicas para empresas que querem <span className="text-[#168eff]">evoluir.</span>
+        <h1 className="max-w-[690px] text-balance text-[clamp(2.55rem,3.65vw,4rem)] font-bold leading-[1.055] tracking-[-.063em] text-white">
+          <span className="lg:block">Soluções tecnológicas</span>{" "}
+          <span className="lg:block">para empresas que</span>{" "}
+          <span className="lg:block">querem <span className="text-[#168eff]">evoluir.</span></span>
         </h1>
         <p className="mt-6 max-w-[570px] text-base leading-[1.75] text-[#b6c3d4] sm:text-lg">
           Desenvolvemos sistemas, automações, dashboards e sites para organizar processos, tornar a informação mais clara e ajudar empresas a crescer com estrutura.
