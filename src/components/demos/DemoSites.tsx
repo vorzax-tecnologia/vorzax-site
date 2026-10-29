@@ -30,7 +30,7 @@ function HvacSite({ mobile }: { mobile:boolean }) {
       </div>
       <div className="relative min-h-[265px] overflow-hidden rounded-[16px] border border-[#3c7495]/60 bg-[#15334b] shadow-[0_18px_45px_rgba(0,0,0,.28)]"
         role="img" aria-label="Fotografia ilustrativa de espaço corporativo com instalações técnicas aparentes"
-        style={{backgroundImage:'linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.75) 100%),url("https://images.unsplash.com/photo-1497366216548-37526070297c?w=960&h=720&fit=crop&auto=format&q=78")',backgroundSize:'cover',backgroundPosition:'center'}}>
+        style={{backgroundImage:'linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.75) 100%),url("/demo-hvac-workspace.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
         <div className="absolute right-4 top-4 rounded-full border border-white/30 bg-[#0a2d43]/75 px-3 py-2 text-[9px] font-semibold tracking-[.08em] text-white backdrop-blur-sm">CLIMATIZAÇÃO COMERCIAL</div>
         <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4">
           <div><span className="text-[9px] font-bold uppercase tracking-[.17em] text-[#8fe0ff]">AMBIENTES COMERCIAIS</span><p className="mt-2 max-w-[240px] text-base font-semibold leading-5 text-white">Instalações pensadas para o seu negócio.</p></div>
@@ -54,7 +54,7 @@ function AccountingSite({ mobile }: { mobile:boolean }) {
     </div>
     <div className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-[#d3d9d1] bg-[#e6ebe6]"
       role="img" aria-label="Fotografia ilustrativa de documentos e mesa de trabalho administrativo"
-      style={{backgroundImage:'linear-gradient(180deg,rgba(8,42,33,.02),rgba(8,42,33,.52)),url("https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=960&h=720&fit=crop&auto=format&q=78")',backgroundSize:'cover',backgroundPosition:'center'}}>
+      style={{backgroundImage:'linear-gradient(180deg,rgba(8,42,33,.02),rgba(8,42,33,.52)),url("/demo-accounting-workspace.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
       <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/20 bg-[#163f33]/85 p-4 text-white backdrop-blur-sm">
         <p className="text-[9px] font-semibold uppercase tracking-[.15em] text-[#b4e2cc]">ATENDIMENTO EMPRESARIAL</p>
         <p className="mt-2 text-sm font-semibold">Organização financeira e atenção aos detalhes.</p>
@@ -71,7 +71,7 @@ function ArchitectureSite({ mobile }: { mobile:boolean }) {
    <div className={`grid gap-3 p-4 sm:p-6 ${mobile ? "grid-cols-1" : "grid-cols-[1.35fr_.65fr]"}`}>
      <div className="relative min-h-[325px] overflow-hidden rounded-[2px] bg-[#373e38]"
        role="img" aria-label="Fotografia ilustrativa de residência contemporânea com arquitetura autoral"
-       style={{backgroundImage:'linear-gradient(180deg,rgba(12,18,14,.05),rgba(12,18,14,.65)),url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=960&h=720&fit=crop&auto=format&q=80")',backgroundSize:'cover',backgroundPosition:'center'}}>
+       style={{backgroundImage:'linear-gradient(180deg,rgba(12,18,14,.05),rgba(12,18,14,.65)),url("/demo-architecture-residence.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
        <div className="absolute left-5 top-5 rounded-sm border border-white/35 bg-[#141b17]/50 px-3 py-2 text-[10px] uppercase tracking-[.13em] text-white backdrop-blur-sm">PORTFÓLIO / 01</div>
        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
          <div><span className="text-[10px] font-semibold tracking-[.14em] text-[#e5ddd2]">PROJETO RESIDENCIAL</span><p className="mt-2 font-serif text-[25px] leading-7 text-white">Essência e arquitetura.</p></div>
