@@ -60,7 +60,7 @@ const process = [
     step: "01",
     title: "Você apresenta sua necessidade",
     description:
-      "Explique sua empresa, seus serviços e o que deseja melhorar. Podemos começar por um site ou outra demanda pontual.",
+      "Conte qual desafio você deseja resolver: presença digital, processos, indicadores ou operação. Vamos avaliar o escopo mais adequado.",
   },
   {
     step: "02",
@@ -816,10 +816,7 @@ export default function Home() {
         </div>
       </header>
 
-      <ReferenceLanding onSiteContact={() => {
-        openDiagnostic();
-        setDiagnosticData((current) => ({ ...current, tipo_solucao: "Site institucional" }));
-      }} />
+      <ReferenceLanding onContact={openDiagnostic} />
 
 
       <section id="solucoes" className="vx-section relative overflow-hidden border-b border-[#173451]">
@@ -827,23 +824,23 @@ export default function Home() {
         <div className="relative mx-auto grid max-w-[1440px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-20 lg:px-10 lg:py-24 xl:px-16">
           <div data-reveal>
             <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> O QUE DESENVOLVEMOS</p>
-            <h2 className="vx-heading mt-5 max-w-xl">Comece pelo essencial. <span className="vx-gradient-text">Evolua com tecnologia.</span></h2>
-            <p className="mt-6 max-w-lg text-sm leading-7 text-[#a6b8ce] sm:text-base">Sites profissionais são nosso foco inicial. Automações, dados e sistemas sob medida complementam a oferta quando existe uma necessidade específica.</p>
+            <h2 className="vx-heading mt-5 max-w-xl">Presença, processos, dados e sistemas. <span className="vx-gradient-text">Tudo conectado ao seu negócio.</span></h2>
+            <p className="mt-6 max-w-lg text-sm leading-7 text-[#a6b8ce] sm:text-base">Atuamos em quatro frentes complementares: sites e landing pages, automações, dashboards e BI, e sistemas sob medida. Cada solução é planejada a partir da necessidade real da empresa.</p>
             <button type="button" onClick={openDiagnostic} className="mt-8 inline-flex min-h-12 items-center gap-3 border-b border-[#4388b7] text-sm font-semibold text-[#b9e5ff] transition hover:gap-5 hover:text-white">Discutir minha necessidade <ArrowIcon /></button>
             <div className="vx-solution-aside relative mt-9 hidden overflow-hidden rounded-[20px] border border-[#1d456b] bg-[#07192e] p-6 lg:block">
               <div className="flex items-center justify-between"><span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#7ebbe7]">NOSSO PONTO DE PARTIDA</span><span className="h-2 w-2 rounded-full bg-[#279fff] shadow-[0_0_16px_#279fff]" /></div>
               <div className="mt-8 grid grid-cols-4 gap-2">
                 {["MARCA","SERVIÇOS","CONTATO","WEB"].map((word,index) => <div key={word} className="flex min-h-20 flex-col justify-between rounded-xl border border-[#27527b] bg-[#0c2844] p-2"><span className="text-[9px] font-mono text-[#68bdf9]">0{index+1}</span><span className="text-[9px] font-semibold tracking-[.04em] text-white">{word}</span></div>)}
               </div>
-              <p className="mt-5 text-xs text-[#89a5bd]">Sites claros, bem estruturados e pensados para apresentar empresas.</p>
+              <p className="mt-5 text-xs text-[#89a5bd]">Quatro competências. Uma mesma direção: tecnologia aplicada com clareza.</p>
             </div>
           </div>
           <div className="flex flex-col gap-3" data-reveal>
             {services.map((service) => (
-              <a key={service.title} href="#tecnologia-em-acao" onClick={() => window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug: service.slug } }))} className={`vx-solution-row group grid gap-4 rounded-[20px] border border-[#244562] bg-[#081827] p-5 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:grid-cols-[54px_1fr_auto] sm:gap-5 sm:p-6 ${service.slug === "sites" ? "vx-solution-featured" : ""}`}>
+              <a key={service.title} href="#tecnologia-em-acao" onClick={() => window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug: service.slug } }))} className={`vx-solution-row group grid gap-4 rounded-[20px] border border-[#244562] bg-[#081827] p-5 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:grid-cols-[54px_1fr_auto] sm:gap-5 sm:p-6`}>
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2b628f] bg-[#103154] font-mono text-sm font-semibold text-[#76caff]">{service.number}</div>
                 <div>
-                  <h3 className="text-xl font-semibold leading-tight tracking-[-.035em] text-white sm:text-[22px]">{service.title}{service.slug === "sites" && <span className="ml-2 inline-block align-middle rounded-md border border-[#386e98] bg-[#103452] px-2 py-1 text-[9px] font-bold uppercase tracking-[.11em] text-[#b1dfff]">Oferta principal</span>}</h3>
+                  <h3 className="text-xl font-semibold leading-tight tracking-[-.035em] text-white sm:text-[22px]">{service.title}</h3>
                   <p className="mt-2 max-w-lg text-sm leading-6 text-[#9cb0c6]">{service.description}</p>
                   <div className="mt-4 flex items-center gap-2 text-xs text-[#8ed0fb]"><CheckIcon />{service.result}</div>
                 </div>
@@ -1016,7 +1013,7 @@ export default function Home() {
           <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-6 text-xs text-[#6f859c] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10 xl:px-16">
             <p>© 2026 Vorzax Tecnologia. Todos os direitos reservados.</p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <span>Site institucional • Conceitos ilustrativos</span>
+              <span>Tecnologia para empresas • Conceitos ilustrativos</span>
               <Link className="transition hover:text-slate-300" href="/privacidade">Privacidade</Link>
             </div>
           </div>
