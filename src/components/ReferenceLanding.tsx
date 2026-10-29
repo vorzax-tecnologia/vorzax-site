@@ -7,6 +7,7 @@ const cards = [
   { slug: "automacao", number: "02", kicker: "EFICIÊNCIA OPERACIONAL", title: "Automação de processos", description: "Conecte etapas e reduza tarefas repetitivas com fluxos sob medida.", tags: ["Entradas", "Regras", "Ações"] },
   { slug: "bi", number: "03", kicker: "INTELIGÊNCIA DE DADOS", title: "Dashboards e BI", description: "Reúna indicadores e acompanhe sua operação com mais clareza.", tags: ["Dados", "Indicadores", "Decisões"] },
   { slug: "sistemas", number: "04", kicker: "SOFTWARE PARA NEGÓCIOS", title: "Sistemas sob medida", description: "Organize informações, equipes e processos em soluções adaptadas.", tags: ["Fluxos", "Equipes", "Gestão"] },
+  { slug: "ia", number: "05", kicker: "ASSISTENTES VIRTUAIS / CONCEITO", title: "Vorzax IA", description: "Explore atendimento inteligente, suporte e apoio operacional em uma interface demonstrativa.", tags: ["Conversas", "Suporte", "IA"] },
 ] as const;
 
 function selectDemo(slug: string, example = 0) {
@@ -37,7 +38,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </button>
               <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · Dashboards e BI · Sistemas</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas · Vorzax IA</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
           </div>
 
           <div className="vx-hero-media order-1 min-w-0 lg:order-2">
@@ -49,8 +50,8 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <MotionFilm variant="principal" />
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
-              <span>Apresentação com interfaces nítidas dos quatro serviços.</span>
-              <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 04</span>
+              <span>Apresentação visual das cinco frentes tecnológicas.</span>
+              <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 05</span>
             </div>
           </div>
         </div>
@@ -59,15 +60,15 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">O QUE A VORZAX DESENVOLVE</span>
-              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Quatro frentes de tecnologia. <span className="text-[#77c7ff]">Uma solução para cada desafio.</span></h2>
+              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Cinco frentes de tecnologia. <span className="text-[#77c7ff]">Uma solução para cada desafio.</span></h2>
             </div>
             <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#9edaff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Explorar o Laboratório <span aria-hidden="true">↗</span></a>
           </div>
-          <div role="region" aria-label="Áreas de atuação da Vorzax: deslize para explorar no celular" className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
+          <div role="region" aria-label="Áreas de atuação da Vorzax: deslize para explorar no celular" className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-5">
             {cards.map((card) => (
-              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="group relative flex h-full min-h-[210px] w-[min(83vw,330px)] shrink-0 snap-start flex-col overflow-hidden sm:min-h-[215px] sm:w-auto sm:shrink rounded-[18px] border border-[#224565] bg-[linear-gradient(145deg,#0b2037,#061425_80%)] px-5 py-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-[#55aff0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className={`group relative flex h-full min-h-[210px] w-[min(83vw,330px)] shrink-0 snap-start flex-col overflow-hidden sm:min-h-[215px] sm:w-auto sm:shrink rounded-[18px] border border-[#224565] bg-[linear-gradient(145deg,#0b2037,#061425_80%)] px-5 py-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-[#55aff0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 ${card.slug==="ia"?"border-[#68559e] bg-[linear-gradient(145deg,#231e3d,#0b172a_85%)] hover:border-[#a78bfa]":""}`}>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-semibold text-[#6cc9ff]">{card.number} / 04</span>
+                  <span className="font-mono text-xs font-semibold text-[#6cc9ff]">{card.number} / 05</span>
                   <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-xl border border-[#2f5f82] bg-[#102e4b] text-[#b1e3ff] transition group-hover:bg-[#116ee6] group-hover:text-white">↗</span>
                 </div>
                 <p className="mt-4 text-[9px] font-bold uppercase tracking-[.15em] text-[#69bdf3]">{card.kicker}</p>
@@ -79,8 +80,8 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
             ))}
           </div>
-          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as quatro áreas →</p>
-          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 12 interfaces demonstrativas em desktop e mobile.</p>
+          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as cinco áreas →</p>
+          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 15 interfaces demonstrativas em desktop e mobile. A Vorzax IA é um conceito ilustrativo, não um assistente ativo.</p>
         </div>
       </div>
     </section>
