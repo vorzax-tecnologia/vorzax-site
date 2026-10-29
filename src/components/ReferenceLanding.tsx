@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 import { MotionFilm } from "@/components/MotionFilm";
 
 const cards = [
-  { slug: "sites", number: "01", kicker: "SITES E LANDING PAGES", title: "Sua empresa bem apresentada, em qualquer tela", description: "Sites claros, responsivos e com caminhos diretos para o contato comercial.", examples: ["Climatização comercial","Escritório contábil","Arquitetura"] },
-  { slug: "automacao", number: "02", kicker: "AUTOMAÇÃO DE PROCESSOS", title: "Menos tarefas manuais. Mais fluidez.", description: "Fluxos para conectar etapas, organizar informações e diminuir retrabalho.", examples: ["Captação de leads","Agendamento","Cobranças"] },
-  { slug: "bi", number: "03", kicker: "DASHBOARDS E BI", title: "Uma visão melhor dos seus indicadores", description: "Painéis ilustrativos para acompanhar informações e apoiar decisões.", examples: ["BI comercial","BI operacional","BI financeiro"] },
-  { slug: "sistemas", number: "04", kicker: "SISTEMAS SOB MEDIDA", title: "Tecnologia que acompanha sua operação", description: "Interfaces para reunir dados, pessoas e atividades em um só lugar.", examples: ["Ordens de serviço","Estoque","Projetos"] },
-];
+  { slug: "sites", number: "01", kicker: "PRESENÇA DIGITAL", title: "Sites e landing pages", description: "Apresente seus serviços com clareza e facilite o contato de novos clientes.", tags: ["Marca", "Serviços", "Contato"] },
+  { slug: "automacao", number: "02", kicker: "EFICIÊNCIA OPERACIONAL", title: "Automação de processos", description: "Conecte etapas e reduza tarefas repetitivas com fluxos sob medida.", tags: ["Entradas", "Regras", "Ações"] },
+  { slug: "bi", number: "03", kicker: "INTELIGÊNCIA DE DADOS", title: "Dashboards e BI", description: "Reúna indicadores e acompanhe sua operação com mais clareza.", tags: ["Dados", "Indicadores", "Decisões"] },
+  { slug: "sistemas", number: "04", kicker: "SOFTWARE PARA NEGÓCIOS", title: "Sistemas sob medida", description: "Organize informações, equipes e processos em soluções adaptadas.", tags: ["Fluxos", "Equipes", "Gestão"] },
+] as const;
 
 function selectDemo(slug: string, example = 0) {
   window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug, example } }));
@@ -17,26 +15,6 @@ function selectDemo(slug: string, example = 0) {
 
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
 export function ReferenceLanding({ onContact }: { onContact: () => void }) {
-  const [selectedExamples, setSelectedExamples] = useState<Record<DemoCategory, number>>({sites:0,automacao:0,bi:0,sistemas:0});
-  const [previewStep, setPreviewStep] = useState(0);
-  const [previewsVisible, setPreviewsVisible] = useState(false);
-  const galleryRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = galleryRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setPreviewsVisible(entry.isIntersecting), {threshold:0.08});
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    if (!previewsVisible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => setPreviewStep(step => (step+1)%4), 3500);
-    return () => window.clearInterval(timer);
-  }, [previewsVisible]);
-  function previewExample(category: DemoCategory, index: number) {
-    setSelectedExamples(current => ({...current,[category]:index}));
-    selectDemo(category,index);
-  }
   return (
     <section id="inicio" className="vx-home-opening relative isolate overflow-hidden bg-[#030a15]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_80%_at_80%_35%,rgba(10,84,175,.18),transparent_80%)]" aria-hidden="true" />
@@ -57,7 +35,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <button type="button" onClick={onContact} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
                 Conversar sobre meu projeto <span aria-hidden="true">↗</span>
               </button>
-              <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
+              <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · Dashboards e BI · Sistemas</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
           </div>
@@ -77,42 +55,31 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           </div>
         </div>
 
-        <div id="demonstracoes" ref={galleryRef} className="relative border-t border-[#193149]/70 pt-9 sm:pt-11">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div id="solucoes" className="relative scroll-mt-24 border-t border-[#193149]/75 pt-8 sm:pt-10">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">EXPLORE NOSSAS SOLUÇÕES</span>
-              <h2 className="mt-2 text-[clamp(1.55rem,2.4vw,2.2rem)] font-semibold tracking-[-.045em] text-white">Um universo de soluções. Diferentes possibilidades.</h2>
+              <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">O QUE A VORZAX DESENVOLVE</span>
+              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Quatro frentes de tecnologia. <span className="text-[#77c7ff]">Uma solução para cada desafio.</span></h2>
             </div>
-            <span className="hidden text-[11px] text-[#91a7bd] lg:block">Compare soluções interativas e conheça diferentes formas de aplicar tecnologia.</span>
+            <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#9edaff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Explorar o Laboratório <span aria-hidden="true">↗</span></a>
           </div>
-
-          <div role="region" aria-label="Vitrine de soluções — deslize para explorar no celular" className="vx-services-rail flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {cards.map((card) => (
-              <article key={card.slug} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5`}>
-                <div className="flex min-h-9 items-start justify-between gap-3">
-                  <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
-                  <a href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, selectedExamples[card.slug as DemoCategory])} aria-label={"Abrir demonstração selecionada de " + card.kicker} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition hover:bg-[#116ee6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">↗</a>
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className="group relative flex h-full min-h-[223px] flex-col overflow-hidden rounded-[18px] border border-[#224565] bg-[linear-gradient(145deg,#0b2037,#061425_80%)] px-5 py-5 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-1 hover:border-[#55aff0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-semibold text-[#6cc9ff]">{card.number} / 04</span>
+                  <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-xl border border-[#2f5f82] bg-[#102e4b] text-[#b1e3ff] transition group-hover:bg-[#116ee6] group-hover:text-white">↗</span>
                 </div>
-                <h3 className="mt-4 min-h-[3.85rem] text-[clamp(1.35rem,1.55vw,1.64rem)] font-semibold leading-[1.18] tracking-[-.04em] text-white">{card.title}</h3>
-                <p className="mt-2 min-h-[4rem] text-[13px] leading-[1.6] text-[#b1c0d2]">{card.description}</p>
-                <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
-                  <div key={selectedExamples[card.slug as DemoCategory]} className="vx-card-preview relative w-full overflow-hidden">
-                    
-                    <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact step={previewStep} playing={previewsVisible} />
-                  </div>
+                <p className="mt-4 text-[9px] font-bold uppercase tracking-[.15em] text-[#69bdf3]">{card.kicker}</p>
+                <h3 className="mt-2 text-[20px] font-semibold leading-tight tracking-[-.04em] text-white">{card.title}</h3>
+                <p className="mt-3 flex-1 text-[12px] leading-5 text-[#b4c6d8]">{card.description}</p>
+                <div className="mt-5 flex flex-wrap gap-2 border-t border-[#244760]/80 pt-4">
+                  {card.tags.map((tag) => <span key={tag} className="rounded-md bg-[#12324e] px-2.5 py-1 text-[10px] font-medium text-[#a6d5f2]">{tag}</span>)}
                 </div>
-                <div className="mt-4 border-t border-white/[.07] pt-3">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[.1em] text-[#93c9ef]">Escolha um dos 3 exemplos</p>
-                  <div className="flex flex-wrap gap-2">
-                    {card.examples.map((example, i) => <button key={example} type="button" aria-pressed={selectedExamples[card.slug as DemoCategory] === i} onClick={() => previewExample(card.slug as DemoCategory, i)} className={`inline-flex min-h-8 items-center rounded-md border px-2.5 py-1.5 text-[10px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 ${selectedExamples[card.slug as DemoCategory] === i ? "border-[#6bbdff] bg-[#144b73] text-white" : "border-[#315c7b] bg-[#0a2842] text-[#d0e9fc] hover:border-[#70caff] hover:bg-[#15517a]"}`}>{example}</button>)}
-                  </div>
-                  <a href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug, selectedExamples[card.slug as DemoCategory])} className="mt-3 inline-flex min-h-8 items-center gap-2 text-[11px] font-semibold text-[#98d8ff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Abrir este conceito no laboratório <span aria-hidden="true">↗</span></a>
-                </div>
-              </article>
+              </a>
             ))}
           </div>
-          <p className="mt-3 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para o lado e explore as outras soluções →</p>
-          <p className="mt-3 text-[11px] leading-5 text-[#92a7bc]">Exemplos conceituais e dados ilustrativos. Não representam clientes nem projetos contratados.</p>
+          <p className="mt-4 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 12 interfaces demonstrativas em desktop e mobile.</p>
         </div>
       </div>
     </section>
