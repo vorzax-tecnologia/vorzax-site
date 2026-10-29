@@ -8,6 +8,7 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
   const [reduced, setReduced] = useState(false);
   const [pausedByUser, setPausedByUser] = useState(false);
   const [inView, setInView] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const playVideo = !reduced && !pausedByUser && inView;
   const src = variant === "principal" ? "vorzax-filme-principal" : "vorzax-tecnologia-fluxos";
 
@@ -34,10 +35,27 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
     else video.pause();
   }, [playVideo]);
 
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!video.paused) {
+      setPausedByUser(true);
+      video.pause();
+      return;
+    }
+
+    setPausedByUser(false);
+    if (reduced) setReduced(false);
+    void video.play().catch(() => setPausedByUser(true));
+  };
+
   return (
     <div className="motion-film relative isolate aspect-video w-full overflow-hidden rounded-[15px] bg-[#071321] sm:rounded-[21px]">
       <video
         ref={videoRef}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
         muted
         playsInline
         loop
@@ -55,13 +73,12 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
         <span className="rounded-md border border-white/10 bg-[#071525]/65 px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-[.12em] text-[#e4f2ff] backdrop-blur-sm sm:text-[10px]">VORZAX / VISUALIZAÇÃO CONCEITUAL</span>
         <button
           type="button"
-          onClick={() => { if (reduced) { setReduced(false); setPausedByUser(false); } else setPausedByUser(value => !value); }}
-          aria-label={playVideo ? "Pausar o filme" : "Reproduzir o filme"}
-          aria-pressed={!playVideo}
+          onClick={togglePlayback}
+          aria-label={isPlaying ? "Pausar o filme" : "Reproduzir o filme"}
           className="flex min-h-9 shrink-0 items-center gap-2 rounded-full border border-white/20 bg-[#07162c]/80 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-md transition hover:border-[#56c0ff] hover:bg-[#0b2c4d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
         >
-          <span aria-hidden="true">{playVideo ? "Ⅱ" : "▶"}</span>
-          <span className="hidden sm:inline">{playVideo ? "Pausar" : "Reproduzir"}</span>
+          <span aria-hidden="true">{isPlaying ? "Ⅱ" : "▶"}</span>
+          <span className="hidden sm:inline">{isPlaying ? "Pausar" : "Reproduzir"}</span>
         </button>
       </div>
     </div>
