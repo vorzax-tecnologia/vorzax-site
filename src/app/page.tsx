@@ -862,13 +862,13 @@ export default function Home() {
   </button>
 </div>
 
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#020611]/78 backdrop-blur-2xl">
-        <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
+      <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
+        <div className="relative mx-auto flex h-[68px] max-w-[1680px] items-center justify-between px-5 sm:h-[72px] sm:px-8 lg:px-10 xl:px-16">
           <a href="#inicio" aria-label="Vorzax - início" onClick={() => setMenuOpen(false)}>
             <Logo />
           </a>
 
-          <nav className="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
+          <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:gap-7 lg:flex">
             <a className="transition hover:text-white" href="#inicio">Início</a>
             <a className="transition hover:text-white" href="#solucoes">Soluções</a>
             <a className="transition hover:text-white" href="#processo">Como funciona</a>
@@ -883,7 +883,7 @@ export default function Home() {
             <button
               type="button"
               onClick={openDiagnostic}
-              className="hidden rounded-full border border-sky-400/30 bg-sky-400/10 px-5 py-3 text-sm font-semibold text-sky-300 transition hover:border-sky-300 hover:bg-sky-400 hover:text-[#020611] sm:inline-flex"
+              className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex"
             >
               Solicitar orçamento
             </button>
@@ -891,7 +891,7 @@ export default function Home() {
             <button
               type="button"
               onClick={openDiagnostic}
-              className="inline-flex rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-2.5 text-xs font-semibold text-sky-300 transition hover:border-sky-300 hover:bg-sky-400 hover:text-[#020611] sm:hidden"
+              className="inline-flex rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden"
             >
               Orçamento
             </button>
@@ -924,7 +924,7 @@ export default function Home() {
           {menuOpen && (
             <div
               id="menu-mobile"
-              className="absolute left-4 right-4 top-[72px] z-50 overflow-hidden rounded-2xl border border-white/10 bg-[#07101f]/98 p-2 shadow-2xl shadow-black/50 backdrop-blur-2xl sm:left-auto sm:right-6 sm:w-72 lg:hidden"
+              className="absolute left-4 right-4 top-[68px] z-50 overflow-hidden rounded-2xl border border-[#245072] bg-[#071a2d]/98 p-2 shadow-2xl shadow-black/50 backdrop-blur-2xl sm:left-auto sm:right-6 sm:top-[72px] sm:w-72 lg:hidden"
             >
               {[
                 ["Início", "#inicio"],
@@ -1119,68 +1119,44 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contato" className="relative overflow-hidden">
-        <div className="absolute left-1/2 top-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[150px]" />
-        <div className="mx-auto max-w-7xl px-6 py-28 lg:px-10">
-          <div className="overflow-hidden rounded-[38px] border border-white/10 bg-gradient-to-br from-[#07182f] via-[#07101f] to-[#020611] px-7 py-16 text-center sm:px-12 lg:px-16 lg:py-20" data-reveal="scale">
-            <p className="text-xs font-semibold tracking-[0.25em] text-sky-400">VAMOS CONVERSAR</p>
-            <h2 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-[-0.05em] sm:text-6xl">
-              Qual é o próximo passo tecnológico da sua empresa?
-            </h2>
-            <p className="mx-auto mt-6 max-w-2xl leading-7 text-slate-400">
-              Seja para desenvolver um sistema, automatizar processos, visualizar indicadores ou criar uma presença digital profissional, conte sua necessidade.
-            </p>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={openDiagnostic}
-                className="inline-flex items-center justify-center gap-3 rounded-full bg-sky-400 px-8 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-white"
-              >
-                Conversar sobre meu projeto
-                <ArrowIcon />
-              </button>
+      <section id="contato" className="relative overflow-hidden bg-[#030b17]">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0563bb]/10 blur-[150px]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
+          <div className="vx-contact-panel relative grid overflow-hidden rounded-[24px] border border-[#28608b] bg-[#081b31] lg:grid-cols-[1.07fr_.93fr]" data-reveal>
+            <div className="relative z-10 flex flex-col items-start px-6 py-11 sm:px-10 sm:py-14 lg:px-12 lg:py-16">
+              <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SEU PRÓXIMO PROJETO</p>
+              <h2 className="vx-heading mt-6 max-w-[650px]">O próximo passo da sua empresa <span className="vx-gradient-text">pode começar aqui.</span></h2>
+              <p className="mt-6 max-w-xl text-sm leading-7 text-[#b0c3d6] sm:text-base">Conte o que você precisa desenvolver ou melhorar. Vamos entender a demanda e avaliar uma proposta adequada ao seu momento.</p>
+              <button type="button" onClick={openDiagnostic} className="vx-primary-button mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Conversar sobre meu projeto <ArrowIcon /></button>
+              <p className="mt-5 text-xs text-[#83a1bd]">Primeiro contato sem compromisso de contratação.</p>
             </div>
-
-            <div className="mx-auto mt-10 grid max-w-3xl gap-3 text-left md:grid-cols-2">
-              <a
-                href={EMAIL_URL}
-                data-reveal="scale"
-                style={{ transitionDelay: "100ms" }}
-                className="contact-card group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:-translate-y-1 hover:border-sky-400/30 hover:bg-white/[0.06]"
-              >
-                <span className="contact-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300 group-hover:bg-sky-400 group-hover:text-[#020611]">
-                  <MailIcon />
-                </span>
-                <span>
-                  <span className="text-[10px] font-semibold tracking-[0.18em] text-sky-400">E-MAIL</span>
-                  <span className="mt-1 block text-sm font-semibold text-white transition group-hover:text-sky-300">{CONTACT_EMAIL}</span>
-                </span>
-              </a>
-
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noreferrer"
-                data-reveal="scale"
-                style={{ transitionDelay: "180ms" }}
-                className="contact-card group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:-translate-y-1 hover:border-emerald-400/30 hover:bg-white/[0.06]"
-              >
-                <span className="contact-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300 group-hover:bg-emerald-500 group-hover:text-white">
-                  <WhatsAppIcon />
-                </span>
-                <span>
-                  <span className="text-[10px] font-semibold tracking-[0.18em] text-emerald-400">WHATSAPP</span>
-                  <span className="mt-1 block text-sm font-semibold text-white transition group-hover:text-emerald-300">{CONTACT_PHONE}</span>
-                </span>
-              </a>
+            <div className="relative z-10 border-t border-[#275071] bg-[#07182b]/85 p-5 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
+              <div className="rounded-[18px] border border-[#2a5476] bg-[#081f36] p-5 sm:p-7">
+                <div className="flex items-center justify-between border-b border-[#284d6b] pb-5"><span className="text-[10px] font-bold uppercase tracking-[.17em] text-[#88d4ff]">VORZAX / CONTATO</span><span className="flex items-center gap-2 text-[10px] text-[#9ab9d2]"><span className="h-1.5 w-1.5 rounded-full bg-[#3ed3ff]"/>CANAIS DIRETOS</span></div>
+                <h3 className="mt-6 text-[22px] font-semibold tracking-[-.04em] text-white">Vamos entender sua necessidade.</h3>
+                <p className="mt-2 text-sm leading-6 text-[#97b1c7]">Escolha por onde prefere iniciar a conversa.</p>
+                <div className="mt-7 grid gap-3">
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#2a536d] bg-[#0c2b3d] p-4 transition">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0d5945] text-[#a5ffe1]"><WhatsAppIcon /></span>
+                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#8abed3]">WHATSAPP</span><span className="mt-1 block text-sm font-semibold text-white">{CONTACT_PHONE}</span></span>
+                    <span className="text-[#a8dff6] transition group-hover:translate-x-1"><ArrowIcon /></span>
+                  </a>
+                  <a href={EMAIL_URL} className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#2a536d] bg-[#0c2b3d] p-4 transition">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#123d67] text-[#92d4ff]"><MailIcon /></span>
+                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#8abed3]">E-MAIL</span><span className="mt-1 block break-all text-sm font-semibold text-white">{CONTACT_EMAIL}</span></span>
+                    <span className="text-[#a8dff6] transition group-hover:translate-x-1"><ArrowIcon /></span>
+                  </a>
+                </div>
+                <div className="mt-6 flex items-start gap-2 border-t border-[#254a66] pt-5 text-[11px] leading-5 text-[#84a3bb]"><CheckIcon /> Envie sua demanda; a proposta é definida após entender o escopo.</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="relative border-t border-white/10">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10">
+      <footer className="relative border-t border-[#163a55] bg-[#030a14]">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10 xl:px-16">
           <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
@@ -1227,7 +1203,7 @@ export default function Home() {
         </div>
 
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between lg:px-10">
+          <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-6 text-xs text-[#6f859c] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10 xl:px-16">
             <p>© 2026 Vorzax Tecnologia. Todos os direitos reservados.</p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
               <span>Site institucional • Portfólio conceitual</span>
