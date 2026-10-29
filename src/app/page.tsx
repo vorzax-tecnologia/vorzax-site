@@ -20,41 +20,6 @@ const INSTAGRAM_URL = "https://www.instagram.com/vorzaxoficial/";
 const CONTACT_EMAIL = "contato@vorzax.com.br";
 const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
 const CONTACT_PHONE = "(31) 99068-1495";
-const services = [
-  {
-    number: "01",
-    slug: "sites",
-    title: "Sites profissionais",
-    description:
-      "Sites institucionais e landing pages para apresentar sua empresa, explicar serviços e facilitar o primeiro contato.",
-    result: "Presença digital clara e responsiva",
-  },
-  {
-    number: "02",
-    slug: "automacao",
-    title: "Automação de processos",
-    description:
-      "Automações pontuais para conectar etapas, reduzir tarefas repetitivas e organizar informações importantes.",
-    result: "Rotinas com menos tarefas manuais",
-  },
-  {
-    number: "03",
-    slug: "bi",
-    title: "Dashboards e BI",
-    description:
-      "Painéis visuais para reunir indicadores e facilitar o acompanhamento dos dados da empresa.",
-    result: "Informações mais fáceis de acompanhar",
-  },
-  {
-    number: "04",
-    slug: "sistemas",
-    title: "Sistemas sob medida",
-    description:
-      "Soluções desenvolvidas conforme a necessidade do negócio, para centralizar dados e fluxos de trabalho.",
-    result: "Tecnologia adaptada à operação",
-  },
-];
-
 const process = [
   {
     step: "01",
@@ -819,67 +784,34 @@ export default function Home() {
       <ReferenceLanding onContact={openDiagnostic} />
 
 
-      <section id="solucoes" className="vx-section relative overflow-hidden border-b border-[#173451]">
-        <div className="pointer-events-none absolute -left-44 top-20 h-[450px] w-[450px] rounded-full bg-[#0e72ce]/10 blur-[115px]" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-[1440px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-20 lg:px-10 lg:py-24 xl:px-16">
-          <div data-reveal>
-            <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> O QUE DESENVOLVEMOS</p>
-            <h2 className="vx-heading mt-5 max-w-xl">Presença, processos, dados e sistemas. <span className="vx-gradient-text">Tudo conectado ao seu negócio.</span></h2>
-            <p className="mt-6 max-w-lg text-sm leading-7 text-[#a6b8ce] sm:text-base">Atuamos em quatro frentes complementares: sites e landing pages, automações, dashboards e BI, e sistemas sob medida. Cada solução é planejada a partir da necessidade real da empresa.</p>
-            <button type="button" onClick={openDiagnostic} className="mt-8 inline-flex min-h-12 items-center gap-3 border-b border-[#4388b7] text-sm font-semibold text-[#b9e5ff] transition hover:gap-5 hover:text-white">Discutir minha necessidade <ArrowIcon /></button>
-            <div className="vx-solution-aside relative mt-9 hidden overflow-hidden rounded-[20px] border border-[#1d456b] bg-[#07192e] p-6 lg:block">
-              <div className="flex items-center justify-between"><span className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#7ebbe7]">NOSSO PONTO DE PARTIDA</span><span className="h-2 w-2 rounded-full bg-[#279fff] shadow-[0_0_16px_#279fff]" /></div>
-              <div className="mt-8 grid grid-cols-4 gap-2">
-                {["MARCA","SERVIÇOS","CONTATO","WEB"].map((word,index) => <div key={word} className="flex min-h-20 flex-col justify-between rounded-xl border border-[#27527b] bg-[#0c2844] p-2"><span className="text-[9px] font-mono text-[#68bdf9]">0{index+1}</span><span className="text-[9px] font-semibold tracking-[.04em] text-white">{word}</span></div>)}
-              </div>
-              <p className="mt-5 text-xs text-[#89a5bd]">Quatro competências. Uma mesma direção: tecnologia aplicada com clareza.</p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3" data-reveal>
-            {services.map((service) => (
-              <a key={service.title} href="#tecnologia-em-acao" onClick={() => window.dispatchEvent(new CustomEvent("vorzax:demo", { detail: { slug: service.slug } }))} className={`vx-solution-row group grid gap-4 rounded-[20px] border border-[#244562] bg-[#081827] p-5 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:grid-cols-[54px_1fr_auto] sm:gap-5 sm:p-6`}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2b628f] bg-[#103154] font-mono text-sm font-semibold text-[#76caff]">{service.number}</div>
-                <div>
-                  <h3 className="text-xl font-semibold leading-tight tracking-[-.035em] text-white sm:text-[22px]">{service.title}</h3>
-                  <p className="mt-2 max-w-lg text-sm leading-6 text-[#9cb0c6]">{service.description}</p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-[#8ed0fb]"><CheckIcon />{service.result}</div>
-                </div>
-                <span className="hidden h-10 w-10 items-center justify-center rounded-xl border border-[#315b7b] text-[#8fd2ff] transition group-hover:translate-x-1 group-hover:border-[#3ab6ff] group-hover:bg-[#0d3b65] sm:flex"><ArrowIcon /></span>
-              </a>
-            ))}
-            <p className="mt-3 text-[11px] leading-5 text-[#91a7bb]">Selecione uma solução para visualizar sua demonstração interativa. Todas as interfaces são conceituais.</p>
-          </div>
-        </div>
-      </section>
-
       <TechnologyInMotion />
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
         <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24 xl:px-16">
-          <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+        <div className="relative mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-10 lg:py-16 xl:px-16">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
             <div className="max-w-3xl" data-reveal>
               <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> COMO FUNCIONA / 01—03</p>
               <h2 className="vx-heading mt-5 max-w-3xl">Um processo objetivo. <span className="vx-gradient-text">Do primeiro contato à entrega.</span></h2>
             </div>
             <p className="max-w-md text-sm leading-7 text-[#a4b7ca] sm:text-base">Uma conversa inicial, uma proposta definida e a execução por etapas. Sem complexidade desnecessária.</p>
           </div>
-          <div className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-5">
+          <div className="relative mt-8 grid gap-4 lg:grid-cols-3 lg:gap-5">
             <div className="pointer-events-none absolute left-[10%] right-[10%] top-[30px] hidden border-t border-dashed border-[#2e79af]/70 lg:block" aria-hidden="true" />
             {process.map((item) => (
-              <article key={item.step} className="vx-process-card group relative flex flex-col overflow-hidden rounded-[22px] border border-[#234864] bg-[#08182a] px-6 pb-7 pt-6 sm:p-8" data-reveal>
+              <article key={item.step} className="vx-process-card group relative flex flex-col overflow-hidden rounded-[22px] border border-[#234864] bg-[#08182a] px-6 pb-6 pt-6 sm:p-6" data-reveal>
                 <div className="relative flex items-center justify-between">
                   <span className="flex h-12 w-12 items-center justify-center rounded-[13px] border border-[#2e6491] bg-[#0e3458] font-mono text-base font-semibold text-[#6fceff] shadow-[0_0_26px_rgba(20,116,218,.12)]">{item.step}</span>
                   <span className="font-mono text-[10px] tracking-[.16em] text-[#6a8ba8]">FASE {item.step} / 03</span>
                 </div>
-                <div className="mt-9 h-[3px] w-11 rounded-full bg-[#178cf4] transition-all duration-500 group-hover:w-20" />
-                <h3 className="mt-5 max-w-xs text-[22px] font-semibold leading-[1.2] tracking-[-.04em] text-white">{item.title}</h3>
-                <p className="mt-4 max-w-sm text-sm leading-7 text-[#9eb3c9]">{item.description}</p>
-                <div className="mt-auto pt-9 text-[10px] font-semibold uppercase tracking-[.15em] text-[#529ed4]">PROCESSO VORZAX</div>
+                <div className="mt-5 h-[3px] w-11 rounded-full bg-[#178cf4] transition-all duration-500 group-hover:w-20" />
+                <h3 className="mt-4 max-w-xs text-[21px] font-semibold leading-[1.2] tracking-[-.04em] text-white">{item.title}</h3>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-[#9eb3c9]">{item.description}</p>
+                <div className="mt-auto pt-5 text-[10px] font-semibold uppercase tracking-[.15em] text-[#529ed4]">PROCESSO VORZAX</div>
               </article>
             ))}
           </div>
-          <div className="mt-9 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
             <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
             <button type="button" onClick={openDiagnostic} className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></button>
           </div>
@@ -891,8 +823,8 @@ export default function Home() {
 
       <section id="sobre" className="vx-section relative overflow-hidden border-b border-[#173450] bg-[#040e1b]">
         <div className="pointer-events-none absolute right-[-180px] top-[-150px] h-[580px] w-[580px] rounded-full bg-[#125baf]/10 blur-[140px]" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-[1440px] items-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.03fr_.97fr] lg:gap-20 lg:px-10 lg:py-24 xl:px-16">
-          <div className="vx-capability-panel relative flex min-h-[450px] flex-col justify-between overflow-hidden rounded-[24px] border border-[#245277] bg-[radial-gradient(circle_at_70%_45%,#10395d_0%,#071b30_45%,#061324_100%)] p-7 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-10" data-reveal>
+        <div className="relative mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12 lg:px-10 lg:py-16 xl:px-16">
+          <div className="vx-capability-panel relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-[24px] border border-[#245277] bg-[radial-gradient(circle_at_70%_45%,#10395d_0%,#071b30_45%,#061324_100%)] p-6 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-10" data-reveal>
             <div className="vx-section-mesh pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"/>
             <div className="pointer-events-none absolute -right-28 top-12 h-[330px] w-[330px] rounded-full border border-[#327bab]/25 shadow-[0_0_90px_rgba(14,135,242,.12)]" aria-hidden="true"/>
             <div className="pointer-events-none absolute -right-12 top-28 h-[215px] w-[215px] rounded-full border border-[#53b6ec]/25" aria-hidden="true"/>
@@ -901,11 +833,11 @@ export default function Home() {
               <span className="vx-eyebrow">VORZAX / NOSSA VISÃO</span>
               <span className="rounded-full border border-[#30658c] bg-[#0b304d]/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.13em] text-[#afddf8]">Tecnologia com propósito</span>
             </div>
-            <div className="relative my-10 max-w-[460px]">
+            <div className="relative my-6 max-w-[460px]">
               <h3 className="text-[clamp(2.1rem,4vw,3.7rem)] font-semibold leading-[1.08] tracking-[-.06em] text-white">
                 Menos ruído.<br/><span className="text-[#77c6f8]">Mais direção.</span>
               </h3>
-              <p className="mt-6 max-w-sm text-sm leading-7 text-[#b1c8dd]">O projeto certo começa entendendo o problema. Depois, cada escolha de design e tecnologia precisa fazer sentido para o negócio.</p>
+              <p className="mt-4 max-w-sm text-sm leading-6 text-[#b1c8dd]">Cada solução começa pela necessidade do negócio, com escolhas técnicas proporcionais ao problema.</p>
             </div>
             <div className="relative flex flex-wrap gap-x-5 gap-y-3 border-t border-[#315576] pt-6 text-[11px] font-semibold uppercase tracking-[.1em] text-[#8bc6ed]">
               <span>Estratégia</span><span>Design</span><span>Tecnologia</span>
@@ -914,9 +846,9 @@ export default function Home() {
           <div data-reveal>
             <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SOBRE A VORZAX</p>
             <h2 className="vx-heading mt-5 max-w-xl">Tecnologia com visão de negócio, <span className="vx-gradient-text">sem complicar o essencial.</span></h2>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia em desenvolvimento, dedicada a criar soluções digitais para negócios. Nosso trabalho reúne planejamento, desenvolvimento e atenção à experiência de quem vai usar a tecnologia.</p>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-[#a6b9cf]">Trabalhamos com sistemas sob medida, automações, dashboards e sites profissionais, avaliando cada demanda para propor um escopo adequado. Também desenvolvemos conceitos de produtos próprios, ainda não apresentados como soluções entregues a clientes.</p>
-            <div className="mt-8 space-y-4 border-t border-[#24435f] pt-7">
+            <p className="mt-5 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia em estruturação. Atuamos no planejamento e desenvolvimento de soluções digitais para necessidades reais das empresas.</p>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-[#a6b9cf]">Nossas frentes abrangem sites, automações, BI e sistemas. Os exemplos interativos são conceituais: não representam clientes ou projetos contratados.</p>
+            <div className="mt-6 space-y-3 border-t border-[#24435f] pt-5">
               {["Contato direto e alinhamento de expectativas", "Propostas com escopo e etapas definidos", "Design, performance e experiência de uso"].map((item) => (
                 <div key={item} className="flex items-start gap-3 text-sm text-[#c8d8e7]">
                   <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#103957] text-[#74d3ff]"><CheckIcon /></span>{item}
@@ -967,7 +899,7 @@ export default function Home() {
           <div data-reveal="left">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
-              Sites profissionais, automações e soluções digitais para empresas.
+              Sites, automações, dashboards, BI e sistemas sob medida para empresas.
             </p>
           </div>
 
