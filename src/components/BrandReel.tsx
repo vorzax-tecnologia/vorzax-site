@@ -63,7 +63,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[6%] py-[4%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
-            <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[min(43vw,415px)]" : "w-[min(50vw,490px)]"}`} />
+            <Image src="/vorzax-logo-header.webp" width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[min(43vw,415px)]" : "w-[min(50vw,490px)]"}`} />
             <p className="mt-3 text-[clamp(8px,1vw,13px)] font-bold uppercase tracking-[.15em] text-[#83d0ff]">{current.eyebrow}</p>
             <p className="mt-4 text-[clamp(16px,3.4vw,47px)] font-semibold leading-[1.05] tracking-[-.06em]">{current.headline} <span className="text-[#70c8ff]">{current.highlight}</span></p>
             <p className="mt-3 hidden text-[clamp(9px,1vw,14px)] text-[#a5c2da] sm:block">{current.caption}</p>
@@ -71,7 +71,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         ) : (
           <div className="grid w-full grid-cols-[.58fr_1.42fr] items-center gap-[2%]">
             <div className="min-w-0">
-              <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized width={539} height={165} alt="" className="mb-[8%] h-auto w-[min(26vw,235px)]" />
+              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="mb-[8%] h-auto w-[min(26vw,235px)]" />
               <p className="text-[clamp(7px,1vw,13px)] font-bold uppercase tracking-[.11em] text-[#78cfff]">{current.eyebrow}</p>
               <p className="mt-2 text-[clamp(15px,3vw,41px)] font-semibold leading-[1.08] tracking-[-.055em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
               <p className="mt-3 hidden text-[clamp(10px,1.1vw,15px)] text-[#abc9df] sm:block">{current.caption}</p>
