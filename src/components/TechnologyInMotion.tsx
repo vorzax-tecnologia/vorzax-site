@@ -57,15 +57,90 @@ function AutomationStage({ step }: { step: number }) {
 
 const dataMonthly=[24,29,26,41,36,53,50,67,63,76,70,86];
 const dataQuarter=[34,45,39,62,56,69,65,79,74,91,86,96];
-function BiStage() {
-  const [period,setPeriod]=useState<"mensal"|"trimestral">("mensal");
-  const data=period==="mensal"?dataMonthly:dataQuarter;
-  const pts=data.map((v,i)=>`${38+i*31},${185-v*1.55}`).join(" ");
-  const area=`M ${pts.replaceAll(" "," L ")} L 379 194 L 38 194 Z`;
+function AnimatedMetric({ target, suffix = "", active }: { target: number; suffix?: string; active: boolean }) {
+  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let frame = 0;
+    const begin = performance.now();
+    const animate = (now: number) => {
+      const elapsed = reduced ? 1 : Math.min((now - begin) / 1250, 1);
+      const eased = 1 - (1 - elapsed) ** 3;
+      setCurrent(Math.round(target * eased * 10) / 10);
+      if (elapsed < 1) frame = window.requestAnimationFrame(animate);
+    };
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
+  }, [target, active]);
+  return <span className="tabular-nums">{current.toLocaleString("pt-BR", { maximumFractionDigits: suffix === "%" ? 1 : 0 })}{suffix}</span>;
+}
+
+function BiStage({ playing, visible }: { playing: boolean; visible: boolean }) {
+  const [period, setPeriod] = useState<"mensal" | "trimestral">("mensal");
+  useEffect(() => {
+    if (!playing || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setPeriod((current) => current === "mensal" ? "trimestral" : "mensal");
+    }, 7600);
+    return () => window.clearInterval(timer);
+  }, [playing, visible]);
+
+  const data = period === "mensal" ? dataMonthly : dataQuarter;
+  const pts = data.map((v, i) => `${38 + i * 31},${185 - v * 1.55}`).join(" ");
+  const area = `M ${pts.replaceAll(" ", " L ")} L 379 194 L 38 194 Z`;
+  const conversion = period === "mensal" ? 12.4 : 13.1;
+  const cards = [
+    { k: "Pedidos", target: period === "mensal" ? 128 : 384, suffix: "" },
+    { k: "Atendimentos", target: period === "mensal" ? 94 : 282, suffix: "" },
+    { k: "Conversão", target: conversion, suffix: "%" },
+  ];
+
   return <div className="showcase-stage-bi h-full min-h-[460px] rounded-[20px] bg-[#111723] p-4 sm:p-6">
-    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/[.08] pb-5"><div><div className="text-xs font-semibold text-white">Visão executiva</div><div className="mt-1 text-[10px] text-slate-500">Desempenho comercial · dados fictícios</div></div><div role="group" aria-label="Filtrar período" className="flex rounded-lg border border-white/10 bg-[#090f1b] p-1">{(["mensal","trimestral"] as const).map(p=><button key={p} aria-pressed={period===p} onClick={()=>setPeriod(p)} className={`rounded-md px-3 py-1.5 text-[10px] font-medium transition-colors ${period===p?"bg-[#1d426b] text-cyan-100":"text-slate-400 hover:text-white"}`} type="button">{p==="mensal"?"Mensal":"Trimestral"}</button>)}</div></div>
-    <div className="grid grid-cols-3 gap-2 sm:gap-3">{[{k:"Pedidos",v:period==="mensal"?"128":"384"},{k:"Atendimentos",v:period==="mensal"?"94":"282"},{k:"Conversão",v:period==="mensal"?"12,4%":"13,1%"}].map((k,i)=><div key={k.k} className="rounded-xl border border-white/[.07] bg-[#172234] px-2.5 py-4 sm:p-4"><div className="text-[9px] text-slate-400 sm:text-[10px]">{k.k}</div><div className={`mt-2 text-xl font-semibold sm:text-2xl ${i===0?"text-[#72cfff]":"text-white"}`}>{k.v}</div></div>)}</div>
-    <div className="mt-4 rounded-xl border border-white/[.08] bg-[#0d1625] px-2 py-3 sm:px-4 sm:py-4"><div className="mb-3 flex items-center justify-between gap-2"><span className="text-[10px] font-semibold text-slate-200">Evolução de volume</span><span className="text-[9px] text-slate-500">Série ilustrativa</span></div><svg viewBox="0 0 420 210" className="w-full" role="img" aria-label="Gráfico ilustrativo de volume ao longo do tempo"><defs><linearGradient id="vx-bi-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#1e8afe" stopOpacity=".4"/><stop offset="1" stopColor="#1e8afe" stopOpacity="0"/></linearGradient></defs>{[50,90,130,170].map(y=><line key={y} x1="30" y1={y} x2="395" y2={y} stroke="#36506b" strokeWidth=".7" strokeDasharray="3 6"/>)}<path d={area} fill="url(#vx-bi-fill)" key={period+"-area"}/><polyline className="showcase-graph-draw" key={period} points={pts} stroke="#47c7f6" strokeWidth="3" fill="none" strokeLinejoin="round" strokeLinecap="round"/>{data.map((n,i)=><circle key={i} cx={38+i*31} cy={185-n*1.55} r="2.8" fill="#6ed8fc"/>)}<text x="32" y="207" fill="#758aa4" fontSize="10">Jan</text><text x="366" y="207" fill="#758aa4" fontSize="10">Dez</text></svg></div>
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/[.08] pb-5">
+      <div>
+        <div className="flex items-center gap-2 text-xs font-semibold text-white"><span className="h-1.5 w-1.5 rounded-full bg-[#40b8fa] shadow-[0_0_12px_#1982ff]"/>Visão executiva <span className="rounded-full border border-[#295476] px-2 py-0.5 text-[9px] font-normal text-[#a6c7e6]">SIMULAÇÃO</span></div>
+        <div className="mt-2 text-[10px] text-slate-400">Indicadores e movimentações inteiramente fictícios</div>
+      </div>
+      <div role="group" aria-label="Filtrar período" className="flex rounded-lg border border-white/10 bg-[#090f1b] p-1">
+        {(["mensal","trimestral"] as const).map((p) => <button key={p} aria-pressed={period === p} onClick={() => setPeriod(p)} className={`rounded-md px-3 py-1.5 text-[10px] font-medium transition-colors ${period === p ? "bg-[#1d426b] text-cyan-100" : "text-slate-300 hover:text-white"}`} type="button">{p === "mensal" ? "Mensal" : "Trimestral"}</button>)}
+      </div>
+    </div>
+    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+      {cards.map((card, i) => <div key={card.k} className="rounded-xl border border-white/[.08] bg-[#172234] px-2.5 py-4 transition-colors duration-500 sm:p-4">
+        <p className="text-[9px] text-[#aabbd0] sm:text-[10px]">{card.k}</p>
+        <p className={`mt-2 text-xl font-semibold tracking-tight sm:text-[26px] ${i === 0 ? "text-[#7bd1ff]" : "text-white"}`}>
+          <AnimatedMetric target={card.target} suffix={card.suffix} active={visible} />
+        </p>
+        <div aria-hidden="true" className="mt-3 h-[3px] overflow-hidden rounded-full bg-[#21334a]">
+          <div className="vx-bi-meter h-full rounded-full bg-gradient-to-r from-[#1364cb] to-[#5bc9fb]" style={{ width: (i === 0 ? 78 : i === 1 ? 60 : 44) + "%" }} />
+        </div>
+      </div>)}
+    </div>
+    <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_145px]">
+      <div className="rounded-xl border border-white/[.08] bg-[#0d1625] px-2 py-3 sm:px-4 sm:py-4">
+        <div className="mb-2 flex items-center justify-between gap-2"><span className="text-[10px] font-semibold text-slate-200">Evolução de volume</span><span className="text-[9px] text-[#a5b5ca]">{period === "mensal" ? "12 períodos" : "Comparativo"} · demo</span></div>
+        <svg viewBox="0 0 420 210" className="w-full" role="img" aria-label={`Linha animada de volume ${period}, com dados fictícios`}>
+          <defs><linearGradient id="vx-bi-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#1e8afe" stopOpacity=".4"/><stop offset="1" stopColor="#1e8afe" stopOpacity="0"/></linearGradient></defs>
+          {[50,90,130,170].map((y) => <line key={y} x1="30" y1={y} x2="395" y2={y} stroke="#36506b" strokeWidth=".7" strokeDasharray="3 6"/>)}
+          <path d={area} fill="url(#vx-bi-fill)" key={period + "-area"} className="vx-bi-area"/>
+          <polyline className="showcase-graph-draw" key={period} points={pts} stroke="#47c7f6" strokeWidth="3" fill="none" strokeLinejoin="round" strokeLinecap="round"/>
+          {data.map((n, i) => <circle className="vx-bi-point" key={period + i} cx={38 + i * 31} cy={185 - n * 1.55} r="3" fill="#7ce0ff" style={{ animationDelay: (i * 80 + 380) + "ms" }}/>)}
+          <text x="32" y="207" fill="#a3bad0" fontSize="10">Jan</text><text x="366" y="207" fill="#a3bad0" fontSize="10">Dez</text>
+        </svg>
+      </div>
+      <div className="flex flex-col justify-center rounded-xl border border-white/[.08] bg-[#0d1625] px-3 py-5 text-center">
+        <span className="text-[10px] font-semibold text-[#b3cbe1]">Taxa ilustrativa</span>
+        <div className="relative mx-auto mt-4 flex h-28 w-28 items-center justify-center sm:h-24 sm:w-24">
+          <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full -rotate-90" aria-hidden="true">
+            <circle cx="50" cy="50" r="39" fill="none" stroke="#20354d" strokeWidth="9"/>
+            <circle key={period} cx="50" cy="50" r="39" fill="none" stroke="#44c6fa" strokeWidth="9" strokeLinecap="round" strokeDasharray={`${conversion / 100 * 245} 245`} className="vx-bi-ring"/>
+          </svg>
+          <span className="text-xl font-bold tracking-tight text-white"><AnimatedMetric target={conversion} suffix="%" active={visible}/></span>
+        </div>
+        <span className="mt-3 text-[9px] leading-5 text-[#90aac3]">Visualização demonstrativa<br/>Sem dados reais</span>
+      </div>
+    </div>
   </div>;
 }
 function SitesStage({ step }: { step: number }) {
@@ -121,7 +196,7 @@ export function TechnologyInMotion() {
             <div aria-label={`Demonstração de ${chapter.nav}`} className="showcase-stage-appear min-h-[450px]" key={active}>
               {active==="sistemas"&&<SystemsStage step={step}/>}
               {active==="automacao"&&<AutomationStage step={step}/>}
-              {active==="bi"&&<BiStage/>}
+              {active==="bi"&&<BiStage playing={playing} visible={visible}/>}
               {active==="sites"&&<SitesStage step={step}/>}
             </div>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 px-1"><span className="text-[10px] text-slate-500">{chapter.caption}</span><div className="flex items-center gap-2"><button type="button" aria-label="Voltar demonstração" className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[#aac0d4] hover:border-[#46b9e7] hover:text-white" onClick={()=>choose(chapters[(idx+3)%4].id)}><Arrow/></button><button type="button" className="flex h-9 items-center justify-center rounded-full border border-white/10 px-3 text-[10px] text-[#b8cfe2] hover:border-[#46b9e7] hover:text-white" onClick={()=>setPlaying(x=>!x)}>{playing?"Ⅱ Pausar":"▶ Reproduzir"}</button><button type="button" aria-label="Próxima demonstração" className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2e6792] bg-[#133453] text-[#addef8] hover:border-[#46b9e7] hover:text-white" onClick={()=>choose(chapters[(idx+1)%4].id)}><Arrow right/></button></div></div>
