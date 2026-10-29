@@ -1,14 +1,15 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "Vorzax Tecnologia — Sistemas, Automação, BI e Sites";
-export const size = {
-  width: 1200,
-  height: 630,
-};
+export const alt = "Vorzax Tecnologia — Sites profissionais, automação e soluções digitais";
+export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  // Reutiliza a marca oficial, sem criar outro símbolo para redes sociais.
+  const logo = await fetch(
+    new URL("../../public/vorzax-logo-oficial.png", import.meta.url)
+  ).then((response) => response.arrayBuffer());
+
   return new ImageResponse(
     (
       <div
@@ -18,92 +19,33 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "72px",
-          background:
-            "radial-gradient(circle at 78% 18%, #0c4a6e 0%, #071327 30%, #020611 72%)",
+          padding: "68px 76px",
+          background: "linear-gradient(130deg, #04111f 0%, #061b31 55%, #020713 100%)",
           color: "#ffffff",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "22px",
-          }}
-        >
-          <div
-            style={{
-              width: "84px",
-              height: "84px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "22px",
-              background: "linear-gradient(135deg, #10d6ff, #3345ff)",
-              color: "#020611",
-              fontSize: "52px",
-              fontWeight: 900,
-            }}
-          >
-            V
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div
-              style={{
-                fontSize: "38px",
-                fontWeight: 800,
-                letterSpacing: "0.14em",
-              }}
-            >
-              VORZΛX
-            </div>
-            <div
-              style={{
-                fontSize: "17px",
-                color: "#38bdf8",
-                letterSpacing: "0.3em",
-                fontWeight: 700,
-              }}
-            >
-              TECNOLOGIA
-            </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* @ts-expect-error ImageResponse aceita buffers de imagem nos elementos img. */}
+          <img src={logo} width={318} height={91} alt="Vorzax Tecnologia" style={{ objectFit: "contain" }} />
+          <div style={{ display: "flex", border: "1px solid #285578", color: "#88d4ff", fontSize: 16, padding: "12px 20px", borderRadius: 26 }}>
+            TECNOLOGIA PARA EMPRESAS
           </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "26px" }}>
-          <div
-            style={{
-              maxWidth: "970px",
-              fontSize: "68px",
-              lineHeight: 1.06,
-              fontWeight: 850,
-              letterSpacing: "-0.045em",
-            }}
-          >
-            Tecnologia sob medida para transformar sua empresa.
+          <div style={{ width: "84px", height: "4px", background: "#289bfb", display: "flex" }} />
+          <div style={{ fontSize: 65, fontWeight: 750, letterSpacing: "-0.055em", lineHeight: 1.05, maxWidth: 1020 }}>
+            Sites profissionais e tecnologia para sua empresa evoluir.
           </div>
-          <div
-            style={{
-              fontSize: "27px",
-              color: "#a7b4c8",
-              lineHeight: 1.35,
-            }}
-          >
-            Sistemas • Automações • Dashboards e BI • Sites
+          <div style={{ fontSize: 24, lineHeight: 1.35, color: "#a8bed2", display: "flex" }}>
+            Sites • Automações • Dashboards e BI • Sistemas
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: "20px",
-            color: "#7dd3fc",
-          }}
-        >
-          <span>vorzax.com.br</span>
-          <span>Minas Gerais • Atendimento em todo o Brasil</span>
+        <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #204462", paddingTop: 25, color: "#8ecfff", fontSize: 19 }}>
+          <span>www.vorzax.com.br</span>
+          <span>Minas Gerais · Atendimento online</span>
         </div>
       </div>
     ),
