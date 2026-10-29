@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Vorzax Tecnologia — Sistemas, Automações, Dashboards e Sites";
+  "Vorzax Tecnologia — Sistemas, Automação, BI e Sites";
 export const size = {
   width: 1200,
   height: 630,
@@ -56,7 +56,7 @@ export default function OpenGraphImage() {
                 letterSpacing: "0.14em",
               }}
             >
-              VORZAX
+              VORZΛX
             </div>
             <div
               style={{
@@ -81,7 +81,7 @@ export default function OpenGraphImage() {
               letterSpacing: "-0.045em",
             }}
           >
-            Tecnologia que organiza processos e faz sua empresa trabalhar melhor.
+            Tecnologia sob medida para transformar sua empresa.
           </div>
           <div
             style={{
@@ -90,7 +90,7 @@ export default function OpenGraphImage() {
               lineHeight: 1.35,
             }}
           >
-            Sistemas sob medida • Automações • Dashboards • Sites
+            Sistemas • Automações • Dashboards e BI • Sites
           </div>
         </div>
 
