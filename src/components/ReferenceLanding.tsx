@@ -65,9 +65,9 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
             <span className="hidden text-[11px] text-[#91a7bd] lg:block">Selecione um card para abrir uma demonstração interativa.</span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div role="region" aria-label="Vitrine de soluções — deslize para explorar no celular" className="vx-services-rail flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4">
             {cards.map((card) => (
-              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className={`vx-demo-card group grid h-full min-w-0 grid-rows-[auto_auto_1fr_auto_auto] rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
+              <a key={card.slug} href="#tecnologia-em-acao" onClick={() => selectDemo(card.slug)} className={`vx-demo-card group grid h-full w-[min(82vw,345px)] shrink-0 snap-start grid-rows-[auto_auto_1fr_auto_auto] sm:w-auto sm:shrink rounded-[20px] border border-[#1a3c5a] bg-[linear-gradient(154deg,#0b2037_0%,#061426_37%,#04101e_100%)] p-4 shadow-[0_16px_45px_rgba(0,0,0,.16)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#3799ff] hover:shadow-[0_26px_60px_rgba(0,0,0,.26)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300 sm:p-5 ${card.slug === "sites" ? "vx-demo-featured" : ""}`}>
                 <div className="flex min-h-9 items-start justify-between gap-3">
                   <span className="pt-1 text-[10px] font-bold leading-[1.4] tracking-[.15em] text-[#43b8fb]">{card.kicker}</span>
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#112941] text-base text-[#e7f7ff] transition group-hover:bg-[#116ee6]" aria-hidden="true">↗</span>
@@ -87,7 +87,8 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
               </a>
             ))}
           </div>
-          <p className="mt-5 text-[11px] leading-5 text-[#92a7bc]">Exemplos conceituais e dados ilustrativos. Não representam clientes nem projetos contratados.</p>
+          <p className="mt-3 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para o lado e explore as outras soluções →</p>
+          <p className="mt-3 text-[11px] leading-5 text-[#92a7bc]">Exemplos conceituais e dados ilustrativos. Não representam clientes nem projetos contratados.</p>
         </div>
       </div>
     </section>
