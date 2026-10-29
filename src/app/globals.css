@@ -257,3 +257,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .vx-process-card:hover, .vx-solution-row:hover, .vx-capability-tile:hover, .vx-portfolio-card:hover, .vx-primary-button:hover { transform: none !important; }
 }
+
+/* Revisão de legibilidade — aumenta contraste de textos secundários no site público. */
+main.vx-institutional .text-slate-500 { color: #9aafc5; }
+main.vx-institutional .text-slate-600 { color: #98adc4; }
+main.vx-institutional .text-slate-400 { color: #a7b9cb; }
