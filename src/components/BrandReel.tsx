@@ -77,7 +77,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
               <p className="mt-3 hidden text-[clamp(10px,1.1vw,15px)] text-[#abc9df] sm:block">{current.caption}</p>
             </div>
             <div className="min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[3px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-2">
-              <DemoVisual category={current.category} variant={current.variant ?? 0} compact step={playing ? scene % 4 : 0} playing={playing} />
+              <DemoVisual category={current.category ?? "sites"} variant={current.variant ?? 0} compact step={playing ? scene % 4 : 0} playing={playing} />
             </div>
           </div>
         )}
