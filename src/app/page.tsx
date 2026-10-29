@@ -911,7 +911,7 @@ export default function Home() {
               <p className="mt-6 max-w-sm text-sm leading-7 text-[#b1c8dd]">O projeto certo começa entendendo o problema. Depois, cada escolha de design e tecnologia precisa fazer sentido para o negócio.</p>
             </div>
             <div className="relative flex flex-wrap gap-x-5 gap-y-3 border-t border-[#315576] pt-6 text-[11px] font-semibold uppercase tracking-[.1em] text-[#8bc6ed]">
-              <span>01 / Escutar</span><span>02 / Planejar</span><span>03 / Construir</span>
+              <span>Estratégia</span><span>Design</span><span>Tecnologia</span>
             </div>
           </div>
           <div data-reveal>
