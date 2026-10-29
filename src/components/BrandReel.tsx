@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 
 const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; headline: string; highlight: string; caption: string }[] = [
-  { eyebrow: "VORZAX / TECNOLOGIA PARA EMPRESAS", headline: "Tecnologia que", highlight: "faz avançar.", caption: "Sites · Automações · Dados · Sistemas" },
+  { eyebrow: "VORZAX / TECNOLOGIA PARA EMPRESAS", headline: "Tecnologia que", highlight: "faz avançar.", caption: "Sites · Automações · Dados · Sistemas · IA" },
   { category: "sites", variant: 0, eyebrow: "01 / PRESENÇA DIGITAL", headline: "Sua marca.", highlight: "Bem apresentada.", caption: "Sites e experiências digitais" },
   { category: "automacao", variant: 0, eyebrow: "02 / AUTOMAÇÃO", headline: "Processos", highlight: "que avançam.", caption: "Fluxos conectados e organizados" },
   { category: "bi", variant: 0, eyebrow: "03 / DASHBOARDS & BI", headline: "Dados mais", highlight: "claros.", caption: "Indicadores que apoiam decisões" },
   { category: "sistemas", variant: 2, eyebrow: "04 / SISTEMAS SOB MEDIDA", headline: "Operação", highlight: "em movimento.", caption: "Sistemas adaptados ao seu negócio" },
-  { eyebrow: "VORZAX TECNOLOGIA", headline: "Um universo", highlight: "de soluções.", caption: "Presença digital · Processos · Gestão · Tecnologia" },
+  { category:"ia",variant:0,eyebrow:"05 / VORZAX IA",headline:"Assistentes",highlight:"virtuais.",caption:"Atendimento, suporte e operações simuladas" },
+  { eyebrow: "VORZAX TECNOLOGIA", headline: "Um universo", highlight: "de soluções.", caption: "Presença digital · Processos · Gestão · IA · Tecnologia" },
 ];
 
 /** A vitrine do filme utiliza a interface REAL do Laboratório, sem miniatura 33%.
@@ -43,38 +44,50 @@ type BrandReelProps = {
   onEnded?: () => void;
   compact?: boolean;
   showPlayButton?: boolean;
+  loop?: boolean;
+  pauseOnHover?: boolean;
 };
 
-export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlayButton = true }: BrandReelProps) {
+export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlayButton = true, loop = false, pauseOnHover = false }: BrandReelProps) {
   const [scene, setScene] = useState(0);
-  const [playing, setPlaying] = useState(autoPlay);
+  const [running, setRunning] = useState(autoPlay);
+  const [hovered, setHovered] = useState(false);
+  const [touching, setTouching] = useState(false);
   const [interacted, setInteracted] = useState(false);
+  const playing = running && !hovered && !touching;
+
+  // Não iniciar animações automaticamente quando o usuário solicita redução de movimento.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setRunning(false);
+  }, []);
 
   useEffect(() => {
     if (!playing) return;
     const last = scene === scenes.length - 1;
     const duration = scene === 0 || last ? 1700 : 2300;
     const timer = window.setTimeout(() => {
-      if (last) {
-        setPlaying(false);
+      if (!last) setScene(current => current + 1);
+      else if (loop) setScene(0);
+      else {
+        setRunning(false);
         onEnded?.();
-      } else setScene(current => Math.min(scenes.length - 1, current + 1));
+      }
     }, duration);
     return () => window.clearTimeout(timer);
-  }, [scene, playing, onEnded]);
+  }, [scene, playing, loop, onEnded]);
 
   function restart() {
     setScene(0);
-    setPlaying(true);
+    setRunning(true);
     setInteracted(true);
   }
   function toggle() {
-    if (playing) {
-      setPlaying(false);
+    if (running) {
+      setRunning(false);
       setInteracted(true);
-    } else if (scene === scenes.length - 1) restart();
+    } else if (scene === scenes.length - 1 && !loop) restart();
     else {
-      setPlaying(true);
+      setRunning(true);
       setInteracted(true);
     }
   }
@@ -82,7 +95,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const current = scenes[scene];
   const isBrand = !current.category;
   return (
-    <div className={`vx-brand-reel relative isolate ${compact ? "aspect-[1.50]" : "aspect-video"} w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate ${compact ? "aspect-[1.50]" : "aspect-video"} w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[6%] py-[4%]" aria-live="off">
@@ -112,9 +125,9 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         <span>VORZAX TECNOLOGIA</span>
       </div>
       {showPlayButton && (
-        <button type="button" onClick={toggle} aria-label={playing ? "Pausar filme" : scene === scenes.length - 1 ? "Rever filme" : "Reproduzir filme"} className="absolute bottom-[8%] right-[4%] flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
-          <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
-          <span className="hidden sm:inline">{playing ? "Pausar" : scene === scenes.length - 1 ? "Rever filme" : interacted ? "Continuar" : "Assistir filme"}</span>
+        <button type="button" onClick={toggle} aria-label={running ? "Pausar filme" : scene === scenes.length - 1 && !loop ? "Rever filme" : "Reproduzir filme"} className="absolute bottom-[8%] right-[4%] flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
+          <span aria-hidden="true">{running ? "Ⅱ" : "▶"}</span>
+          <span className="hidden sm:inline">{running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme"}</span>
         </button>
       )}
     </div>
