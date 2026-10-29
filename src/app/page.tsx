@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MotionFilm } from "@/components/MotionFilm";
+import { ReferenceLanding } from "@/components/ReferenceLanding";
 import { TechnologyInMotion } from "@/components/TechnologyInMotion";
 import {
   useEffect,
@@ -962,83 +962,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section id="inicio" className="relative isolate min-h-[820px] overflow-hidden">
-        <div className="hero-grid absolute inset-0 -z-30" />
-        <div className="hero-dots absolute inset-0 -z-20 opacity-70" />
-        <div className="absolute left-[-180px] top-[-180px] -z-20 h-[560px] w-[560px] rounded-full bg-blue-600/18 blur-[130px]" />
-        <div className="absolute right-[-100px] top-[150px] -z-20 h-[520px] w-[520px] rounded-full bg-cyan-500/12 blur-[140px]" />
-        <div className="absolute left-[40%] top-[10%] -z-20 h-[420px] w-[420px] rounded-full bg-indigo-600/10 blur-[150px]" />
-
-        <div className="mx-auto grid min-h-[820px] max-w-7xl items-center gap-10 px-6 py-24 lg:grid-cols-[1.12fr_0.88fr] lg:px-10 xl:gap-14">
-          <div className="relative z-10" data-reveal="left">
-            <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold tracking-[0.18em] text-sky-300 backdrop-blur-xl">
-              <span className="h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_18px_#38bdf8]" />
-              TECNOLOGIA PARA EMPRESAS
-            </div>
-
-            <h1 className="max-w-[720px] text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-white sm:text-5xl lg:text-[54px] xl:text-[60px]">
-              Tecnologia sob medida para
-              <span className="block bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                transformar sua empresa.
-              </span>
-            </h1>
-
-            <p className="mt-7 max-w-[650px] text-base leading-7 text-slate-400 sm:text-lg sm:leading-8">
-              Desenvolvemos sistemas, automações, dashboards, sites e soluções digitais para organizar
-              processos, apoiar decisões e fortalecer a presença da sua empresa.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={openDiagnostic}
-                className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-bold text-[#020611] transition hover:-translate-y-0.5 hover:bg-sky-300"
-              >
-                Conversar sobre meu projeto
-                <ArrowIcon />
-              </button>
-
-              <a
-                href="#solucoes"
-                className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-sm font-semibold text-white backdrop-blur transition hover:border-white/30 hover:bg-white/[0.08]"
-              >
-                Conhecer soluções
-              </a>
-            </div>
-
-            <div className="mt-16 grid max-w-xl grid-cols-3 gap-6 border-t border-white/10 pt-7">
-              <div>
-                <strong className="block text-2xl font-semibold">100%</strong>
-                <span className="mt-1 block text-xs text-slate-500">Sob medida</span>
-              </div>
-              <div>
-                <strong className="block text-2xl font-semibold">B2B</strong>
-                <span className="mt-1 block text-xs text-slate-500">Foco empresarial</span>
-              </div>
-              <div>
-                <strong className="block text-2xl font-semibold">360°</strong>
-                <span className="mt-1 block text-xs text-slate-500">Visão do processo</span>
-              </div>
-            </div>
-
-              <Link href="/plataforma" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-sky-300 transition hover:text-white">
-                Conheça a plataforma modular da Vorzax
-                <ArrowIcon />
-              </Link>
-          </div>
-
-          <div className="relative mx-auto w-full max-w-[620px]" data-reveal="right" style={{ transitionDelay: "120ms" }}>
-            <div className="hero-glow pointer-events-none absolute -inset-8 rounded-full bg-sky-500/10 blur-[90px]" />
-            <div className="relative z-10">
-              <MotionFilm />
-            </div>
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 px-2 text-[11px] text-slate-400">
-              <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300"/> Tecnologia em movimento</span>
-              <a href="#tecnologia-em-acao" className="font-semibold text-sky-300 transition hover:text-white">Explorar demonstrações →</a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ReferenceLanding onContact={openDiagnostic} />
 
       <section id="processo" className="relative border-y border-white/10 bg-white/[0.02]">
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-24">

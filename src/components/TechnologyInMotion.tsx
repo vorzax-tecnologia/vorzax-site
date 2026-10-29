@@ -90,6 +90,17 @@ export function TechnologyInMotion() {
   const [visible,setVisible]=useState(false);
   const wrapper=useRef<HTMLElement>(null);
   const chapter=chapters.find(c=>c.id===active)??chapters[0];
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const slug = (event as CustomEvent<{ slug?: string }>).detail?.slug;
+      if (chapters.some(c => c.id === slug)) {
+        setActive(slug as Chapter);
+        setStep(0);
+      }
+    };
+    window.addEventListener("vorzax:demo", handler);
+    return () => window.removeEventListener("vorzax:demo", handler);
+  }, []);
   useEffect(()=>{const obs=new IntersectionObserver(([e])=>setVisible(e.isIntersecting),{threshold:.18});if(wrapper.current)obs.observe(wrapper.current);return ()=>obs.disconnect()},[]);
   useEffect(()=>{if(!visible||!playing||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;const interval=window.setInterval(()=>setStep(v=>(v+1)%4),2600);return ()=>window.clearInterval(interval)},[active,playing,visible]);
   const choose=(id:Chapter)=>{setActive(id);setStep(0)};
