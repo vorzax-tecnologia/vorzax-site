@@ -114,7 +114,7 @@ function AutomationPreview({ variant, device, step }: { variant: number; device:
       <div className="mt-5 flex items-center gap-3"><span className="rounded-lg bg-[#174c53] px-3 py-2 text-[11px] font-bold text-[#81e3e3]">TRIGGER</span><span className="min-w-0 text-xs font-semibold text-white">{catalog.automacao.examples[variant].name}</span></div>
       <div className={`mt-5 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-4"}`}>
         {flows[variant].map((name,i)=><div key={name} className={`vx-flow-node relative rounded-xl border p-3 transition-colors duration-500 ${step===i?"border-[#59ded7] bg-[#114751]":"border-[#27525c] bg-[#0d2e38]"}`}>
-          <div className="flex items-center justify-between"><span className={`flex h-7 w-7 items-center justify-center rounded-lg text-[10px] font-bold ${step>=i?"bg-[#1c8b8e] text-white":"bg-[#143d49] text-[#8abbbf]"}`}>{step>i?"✓":"0"+(i+1)}</span>{step===i&&<span className="vx-flow-pulse h-2 w-2 rounded-full bg-[#70fbdf]" aria-label="Etapa ativa"/>}</div>
+          <div className="flex items-center justify-between"><span className={`flex h-7 w-7 items-center justify-center rounded-lg text-[10px] font-bold ${step>=i?"bg-[#0d6269] text-white":"bg-[#143d49] text-[#8abbbf]"}`}>{step>i?"✓":"0"+(i+1)}</span>{step===i&&<span className="vx-flow-pulse h-2 w-2 rounded-full bg-[#70fbdf]" aria-hidden="true"/>}</div>
           <p className="mt-3 text-xs font-semibold text-white">{name}</p>
           <p className="mt-2 text-[9px] text-[#a3c5ca]">{step>i?"Etapa concluída":step===i?"Em execução":"Aguardando"}</p>
         </div>)}
