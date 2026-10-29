@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 const siteUrl = "https://www.vorzax.com.br";
 const siteName = "Vorzax Tecnologia";
 const title =
-  "Vorzax Tecnologia | Sistemas, Automações, Dashboards e Sites";
+  "Vorzax Tecnologia | Sistemas, Automação, BI e Sites";
 const description =
-  "Sistemas sob medida, automações, dashboards e sites para reduzir retrabalho, organizar processos e melhorar a operação da sua empresa.";
+  "Sistemas sob medida, automação de processos, dashboards, Business Intelligence, sites e landing pages para empresas. Conheça as soluções da Vorzax.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
