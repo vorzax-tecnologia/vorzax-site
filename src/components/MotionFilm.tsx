@@ -11,7 +11,7 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
   const [inView, setInView] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const playVideo = !reduced && !pausedByUser && inView;
-  const src = variant === "principal" ? "vorzax-filme-principal" : "vorzax-tecnologia-fluxos";
+  const src = variant === "principal" ? "vorzax-filme-integrado" : "vorzax-tecnologia-fluxos";
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -59,17 +59,17 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
         onPause={() => setIsPlaying(false)}
         muted
         playsInline
-        loop
+        loop={variant !== "principal"}
         preload="metadata"
         poster={`/videos/${src}-poster.jpg`}
-        className="h-full w-full object-cover"
-        aria-label="Filme conceitual da Vorzax: sistemas sob medida, automação, BI e sites profissionais"
+        className="h-full w-full object-contain"
+        aria-label="Apresentação em Full HD da Vorzax: sites, automações, dashboards e sistemas sob medida"
       >
-        <source src={`/videos/${src}.webm`} type="video/webm" />
-        <source src={`/videos/${src}.mp4`} type="video/mp4" />
+        {variant === "fluxos" && <source src={`/videos/${src}.webm`} type="video/webm" />}
+        <source src={variant === "principal" ? "/videos/vorzax-filme-integrado-1080p.mp4" : `/videos/${src}.mp4`} type="video/mp4" />
         Seu navegador não suporta vídeo. A demonstração está disponível nas imagens abaixo.
       </video>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#020713]/80 to-transparent" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#020713]/65 to-transparent" aria-hidden="true" />
       <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-3 sm:bottom-4 sm:left-5 sm:right-5">
         <span className="rounded-md border border-white/10 bg-[#071525]/65 px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-[.12em] text-[#e4f2ff] backdrop-blur-sm sm:text-[10px]">VORZAX / VISUALIZAÇÃO CONCEITUAL</span>
         <button
