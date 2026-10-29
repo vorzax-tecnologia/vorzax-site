@@ -41,8 +41,8 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
     <section id="inicio" className="vx-home-opening relative isolate overflow-hidden bg-[#030a15]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_80%_at_80%_35%,rgba(10,84,175,.18),transparent_80%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[linear-gradient(100deg,transparent_62%,rgba(25,103,189,.045)_80%,transparent)]" aria-hidden="true" />
-      <div className="relative mx-auto w-full max-w-[1680px] px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-20 lg:pt-16 xl:px-16">
-        <div className="grid items-center gap-8 pb-10 lg:min-h-[470px] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-9 lg:pb-14 xl:gap-16">
+      <div className="relative mx-auto w-full max-w-[1780px] px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-20 lg:pt-16 xl:px-16">
+        <div className="grid items-center gap-8 pb-10 lg:min-h-[540px] lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-6 lg:pb-14 xl:gap-10">
           <div className="vx-hero-copy order-2 min-w-0 lg:order-1">
             <div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.20em] text-[#4abfff] sm:text-[11px]">
               <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
@@ -71,7 +71,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <MotionFilm variant="principal" />
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
-              <span>Vídeo conceitual com interfaces ilustrativas.</span>
+              <span>Apresentação com interfaces nítidas dos quatro serviços.</span>
               <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 04</span>
             </div>
           </div>
