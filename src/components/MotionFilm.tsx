@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 export function MotionFilm({ variant = "principal" }: { variant?: "principal" | "fluxos" }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reduced, setReduced] = useState(false);
-  const [pausedByUser, setPausedByUser] = useState(false);
+  // The entrance film already presents the story; avoid automatically replaying it in the hero.
+  const [pausedByUser, setPausedByUser] = useState(variant === "principal");
   const [inView, setInView] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const playVideo = !reduced && !pausedByUser && inView;
@@ -59,7 +60,7 @@ export function MotionFilm({ variant = "principal" }: { variant?: "principal" | 
         muted
         playsInline
         loop
-        preload={variant === "principal" ? "auto" : "metadata"}
+        preload="metadata"
         poster={`/videos/${src}-poster.jpg`}
         className="h-full w-full object-cover"
         aria-label="Filme conceitual da Vorzax: sistemas sob medida, automação, BI e sites profissionais"
