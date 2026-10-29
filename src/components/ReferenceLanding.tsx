@@ -38,7 +38,7 @@ export function ReferenceLanding({ onSiteContact }: { onSiteContact: () => void 
               </button>
               <a href="#demonstracoes" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex items-center gap-2 text-[11px] text-[#8a9bb0]"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites profissionais · Soluções digitais para empresas</div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites profissionais · Soluções digitais</span><a href="https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20um%20site%20profissional%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar direto? WhatsApp ↗</a></div>
           </div>
 
           <div className="order-1 min-w-0 lg:order-2">
