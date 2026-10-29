@@ -64,7 +64,7 @@ export function VideoIntro() {
   return (
     <div className="vx-intro-dialog fixed inset-0 z-[200] flex min-h-[100dvh] flex-col overflow-y-auto bg-[#020914] text-white" role="dialog" aria-modal="true" aria-label="Apresentação Vorzax Tecnologia">
       <div className="relative mx-auto flex w-full max-w-[1450px] items-center justify-between gap-4 px-5 py-5 sm:px-10 sm:py-6">
-        <Image src="/vorzax-logo-oficial.png" width={604} height={172} priority alt="Vorzax Tecnologia" className="h-auto w-[145px] sm:w-[195px]" />
+        <Image src="https://www.vorzax.com.br/vorzax-logo-header.webp" unoptimized width={539} height={165} priority alt="Vorzax Tecnologia" className="h-auto w-[145px] sm:w-[195px]" />
         <button ref={skipRef} type="button" onClick={finish} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#356588] bg-[#0a2540] px-4 py-2 text-xs font-semibold text-[#d5edff] transition-colors hover:border-[#77c9f8] hover:bg-[#154365] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8fd5ff]">
           Pular apresentação <span aria-hidden="true">↗</span>
         </button>
