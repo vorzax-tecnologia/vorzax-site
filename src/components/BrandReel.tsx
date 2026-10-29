@@ -20,7 +20,7 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
 function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
   const stageRef=useRef<HTMLDivElement>(null);
   const [scale,setScale]=useState(1);
-  const baseWidth=720;
+  const baseWidth=580;
   useEffect(()=>{
     const stage=stageRef.current;
     if(!stage)return;
