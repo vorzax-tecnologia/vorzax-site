@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DemoVisual, type DemoCategory } from "./DemoVisuals";
 import { MotionFilm } from "@/components/MotionFilm";
 
@@ -18,6 +18,21 @@ function selectDemo(slug: string, example = 0) {
 /** First-screen video + editorial service gallery. Public brand-safe, concept-only imagery. */
 export function ReferenceLanding({ onContact }: { onContact: () => void }) {
   const [selectedExamples, setSelectedExamples] = useState<Record<DemoCategory, number>>({sites:0,automacao:0,bi:0,sistemas:0});
+  const [previewStep, setPreviewStep] = useState(0);
+  const [previewsVisible, setPreviewsVisible] = useState(false);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setPreviewsVisible(entry.isIntersecting), {threshold:0.08});
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!previewsVisible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => setPreviewStep(step => (step+1)%4), 3500);
+    return () => window.clearInterval(timer);
+  }, [previewsVisible]);
   function previewExample(category: DemoCategory, index: number) {
     setSelectedExamples(current => ({...current,[category]:index}));
     selectDemo(category,index);
@@ -62,7 +77,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           </div>
         </div>
 
-        <div id="demonstracoes" className="relative border-t border-[#193149]/70 pt-9 sm:pt-11">
+        <div id="demonstracoes" ref={galleryRef} className="relative border-t border-[#193149]/70 pt-9 sm:pt-11">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">EXPLORE NOSSAS SOLUÇÕES</span>
@@ -83,7 +98,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
                 <div className="mt-4 overflow-hidden rounded-xl border border-[#244360] bg-[#071324] shadow-[0_12px_30px_rgba(0,0,0,.28)]">
                   <div key={selectedExamples[card.slug as DemoCategory]} className="vx-card-preview relative w-full overflow-hidden">
                     
-                    <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact />
+                    <DemoVisual category={card.slug as DemoCategory} variant={selectedExamples[card.slug as DemoCategory]} compact step={previewStep} playing={previewsVisible} />
                   </div>
                 </div>
                 <div className="mt-4 border-t border-white/[.07] pt-3">
