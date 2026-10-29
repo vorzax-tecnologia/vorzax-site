@@ -51,14 +51,9 @@ export function VideoIntro() {
       }
     };
     window.addEventListener("keydown",onKey);
-    const interval=window.setInterval(()=>setFrame(v=>{
-      if(v===frames.length-1){
-        window.setTimeout(()=>document.querySelector<HTMLButtonElement>(".vx-intro-enter")?.click(),850);
-        return v;
-      }
-      return v+1;
-    }),2450);
-    return()=>{window.clearInterval(interval);window.removeEventListener("keydown",onKey);document.body.style.overflow=prev};
+    const interval=window.setInterval(()=>setFrame(v=>Math.min(v+1,frames.length-1)),2450);
+    const finishTimer=window.setTimeout(()=>document.querySelector<HTMLButtonElement>(".vx-intro-enter")?.click(),13250);
+    return()=>{window.clearInterval(interval);window.clearTimeout(finishTimer);window.removeEventListener("keydown",onKey);document.body.style.overflow=prev};
   },[open]);
 
   function finish(){
