@@ -150,3 +150,110 @@ body {
   .vx-demo-card:hover { transform: none !important; }
   .vx-demo-card img { transition: none !important; }
 }
+
+
+/* VORZAX / Institutional premium visual system - 2026-10-29 */
+.vx-section {
+  background-color: #040d1a;
+  background-image: radial-gradient(ellipse 62% 65% at 95% 10%, rgba(17, 77, 139, .09), transparent 78%);
+}
+.vx-process-section {
+  background-color: #040d1a;
+  background-image: radial-gradient(ellipse 52% 85% at 15% 35%, rgba(10, 79, 143, .12), transparent 85%);
+}
+.vx-section-mesh {
+  background-image: linear-gradient(rgba(54, 134, 205, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(54, 134, 205, .07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, transparent 95%);
+  opacity: .33;
+}
+.vx-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #60bdff;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .20em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+.vx-eyebrow-line { display: inline-block; height: 1px; width: 30px; flex-shrink: 0; background: #2bb8ff; }
+.vx-heading {
+  color: #f4f9ff;
+  font-size: clamp(2.25rem, 4vw, 3.9rem);
+  font-weight: 700;
+  line-height: 1.09;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.vx-gradient-text { color: #47aeff; }
+.vx-primary-button {
+  background: linear-gradient(110deg, #0066df, #148fff);
+  border: 1px solid #198de7;
+  box-shadow: 0 14px 36px rgba(1, 102, 231, .23), inset 0 1px 0 rgba(255,255,255,.19);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+}
+.vx-primary-button:hover { transform: translateY(-2px); border-color: #87d6ff; box-shadow: 0 17px 44px rgba(0, 119, 246, .35); }
+.vx-primary-button:focus-visible, .vx-contact-method:focus-visible { outline: 2px solid #9be6ff; outline-offset: 4px; }
+.vx-process-card, .vx-solution-row, .vx-portfolio-card, .vx-capability-tile {
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s ease, box-shadow .35s ease, background-color .35s ease;
+}
+.vx-process-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(140deg, rgba(43, 148, 255, .07), transparent 49%);
+  opacity: .5;
+  transition: opacity .4s ease;
+}
+.vx-process-card > * { position: relative; z-index: 1; }
+.vx-process-card:hover {
+  border-color: #317eaf;
+  transform: translateY(-5px);
+  background-color: #0a2036;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .20), 0 0 35px rgba(25, 139, 241, .045);
+}
+.vx-process-card:hover::after { opacity: 1; }
+.vx-solution-row:hover {
+  transform: translateX(3px);
+  border-color: #3f83b2;
+  background-color: #0b243b;
+  box-shadow: 0 14px 42px rgba(0,0,0,.18);
+}
+.vx-portfolio-card:hover {
+  transform: translateY(-5px);
+  border-color: #3588bd;
+  box-shadow: 0 30px 70px rgba(0,0,0,.24);
+}
+.vx-capability-tile:hover {
+  transform: translateY(-3px);
+  border-color: #3479a7;
+  background-color: #0c2b46;
+}
+.vx-solution-aside::after,
+.vx-contact-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 75% 90% at 94% 0%, rgba(29, 129, 222, .18), transparent 75%);
+}
+.vx-contact-panel {
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .32), 0 0 80px rgba(6, 103, 191, .06);
+}
+.vx-contact-method:hover { border-color: #4695c7; background-color: #123b56; }
+@media (max-width: 639px) {
+  .vx-heading { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .vx-process-card:hover, .vx-portfolio-card:hover, .vx-capability-tile:hover, .vx-solution-row:hover { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal][data-visible="true"] { animation: vx-content-arrive .75s cubic-bezier(.18,.75,.25,1) both; }
+  @keyframes vx-content-arrive { from { opacity: .55; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-process-card:hover, .vx-solution-row:hover, .vx-capability-tile:hover, .vx-portfolio-card:hover, .vx-primary-button:hover { transform: none !important; }
+}
