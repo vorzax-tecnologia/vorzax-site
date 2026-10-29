@@ -1,4 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+export const runtime = "nodejs";
 
 export const alt = "Vorzax Tecnologia — Sites profissionais, automação e soluções digitais";
 export const size = { width: 1200, height: 630 };
@@ -6,9 +11,8 @@ export const contentType = "image/png";
 
 export default async function OpenGraphImage() {
   // Reutiliza a marca oficial, sem criar outro símbolo para redes sociais.
-  const logo = await fetch(
-    new URL("../../public/vorzax-logo-oficial.png", import.meta.url)
-  ).then((response) => response.arrayBuffer());
+  const logo = await readFile(join(process.cwd(), "public", "vorzax-logo-oficial.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -26,8 +30,7 @@ export default async function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          {/* @ts-expect-error ImageResponse aceita buffers de imagem nos elementos img. */}
-          <img src={logo} width={318} height={91} alt="Vorzax Tecnologia" style={{ objectFit: "contain" }} />
+          <img src={logoSrc} width={318} height={91} alt="Vorzax Tecnologia" style={{ objectFit: "contain" }} />
           <div style={{ display: "flex", border: "1px solid #285578", color: "#88d4ff", fontSize: 16, padding: "12px 20px", borderRadius: 26 }}>
             TECNOLOGIA PARA EMPRESAS
           </div>
