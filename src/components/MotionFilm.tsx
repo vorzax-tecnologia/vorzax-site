@@ -8,7 +8,7 @@ import { BrandReel } from "./BrandReel";
  * de esticar vídeos compactados ou reutilizar imagens antigas.
  */
 export function MotionFilm({ variant = "principal" }: { variant?: "principal" | "fluxos" }) {
-  if (variant === "principal") return <BrandReel compact />;
+  if (variant === "principal") return <BrandReel compact autoPlay loop pauseOnHover />;
 
   return (
     <div className="motion-film relative isolate aspect-video w-full overflow-hidden rounded-[15px] bg-[#071321] sm:rounded-[21px]">
