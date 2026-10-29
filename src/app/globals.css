@@ -296,7 +296,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 
 /* Cinematic entry and simulated data motion, kept on compositor properties. */
 .vx-intro-dialog { isolation:isolate; animation:vx-intro-enter .35s ease-out both; }
-.vx-intro-screen { width: min(100%, 114dvh); margin-inline: auto; transform:translateZ(0); }
+.vx-intro-screen { width: min(100%, 128dvh); margin-inline: auto; transform:translateZ(0); }
 @keyframes vx-intro-enter { from {opacity:0} to {opacity:1} }
 @media (prefers-reduced-motion: no-preference) {
   .vx-bi-meter { transform-origin:left; animation:vx-bi-grow 1.1s cubic-bezier(.2,.75,.2,1) both; }
