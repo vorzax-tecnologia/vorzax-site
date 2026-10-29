@@ -962,7 +962,10 @@ export default function Home() {
         </div>
       </header>
 
-      <ReferenceLanding onContact={openDiagnostic} />
+      <ReferenceLanding onSiteContact={() => {
+        openDiagnostic();
+        setDiagnosticData((current) => ({ ...current, tipo_solucao: "Site institucional" }));
+      }} />
 
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
