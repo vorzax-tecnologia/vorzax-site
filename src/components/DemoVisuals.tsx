@@ -4,8 +4,9 @@ import { SiteDemo } from "./demos/DemoSites";
 import { AutomationDemo } from "./demos/DemoAutomations";
 import { DashboardDemo } from "./demos/DemoDashboards";
 import { SystemsDemo } from "./demos/DemoSystems";
+import { AIDemo } from "./demos/DemoAI";
 
-export type DemoCategory = "sites" | "automacao" | "bi" | "sistemas";
+export type DemoCategory = "sites" | "automacao" | "bi" | "sistemas" | "ia";
 export type DemoDevice = "desktop" | "mobile";
 
 export const demoCatalog: Record<DemoCategory, { title:string; summary:string; examples: {name:string;subtitle:string;tag:string}[] }> = {
@@ -29,6 +30,11 @@ export const demoCatalog: Record<DemoCategory, { title:string; summary:string; e
     {name:"Controle de estoque",subtitle:"Tabela de produtos, saldos e filtro de alertas",tag:"Inventário ERP"},
     {name:"Gestão de projetos",subtitle:"Quadro Kanban com tarefas selecionáveis",tag:"Gestão colaborativa"},
   ]},
+  ia: {title:"Vorzax IA. Três aplicações de um assistente virtual.",summary:"Atendimento, conhecimento e apoio operacional — simulações sem IA conectada.",examples:[
+    {name:"Atendimento comercial",subtitle:"Chat demonstrativo de orientação e qualificação de oportunidades",tag:"Assistente comercial"},
+    {name:"Suporte e FAQ",subtitle:"Central ilustrativa de dúvidas e consulta a artigos",tag:"Base de conhecimento"},
+    {name:"Assistente operacional",subtitle:"Solicitações, resumos e rascunhos sujeitos a revisão",tag:"Copiloto de operações"},
+  ]},
 };
 
 export function DemoVisual({category,variant,device="desktop",compact=false,step=0,playing=true}:{category:DemoCategory;variant:number;device?:DemoDevice;compact?:boolean;step?:number;playing?:boolean}) {
@@ -36,7 +42,8 @@ export function DemoVisual({category,variant,device="desktop",compact=false,step
   const content=category==="sites"?<SiteDemo {...props}/>:
     category==="automacao"?<AutomationDemo {...props}/>:
     category==="bi"?<DashboardDemo {...props}/>:
-    <SystemsDemo {...props}/>;
+    category==="sistemas"?<SystemsDemo {...props}/>:
+    <AIDemo {...props}/>;
   if(!compact)return <div data-demo-layout={category+"-"+variant} className={`w-full min-w-0 ${playing?"":"vx-motion-paused"}`}>{content}</div>;
   return <div data-demo-thumbnail={category+"-"+variant} className="relative aspect-[1.53] w-full overflow-hidden bg-[#0b2037]" aria-hidden="true" inert>
     <div className="pointer-events-none absolute left-0 top-0 origin-top-left" style={{width:"300%",transform:"scale(0.333333)"}}>{content}</div>
