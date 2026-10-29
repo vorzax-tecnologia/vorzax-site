@@ -337,3 +337,21 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 /* Troca discreta de prévias, sem movimento permanente. */
 @media (prefers-reduced-motion: no-preference) { .vx-card-preview { animation: vx-gallery-enter .42s ease-out both; } }
 @media (prefers-reduced-motion: reduce) { .vx-card-preview { animation: none !important; } }
+
+/* VORZAX / motion system — deliberate interactions, no perpetual shaking */
+@media (prefers-reduced-motion: no-preference) {
+  .vx-draw-bar { animation: vx-draw-bar 920ms cubic-bezier(.17,.67,.3,1) both; transform-origin: left center; }
+  .vx-draw-bar[style*="height"] { animation-name: vx-draw-column; transform-origin: center bottom; }
+  .vx-demo-line { stroke-dasharray: 750; stroke-dashoffset: 0; animation: vx-line-draw 1250ms ease-out both; }
+  .vx-card-preview { animation: vx-gallery-enter .42s ease-out both; }
+  .vx-demo-card:has(button[aria-pressed="true"]) { border-color: #3a789d; }
+  .vx-motion-paused .vx-draw-bar,
+  .vx-motion-paused .vx-demo-line,
+  .vx-motion-paused .vx-gallery-line { animation: none !important; stroke-dashoffset: 0 !important; }
+  @keyframes vx-draw-bar { from { transform: scaleX(0); opacity:.5; } to { transform:scaleX(1);opacity:1;} }
+  @keyframes vx-draw-column { from { transform: scaleY(0);opacity:.5; } to { transform:scaleY(1);opacity:1;} }
+  @keyframes vx-line-draw { from { stroke-dashoffset: 750; } to { stroke-dashoffset:0; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-draw-bar, .vx-demo-line { animation:none !important;stroke-dashoffset:0 !important; }
+}
