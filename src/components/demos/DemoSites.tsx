@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 type Device = "desktop" | "mobile";
 export type VisualProps = { variant: number; device: Device; compact?: boolean; step?: number; playing?: boolean };
 
@@ -16,6 +18,13 @@ export function DemoFrame({ children, device, compact = false, dark = true, titl
 }
 
 function HvacSite({ mobile }: { mobile:boolean }) {
+  const [service,setService]=useState(0);
+  const [contact,setContact]=useState(false);
+  const scopes=[
+    {name:"Instalação planejada",detail:"Dimensionamento, instalação e comissionamento para áreas comerciais."},
+    {name:"Manutenção preventiva",detail:"Rotinas de inspeção, limpeza e acompanhamento da climatização."},
+    {name:"Projetos comerciais",detail:"Estudo técnico e proposta conforme o perfil da operação."}
+  ];
   return <div className="min-h-[475px] bg-[#061627] text-white">
     <div className="flex items-center justify-between border-b border-[#1d415d] px-5 py-4">
       <strong className="text-[17px] font-black tracking-[-.04em]"><span className="mr-2 text-[#3bcbfd]">✳</span>CLIMA<span className="text-[#3bcbfd]">FORTE</span></strong>
@@ -26,7 +35,7 @@ function HvacSite({ mobile }: { mobile:boolean }) {
         <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#54d5ff]">ENGENHARIA DE CLIMATIZAÇÃO</p>
         <h4 className="mt-4 max-w-[450px] text-[clamp(23px,3.6vw,42px)] font-bold leading-[1.09] tracking-[-.06em]">Sua operação no clima certo.</h4>
         <p className="mt-4 max-w-[390px] text-xs leading-6 text-[#bad1e1]">Instalação e manutenção de ar-condicionado para estabelecimentos comerciais.</p>
-        <div className="mt-5 flex flex-wrap gap-2"><span className="rounded-lg bg-[#075f9b] px-4 py-2.5 text-[10px] font-bold text-white">Solicitar orçamento ↗</span><span className="rounded-lg border border-[#32617a] px-4 py-2.5 text-[10px] text-[#b7d4e4]">Nossos serviços</span></div>
+        <div className="mt-5 flex flex-wrap gap-2"><button type="button" onClick={()=>setContact(c=>!c)} className="rounded-lg bg-[#075f9b] px-4 py-2.5 text-[11px] font-bold text-white">{contact?"Fechar solicitação":"Solicitar orçamento ↗"}</button><button type="button" onClick={()=>setService(v=>(v+1)%3)} className="rounded-lg border border-[#32617a] px-4 py-2.5 text-[11px] text-[#b7d4e4]">Explorar serviços</button></div><p aria-live="polite" className="mt-3 min-h-9 text-[11px] leading-5 text-[#9bcce8]">{contact?"Exemplo de atendimento: informe o serviço desejado para uma proposta comercial. Nenhum pedido será enviado.":scopes[service].detail}</p>
       </div>
       <div className="relative min-h-[265px] overflow-hidden rounded-[16px] border border-[#3c7495]/60 bg-[#15334b] shadow-[0_18px_45px_rgba(0,0,0,.28)]"
         role="img" aria-label="Fotografia ilustrativa de espaço corporativo com instalações técnicas aparentes"
@@ -38,7 +47,7 @@ function HvacSite({ mobile }: { mobile:boolean }) {
         </div>
       </div>
     </div>
-    <div className={`grid ${mobile ? "grid-cols-1" : "grid-cols-3"} gap-2 px-5 pb-6 sm:px-8`}>{["Instalação planejada","Manutenção preventiva","Projetos comerciais"].map((x,i)=><div key={x} className="rounded-xl border border-[#285272] bg-[#0c2b44] p-4"><span className="text-[#58cef5]">0{i+1} ─</span><p className="mt-3 text-xs font-bold">{x}</p><p className="mt-1 text-[10px] text-[#a6c1d5]">Saiba mais ↗</p></div>)}</div>
+    <div className={`grid ${mobile ? "grid-cols-1" : "grid-cols-3"} gap-2 px-5 pb-6 sm:px-8`}>{scopes.map((item,i)=><button key={item.name} type="button" aria-pressed={service===i} onClick={()=>setService(i)} className={`rounded-xl border p-4 text-left transition-colors ${service===i?"border-[#47a8df] bg-[#144367]":"border-[#285272] bg-[#0c2b44] hover:border-[#39799e]"}`}><span className="text-[#58cef5]">0{i+1} ─</span><p className="mt-3 text-[12px] font-bold">{item.name}</p><p className="mt-1 text-[11px] text-[#bed7e9]">{service===i?"Selecionado • ver descrição ↑":"Ver detalhes ↗"}</p></button>)}</div>
   </div>;
 }
 
