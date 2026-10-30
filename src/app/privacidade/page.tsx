@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       <article className="relative mx-auto max-w-[900px] px-5 py-20 sm:px-8 sm:py-28">
         <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> VORZAX / PRIVACIDADE</p>
         <h1 className="vx-heading mt-6">Política de Privacidade</h1>
-        <p className="mt-5 text-sm leading-7 text-[#9ab2c9]">Última atualização: 28 de julho de 2026</p>
+        <p className="mt-5 text-sm leading-7 text-[#9ab2c9]">Última atualização: 30 de outubro de 2026</p>
 
         <div className="mt-12 space-y-4 text-sm leading-7 text-[#b9cce0]">
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">4. Compartilhamento e armazenamento</h2>
-            <p className="mt-3">Os dados podem ser armazenados em ferramentas de infraestrutura e atendimento utilizadas pela Vorzax, incluindo Supabase e WhatsApp, somente na medida necessária para conduzir o contato. Mantemos controles de acesso compatíveis com a finalidade e buscamos excluir informações quando deixam de ser necessárias.</p>
+            <p className="mt-3">Quando você confirma o envio da mensagem no WhatsApp, as informações fornecidas são recebidas para atendimento e seguem as condições de uso dessa plataforma. O formulário de contato deste site não grava automaticamente seus dados em um banco de leads. Podemos manter os registros das conversas necessários ao atendimento, com acesso restrito e pelo tempo adequado à finalidade.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
