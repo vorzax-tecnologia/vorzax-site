@@ -404,13 +404,13 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 /* Enquadramento mobile dos sites do laboratório: condensar espaços internos
    sem eliminar seções e sem afetar dashboards ou qualquer outra página. */
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[325px]"] {
-  min-height: 185px !important;
+  min-height: 255px !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[290px]"] {
-  min-height: 165px !important;
+  min-height: 250px !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[260px]"] {
-  min-height: 170px !important;
+  min-height: 275px !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="py-7"] {
   padding-top: 0.8rem !important;
@@ -424,4 +424,11 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="mt-4"] {
   margin-top: 0.5rem !important;
+}
+
+/* A tela do iPhone é a mesma em todas as 15 demos. A raiz real da interface
+   deve cobrir até a barra gestual, mesmo que o conteúdo seja mais curto.
+   O excesso rola dentro da tela, sem reduzir gráficos, fotos ou texto. */
+.vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
+  min-height: var(--vx-mobile-content-min-height, 930px) !important;
 }
