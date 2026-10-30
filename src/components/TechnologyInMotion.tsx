@@ -92,7 +92,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[402/874] h-auto min-h-0 w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(74svh,640px)] lg:h-[clamp(480px,calc(100svh-250px),700px)]" : "vx-lab-single-frame h-[min(48svh,440px)] min-h-[260px] w-full overflow-hidden bg-[#071525] sm:h-[min(62svh,580px)] lg:h-[clamp(420px,calc(100svh-300px),650px)]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] min-h-[560px] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(86svh,900px)] lg:h-[min(86svh,920px)]" : "vx-lab-single-frame h-[min(72svh,720px)] min-h-[470px] w-full overflow-hidden bg-[#071525] sm:h-[min(72svh,740px)] lg:h-[min(76svh,780px)]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
@@ -119,7 +119,7 @@ export function TechnologyInMotion() {
     <div className="vx-lab-single-frame mx-auto mt-2 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl bg-[#071525]">
       <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>
     </div>
-    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">A interface completa cabe dentro do quadro, sem rolagem ou cortes. Conteúdos e indicadores são fictícios.</p>
+    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">A demonstração é redimensionada para caber integralmente no quadro. Amplie para ler melhor. Conteúdos e indicadores são fictícios.</p>
   </div>}
  </section>;
 }
