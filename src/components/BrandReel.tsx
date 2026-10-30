@@ -85,7 +85,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const isBrand = !current.category;
   const buttonLabel = reduced && !allowMotion ? "Reproduzir filme" : running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme";
   return (
-    <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate ${compact ? "aspect-[1.50]" : "aspect-video"} w-full overflow-hidden rounded-[14px] bg-[#041123] text-white sm:rounded-[20px]`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate ${compact ? "aspect-[4/3] sm:aspect-[1.50]" : "aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[6%] py-[4%]" aria-live="off">
@@ -106,7 +106,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
               </div>
               <span className="ml-auto mr-24 hidden text-[clamp(10px,.85vw,13px)] text-[#b5d2e6] lg:block">{current.caption}</span>
             </div>
-            <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[3px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-[5px]">
+            <div className="min-h-0 flex-1 overflow-hidden bg-[#06192e]">
               <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} />
             </div>
           </div>
