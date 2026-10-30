@@ -364,3 +364,12 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 @media (prefers-reduced-motion: reduce) {
   .vx-reel-scene { animation: none !important; }
 }
+
+/* Legibilidade dos exemplos: o painel rola por dentro, sem encolher todas as letras. */
+.vx-lab-readable [class~="text-[8px]"],
+.vx-lab-readable [class~="text-[9px]"] { font-size: 11px; line-height: 1.45; }
+.vx-lab-readable [class~="text-[10px]"] { font-size: 12px; line-height: 1.5; }
+.vx-lab-readable [class~="text-[11px]"] { font-size: 13px; line-height: 1.5; }
+.vx-lab-readable [class~="text-xs"] { font-size: 13px; line-height: 1.55; }
+.vx-lab-readable { scrollbar-width: thin; scrollbar-color: #5e97ba #0d2439; }
+.vx-lab-readable:focus-visible { outline: 2px solid #7ccfff; outline-offset: -3px; }
