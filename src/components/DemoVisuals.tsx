@@ -25,10 +25,10 @@ export const demoCatalog: Record<DemoCategory, { title:string; summary:string; e
     {name:"BI de operações",subtitle:"SLA, cargas das equipes e mapa de demanda",tag:"Desempenho operacional"},
     {name:"BI financeiro",subtitle:"Fluxo de caixa e distribuição por categoria",tag:"Gestão financeira"},
   ]},
-  sistemas: {title:"Cada operação exige uma interface específica.",summary:"Detalhes de atendimento, inventário filtrável e Kanban interativo.",examples:[
-    {name:"Ordens de serviço",subtitle:"Lista selecionável com detalhes da execução",tag:"Central de atendimento"},
-    {name:"Controle de estoque",subtitle:"Tabela de produtos, saldos e filtro de alertas",tag:"Inventário ERP"},
-    {name:"Gestão de projetos",subtitle:"Quadro Kanban com tarefas selecionáveis",tag:"Gestão colaborativa"},
+  sistemas: {title:"Sistemas pensados para a rotina de cada empresa.",summary:"Três protótipos empresariais interativos com interface desktop e mobile.",examples:[
+    {name:"Ordens de serviço",subtitle:"Central operacional com agenda, equipes, criação de OS e acompanhamento de status",tag:"Gestão de atendimentos"},
+    {name:"Controle de estoque",subtitle:"Inventário com busca, alertas, entradas e saídas de materiais",tag:"Central de estoque"},
+    {name:"Gestão de projetos",subtitle:"Workspace com tarefas, responsáveis, prazos e fluxo Kanban",tag:"Gestão de projetos"},
   ]},
   ia: {title:"Vorzax IA. Três aplicações de um assistente virtual.",summary:"Atendimento, conhecimento e apoio operacional — simulações sem IA conectada.",examples:[
     {name:"Atendimento comercial",subtitle:"Chat demonstrativo de orientação e qualificação de oportunidades",tag:"Assistente comercial"},
