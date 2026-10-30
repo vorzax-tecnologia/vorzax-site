@@ -432,3 +432,33 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
   min-height: var(--vx-mobile-content-min-height, 930px) !important;
 }
+
+
+/* Prévia e filme DESKTOP: textos pequenos devem permanecer legíveis mesmo
+   depois do fit proporcional. Não interfere no iPhone ou no conteúdo do site. */
+.vx-rich-canvas[data-vx-device="desktop"] {
+  text-rendering: optimizeLegibility;
+}
+.vx-rich-canvas[data-vx-device="desktop"] [class~="text-[8px]"] {
+  font-size: 12px !important;
+  line-height: 1.28 !important;
+}
+.vx-rich-canvas[data-vx-device="desktop"] [class~="text-[9px]"] {
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+}
+.vx-rich-canvas[data-vx-device="desktop"] [class~="text-[10px]"] {
+  font-size: 13.5px !important;
+  line-height: 1.3 !important;
+}
+.vx-rich-canvas[data-vx-device="desktop"] [class~="text-[11px]"] {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+}
+.vx-rich-canvas[data-vx-device="desktop"] [class~="text-[12px]"] {
+  font-size: 14.5px !important;
+  line-height: 1.35 !important;
+}
+.vx-rich-canvas[data-vx-device="desktop"] svg {
+  shape-rendering: geometricPrecision;
+}
