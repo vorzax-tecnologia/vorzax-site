@@ -61,8 +61,8 @@ export function FitDemoStage({
   }
 
   const fitted = size.width > 0 && size.height > 0;
-  // Sites get breathing room around the whole device; other demos keep their current framing.
-  const safeMargin = category === "sites" ? 24 : 10;
+  // The same physical bezel and screen geometry is used for all 15 previews.
+  const safeMargin = 12;
   const shellScale = fitted
     ? Math.max(0.01, Math.min(1, (size.width - safeMargin) / PHONE.width, (size.height - safeMargin) / PHONE.height))
     : 1;
@@ -77,7 +77,7 @@ export function FitDemoStage({
       role="region"
       aria-label="Prévia completa em moldura ilustrativa inspirada no iPhone 16 Pro Max"
     >
-      <div className={category === "sites" ? "absolute inset-0 flex items-center justify-center" : "absolute inset-0 flex items-end justify-center pb-[6px]"}>
+      <div className="absolute inset-0 flex items-center justify-center">
         <div
           className="relative shrink-0"
           style={{
@@ -98,7 +98,7 @@ export function FitDemoStage({
         <div className="pointer-events-none absolute -left-[4px] top-[165px] h-[58px] w-[5px] rounded-l-lg bg-[#8290a3]" aria-hidden="true" />
         <div className="pointer-events-none absolute -right-[4px] top-[210px] h-[92px] w-[5px] rounded-r-lg bg-[#8290a3]" aria-hidden="true" />
         <div className="absolute inset-[14px] overflow-hidden rounded-[54px] border-[3px] border-[#050a12] bg-[#061324]">
-          <div className="absolute inset-x-[6px] bottom-[10px] top-[44px] overflow-hidden rounded-[34px] bg-[#07192c]">
+          <div className="absolute inset-x-[5px] bottom-[13px] top-[46px] overflow-hidden rounded-b-[34px] bg-[#07192c]">
             <RichDemoScene category={category} variant={variant} step={step} playing={playing} device="mobile" />
           </div>
           <div className="pointer-events-none absolute left-1/2 top-[12px] z-20 h-[32px] w-[136px] -translate-x-1/2 rounded-full bg-[#030509] shadow-[0_2px_7px_rgba(0,0,0,.55)]" aria-hidden="true">
