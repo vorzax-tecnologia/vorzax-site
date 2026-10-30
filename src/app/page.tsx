@@ -12,7 +12,6 @@ import {
   type ChangeEvent,
   type FormEvent,
 } from "react";
-import { getSupabaseClient } from "../lib/supabase";
 const WHATSAPP_URL =
   "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20Vorzax%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
 
@@ -265,7 +264,7 @@ export default function Home() {
     }
   };
 
-  const handleDiagnosticSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleDiagnosticSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const nome = diagnosticData.nome.trim();
     const telefone = diagnosticData.telefone.trim();
@@ -318,7 +317,7 @@ export default function Home() {
     const whatsappUrl = `https://wa.me/5531990681495?text=${encodeURIComponent(mensagem)}`;
     const whatsappWindow = window.open("about:blank", "_blank");
 
-    // O contato não deve aguardar a resposta do banco para abrir o WhatsApp.
+    // O visitante revisa e envia sua mensagem no WhatsApp; nenhum dado é gravado no navegador em bancos externos.
     if (whatsappWindow) {
       whatsappWindow.opener = null;
       whatsappWindow.location.replace(whatsappUrl);
@@ -330,33 +329,6 @@ export default function Home() {
     setDiagnosticStatus("idle");
     setDiagnosticOpen(false);
 
-    try {
-      const supabase = getSupabaseClient();
-      if (supabase) {
-        const { error } = await supabase.from("atendimentos").insert({
-          nome,
-          telefone,
-          email: diagnosticData.email.trim() || null,
-          empresa,
-          segmento: diagnosticData.segmento,
-          tipo_solucao: diagnosticData.tipo_solucao,
-          objetivo,
-          prazo: diagnosticData.prazo || null,
-          origem: "site",
-          status: "novo",
-          observacoes: "Lead recebido pelo formulário de contato sobre projetos e encaminhado ao WhatsApp.",
-          proximo_passo: "Aguardar mensagem do cliente no WhatsApp",
-        });
-
-        if (error) {
-          console.warn("Não foi possível registrar o diagnóstico no Supabase:", error);
-        }
-      } else {
-        console.warn("Supabase não configurado; o diagnóstico seguirá apenas pelo WhatsApp.");
-      }
-    } catch (error) {
-      console.warn("Não foi possível registrar o diagnóstico no Supabase:", error);
-    }
 
   };
 
@@ -606,7 +578,7 @@ export default function Home() {
               )}
 
               <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs leading-5 text-slate-500">O WhatsApp abrirá com uma mensagem pronta: revise e confirme o envio no aplicativo. O site poderá registrar seus dados para atendimento.</p>
+                <p className="text-xs leading-5 text-slate-500">O WhatsApp abrirá com uma mensagem pronta. Revise e confirme o envio no aplicativo; os dados não serão salvos neste formulário.</p>
                 <button
                   type="submit"
                   disabled={diagnosticStatus === "sending"}
