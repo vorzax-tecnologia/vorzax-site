@@ -50,12 +50,12 @@ export function FitDemoStage({ category, variant, device, step, playing, expande
     data-expanded={String(expanded)} data-scale={scale.toFixed(3)}
     role="region" aria-label="Prévia de interface mobile em uma única tela, sem bordas artificiais"
     className="relative h-full w-full overflow-hidden bg-[#071727]">
-    {scale > 0 && <div className="absolute left-1/2 top-1/2"
-      style={{ width: PHONE.width, height: PHONE.height,
-        transform: `translate(-50%, -50%) scale(${scale})`,
-        transformOrigin: "center center" }}>
-      <ShowcaseScene category={category} variant={variant} device="mobile"
-        step={step} playing={playing} />
+    {scale > 0 && <div className="absolute inset-0 flex items-center justify-center">
+      <div className="shrink-0" style={{ width: PHONE.width, height: PHONE.height,
+        transform: `scale(${scale})`, transformOrigin: "center center" }}>
+        <ShowcaseScene category={category} variant={variant} device="mobile"
+          step={step} playing={playing} />
+      </div>
     </div>}
   </div>;
 }
