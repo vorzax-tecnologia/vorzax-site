@@ -64,7 +64,7 @@ export function TechnologyInMotion() {
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
       <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Escolha um cenário. Cada interface cabe inteira no quadro, em desktop ou iPhone 16 Pro.</p>
+      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces completas com gráficos, contexto e controles. Visões desktop e iPhone 16 Pro.</p>
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
@@ -78,7 +78,10 @@ export function TechnologyInMotion() {
         <div className="flex flex-wrap items-center justify-between gap-2">
          <div className="min-w-0"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#7bc7f8]">{demoCatalog[active].examples.length} IDEIAS PARA EXPLORAR</p>
          <h3 className="mt-1 text-base font-semibold tracking-[-.04em] text-white sm:text-xl">{demoCatalog[active].title}</h3></div>
-         <span className="rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8]">DEMONSTRAÇÃO</span>
+         <div className="flex flex-wrap items-center gap-2">
+           <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="min-h-9 rounded-lg border border-[#315572] bg-[#0c2941] px-3 py-2 text-[10px] font-semibold text-[#bfdef3] hover:border-[#61b9ee]">{playing?"Ⅱ Pausar":"▶ Reproduzir"}</button>
+           <span className="rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8]">DEMONSTRAÇÃO</span>
+         </div>
         </div>
         <div role="group" aria-label="Escolher exemplo de solução" className="mt-2 flex snap-x gap-2 overflow-x-auto pb-1">
          {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-2 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
@@ -86,7 +89,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "h-[min(74svh,620px)] min-h-[475px] rounded-[14px] border border-[#244963] bg-[#071525] p-1 sm:h-[min(76svh,660px)] lg:h-[min(77svh,690px)]" : "h-[min(45svh,410px)] min-h-[250px] rounded-[14px] border border-[#183750] bg-[#071525] p-1 sm:h-[min(49svh,450px)] lg:h-[clamp(300px,calc(100svh-460px),510px)] lg:min-h-[300px]"}>
+       <div className={device==="mobile" ? "h-[min(74svh,620px)] min-h-[475px] rounded-[14px] border border-[#244963] bg-[#071525] p-1 sm:h-[min(76svh,660px)] lg:h-[min(77svh,690px)]" : "h-[min(45svh,410px)] min-h-[250px] rounded-[14px] border border-[#183750] bg-[#071525] p-1 sm:h-[min(49svh,450px)] lg:h-[clamp(400px,calc(100svh-390px),550px)] lg:min-h-[400px]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
@@ -96,7 +99,7 @@ export function TechnologyInMotion() {
         </div>
         <div className="flex items-center gap-2">
           <button type="button" onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>
-          <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="rounded-full border border-[#315572] px-3 py-2 text-[10px] font-semibold text-[#bfdef3] hover:border-[#61b9ee]">{playing?"Pausar animações":"Reproduzir animações"}</button>
+          
           <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
        </div>
