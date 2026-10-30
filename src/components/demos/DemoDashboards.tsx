@@ -1,56 +1,108 @@
 "use client";
-import { DemoFrame, type VisualProps } from "./DemoSites";
-import { MiniColumns, SegmentedMeter, TrendPlot } from "./DemoInsights";
 
-function SalesBI({mobile}:{mobile:boolean}) {
- const stages=[["Visitantes",840,100],["Contatos",312,79],["Qualificados",124,55],["Propostas",58,35],["Negócios",19,20]];
- return <div className="min-h-[475px] bg-[#ecf2f9] p-4 text-[#16304d] sm:p-6">
-  <div className="flex justify-between gap-3 border-b border-[#ccdae7] pb-4"><div><span className="text-[10px] font-bold uppercase tracking-[.16em] text-[#205987]">INTELIGÊNCIA COMERCIAL</span><h4 className="mt-2 text-xl font-bold tracking-[-.04em]">Desempenho comercial</h4></div><span className="h-fit rounded-lg bg-[#d9e9f8] px-3 py-2 text-[10px] font-semibold text-[#306a9c]">VISÃO FUNIL</span></div>
-  <div className="mt-4 grid grid-cols-3 gap-2">{[["Leads","312"],["Propostas","58"],["Conversão","6,1%"]].map(([x,n])=><div key={x} className="rounded-xl border border-[#c9d9e8] bg-white p-3"><span className="text-[10px] text-[#5c758f]">{x}</span><p className="mt-2 text-[clamp(18px,2.6vw,29px)] font-bold tracking-[-.05em]">{n}</p></div>)}</div>
-  <div className={`mt-4 grid gap-4 ${mobile?"grid-cols-1":"grid-cols-[1fr_.75fr]"}`}>
-   <div className="rounded-xl border border-[#cad9e8] bg-white p-4"><div className="flex justify-between"><strong className="text-[11px]">Funil de aquisição</strong><span className="text-[9px] text-[#385e7c]">Dados de exemplo</span></div><div className="mt-4 space-y-2">{stages.map(([label,count,size],i)=><div key={label} className="flex items-center gap-3"><span className="w-[76px] shrink-0 text-[9px] text-[#405f77]">{label}</span><div className="flex min-w-0 flex-1"><div className="vx-draw-bar flex h-8 items-center justify-end rounded-r-md bg-gradient-to-r from-[#1e649e] to-[#5cc1ea] pr-3 text-[10px] font-bold text-white" style={{width:size+"%",animationDelay:i*90+"ms"}}>{count}</div></div></div>)}</div></div>
-   <div className="rounded-xl border border-[#cad9e8] bg-white p-4"><strong className="text-[11px]">Origem de contatos</strong><div className="mt-5 flex h-28 items-end gap-3">{[58,77,38,88].map((x,i)=><div key={i} className="flex h-full flex-1 flex-col justify-end"><div className="vx-draw-bar rounded-t-md bg-[#2e82c6]" style={{height:x+"%",animationDelay:i*100+"ms"}}/><span className="mt-2 text-center text-[8px] text-[#405f76]">{["Web","Ind.","Ads","Dir."][i]}</span></div>)}</div><div className="mt-5 flex justify-between border-t border-[#dfe7ef] pt-3 text-[10px] text-[#57728c]"><span>Jornada comercial</span><span className="font-semibold text-[#277bb6]">DEMO</span></div></div>
-  </div>
-  <div className="vx-demo-optional mt-3 rounded-xl border border-[#cad9e8] bg-white px-4 py-3">
-    <div className="flex flex-wrap items-center justify-between gap-2"><strong className="text-[11px]">Propostas emitidas por semana</strong><span className="text-[10px] text-[#315d84]">Volume fictício</span></div>
-    <TrendPlot tone="blue" values={[13,18,14,22,19,31,27]} height={87}/>
+import { useId, useState, type ReactNode } from "react";
+import { DemoFrame, type VisualProps } from "./DemoSites";
+
+/** Three illustrative corporate BI workspaces. Every accent belongs to the Vorzax blue palette. */
+const blue = {navy:"#061c34",deep:"#0b2847",primary:"#1477d4",cyan:"#42b9ed",light:"#dbeeff",muted:"#7894ad"};
+type ViewTheme = "light"|"dark";
+function Shell({mobile,dark=false,name,label,nav,children}: {mobile:boolean;dark?:boolean;name:string;label:string;nav:string[];children:ReactNode}) {
+ const [menu,setMenu]=useState(nav[0]);
+ return <div className={`flex w-full font-sans ${mobile?"min-h-[900px] flex-col":"min-h-[640px]"} ${dark?"bg-[#081b32] text-[#edf7ff]":"bg-[#f1f6fc] text-[#162f4b]"}`}>
+  {!mobile&&<aside className="flex w-[158px] shrink-0 flex-col bg-[#071d36] px-3 py-4 text-white">
+   <div className="px-2 pb-5"><span className="text-[17px] font-black tracking-[.14em] text-white">VORZAX</span><p className="mt-1 text-[9px] uppercase tracking-[.2em] text-[#72bbe9]">Business intelligence</p></div>
+   <p className="px-2 pb-2 text-[9px] font-semibold uppercase tracking-[.16em] text-[#5a87ad]">Navegação</p>
+   {nav.map((item,i)=><button type="button" key={item} onClick={()=>setMenu(item)} aria-pressed={menu===item} className={`mb-1 flex items-center gap-2 rounded-lg px-3 py-2.5 text-left text-[11px] font-semibold ${menu===item?"bg-[#145caa] text-white":"text-[#9dbbda] hover:bg-[#173957]"}`}><span className="grid h-5 w-5 place-items-center rounded-md bg-white/10 text-[10px]">{i+1}</span>{item}</button>)}
+   <div className="mt-auto rounded-lg border border-[#245078] bg-[#0d3357] p-3"><span className="text-[10px] font-bold text-[#a8ddff]">AMBIENTE DEMO</span><p className="mt-1 text-[9px] leading-4 text-[#8eb0ce]">Dados e indicadores ilustrativos.</p></div>
+  </aside>}
+  <div className="min-w-0 flex-1">
+   <header className={`flex min-h-12 items-center justify-between gap-3 border-b px-4 py-2 ${dark?"border-[#274968] bg-[#0e2946]":"border-[#d9e4f0] bg-white"}`}>
+     <div><p className={`text-[11px] font-bold ${dark?"text-[#e3f5ff]":"text-[#1f4163]"}`}>{name}</p><p className={`text-[9px] ${dark?"text-[#83adce]":"text-[#8297ab]"}`}>{label} · Conceito ilustrativo</p></div>
+     <div className="flex items-center gap-2"><span className={`hidden rounded-full px-3 py-1 text-[9px] sm:inline ${dark?"bg-[#153e66] text-[#a6dbfa]":"bg-[#e6f2ff] text-[#2b6baa]"}`}>Visão executiva</span><span className={`grid h-7 w-7 place-items-center rounded-full text-[10px] font-bold ${dark?"bg-[#245a87] text-white":"bg-[#d7e9fc] text-[#226db3]"}`}>V</span></div>
+   </header>
+   {mobile&&<nav className={`flex gap-2 overflow-x-auto border-b px-3 py-2 ${dark?"border-[#274968] bg-[#0e2946]":"border-[#d9e4f0] bg-white"}`}>{nav.map(n=><button key={n} type="button" onClick={()=>setMenu(n)} className={`shrink-0 rounded-md px-3 py-2 text-[10px] font-semibold ${menu===n?"bg-[#1569bf] text-white":dark?"bg-[#163857] text-[#add0ea]":"bg-[#e9f1fa] text-[#4a759c]"}`}>{n}</button>)}</nav>}
+   <div className={`${mobile?"p-3":"p-4"} min-w-0`}>{children}</div>
   </div>
  </div>;
+}
+function Heading({eyebrow,title,detail,dark=false,actions}: {eyebrow:string;title:string;detail:string;dark?:boolean;actions?:ReactNode}){
+ return <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><div><p className={`text-[9px] font-bold uppercase tracking-[.16em] ${dark?"text-[#70c4f6]":"text-[#2579bb]"}`}>{eyebrow}</p><h4 className={`mt-1 text-[21px] font-bold tracking-[-.045em] ${dark?"text-white":"text-[#17334f]"}`}>{title}</h4><p className={`mt-1 text-[10px] ${dark?"text-[#8fb0ca]":"text-[#7c91a9]"}`}>{detail}</p></div>{actions}</div>;
+}
+function Switch({items,value,onChange,dark=false}:{items:readonly string[];value:string;onChange:(v:string)=>void;dark?:boolean}){
+ return <div className={`flex gap-1 rounded-lg p-1 ${dark?"bg-[#193c5e]":"bg-[#e4edf7]"}`}>{items.map(x=><button key={x} type="button" aria-pressed={value===x} onClick={()=>onChange(x)} className={`min-h-7 rounded-md px-3 text-[10px] font-bold ${value===x?"bg-[#1477d4] text-white":dark?"text-[#a9cbe4]":"text-[#517594]"}`}>{x}</button>)}</div>;
+}
+function Metric({label,value,note,dark=false}: {label:string;value:string;note:string;dark?:boolean}) {
+ return <div className={`min-w-0 rounded-[11px] border p-3 ${dark?"border-[#254968] bg-[#123451]":"border-[#dce7f2] bg-white"}`}><p className={`text-[10px] ${dark?"text-[#a2bdd4]":"text-[#7089a2]"}`}>{label}</p><p className={`mt-1 text-[23px] font-extrabold tracking-[-.055em] ${dark?"text-[#f5fbff]":"text-[#173a5f]"}`}>{value}</p><p className={`mt-1 truncate text-[9px] ${dark?"text-[#77b4e2]":"text-[#367eaf]"}`}>{note}</p></div>;
+}
+function Panel({title,side,dark=false,children,className=""}:{title:string;side?:string;dark?:boolean;children:ReactNode;className?:string}){
+ return <section className={`min-w-0 rounded-[12px] border p-3 ${dark?"border-[#234965] bg-[#102e4b]":"border-[#dce6f0] bg-white"} ${className}`}><div className="flex items-center justify-between gap-2"><h5 className={`text-[12px] font-bold ${dark?"text-[#e4f5ff]":"text-[#234464]"}`}>{title}</h5>{side&&<span className={`text-[9px] ${dark?"text-[#8ab8d7]":"text-[#91a4b5]"}`}>{side}</span>}</div>{children}</section>;
+}
+function Line({values,height=135,dark=false,labels=["Jan","Fev","Mar","Abr","Mai","Jun","Jul"]}:{values:number[];height?:number;dark?:boolean;labels?:string[]}){
+ const id=useId().replace(/:/g,"");const max=Math.max(...values,1),min=Math.min(0,...values);const points=values.map((v,i)=>({x:17+i*303/Math.max(1,values.length-1),y:106-(v-min)/(max-min||1)*82}));const line=points.map(p=>`${p.x},${p.y}`).join(" ");const fill=`M${points[0].x} ${points[0].y} L${points.slice(1).map(p=>`${p.x} ${p.y}`).join(" L")} L320 112 L17 112 Z`;
+ return <div className="mt-3"><svg viewBox="0 0 340 123" className="w-full" style={{height}} preserveAspectRatio="none" role="img" aria-label="Evolução ilustrativa ao longo dos períodos"><defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop stopColor={blue.cyan} stopOpacity=".32"/><stop offset="1" stopColor={blue.cyan} stopOpacity=".015"/></linearGradient></defs>{[30,60,90].map(y=><line key={y} x1="12" x2="327" y1={y} y2={y} stroke={dark?"#2b5273":"#e2ebf5"} strokeDasharray="3 5"/>)}<path d={fill} fill={`url(#${id})`}/><polyline points={line} fill="none" stroke={blue.primary} strokeWidth="3.3" strokeLinecap="round" strokeLinejoin="round"/>{points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r="3.5" fill={dark?"#123451":"white"} stroke={blue.cyan} strokeWidth="2"/>)}</svg><div className={`flex justify-between gap-1 text-[9px] ${dark?"text-[#84a9c7]":"text-[#8fa2b5]"}`}>{labels.slice(0,values.length).map((v,i)=><span key={i}>{v}</span>)}</div></div>;
+}
+function Bars({values,labels,dark=false,height=92}:{values:number[];labels:string[];dark?:boolean;height?:number}){
+ const max=Math.max(...values,1);return <div className="mt-3 flex items-end gap-2" style={{height:height+28}}>{values.map((v,i)=><div key={i} className="flex h-full min-w-0 flex-1 flex-col justify-end text-center"><span className={`mb-1 text-[9px] font-semibold ${dark?"text-[#b4d7ef]":"text-[#557795]"}`}>{v}</span><div className="mx-auto w-full max-w-[38px] rounded-t-[5px]" style={{height:Math.max(6,(v/max)*height),background:i===values.length-1?blue.cyan:blue.primary,opacity:.63+(i/values.length)*.36}}/><span className={`mt-1 truncate text-[9px] ${dark?"text-[#87afcf]":"text-[#8598ab]"}`}>{labels[i]}</span></div>)}</div>;
+}
+function Meter({rows,dark=false}:{rows:{label:string;percent:number;note?:string}[];dark?:boolean}){
+ return <div className="mt-3 space-y-2.5">{rows.map((r,i)=><div key={r.label}><div className={`mb-1 flex justify-between text-[10px] ${dark?"text-[#bdd6e8]":"text-[#5c7690]"}`}><span>{r.label}</span><span className="font-bold">{r.note??`${r.percent}%`}</span></div><div className={`h-2.5 overflow-hidden rounded-full ${dark?"bg-[#234869]":"bg-[#e5eef7]"}`}><div className="h-full rounded-full" style={{width:`${r.percent}%`,backgroundColor:i===0?blue.primary:i===1?blue.cyan:i===2?"#6a9ac4":"#9bbbd7"}}/></div></div>)}</div>;
+}
+function Donut({sections,dark=false,center}:{sections:number[];dark?:boolean;center:string}){
+ let offset=0;const segments=sections.map((v,i)=>{const st=offset;offset+=v;return `${[blue.primary,blue.cyan,"#6297c3","#9ac7e8"][i%4]} ${st}% ${offset}%`});return <div className="relative mx-auto mt-3 grid h-[122px] w-[122px] place-items-center rounded-full" style={{background:`conic-gradient(${segments.join(",")})`}}><div className={`grid h-[87px] w-[87px] place-items-center rounded-full ${dark?"bg-[#102e4b] text-white":"bg-white text-[#1c4b70]"}`}><strong className="text-[17px] font-black tracking-[-.04em]">{center}</strong></div></div>;
+}
+
+function SalesBI({mobile}:{mobile:boolean}){
+ const [period,setPeriod]=useState("30 dias");const [stage,setStage]=useState("Qualificados");const isWeek=period==="7 dias";const s=isWeek? .31:period==="90 dias"?2.6:1;
+ const funnel=[{name:"Visitantes",value:840},{name:"Contatos",value:312},{name:"Qualificados",value:124},{name:"Propostas",value:58},{name:"Negócios",value:19}];
+ return <Shell mobile={mobile} name="Vorzax BI / Comercial" label="Análise de vendas e oportunidades" nav={["Visão comercial","Aquisição","Funil","Oportunidades"]}>
+   <Heading eyebrow="INTELIGÊNCIA COMERCIAL" title="Desempenho de vendas" detail="Aquisição, conversão e pipeline em uma visão." actions={<Switch items={["7 dias","30 dias","90 dias"]} value={period} onChange={setPeriod}/>}/>
+   <div className={`grid gap-2 ${mobile?"grid-cols-2":"grid-cols-4"}`}><Metric label="Leads recebidos" value={String(Math.round(312*s))} note="Entrada comercial"/><Metric label="Propostas" value={String(Math.round(58*s))} note="Em negociação"/><Metric label="Conversão" value="6,1%" note="Do contato ao negócio"/><Metric label="Receita potencial" value={`R$ ${Math.round(148*s)} mil`} note="Pipeline ilustrativo"/></div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[1.48fr_1fr]"}`}>
+    <Panel title="Evolução de oportunidades" side={period}><Line values={(isWeek?[27,32,29,42,38,55,49]:period==="90 dias"?[36,44,50,48,61,72,81]:[24,35,31,46,43,60,55])} height={mobile?144:131} labels={isWeek?["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"]:["Jan","Fev","Mar","Abr","Mai","Jun","Jul"]}/></Panel>
+    <Panel title="Canais de aquisição" side="Participação"><Bars values={[38,27,19,16]} labels={["Orgânico","Indicação","Mídia","Direto"]} height={mobile?106:125}/></Panel>
+   </div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[1.5fr_1fr]"}`}>
+    <Panel title="Funil comercial" side="Clique para detalhar"><div className="mt-2 grid grid-cols-5 gap-1.5">{funnel.map((f,i)=><button type="button" onClick={()=>setStage(f.name)} aria-pressed={stage===f.name} key={f.name} className={`min-w-0 rounded-lg border px-1 py-3 text-center ${stage===f.name?"border-[#197adb] bg-[#e1f1ff]":"border-[#e0eaf4] bg-[#f5f9fd]"}`}><span className="block truncate text-[9px] font-bold text-[#507697]">{f.name}</span><span className="mt-1 block text-[18px] font-extrabold text-[#1c65a7]">{Math.round(f.value*s)}</span><span className="mt-1 block text-[9px] text-[#7697b0]">{Math.round((f.value/840)*100)}%</span></button>)}</div><p className="mt-2 text-[10px] text-[#69839d]">Etapa selecionada: <strong className="text-[#1870c6]">{stage}</strong></p></Panel>
+    <Panel title="Oportunidades recentes" side="Pipeline ilustrativo"><div className="mt-3 space-y-2">{[["Portal corporativo","Proposta"],["Automação comercial","Negociação"],["Dashboard gerencial","Qualificação"]].map(([n,v])=><div key={n} className="flex items-center justify-between gap-2 border-b border-[#ebf1f7] pb-2 text-[10px]"><span className="font-semibold text-[#274d71]">{n}</span><span className="rounded-md bg-[#e4f1fd] px-2 py-1 text-[#1768b4]">{v}</span></div>)}</div></Panel>
+   </div>
+ </Shell>;
 }
 function OperationalBI({mobile}:{mobile:boolean}){
- const workload=[["Equipe A",72],["Equipe B",93],["Equipe C",55],["Equipe D",80]];
- return <div className="min-h-[475px] bg-[#071d25] p-4 text-white sm:p-6">
-  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#29515a] pb-4"><div><span className="text-[10px] font-bold uppercase tracking-[.17em] text-[#65e1d5]">CENTRAL OPERACIONAL</span><h4 className="mt-2 text-xl font-semibold">Operação em tempo real · simulação</h4></div><span className="flex items-center gap-2 rounded-lg bg-[#103e42] px-3 py-2 text-[10px] text-[#a2ece1]"><i className="h-2 w-2 rounded-full bg-[#39c2b6]"/> STATUS SIMULADO</span></div>
-  <div className={`mt-5 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[.75fr_1.25fr]"}`}>
-   <div className="flex flex-col items-center justify-center rounded-xl border border-[#27656a] bg-[#103b41] p-4"><span className="text-[11px] font-semibold text-[#a4e8e2]">SLA ilustrativo</span><div className="relative mt-4 grid h-36 w-36 place-items-center rounded-full" style={{background:"conic-gradient(#47d6c5 0 84%, #214f58 84% 100%)"}}><div className="grid h-28 w-28 place-items-center rounded-full bg-[#103b41]"><span className="text-3xl font-bold">84%</span></div></div><p className="mt-4 text-center text-[10px] text-[#8dc2c0]">Meta de atendimento · conceito</p></div>
-   <div className="rounded-xl border border-[#27656a] bg-[#102c37] p-4"><div className="flex justify-between gap-2 text-[11px]"><strong>Carga de equipes</strong><span className="text-[#83c7c1]">4 equipes</span></div><div className="mt-5 space-y-4">{workload.map(([team,value],i)=><div key={team}><div className="mb-2 flex justify-between text-[10px]"><span>{team}</span><span className="text-[#8ddfd6]">{value}%</span></div><div className="h-2.5 overflow-hidden rounded-full bg-[#21444f]"><div className="vx-draw-bar h-full rounded-full bg-gradient-to-r from-[#147d82] to-[#6be5ce]" style={{width:value+"%",animationDelay:i*100+"ms"}}/></div></div>)}</div></div>
-  </div>
-  <div className="mt-4 rounded-xl border border-[#285562] bg-[#0b2a35] p-4"><div className="flex justify-between"><strong className="text-[11px]">Mapa de demanda / semana</strong><span className="text-[9px] text-[#9fcacb]">Simulado</span></div><div className="mt-4 grid grid-cols-7 gap-2">{Array.from({length:21},(_,i)=><div key={i} className="h-5 rounded-[4px]" style={{background:["#123941","#1a6268","#258a86","#43c2a7","#1b555d"][(i*7+i*i)%5]}}/>)}</div><div className="mt-3 flex justify-between text-[9px] text-[#91bdbf]"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span></div></div>
-  <div className="vx-demo-optional mt-3 grid gap-3 rounded-xl border border-[#285562] bg-[#0e303a] p-3 sm:grid-cols-[1fr_.8fr]">
-    <div><p className="text-[11px] font-semibold text-[#c1ece5]">Atendimentos concluídos / semana</p><MiniColumns tone="teal" height={67} values={[18,26,21,32,25,16,12]} labels={["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"]}/></div>
-    <div className="flex flex-col justify-center"><p className="mb-3 text-[11px] font-semibold text-[#c1ece5]">Situação das ordens</p><SegmentedMeter tone="teal" segments={[{label:"Dentro SLA",value:84},{label:"Atenção",value:11},{label:"Atrasadas",value:5}]}/></div>
-  </div>
- </div>;
+ const [region,setRegion]=useState("Todas");const [metric,setMetric]=useState("SLA");
+ const teams=[{name:"Equipe Norte",load:78},{name:"Equipe Centro",load:91},{name:"Equipe Sul",load:64},{name:"Equipe Leste",load:72}];
+ const loads=region==="Norte"?[4,2,3,3,5,5,4,3,2,2,4,5,5,4,3,2,2,4,5,3,2]:region==="Sul"?[1,2,2,3,1,3,4,2,2,1,3,2,4,3,2,1,3,4,2,3,2]:[3,4,2,5,4,3,5,2,4,3,5,4,3,2,5,4,4,3,5,4,2];
+ return <Shell mobile={mobile} dark name="Vorzax BI / Operações" label="Central de monitoramento" nav={["Operação geral","Atendimentos","Equipes","Alertas"]}>
+   <Heading dark eyebrow="INTELIGÊNCIA OPERACIONAL" title="Central de operações" detail="Capacidade, SLA e demanda acompanhados em uma tela." actions={<Switch dark items={["Todas","Norte","Sul"]} value={region} onChange={setRegion}/>}/>
+   <div className={`grid gap-2 ${mobile?"grid-cols-2":"grid-cols-4"}`}><Metric dark label="Dentro do SLA" value="94%" note="Atendimentos no prazo"/><Metric dark label="Ordens ativas" value="38" note="Em acompanhamento"/><Metric dark label="Concluídas" value="126" note="No período"/><Metric dark label="Equipes em campo" value="08" note="Capacidade operacional"/></div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[.83fr_1.25fr_1fr]"}`}>
+     <Panel dark title="Indicador de SLA" side="Meta 95%"><Donut dark sections={[94,6]} center="94%"/><p className="mt-2 text-center text-[10px] text-[#91b9d4]">Conformidade simulada</p></Panel>
+     <Panel dark title="Mapa de demanda" side={region}><div className="mt-3 grid grid-cols-7 gap-2">{loads.map((v,i)=><div key={i} title={`Intensidade ${v}/5`} className="h-[24px] rounded-md border border-[#315d81]" style={{backgroundColor:["#122c47","#1c4770","#22669f","#2f8cc8","#3fb5e5"][v-1]}}/>)}</div><div className="mt-3 flex justify-between text-[9px] text-[#8ab2cf]"><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span></div><p className="mt-4 text-[10px] text-[#a0c9e4]">Concentração de atendimentos por dia</p></Panel>
+     <Panel dark title="Ocupação das equipes" side="Capacidade"><Meter dark rows={teams.map(t=>({label:t.name,percent:t.load}))}/></Panel>
+   </div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[1.2fr_1fr]"}`}>
+     <Panel dark title="Ritmo de execução" side="Volume semanal"><Bars dark values={[18,24,21,32,29,19,13]} labels={["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"]} height={mobile?118:101}/></Panel>
+     <Panel dark title="Painel de ocorrências" side="Selecione a visão"><Switch dark items={["SLA","Fila","Equipes"]} value={metric} onChange={setMetric}/><div className="mt-3 space-y-2">{(metric==="SLA"?[["Chamados no prazo","94%"],["Risco de atraso","05"],["Atrasados","03"]]:metric==="Fila"?[["Aguardando triagem","08"],["Em execução","38"],["Finalizados","126"]]:[["Equipe Norte","78%"],["Equipe Centro","91%"],["Equipe Sul","64%"]]).map(([name,val])=><div key={name} className="flex items-center justify-between border-b border-[#244764] pb-1 text-[10px]"><span className="text-[#bed8ec]">{name}</span><span className="font-bold text-[#71c6f8]">{val}</span></div>)}</div></Panel>
+   </div>
+ </Shell>;
 }
 function FinancialBI({mobile}:{mobile:boolean}){
- const months=[42,55,48,69,62,84,72,91];
- const path=months.map((v,i)=>`${18+i*42},${125-v}`).join(" ");
- return <div className="min-h-[475px] bg-[#fcfaf6] p-4 text-[#29243d] sm:p-6">
-  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#dfdae6] pb-4"><div><span className="text-[10px] font-bold uppercase tracking-[.17em] text-[#8051a5]">PAINEL FINANCEIRO</span><h4 className="mt-2 font-serif text-[25px] tracking-[-.035em]">Visão de caixa</h4></div><span className="rounded-lg border border-[#d4c2e1] bg-[#f1e8f6] px-3 py-2 text-[10px] font-semibold text-[#7c529f]">PERÍODO CONCEITUAL</span></div>
-  <div className="mt-4 grid grid-cols-3 gap-2">{[["Receitas","R$ 86 mil"],["Despesas","R$ 51 mil"],["Saldo","R$ 35 mil"]].map(([x,n],i)=><div key={x} className={`rounded-xl border p-3 ${i===2?"border-[#c7b1dc] bg-[#efe5f7]":"border-[#e3dce9] bg-white"}`}><p className="text-[10px] text-[#51455d]">{x}</p><p className="mt-2 text-[clamp(14px,2.4vw,24px)] font-semibold tracking-[-.035em]">{n}</p></div>)}</div>
-  <div className={`mt-4 grid gap-4 ${mobile?"grid-cols-1":"grid-cols-[1.18fr_.82fr]"}`}>
-   <div className="rounded-xl border border-[#e2dae8] bg-white p-4"><div className="flex justify-between"><strong className="text-[11px]">Projeção de fluxo</strong><span className="text-[9px] text-[#6c4d7e]">Não são resultados reais</span></div><svg viewBox="0 0 330 150" role="img" aria-label="Linha conceitual de fluxo de caixa" className="mt-5 h-[135px] w-full sm:h-[165px]">{[35,70,105].map(y=><line key={y} x1="15" x2="317" y1={y} y2={y} stroke="#e4dae8" strokeDasharray="4 6"/>)}<polyline points={path} className="vx-demo-line" stroke="#8850b1" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none"/>{months.map((v,i)=><circle key={i} cx={18+i*42} cy={125-v} r="4" fill="#8a4fb4"/>)}</svg><div className="mt-2 flex justify-between text-[9px] text-[#62556d]"><span>JAN</span><span>FEV</span><span>MAR</span><span>ABR</span><span>MAI</span><span>JUN</span><span>JUL</span><span>AGO</span></div></div>
-   <div className="rounded-xl border border-[#e2dae8] bg-white p-4"><strong className="text-[11px]">Distribuição ilustrativa</strong><div className="mx-auto mt-4 grid h-28 w-28 place-items-center rounded-full" style={{background:"conic-gradient(#8355ac 0 55%, #c6acdb 55% 82%, #eee2f6 82% 100%)"}}><div className="grid h-20 w-20 place-items-center rounded-full bg-white text-[14px] font-bold">100%</div></div><div className="mt-5 space-y-2">{[["Operação","#8355ac","55%"],["Investimentos","#c6acdb","27%"],["Reserva","#d6c7df","18%"]].map(([n,color,percent])=><div key={n} className="flex items-center justify-between text-[10px]"><span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full" style={{background:color}}/>{n}</span><span className="font-semibold">{percent}</span></div>)}</div></div>
-  </div>
-  <div className="vx-demo-optional mt-3 grid gap-3 rounded-xl border border-[#e2dae8] bg-white p-4 sm:grid-cols-[1.1fr_.9fr]">
-    <div><p className="text-[11px] font-semibold">Recebimentos e pagamentos por período</p><MiniColumns tone="violet" values={[24,18,27,21,34,29]} labels={["Jan","Fev","Mar","Abr","Mai","Jun"]} height={67}/></div>
-    <div className="flex flex-col justify-center"><p className="mb-3 text-[11px] font-semibold">Composição do saldo</p><SegmentedMeter tone="violet" segments={[{label:"Disponível",value:62},{label:"A receber",value:28},{label:"Reserva",value:10}]}/></div>
-  </div>
- </div>;
+ const [period,setPeriod]=useState("Semestre");const [tab,setTab]=useState("Categorias");const income=period==="Trimestre"?[58,65,72]:[48,56,54,68,73,82];const costs=period==="Trimestre"?[38,42,46]:[32,36,39,44,47,53];const labels=period==="Trimestre"?["Ago","Set","Out"]:["Mai","Jun","Jul","Ago","Set","Out"];
+ return <Shell mobile={mobile} name="Vorzax BI / Financeiro" label="Gestão de caixa e resultados" nav={["Resumo financeiro","Receitas e custos","Categorias","Previsões"]}>
+   <Heading eyebrow="INTELIGÊNCIA FINANCEIRA" title="Visão financeira" detail="Receita, custos e previsibilidade na mesma operação." actions={<Switch items={["Trimestre","Semestre"]} value={period} onChange={setPeriod}/>}/>
+   <div className={`grid gap-2 ${mobile?"grid-cols-2":"grid-cols-4"}`}><Metric label="Receitas" value="R$ 82 mil" note="Período ilustrativo"/><Metric label="Custos" value="R$ 53 mil" note="Despesas operacionais"/><Metric label="Resultado" value="R$ 29 mil" note="Receitas menos custos"/><Metric label="Margem" value="35,4%" note="Projeção ilustrativa"/></div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[1.6fr_.9fr]"}`}>
+    <Panel title="Receita e custos por período" side={period}><div className="mt-3 flex items-end gap-3" style={{height:mobile?171:162}}>{income.map((v,i)=><div className="flex h-full min-w-0 flex-1 flex-col justify-end text-center" key={i}><div className="flex h-[132px] items-end justify-center gap-1"><div className="w-[36%] rounded-t-md bg-[#1979d5]" style={{height:`${v/90*100}%`}} title={`Receita ${v}`}/><div className="w-[36%] rounded-t-md bg-[#82bee9]" style={{height:`${costs[i]/90*100}%`}} title={`Custos ${costs[i]}`}/></div><span className="mt-2 text-[9px] text-[#869bb0]">{labels[i]}</span></div>)}</div><div className="mt-3 flex gap-4 border-t border-[#e9eff5] pt-2 text-[10px] text-[#6684a0]"><span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#1979d5]"/>Receitas</span><span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#82bee9]"/>Custos</span></div></Panel>
+    <Panel title="Composição das despesas" side="Por categoria"><Donut sections={[38,29,21,12]} center="100%"/><div className="mt-3 grid grid-cols-2 gap-2 text-[10px] text-[#6b8095]">{[["Pessoal","38%"],["Operação","29%"],["Serviços","21%"],["Outros","12%"]].map(([n,v],i)=><div key={n}><span className="mr-1.5 inline-block h-2 w-2 rounded-sm" style={{backgroundColor:[blue.primary,blue.cyan,"#6297c3","#9ac7e8"][i]}}/>{n} <b>{v}</b></div>)}</div></Panel>
+   </div>
+   <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[1.22fr_1fr]"}`}>
+    <Panel title="Projeção de saldo" side="Cenário ilustrativo"><Line height={mobile?140:96} values={[30,35,34,43,47,52,58]}/></Panel>
+    <Panel title="Detalhamento financeiro" side="Visão analítica"><div className="mt-3 flex gap-1 border-b border-[#e1eaf3] pb-2"><Switch items={["Categorias","Resumo"]} value={tab} onChange={setTab}/></div><div className="mt-2 space-y-1.5">{(tab==="Categorias"?[["Serviços contratados","R$ 18.400"],["Infraestrutura","R$ 12.600"],["Equipe e operação","R$ 22.000"]]:[["Receitas previstas","R$ 82.000"],["Custos previstos","R$ 53.000"],["Resultado estimado","R$ 29.000"]]).map(([name,value])=><div key={name} className="flex items-center justify-between gap-2 py-1 text-[10px]"><span className="text-[#69839d]">{name}</span><span className="font-bold text-[#246da8]">{value}</span></div>)}</div></Panel>
+   </div>
+ </Shell>;
 }
 export function DashboardDemo({variant,device,compact=false}:VisualProps){
  const mobile=device==="mobile"&&!compact;
- return <DemoFrame device={device} compact={compact} dark={variant===1} title={["pipeline.bi","operacoes.bi","financeiro.bi"][variant]}>
- {variant===0?<SalesBI mobile={mobile}/>:variant===1?<OperationalBI mobile={mobile}/>:<FinancialBI mobile={mobile}/>}
+ return <DemoFrame device={device} compact={compact} dark={variant===1} title={["comercial.bi","operacoes.bi","financeiro.bi"][variant]}>
+  {variant===0?<SalesBI mobile={mobile}/>:variant===1?<OperationalBI mobile={mobile}/>:<FinancialBI mobile={mobile}/>}
  </DemoFrame>;
 }
