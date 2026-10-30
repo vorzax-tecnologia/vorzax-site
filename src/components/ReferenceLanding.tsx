@@ -9,7 +9,7 @@ const cards = [
   { slug: "automacao", number: "02", kicker: "EFICIÊNCIA OPERACIONAL", title: "Automação de processos", description: "Conecte etapas e reduza tarefas repetitivas com fluxos sob medida.", tags: ["Entradas", "Regras", "Ações"] },
   { slug: "bi", number: "03", kicker: "INTELIGÊNCIA DE DADOS", title: "Dashboards e BI", description: "Reúna indicadores e acompanhe sua operação com mais clareza.", tags: ["Dados", "Indicadores", "Decisões"] },
   { slug: "sistemas", number: "04", kicker: "SOFTWARE PARA NEGÓCIOS", title: "Sistemas sob medida", description: "Organize informações, equipes e processos em soluções adaptadas.", tags: ["Fluxos", "Equipes", "Gestão"] },
-  { slug: "ia", number: "05", kicker: "ASSISTENTES VIRTUAIS / CONCEITO", title: "Vorzax IA", description: "Explore atendimento inteligente, suporte e apoio operacional em uma interface demonstrativa.", tags: ["Conversas", "Suporte", "IA"] },
+  { slug: "ia", number: "05", kicker: "ASSISTENTES VIRTUAIS", title: "Vorzax IA", description: "Explore atendimento, suporte e apoio operacional em uma interface ilustrativa.", tags: ["Conversas", "Suporte", "IA"] },
 ] as const;
 
 function selectDemo(slug: string, example = 0) {
