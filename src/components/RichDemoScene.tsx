@@ -24,12 +24,14 @@ export function RichDemoScene({
   step,
   playing,
   device = "desktop",
+  expanded = false,
 }: {
   category: DemoCategory;
   variant: number;
   step: number;
   playing: boolean;
   device?: DemoDevice;
+  expanded?: boolean;
 }) {
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
@@ -116,6 +118,16 @@ export function RichDemoScene({
   const background = mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
+
+  // Apenas para "Ver maior" em desktop: interface completa em pixels
+  // naturais, sem zoom/scale. É possível rolar e interagir sem cortes.
+  if (expanded && !mobile) {
+    return <div ref={viewport} data-desktop-screen="expanded-native" className="h-full w-full overflow-auto overscroll-contain" role="region" aria-label="Sistema demonstrativo ampliado e interativo" tabIndex={0} style={{backgroundColor:background}}>
+      <div ref={artwork} data-vx-device="desktop" className="vx-rich-canvas min-h-full w-full">
+        <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+      </div>
+    </div>;
+  }
 
   return (
     <div
