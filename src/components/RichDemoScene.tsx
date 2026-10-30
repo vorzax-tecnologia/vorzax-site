@@ -13,7 +13,7 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
   automacao: ["#071b2b", "#f3f8f9", "#171b27"],
-  bi: ["#f1f6fc", "#081b32", "#f1f6fc"],
+  bi: ["#071727", "#081b32", "#edf4fb"],
   sistemas: ["#f2f6fc", "#f2f6fc", "#f2f6fc"],
   ia: ["#071827", "#f1f7f8", "#101627"],
 };
