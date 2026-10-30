@@ -1,6 +1,7 @@
 "use client";
 
 import { MobileProductExperience } from "./MobileProductExperience";
+import { useState } from "react";
 import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 
 /** 15 specially composed, fixed-canvas showcase screens. No scroll and no hidden content.
@@ -113,15 +114,20 @@ function DesktopScene({s,category,variant,step}:{s:Scenario;category:DemoCategor
  * Composição de 402 × 874, desenhada sem rolagem ou corte sob a Dynamic Island.
  */
 function SitePhone({variant}:{variant:number}) {
- if(variant===0)return <div className="flex h-full flex-col overflow-hidden bg-[#061828] text-white">
+ const [selectedService,setSelectedService]=useState(0);
+ const [requestOpen,setRequestOpen]=useState(false);
+ const [contactName,setContactName]=useState("");
+ const [requestReady,setRequestReady]=useState(false);
+ if(variant===0)return <div className="relative flex h-full flex-col overflow-hidden bg-[#061828] text-white">
   <div className="flex h-[101px] shrink-0 items-end justify-between border-b border-[#29506a] px-6 pb-3 pt-[44px]"><strong className="text-[22px] font-extrabold tracking-[-.04em]"><span className="text-[#40c9fc]">✳ </span>CLIMA<span className="text-[#40c9fc]">FORTE</span></strong><span className="text-xl">☰</span></div>
   <div className="relative h-[340px] shrink-0" style={{backgroundImage:'linear-gradient(180deg,rgba(3,15,28,.15),rgba(2,18,34,.92)),url("/demo-hvac-workspace.webp")',backgroundSize:"cover",backgroundPosition:"center"}}>
    <span className="absolute left-6 top-7 rounded-full border border-[#9dd9fa]/50 bg-[#08283b]/85 px-4 py-2 text-[11px] font-semibold text-[#b2eaff]">ENGENHARIA DE CLIMATIZAÇÃO</span>
-   <div className="absolute inset-x-6 bottom-7"><h4 className="max-w-[340px] text-[34px] font-bold leading-[1.02] tracking-[-.05em]">Sua operação no clima certo.</h4><p className="mt-3 text-[15px] leading-6 text-[#d4e9f4]">Instalação e manutenção para estabelecimentos comerciais.</p></div>
+   <div className="absolute inset-x-6 bottom-7"><h4 className="max-w-[340px] text-[34px] font-bold leading-[1.02] tracking-[-.05em]">Climatização que acompanha sua operação.</h4><p className="mt-3 text-[15px] leading-6 text-[#d4e9f4]">Instalação, manutenção preventiva e projetos para empresas.</p></div>
   </div>
-  <div className="px-6 pt-5"><h5 className="text-[15px] font-semibold text-[#c8eaff]">Serviços especializados</h5><div className="mt-4 space-y-3">{["Instalação planejada","Manutenção preventiva","Projetos comerciais"].map((v,i)=><div key={v} className="flex items-center justify-between rounded-lg border border-[#295476] bg-[#0f304b] px-4 py-3 text-[14px]"><span><span className="mr-3 text-[#60c8ff]">0{i+1}</span>{v}</span><span>↗</span></div>)}</div></div>
-  <div className="mx-6 mt-auto mb-5 rounded-lg bg-[#0881c2] px-5 py-4 text-center text-[14px] font-bold">Solicitar orçamento ↗</div>
-  <div className="border-t border-[#254761] px-6 py-2 text-[10px] text-[#a9cce3]">CONCEITO VISUAL • CLIENTE FICTÍCIO</div>
+  <div className="px-6 pt-5"><h5 className="text-[15px] font-semibold text-[#c8eaff]">Serviços especializados</h5><div className="mt-4 space-y-3">{["Instalação de sistemas","Manutenção preventiva","Projetos comerciais"].map((v,i)=><button key={v} type="button" onClick={()=>setSelectedService(i)} aria-pressed={selectedService===i} className="flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left text-[14px]" style={{borderColor:selectedService===i?"#60c8ff":"#295476",background:selectedService===i?"#155176":"#0f304b"}}><span><span className="mr-3 text-[#60c8ff]">0{i+1}</span>{v}</span><span>{selectedService===i?"●":"↗"}</span></button>)}</div></div>
+  <button type="button" onClick={()=>setRequestOpen(true)} className="mx-6 mt-auto mb-5 rounded-lg bg-[#0881c2] px-5 py-4 text-center text-[14px] font-bold">{requestReady?"Solicitação preparada (simulação)":"Solicitar orçamento ↗"}</button>
+  <div className="border-t border-[#254761] px-6 py-2 text-[10px] text-[#a9cce3]">SITE CONCEITUAL • EMPRESA FICTÍCIA</div>
+  {requestOpen&&<div className="absolute inset-0 z-20 flex items-center justify-center bg-[#04111f]/95 px-6" role="dialog" aria-modal="true" aria-label="Orçamento de exemplo"><form onSubmit={e=>{e.preventDefault();setRequestReady(true);setRequestOpen(false)}} className="w-full rounded-xl border border-[#437b9b] bg-[#0d2b43] p-5"><div className="flex items-center justify-between"><span className="text-[11px] font-bold text-[#8cd8fc]">ORÇAMENTO / DEMONSTRAÇÃO</span><button type="button" onClick={()=>setRequestOpen(false)} className="rounded-md border border-white/20 px-3 py-2">✕</button></div><h5 className="mt-4 text-[25px] font-bold">Como podemos ajudar?</h5><p className="mt-2 text-[13px] leading-5 text-white/70">Simule uma solicitação de orçamento.</p><label className="mt-5 block text-[12px]">Responsável<input required value={contactName} onChange={e=>setContactName(e.target.value)} placeholder="Seu nome" className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] p-4 text-[14px] text-white" /></label><p className="mt-4 text-[12px] text-white/70">Serviço: {["Instalação","Manutenção preventiva","Projeto"][selectedService]}</p><button type="submit" className="mt-5 w-full rounded-lg bg-[#128bcb] p-4 text-[14px] font-bold">Concluir simulação ↗</button><p className="mt-3 text-[11px] leading-5 text-white/55">Nenhum dado é enviado ou armazenado.</p></form></div>}
  </div>;
  if(variant===1)return <div className="flex h-full flex-col overflow-hidden bg-[#f6f3eb] text-[#27453b]">
   <div className="flex h-[101px] shrink-0 items-end justify-between border-b border-[#ccd7ca] px-6 pb-4 pt-[44px]"><strong className="font-serif text-[29px] tracking-[-.06em]"><span className="text-[#2e9379]">◈ </span>norte<span className="font-sans text-[13px] font-semibold"> contábil</span></strong><span className="text-[20px]">☰</span></div>
