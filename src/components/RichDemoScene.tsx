@@ -13,8 +13,8 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
   automacao: ["#071b2b", "#f3f8f9", "#171b27"],
-  bi: ["#ecf2f9", "#071d25", "#fcfaf6"],
-  sistemas: ["#091a2d", "#f0f4f6", "#171726"],
+  bi: ["#f1f6fc", "#081b32", "#f1f6fc"],
+  sistemas: ["#f2f6fc", "#f2f6fc", "#f2f6fc"],
   ia: ["#071827", "#f1f7f8", "#101627"],
 };
 
@@ -84,14 +84,14 @@ export function RichDemoScene({
 
   // All mobile screens use the same width-based ratio, never a per-demo
   // height-based ratio. Desktop maintains the previous two-axis fit.
-  const gap = mobile ? 0 : 8;
+  const gap = 0;
   const measured = metrics.viewportWidth > gap * 2 &&
     metrics.viewportHeight > gap * 2 && metrics.contentHeight > 1;
   const scale = measured
     ? mobile
       ? metrics.viewportWidth / metrics.contentWidth
       : Math.min(
-          1,
+          1.08,
           (metrics.viewportWidth - gap * 2) / metrics.contentWidth,
           (metrics.viewportHeight - gap * 2) / metrics.contentHeight
         )
@@ -109,16 +109,17 @@ export function RichDemoScene({
       className={
         mobile
           ? "relative h-full w-full overflow-x-hidden overflow-y-auto overscroll-contain"
-          : "relative h-full w-full overflow-hidden bg-[#07192c]"
+          : "relative h-full w-full overflow-hidden"
       }
       style={mobile ? {
         backgroundColor: background,
         scrollbarWidth: "none",
         "--vx-mobile-content-min-height": `${mobileContentHeight}px`,
-      } as CSSProperties : undefined}
+      } as CSSProperties : { backgroundColor: background }
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
+      data-desktop-screen={!mobile ? "uniform-single-stage" : undefined}
       role="region"
       aria-label={
         mobile
