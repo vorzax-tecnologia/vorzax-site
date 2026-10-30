@@ -86,7 +86,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className="h-[min(45svh,410px)] min-h-[250px] rounded-[14px] border border-[#183750] bg-[#071525] p-1 sm:h-[min(49svh,450px)] lg:h-[clamp(300px,calc(100svh-460px),510px)] lg:min-h-[300px]">
+       <div className={device==="mobile" ? "h-[min(74svh,620px)] min-h-[475px] rounded-[14px] border border-[#244963] bg-[#071525] p-1 sm:h-[min(76svh,660px)] lg:h-[min(77svh,690px)]" : "h-[min(45svh,410px)] min-h-[250px] rounded-[14px] border border-[#183750] bg-[#071525] p-1 sm:h-[min(49svh,450px)] lg:h-[clamp(300px,calc(100svh-460px),510px)] lg:min-h-[300px]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
