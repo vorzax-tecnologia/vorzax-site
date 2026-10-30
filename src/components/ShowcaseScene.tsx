@@ -108,7 +108,7 @@ function DesktopScene({s,category,variant,step}:{s:Scenario;category:DemoCategor
    </div>
   </div>;
 }
-function MobileScene({s,category,variant,step}:{s:Scenario;category:DemoCategory;variant:number;step:number}){
+function MobileScene({s,category,step}:{s:Scenario;category:DemoCategory;step:number}){
  const c=colors[s.tone];
  return <div className="flex h-full flex-col bg-[#08192b] text-white">
   <div className="flex h-[56px] shrink-0 items-center justify-between border-b border-[#294764] px-6"><div className="flex items-center gap-2"><span className="text-[23px]" style={{color:c.main}}>{s.icon}</span><span className="text-[17px] font-bold">{category==="sites"?s.title:category==="ia"?"Vorzax IA":s.title}</span></div><span className="text-[19px] text-[#b2d1e5]">☰</span></div>
@@ -127,7 +127,7 @@ export function ShowcaseScene({category,variant,device="desktop",step=0}:{catego
  const s=data[category][Math.min(2,Math.max(0,variant))];
  const phone=device==="mobile";
  return <div data-showcase-scene={category+"-"+variant+"-"+device} className={`relative overflow-hidden bg-[#071627] text-white ${phone?"h-[874px] w-[402px]":"h-[480px] w-[900px]"}`}>
-  {phone?<MobileScene s={s} category={category} variant={variant} step={step}/>:<>
+  {phone?<MobileScene s={s} category={category} step={step}/>:<>
    <div className="flex h-[65px] items-center justify-between border-b border-[#23405b] px-6">
     <div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl text-[22px]" style={{background:colors[s.tone].fade,color:colors[s.tone].soft}}>{s.icon}</div><div><p className="text-[12px] font-semibold uppercase tracking-[.1em]" style={{color:colors[s.tone].main}}>{s.kicker}</p><h2 className="mt-1 text-[20px] font-semibold tracking-[-.04em]">{s.title}</h2></div></div>
     <span className="rounded-full border border-[#365873] px-3 py-1.5 text-[12px] text-[#b5d7ef]">DEMO • DADOS SIMULADOS</span>
