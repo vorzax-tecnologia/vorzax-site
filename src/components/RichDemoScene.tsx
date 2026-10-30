@@ -113,6 +113,12 @@ export function RichDemoScene({
     : scale;
   const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
   const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
+
+  // No desktop, zoom pinta fontes e gráficos no tamanho final antes da composição
+  // do navegador, evitando o borrão de um transform: scale() integral.
+  // Preserva EXATAMENTE os fatores visuais X/Y, largura, altura e enquadramento.
+  // Mobile continua com o transform original, sem nenhuma alteração.
+  const desktopPaintZoom = mobile ? 1 : Math.max(0.01, scaleX, scaleY);
   const background = mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
@@ -169,7 +175,12 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scaleX}, ${scaleY})`,
+              // CSS zoom mantém a geometria quando combinado com a transformação
+              // residual; vetores e caracteres são rasterizados com mais nitidez.
+              ...(mobile ? {} : { zoom: desktopPaintZoom }),
+              transform: mobile
+                ? `scale(${scaleX}, ${scaleY})`
+                : `scale(${scaleX / desktopPaintZoom}, ${scaleY / desktopPaintZoom})`,
               transformOrigin: "top left",
             }}
           >
