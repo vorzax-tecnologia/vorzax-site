@@ -432,3 +432,70 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
   min-height: var(--vx-mobile-content-min-height, 930px) !important;
 }
+
+
+/*
+ * Laboratório / BI e Sistemas: tamanho nativo em desktop e notebook.
+ * Nunca usar scale(X,Y) em fontes ou gráficos: deformava letras no monitor
+ * grande e as deixava minúsculas em telas menores.
+ * A rolagem acontece apenas dentro da prévia, sem cortes ou moldura dupla.
+ */
+.vx-lab-workspace {
+  scrollbar-width: thin;
+  scrollbar-color: #4b8abd #0b2238;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+.vx-lab-workspace:focus-visible {
+  outline: 2px solid #68bdf7;
+  outline-offset: -2px;
+}
+.vx-lab-workspace-canvas {
+  min-width: 0;
+  width: 100%;
+  transform: none !important;
+}
+.vx-lab-workspace-canvas [class~="text-[8px]"],
+.vx-lab-workspace-canvas [class~="text-[9px]"] {
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+.vx-lab-workspace-canvas [class~="text-[10px]"] {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+.vx-lab-workspace-canvas [class~="text-[11px]"],
+.vx-lab-workspace-canvas [class~="text-[12px]"] {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+/* Queries pelo tamanho do quadro, nao pelo monitor: mesmo notebook em janela
+ * menor mantém o layout legível. As classes existem dentro dos protótipos.
+ */
+@container vx-lab-workspace (max-width: 1040px) {
+  .vx-lab-workspace-canvas [data-demo-layout^="bi"] [class~="grid-cols-4"],
+  .vx-lab-workspace-canvas [data-demo-layout^="sistemas"] [class~="grid-cols-4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@container vx-lab-workspace (max-width: 920px) {
+  .vx-lab-workspace-canvas [data-demo-layout^="bi"] [class*="grid-cols-["],
+  .vx-lab-workspace-canvas [data-demo-layout^="sistemas"] [class*="grid-cols-["] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .vx-lab-workspace-canvas [data-demo-layout^="sistemas"] [class~="grid-cols-3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@container vx-lab-workspace (max-width: 690px) {
+  .vx-lab-workspace-canvas [data-demo-layout^="sistemas"] aside,
+  .vx-lab-workspace-canvas [data-demo-layout^="bi"] aside {
+    width: 126px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  .vx-lab-workspace-canvas [data-demo-layout^="sistemas"] [class~="grid-cols-3"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
