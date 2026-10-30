@@ -89,7 +89,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "h-[min(74svh,620px)] min-h-[475px] rounded-[14px] border border-[#244963] bg-[#071525] p-1 sm:h-[min(76svh,660px)] lg:h-[min(77svh,690px)]" : "h-[min(45svh,410px)] min-h-[250px] rounded-[14px] border border-[#183750] bg-[#071525] p-1 sm:h-[min(49svh,450px)] lg:h-[clamp(400px,calc(100svh-390px),550px)] lg:min-h-[400px]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame h-[min(55svh,470px)] min-h-[280px] rounded-[12px] bg-[#071525] sm:h-[min(59svh,500px)] lg:h-[clamp(355px,calc(100svh-350px),570px)]" : "vx-lab-single-frame h-[min(47svh,410px)] min-h-[250px] rounded-[12px] bg-[#071525] sm:h-[min(51svh,450px)] lg:h-[clamp(365px,calc(100svh-335px),565px)]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
@@ -113,7 +113,7 @@ export function TechnologyInMotion() {
       <div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#87ceff]">LABORATÓRIO VORZAX / VISÃO AMPLIADA</p><h3 className="mt-1 text-lg font-bold">{demoCatalog[active].examples[variant].name} · {demoCatalog[active].examples[variant].tag}</h3></div>
       <button type="button" autoFocus onClick={()=>setExpanded(false)} className="min-h-11 rounded-xl border border-[#518fba] bg-[#0c3658] px-5 text-sm font-semibold text-white hover:bg-[#19557c]">Fechar ✕</button>
     </div>
-    <div className="mx-auto mt-3 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl border border-[#315b7e] bg-[#071525]">
+    <div className="vx-lab-single-frame mx-auto mt-2 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl bg-[#071525]">
       <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>
     </div>
     <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">A interface completa cabe dentro do quadro, sem rolagem ou cortes. Conteúdos e indicadores são fictícios.</p>
