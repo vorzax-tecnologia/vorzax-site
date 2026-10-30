@@ -115,7 +115,7 @@ export function RichDemoScene({
         backgroundColor: background,
         scrollbarWidth: "none",
         "--vx-mobile-content-min-height": `${mobileContentHeight}px`,
-      } as CSSProperties : { backgroundColor: background }
+      } as CSSProperties : { backgroundColor: background }}
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
