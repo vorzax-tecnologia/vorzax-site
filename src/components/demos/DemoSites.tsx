@@ -79,14 +79,21 @@ function HvacSite({mobile}:{mobile:boolean}) {
 }
 
 function AccountingSite({ mobile }: { mobile:boolean }) {
- return <div className="min-h-[475px] bg-[#f5f3ec] text-[#243d35]">
-  <div className="flex items-center justify-between border-b border-[#d5dbd1] px-5 py-5"><strong className="font-serif text-[22px] tracking-[-.04em]"><span className="mr-1 text-[#2a8974]">◈</span>norte<span className="font-sans text-[10px] font-semibold uppercase tracking-[.2em]"> contábil</span></strong><div className="flex gap-5 text-[10px]">{mobile ? <span>☰</span> : <><span>Especialidades</span><span>Nosso escritório</span><span className="text-[#287762]">Conversar ↗</span></>}</div></div>
+ const [selected,setSelected]=useState(0);
+ const [contactOpen,setContactOpen]=useState(false);
+ const specialties=[
+  ["01","Contabilidade empresarial","Organização fiscal e acompanhamento da rotina empresarial."],
+  ["02","Planejamento tributário","Análise de regimes e oportunidades para uma gestão mais clara."],
+  ["03","Gestão de folha","Processos de pessoal, obrigações e acompanhamento mensal."]
+ ];
+ return <div className="relative min-h-[475px] bg-[#f5f3ec] text-[#243d35]">
+  <div className="flex items-center justify-between border-b border-[#d5dbd1] px-5 py-5"><strong className="font-serif text-[22px] tracking-[-.04em]"><span className="mr-1 text-[#2a8974]">◈</span>norte<span className="font-sans text-[10px] font-semibold uppercase tracking-[.2em]"> contábil</span></strong><div className="flex gap-5 text-[10px]">{mobile ? <button type="button" onClick={()=>setContactOpen(true)} aria-label="Abrir contato demonstrativo">☰</button> : <><button type="button" onClick={()=>setSelected(0)}>Especialidades</button><button type="button" onClick={()=>setSelected(1)}>Nosso escritório</button><button type="button" onClick={()=>setContactOpen(true)} className="text-[#287762]">Conversar ↗</button></>}</div></div>
   <div className={`grid gap-5 px-5 pb-7 pt-8 sm:px-8 sm:pt-10 ${mobile?"grid-cols-1":"grid-cols-[1.04fr_.96fr]"}`}>
     <div className="flex flex-col justify-center">
       <div className="w-fit rounded-full border border-[#b9cfc0] bg-[#e5efe8] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.11em] text-[#287762]">CONTABILIDADE CONSULTIVA</div>
       <h4 className="mt-5 max-w-[460px] font-serif text-[clamp(27px,3.5vw,44px)] leading-[1.09] tracking-[-.04em]">Boas decisões começam com <em className="font-normal text-[#287762]">clareza.</em></h4>
       <p className="mt-4 max-w-[440px] text-xs leading-6 text-[#58685e]">Contabilidade e orientação empresarial para quem valoriza organização, transparência e proximidade.</p>
-      <span className="mt-6 inline-flex w-fit rounded-full bg-[#226f59] px-5 py-3 text-[11px] font-semibold text-white">Fale com um especialista ↗</span>
+      <button type="button" onClick={()=>setContactOpen(true)} className="mt-6 inline-flex w-fit rounded-full bg-[#226f59] px-5 py-3 text-[11px] font-semibold text-white">Fale com um especialista ↗</button>
     </div>
     <div className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-[#d3d9d1] bg-[#e6ebe6]"
       role="img" aria-label="Fotografia ilustrativa de documentos e mesa de trabalho administrativo"
@@ -97,26 +104,30 @@ function AccountingSite({ mobile }: { mobile:boolean }) {
       </div>
     </div>
   </div>
-  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#536a59]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{[["01","Contabilidade empresarial"],["02","Planejamento tributário"],["03","Gestão de folha"]].map(([n,x])=><div key={n} className="min-h-[90px] rounded-xl border border-[#d4ddd3] bg-white/90 p-4 text-left"><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></div>)}</div></div>
+  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#536a59]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{specialties.map(([n,x],i)=><button type="button" key={n} onClick={()=>setSelected(i)} aria-pressed={selected===i} className={`min-h-[90px] rounded-xl border p-4 text-left transition-colors ${selected===i?"border-[#28826c] bg-[#e2eee5]":"border-[#d4ddd3] bg-white/90 hover:border-[#7cac9e]"}`}><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></button>)}</div><p aria-live="polite" className="mt-2 text-left text-[11px] text-[#48695b]">{specialties[selected][2]}</p></div>
+ {contactOpen&&<div role="dialog" aria-modal="true" aria-label="Contato demonstrativo contábil" className="absolute inset-0 z-20 flex items-center justify-center bg-[#143b30]/90 p-4"><div className="w-full max-w-[410px] rounded-xl bg-[#f6f4ec] p-6 shadow-xl"><h5 className="font-serif text-xl font-bold">Vamos conversar?</h5><p className="mt-3 text-sm leading-6">Demonstração de contato de um escritório contábil. Nenhuma mensagem é enviada.</p><button type="button" onClick={()=>setContactOpen(false)} className="mt-4 rounded-lg bg-[#226f59] px-4 py-2 text-sm font-semibold text-white">Voltar ao site</button></div></div>}
  </div>;
 }
 
 function ArchitectureSite({ mobile }: { mobile:boolean }) {
- return <div className="min-h-[475px] bg-[#e9e3d8] text-[#262825]">
-   <div className="flex items-center justify-between border-b border-[#b7b2a8] px-5 py-4"><strong className="font-serif text-[23px] italic tracking-[-.055em]">linha<span className="font-sans text-xs not-italic"> / atelier</span></strong><span className="text-[10px] uppercase tracking-[.15em]">{mobile ? "Menu +" : "Projetos　 Estúdio　 Contato"}</span></div>
+ const [focus,setFocus]=useState(0);
+ const [showInfo,setShowInfo]=useState(false);
+ const tracks=["Residencial","Comercial","Interiores","Projetos conceituais"];
+ return <div className="relative min-h-[475px] bg-[#e9e3d8] text-[#262825]">
+   <div className="flex items-center justify-between border-b border-[#b7b2a8] px-5 py-4"><strong className="font-serif text-[23px] italic tracking-[-.055em]">linha<span className="font-sans text-xs not-italic"> / atelier</span></strong><button type="button" onClick={()=>setShowInfo(v=>!v)} className="text-[10px] uppercase tracking-[.15em]">{mobile ? "Menu +" : "Projetos · Estúdio · Contato"}</button></div>
    <div className={`grid gap-3 p-4 sm:p-6 ${mobile ? "grid-cols-1" : "grid-cols-[1.35fr_.65fr]"}`}>
      <div className="relative min-h-[325px] overflow-hidden rounded-[2px] bg-[#373e38]"
        role="img" aria-label="Fotografia ilustrativa de residência contemporânea com arquitetura autoral"
        ><SitePhoto local="/demo-architecture-residence.webp" remote="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=960&h=720&fit=crop&fm=webp&q=79" shade="linear-gradient(180deg,rgba(12,18,14,.05),rgba(12,18,14,.65))"/>
-       <div className="absolute left-5 top-5 rounded-sm border border-white/35 bg-[#141b17]/50 px-3 py-2 text-[10px] uppercase tracking-[.13em] text-white backdrop-blur-sm">PORTFÓLIO / 01</div>
+       <div className="absolute left-5 top-5 rounded-sm border border-white/35 bg-[#141b17]/50 px-3 py-2 text-[10px] uppercase tracking-[.13em] text-white backdrop-blur-sm">PORTFÓLIO / 0{focus+1}</div>
        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
          <div><span className="text-[10px] font-semibold tracking-[.14em] text-[#e5ddd2]">PROJETO RESIDENCIAL</span><p className="mt-2 font-serif text-[25px] leading-7 text-white">Essência e arquitetura.</p></div>
          <span className="text-xl text-white">↗</span>
        </div>
      </div>
-     <div className="flex flex-col justify-between bg-[#d5ccbf] p-5"><div><span className="text-[10px] uppercase tracking-[.2em] text-[#554739]">ARQUITETURA AUTORAL</span><h4 className="mt-5 font-serif text-[clamp(25px,3vw,40px)] leading-[1.1] tracking-[-.04em]">Espaços que contam histórias.</h4><p className="mt-4 text-xs leading-6 text-[#50483f]">Interiores, arquitetura e experiências que refletem uma identidade.</p></div><span className="mt-5 w-fit border-b border-[#3c3831] pb-1 text-xs font-semibold">Explorar projetos ↗</span></div>
+     <div className="flex flex-col justify-between bg-[#d5ccbf] p-5"><div><span className="text-[10px] uppercase tracking-[.2em] text-[#554739]">ARQUITETURA AUTORAL</span><h4 className="mt-5 font-serif text-[clamp(25px,3vw,40px)] leading-[1.1] tracking-[-.04em]">Espaços que contam histórias.</h4><p className="mt-4 text-xs leading-6 text-[#50483f]">Interiores, arquitetura e experiências que refletem uma identidade.</p></div><button type="button" onClick={()=>setFocus(v=>(v+1)%tracks.length)} className="mt-5 w-fit border-b border-[#3c3831] pb-1 text-left text-xs font-semibold">Explorar {tracks[focus].toLowerCase()} ↗</button></div>
    </div>
-   <div className="flex flex-wrap justify-between gap-3 px-6 pb-5 text-[10px] uppercase tracking-[.15em] text-[#544a40]"><span>RESIDENCIAL</span><span>COMERCIAL</span><span>INTERIORES</span><span>PROJETOS CONCEITUAIS</span></div>
+   <div className="flex flex-wrap justify-between gap-3 px-6 pb-5 text-[10px] uppercase tracking-[.15em] text-[#544a40]">{tracks.map((label,i)=><button type="button" key={label} onClick={()=>setFocus(i)} aria-pressed={focus===i} className={`border-b-2 pb-1 transition-colors ${focus===i?"border-[#345e73] font-bold text-[#234b60]":"border-transparent hover:border-[#aaa399]"}`}>{label}</button>)}</div>{showInfo&&<div className="absolute inset-x-5 bottom-12 z-20 rounded-lg border border-[#9b978f] bg-[#e8e2d7] p-4 text-[#35443d] shadow-xl"><p className="text-sm font-semibold">Linha Atelier · navegação demonstrativa</p><p className="mt-2 text-xs">Explore os quatro tipos de projeto pelas categorias. Este site é apenas um conceito ilustrativo.</p><button type="button" onClick={()=>setShowInfo(false)} className="mt-3 rounded-lg bg-[#345e73] px-4 py-2 text-xs font-bold text-white">Fechar</button></div>}
  </div>;
 }
 
