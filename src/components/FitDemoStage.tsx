@@ -109,5 +109,6 @@ export function FitDemoStage({
         </div>
       </div>
     </div>
+    </div>
   );
 }
