@@ -86,7 +86,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
     <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate ${compact ? "aspect-[4/3] sm:aspect-[1.50]" : "aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
-      <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[4%] pb-[5%] pt-[3%]" aria-live="off">
+      <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[3%] pb-[5%] pt-[3%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
             <Image src="/vorzax-logo-header.webp" width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[min(43vw,415px)]" : "w-[min(50vw,490px)]"}`} />
@@ -95,8 +95,8 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
             <p className="mt-3 hidden text-[clamp(11px,1vw,15px)] text-[#a5c2da] sm:block">{current.caption}</p>
           </div>
         ) : (
-          <div className="flex h-full w-full min-h-0 flex-col gap-[2%]">
-            <div className="flex h-[16%] min-h-0 shrink-0 items-center gap-[3%]">
+          <div className="flex h-full w-full min-h-0 flex-col gap-[1.5%]">
+            <div className="flex h-[18%] min-h-0 shrink-0 items-center gap-[3%]">
               <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="h-auto w-[24%] max-w-[230px] shrink-0" />
               <div className="min-w-0">
                 <p className="text-[clamp(9px,1vw,14px)] font-bold uppercase tracking-[.12em] text-[#82d1ff]">{current.eyebrow}</p>
