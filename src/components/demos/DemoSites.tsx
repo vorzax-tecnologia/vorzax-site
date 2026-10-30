@@ -1,9 +1,49 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 type Device = "desktop" | "mobile";
 export type VisualProps = { variant: number; device: Device; compact?: boolean; step?: number; playing?: boolean };
+
+
+/**
+ * The 3 illustrative photos normally live in /public and are installed by
+ * predev / prebuild. Switching branches while next dev stays running skips
+ * predev, so the local asset may return 404; fall back to the matching
+ * original Unsplash photo without showing an empty color placeholder.
+ */
+function SitePhoto({
+  local,
+  remote,
+  shade,
+}: {
+  local: string;
+  remote: string;
+  shade: string;
+}) {
+  const [source, setSource] = useState(local);
+  return (
+    <>
+      <Image
+        src={source}
+        alt=""
+        fill
+        unoptimized
+        sizes="(max-width: 640px) 402px, 960px"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        onError={() => {
+          if (source === local) setSource(remote);
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        style={{ background: shade }}
+      />
+    </>
+  );
+}
 
 export function DemoFrame({ children, device, compact = false, dark = true, title = "preview" }: { children: React.ReactNode; device: Device; compact?: boolean; dark?: boolean; title?: string }) {
   const mobile = device === "mobile" && !compact;
@@ -31,7 +71,7 @@ function HvacSite({mobile}:{mobile:boolean}) {
   <header className="flex items-center justify-between border-b border-[#1d415d] px-6 py-4"><strong className="text-[19px] font-black tracking-[-.05em]"><span className="mr-2 text-[#3bcbfd]">✳</span>CLIMA<span className="text-[#3bcbfd]">FORTE</span></strong>{mobile?<span className="text-lg">☰</span>:<nav className="flex gap-5 text-[11px] font-medium text-[#bed3e4]"><span>Serviços</span><span>Áreas atendidas</span><span>Sobre</span><button type="button" onClick={()=>setContact(true)} className="font-bold text-[#61d2ff]">Orçamento ↗</button></nav>}</header>
   <div className="grid gap-4 px-6 py-7 sm:px-8" style={{gridTemplateColumns:mobile?"1fr":"1.02fr .98fr"}}>
    <div className="flex flex-col justify-center"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#54d5ff]">CLIMATIZAÇÃO PARA EMPRESAS</p><h4 className="mt-4 max-w-[500px] text-[clamp(28px,3.6vw,45px)] font-bold leading-[1.05] tracking-[-.06em]">Sua operação no clima certo.</h4><p className="mt-4 max-w-[430px] text-[13px] leading-6 text-[#bad1e1]">Instalação, projetos e manutenção preventiva de ar-condicionado para lojas, escritórios e operações comerciais.</p><div className="mt-5 flex flex-wrap gap-2"><button type="button" onClick={()=>setContact(true)} className="rounded-lg bg-[#087fc1] px-5 py-3 text-[12px] font-bold text-white transition hover:bg-[#1499de]">Solicitar orçamento ↗</button><button type="button" onClick={()=>setService(v=>(v+1)%3)} className="rounded-lg border border-[#32617a] px-4 py-3 text-[11px] text-[#b7d4e4]">Explorar serviços</button></div><p aria-live="polite" className="mt-4 min-h-10 max-w-[440px] text-[12px] leading-5 text-[#a6d8ec]">{submitted?"Solicitação de exemplo preparada. Nenhum contato foi enviado.":scopes[service].detail}</p></div>
-   <div className="relative min-h-[290px] overflow-hidden rounded-[12px] bg-[#15334b]" role="img" aria-label="Imagem conceitual de ambientes comerciais climatizados" style={{backgroundImage:'linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.78) 100%),url("/demo-hvac-workspace.webp")',backgroundSize:"cover",backgroundPosition:"center"}}><span className="absolute right-4 top-4 rounded-full bg-[#0a2d43]/85 px-3 py-2 text-[10px] font-semibold text-[#d8f4ff]">CLIMATIZAÇÃO COMERCIAL</span><div className="absolute inset-x-5 bottom-5"><p className="text-[10px] font-bold tracking-[.15em] text-[#8fe0ff]">INSTALAÇÃO · MANUTENÇÃO · PROJETOS</p><p className="mt-2 max-w-[330px] text-[19px] font-semibold leading-6">Soluções para manter ambientes empresariais funcionando.</p></div></div>
+   <div className="relative min-h-[290px] overflow-hidden rounded-[12px] bg-[#15334b]" role="img" aria-label="Imagem conceitual de ambientes comerciais climatizados" ><SitePhoto local="/demo-hvac-workspace.webp" remote="https://images.unsplash.com/photo-1497366216548-37526070297c?w=960&h=720&fit=crop&fm=webp&q=77" shade="linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.78) 100%)"/><span className="absolute right-4 top-4 rounded-full bg-[#0a2d43]/85 px-3 py-2 text-[10px] font-semibold text-[#d8f4ff]">CLIMATIZAÇÃO COMERCIAL</span><div className="absolute inset-x-5 bottom-5"><p className="text-[10px] font-bold tracking-[.15em] text-[#8fe0ff]">INSTALAÇÃO · MANUTENÇÃO · PROJETOS</p><p className="mt-2 max-w-[330px] text-[19px] font-semibold leading-6">Soluções para manter ambientes empresariais funcionando.</p></div></div>
   </div>
   <section className="grid gap-3 px-6 pb-6 sm:px-8" style={{gridTemplateColumns:mobile?"1fr":"repeat(3,minmax(0,1fr))"}} aria-label="Serviços demonstrativos">{scopes.map((item,i)=><button key={item.name} type="button" aria-pressed={service===i} onClick={()=>setService(i)} className="rounded-xl border p-4 text-left transition-colors" style={{borderColor:service===i?"#47a8df":"#285272",background:service===i?"#144367":"#0c2b44"}}><span className="text-[10px] font-bold text-[#58cef5]">0{i+1} / SERVIÇO</span><p className="mt-2 text-[14px] font-bold">{item.name}</p><p className="mt-2 text-[11px] leading-4 text-[#bed7e9]">{item.detail}</p></button>)}</section>
   {contact&&<div className="absolute inset-0 z-20 flex items-center justify-center bg-[#04121f]/95 p-5" role="dialog" aria-modal="true" aria-label="Formulário de orçamento demonstrativo"><form onSubmit={e=>{e.preventDefault();setSubmitted(true);setContact(false)}} className="w-full max-w-[560px] rounded-xl border border-[#3e89b2] bg-[#0b2941] p-6 shadow-2xl"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-bold tracking-[.14em] text-[#7cdbff]">SIMULAÇÃO DE ATENDIMENTO</p><h5 className="mt-2 text-[23px] font-bold">Solicitar orçamento</h5><p className="mt-2 text-[12px] leading-5 text-[#c6dbe8]">Preencha uma solicitação de exemplo. Nenhum dado será enviado ou armazenado.</p></div><button type="button" onClick={()=>setContact(false)} className="rounded-lg border border-white/20 px-3 py-2 text-sm" aria-label="Fechar formulário">✕</button></div><div className="mt-5 grid gap-3 sm:grid-cols-2"><label className="text-[11px] text-[#cae7f7]">Responsável<input required maxLength={60} value={form.responsavel} onChange={e=>setForm(v=>({...v,responsavel:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white" placeholder="Seu nome"/></label><label className="text-[11px] text-[#cae7f7]">Empresa<input required maxLength={60} value={form.empresa} onChange={e=>setForm(v=>({...v,empresa:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white" placeholder="Nome da empresa"/></label></div><label className="mt-4 block text-[11px] text-[#cae7f7]">Serviço desejado<select value={form.servico} onChange={e=>setForm(v=>({...v,servico:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white">{scopes.map(x=><option key={x.name}>{x.name}</option>)}</select></label><button type="submit" className="mt-5 w-full rounded-lg bg-[#087cbd] px-4 py-3 text-[13px] font-bold text-white">Pré-visualizar solicitação ↗</button></form></div>}
@@ -50,7 +90,7 @@ function AccountingSite({ mobile }: { mobile:boolean }) {
     </div>
     <div className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-[#d3d9d1] bg-[#e6ebe6]"
       role="img" aria-label="Fotografia ilustrativa de documentos e mesa de trabalho administrativo"
-      style={{backgroundImage:'linear-gradient(180deg,rgba(8,42,33,.02),rgba(8,42,33,.52)),url("/demo-accounting-workspace.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
+      ><SitePhoto local="/demo-accounting-workspace.webp" remote="https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=960&h=720&fit=crop&fm=webp&q=77" shade="linear-gradient(180deg,rgba(8,42,33,.02),rgba(8,42,33,.52))"/>
       <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/20 bg-[#163f33]/85 p-4 text-white backdrop-blur-sm">
         <p className="text-[9px] font-semibold uppercase tracking-[.15em] text-[#b4e2cc]">ATENDIMENTO EMPRESARIAL</p>
         <p className="mt-2 text-sm font-semibold">Organização financeira e atenção aos detalhes.</p>
@@ -67,7 +107,7 @@ function ArchitectureSite({ mobile }: { mobile:boolean }) {
    <div className={`grid gap-3 p-4 sm:p-6 ${mobile ? "grid-cols-1" : "grid-cols-[1.35fr_.65fr]"}`}>
      <div className="relative min-h-[325px] overflow-hidden rounded-[2px] bg-[#373e38]"
        role="img" aria-label="Fotografia ilustrativa de residência contemporânea com arquitetura autoral"
-       style={{backgroundImage:'linear-gradient(180deg,rgba(12,18,14,.05),rgba(12,18,14,.65)),url("/demo-architecture-residence.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
+       ><SitePhoto local="/demo-architecture-residence.webp" remote="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=960&h=720&fit=crop&fm=webp&q=79" shade="linear-gradient(180deg,rgba(12,18,14,.05),rgba(12,18,14,.65))"/>
        <div className="absolute left-5 top-5 rounded-sm border border-white/35 bg-[#141b17]/50 px-3 py-2 text-[10px] uppercase tracking-[.13em] text-white backdrop-blur-sm">PORTFÓLIO / 01</div>
        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
          <div><span className="text-[10px] font-semibold tracking-[.14em] text-[#e5ddd2]">PROJETO RESIDENCIAL</span><p className="mt-2 font-serif text-[25px] leading-7 text-white">Essência e arquitetura.</p></div>
