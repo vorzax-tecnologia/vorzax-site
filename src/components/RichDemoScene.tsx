@@ -13,7 +13,7 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
   automacao: ["#071b2b", "#f3f8f9", "#171b27"],
-  bi: ["#f1f6fc", "#081b32", "#f1f6fc"],
+  bi: ["#071727", "#081b32", "#edf4fb"],
   sistemas: ["#f2f6fc", "#f2f6fc", "#f2f6fc"],
   ia: ["#071827", "#f1f7f8", "#101627"],
 };
@@ -24,12 +24,14 @@ export function RichDemoScene({
   step,
   playing,
   device = "desktop",
+  mode = "lab",
 }: {
   category: DemoCategory;
   variant: number;
   step: number;
   playing: boolean;
   device?: DemoDevice;
+  mode?: "lab" | "film" | "expanded";
 }) {
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
@@ -50,6 +52,9 @@ export function RichDemoScene({
     const stage = viewport.current;
     const content = artwork.current;
     if (!stage || !content) return;
+    // As cenas do laboratório são renderizadas em pixels naturais.
+    // Apenas o filme e o telefone precisam de medições de ajuste.
+    if (!mobile && mode !== "film") return;
 
     let raf = 0;
     const measure = () => {
@@ -84,7 +89,7 @@ export function RichDemoScene({
       cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, [category, variant, device, designWidth]);
+  }, [category, variant, device, designWidth, mobile, mode]);
 
   // Mobile permanece com ajuste por largura e rolagem interna. As telas de
   // BI e Sistemas no desktop ocupam a área total em ambos os eixos; como o
@@ -103,19 +108,39 @@ export function RichDemoScene({
         )
     : 1;
 
-  const fillDesktop = measured && desktopWorkspace &&
-    metrics.viewportWidth / metrics.viewportHeight >= 1.55;
-  const scaleX = fillDesktop
-    ? metrics.viewportWidth / metrics.contentWidth
-    : scale;
-  const scaleY = fillDesktop
-    ? metrics.viewportHeight / metrics.contentHeight
-    : scale;
-  const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
-  const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
+  // Nunca esticar os eixos independentemente. O filme tem fit uniforme,
+  // e laboratório/"Ver maior" mostram a tela original em pixels nativos.
+  const scaleX = scale;
+  const scaleY = scale;
+  const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
+  const visibleHeight = measured ? metrics.contentHeight * scale : 1;
   const background = mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
+
+  // O laboratório preserva TODO o projeto original (não uma recriação).
+  // O quadro cresce conforme o conteúdo, em vez de cortar a última linha
+  // ou reduzir o texto para caber numa altura artificial.
+  if (!mobile && mode !== "film") {
+    return (
+      <div
+        ref={viewport}
+        data-desktop-screen="original-native-responsive"
+        data-rich-stage={category + "-" + variant + "-desktop"}
+        className={mode === "expanded"
+          ? "h-full w-full overflow-auto overscroll-contain"
+          : "w-full min-w-0 overflow-visible"}
+        style={{ backgroundColor: background }}
+        role="region"
+        aria-label="Demonstração desktop original e interativa, sem recorte ou distorção"
+        tabIndex={mode === "expanded" ? 0 : undefined}
+      >
+        <div ref={artwork} className="vx-rich-canvas w-full min-w-0" data-vx-device="desktop">
+          <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -133,7 +158,7 @@ export function RichDemoScene({
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
-      data-desktop-screen={!mobile ? (fillDesktop ? "full-bleed-workspace" : "uniform-single-stage") : undefined}
+      data-desktop-screen={!mobile ? "film-uniform-aspect" : undefined}
       data-rich-scale-x={scaleX.toFixed(3)}
       data-rich-scale-y={scaleY.toFixed(3)}
       role="region"
