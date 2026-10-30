@@ -79,14 +79,21 @@ function HvacSite({mobile}:{mobile:boolean}) {
 }
 
 function AccountingSite({ mobile }: { mobile:boolean }) {
- return <div className="min-h-[475px] bg-[#f5f3ec] text-[#243d35]">
-  <div className="flex items-center justify-between border-b border-[#d5dbd1] px-5 py-5"><strong className="font-serif text-[22px] tracking-[-.04em]"><span className="mr-1 text-[#2a8974]">◈</span>norte<span className="font-sans text-[10px] font-semibold uppercase tracking-[.2em]"> contábil</span></strong><div className="flex gap-5 text-[10px]">{mobile ? <span>☰</span> : <><span>Especialidades</span><span>Nosso escritório</span><span className="text-[#287762]">Conversar ↗</span></>}</div></div>
+ const [selected,setSelected]=useState(0);
+ const [contactOpen,setContactOpen]=useState(false);
+ const specialties=[
+  ["01","Contabilidade empresarial","Organização fiscal e acompanhamento da rotina empresarial."],
+  ["02","Planejamento tributário","Análise de regimes e oportunidades para uma gestão mais clara."],
+  ["03","Gestão de folha","Processos de pessoal, obrigações e acompanhamento mensal."]
+ ];
+ return <div className="relative min-h-[475px] bg-[#f5f3ec] text-[#243d35]">
+  <div className="flex items-center justify-between border-b border-[#d5dbd1] px-5 py-5"><strong className="font-serif text-[22px] tracking-[-.04em]"><span className="mr-1 text-[#2a8974]">◈</span>norte<span className="font-sans text-[10px] font-semibold uppercase tracking-[.2em]"> contábil</span></strong><div className="flex gap-5 text-[10px]">{mobile ? <button type="button" onClick={()=>setContactOpen(true)} aria-label="Abrir contato demonstrativo">☰</button> : <><button type="button" onClick={()=>setSelected(0)}>Especialidades</button><button type="button" onClick={()=>setSelected(1)}>Nosso escritório</button><button type="button" onClick={()=>setContactOpen(true)} className="text-[#287762]">Conversar ↗</button></>}</div></div>
   <div className={`grid gap-5 px-5 pb-7 pt-8 sm:px-8 sm:pt-10 ${mobile?"grid-cols-1":"grid-cols-[1.04fr_.96fr]"}`}>
     <div className="flex flex-col justify-center">
       <div className="w-fit rounded-full border border-[#b9cfc0] bg-[#e5efe8] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.11em] text-[#287762]">CONTABILIDADE CONSULTIVA</div>
       <h4 className="mt-5 max-w-[460px] font-serif text-[clamp(27px,3.5vw,44px)] leading-[1.09] tracking-[-.04em]">Boas decisões começam com <em className="font-normal text-[#287762]">clareza.</em></h4>
       <p className="mt-4 max-w-[440px] text-xs leading-6 text-[#58685e]">Contabilidade e orientação empresarial para quem valoriza organização, transparência e proximidade.</p>
-      <span className="mt-6 inline-flex w-fit rounded-full bg-[#226f59] px-5 py-3 text-[11px] font-semibold text-white">Fale com um especialista ↗</span>
+      <button type="button" onClick={()=>setContactOpen(true)} className="mt-6 inline-flex w-fit rounded-full bg-[#226f59] px-5 py-3 text-[11px] font-semibold text-white">Fale com um especialista ↗</button>
     </div>
     <div className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-[#d3d9d1] bg-[#e6ebe6]"
       role="img" aria-label="Fotografia ilustrativa de documentos e mesa de trabalho administrativo"
@@ -97,7 +104,8 @@ function AccountingSite({ mobile }: { mobile:boolean }) {
       </div>
     </div>
   </div>
-  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#536a59]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{[["01","Contabilidade empresarial"],["02","Planejamento tributário"],["03","Gestão de folha"]].map(([n,x])=><div key={n} className="min-h-[90px] rounded-xl border border-[#d4ddd3] bg-white/90 p-4 text-left"><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></div>)}</div></div>
+  <div className="mx-5 border-t border-[#d0d9cf] py-5 text-center sm:mx-8"><p className="mb-4 text-[10px] font-bold uppercase tracking-[.15em] text-[#536a59]">ATENDIMENTO POR ESPECIALIDADE</p><div className={`grid gap-3 ${mobile ? "grid-cols-1":"grid-cols-3"}`}>{specialties.map(([n,x],i)=><button type="button" key={n} onClick={()=>setSelected(i)} aria-pressed={selected===i} className={`min-h-[90px] rounded-xl border p-4 text-left transition-colors ${selected===i?"border-[#28826c] bg-[#e2eee5]":"border-[#d4ddd3] bg-white/90 hover:border-[#7cac9e]"}`}><span className="text-[10px] text-[#29836b]">{n} / ESPECIALIDADE</span><p className="mt-3 font-serif text-[15px] leading-5">{x}</p></button>)}</div><p aria-live="polite" className="mt-2 text-left text-[11px] text-[#48695b]">{specialties[selected][2]}</p></div>
+ {contactOpen&&<div role="dialog" aria-modal="true" aria-label="Contato demonstrativo contábil" className="absolute inset-0 z-20 flex items-center justify-center bg-[#143b30]/90 p-4"><div className="w-full max-w-[410px] rounded-xl bg-[#f6f4ec] p-6 shadow-xl"><h5 className="font-serif text-xl font-bold">Vamos conversar?</h5><p className="mt-3 text-sm leading-6">Demonstração de contato de um escritório contábil. Nenhuma mensagem é enviada.</p><button type="button" onClick={()=>setContactOpen(false)} className="mt-4 rounded-lg bg-[#226f59] px-4 py-2 text-sm font-semibold text-white">Voltar ao site</button></div></div>}
  </div>;
 }
 
