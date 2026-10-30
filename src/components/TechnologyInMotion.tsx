@@ -67,7 +67,7 @@ export function TechnologyInMotion() {
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
       <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces completas com gráficos, contexto e controles. Visões desktop e iPhone 16 Pro.</p>
+      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces completas com gráficos, contexto e controles. Visões desktop e iPhone Pro Max ilustrativo.</p>
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
@@ -92,7 +92,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(82svh,850px)] lg:h-[min(82svh,870px)]" : "vx-lab-single-frame h-[min(62svh,640px)] min-h-[420px] w-full overflow-hidden bg-[#071525] sm:h-[min(66svh,650px)] lg:h-[clamp(460px,62svh,650px)]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(350px,calc(100svh-405px),540px)]" : "vx-lab-single-frame h-[clamp(340px,calc(100svh-405px),540px)] w-full overflow-hidden bg-[#071525]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
