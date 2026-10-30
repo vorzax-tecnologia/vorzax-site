@@ -13,7 +13,7 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
   automacao: ["#071b2b", "#f3f8f9", "#171b27"],
-  bi: ["#071727", "#081b32", "#edf4fb"],
+  bi: ["#f1f6fc", "#081b32", "#f1f6fc"],
   sistemas: ["#f2f6fc", "#f2f6fc", "#f2f6fc"],
   ia: ["#071827", "#f1f7f8", "#101627"],
 };
@@ -114,7 +114,9 @@ export function RichDemoScene({
   const scaleY = scale;
   const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
   const visibleHeight = measured ? metrics.contentHeight * scale : 1;
-  const background = mobileBackground[category][variant] ?? "#07192c";
+  const background = !mobile && category === "bi" && mode === "film"
+    ? (variant === 0 ? "#071727" : variant === 2 ? "#edf4fb" : "#081b32")
+    : mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
 
