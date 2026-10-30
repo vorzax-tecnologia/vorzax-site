@@ -17,6 +17,9 @@ export function TechnologyInMotion() {
  const [active,setActive]=useState<Chapter>("sites");
  const [variant,setVariant]=useState(0);
  const [device,setDevice]=useState<DemoDevice>("desktop");
+ useEffect(()=>{
+   if(window.matchMedia("(max-width: 639px)").matches)setDevice("mobile");
+ },[]);
  const [playing,setPlaying]=useState(true);
  const [expanded,setExpanded]=useState(false);
  const [step,setStep]=useState(0);
@@ -89,7 +92,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame h-[min(55svh,470px)] min-h-[280px] rounded-[12px] bg-[#071525] sm:h-[min(59svh,500px)] lg:h-[clamp(345px,calc(100svh-445px),510px)]" : "vx-lab-single-frame h-[min(47svh,410px)] min-h-[250px] rounded-[12px] bg-[#071525] sm:h-[min(51svh,450px)] lg:h-[clamp(365px,calc(100svh-335px),565px)]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[402/874] h-auto min-h-0 w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(74svh,640px)] lg:h-[clamp(480px,calc(100svh-250px),700px)]" : "vx-lab-single-frame h-[min(48svh,440px)] min-h-[260px] w-full overflow-hidden bg-[#071525] sm:h-[min(62svh,580px)] lg:h-[clamp(420px,calc(100svh-300px),650px)]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
