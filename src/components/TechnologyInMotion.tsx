@@ -62,19 +62,19 @@ export function TechnologyInMotion() {
  },[expanded]);
  return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
-  <div className="relative mx-auto w-full max-w-[1500px] px-4 sm:px-7 lg:px-9 xl:px-12">
+  <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:px-9 xl:px-12">
    <div className="flex flex-wrap items-center justify-between gap-3">
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
       <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces completas com gráficos, contexto e controles. Visões desktop e iPhone Pro Max ilustrativo.</p>
+      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces, gráficos e interações nas visões desktop e mobile.</p>
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
    <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[175px_minmax(0,1fr)] xl:grid-cols-[190px_minmax(0,1fr)]">
     <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
       {categories.map(c=><button key={c.id} type="button" aria-pressed={active===c.id} onClick={()=>select(c.id)} className={`flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-left text-[11px] font-semibold transition-colors lg:w-full lg:py-3 ${active===c.id?"border-[#448ebd] bg-[#153856] text-white":"border-[#22415d] bg-[#081b30] text-[#a7c1d7] hover:border-[#3579a7] hover:text-white"}`}><span className="font-mono text-[#6dc9fa]">{c.number}</span>{c.label}</button>)}
-      <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">Conceitos visuais, não clientes ou serviços de IA em produção.</p>
+      <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">Conceitos visuais ilustrativos.</p>
     </nav>
     <div className="flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-[#2c5777] bg-[#081b2e] shadow-[0_20px_55px_rgba(0,0,0,.22)]">
       <div className="border-b border-[#264760] px-3 py-3 sm:px-5 lg:py-2.5">
@@ -90,12 +90,12 @@ export function TechnologyInMotion() {
          {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-2 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
         </div>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
-       <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
+      <div className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
+       <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
        <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]" : "vx-lab-single-frame h-[clamp(340px,calc(100svh-405px),540px)] w-full overflow-hidden bg-[#071525]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
-       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
+       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
         <div role="group" aria-label="Visualizar demonstração em" className="flex items-center gap-1 rounded-lg border border-[#35688c] bg-[#0b2740] p-1">
           <button type="button" aria-pressed={device==="desktop"} onClick={()=>setDevice("desktop")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="desktop"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▣ Visão desktop</button>
           <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
@@ -106,7 +106,7 @@ export function TechnologyInMotion() {
           <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
        </div>
-       <p className="mt-1.5 text-[9px] leading-4 text-[#94b0c8]">Demonstrações e indicadores simulados; não representam clientes, contratos nem resultados reais da Vorzax.</p>
+       <p className="mt-1.5 text-[9px] leading-4 text-[#94b0c8]">Conceitos visuais ilustrativos.</p>
       </div>
     </div>
    </div>
@@ -119,7 +119,7 @@ export function TechnologyInMotion() {
     <div className="vx-lab-single-frame mx-auto mt-2 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl bg-[#071525]">
       <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>
     </div>
-    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">A demonstração é redimensionada para caber integralmente no quadro. Amplie para ler melhor. Conteúdos e indicadores são fictícios.</p>
+    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">Demonstração ilustrativa. Explore os detalhes e interações.</p>
   </div>}
  </section>;
 }
