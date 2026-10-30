@@ -4,12 +4,17 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 
 /**
- * A single responsive stage shared by the hero film, desktop lab and iPhone.
- * Scale the REAL rendered demo in both axes; neither clip its bottom nor add
- * an internal scrollbar. All main chart components remain in the mobile DOM.
+ * Proportional, two-axis fitting with a real-size layout sizer.
+ * The React demo always exists in the DOM and retains its original charts.
+ * The sizer takes the exact SCALED dimensions, so flex centering never uses
+ * the unscaled box and the bottom of the demo is never clipped.
  */
 export function RichDemoScene({
-  category, variant, step, playing, device = "desktop",
+  category,
+  variant,
+  step,
+  playing,
+  device = "desktop",
 }: {
   category: DemoCategory;
   variant: number;
@@ -18,49 +23,65 @@ export function RichDemoScene({
   device?: DemoDevice;
 }) {
   const viewport = useRef<HTMLDivElement>(null);
-  const content = useRef<HTMLDivElement>(null);
-  const designWidth = device === "mobile" ? 430 : 1080;
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0, contentHeight: 0 });
+  const artwork = useRef<HTMLDivElement>(null);
+  const designWidth = device === "mobile" ? 402 : 1080;
+  const [metrics, setMetrics] = useState({
+    viewportWidth: 0,
+    viewportHeight: 0,
+    contentWidth: designWidth,
+    contentHeight: 1,
+  });
 
   useLayoutEffect(() => {
-    const frame = viewport.current;
-    const art = content.current;
-    if (!frame || !art) return;
+    const stage = viewport.current;
+    const content = artwork.current;
+    if (!stage || !content) return;
 
-    let animationFrame = 0;
+    let raf = 0;
     const measure = () => {
-      cancelAnimationFrame(animationFrame);
-      animationFrame = requestAnimationFrame(() => {
-        const width = frame.clientWidth;
-        const height = frame.clientHeight;
-        const contentHeight = Math.max(1, art.scrollHeight, art.offsetHeight);
-        setDimensions(previous =>
-          previous.width === width &&
-          previous.height === height &&
-          Math.abs(previous.contentHeight - contentHeight) < 1
-            ? previous
-            : { width, height, contentHeight }
-        );
-      });
+      const viewportWidth = stage.clientWidth;
+      const viewportHeight = stage.clientHeight;
+      const contentWidth = Math.max(designWidth, content.scrollWidth);
+      const contentHeight = Math.max(1, content.scrollHeight, content.offsetHeight);
+
+      setMetrics(previous =>
+        previous.viewportWidth === viewportWidth &&
+        previous.viewportHeight === viewportHeight &&
+        previous.contentWidth === contentWidth &&
+        previous.contentHeight === contentHeight
+          ? previous
+          : { viewportWidth, viewportHeight, contentWidth, contentHeight }
+      );
     };
-    const observer = new ResizeObserver(measure);
-    observer.observe(frame);
-    observer.observe(art);
+
+    // Measure synchronously on mount, then after size/font/image changes.
     measure();
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    });
+    observer.observe(stage);
+    observer.observe(content);
+    if (document.fonts?.ready) {
+      void document.fonts.ready.then(() => {
+        if (stage.isConnected) measure();
+      });
+    }
     return () => {
-      cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, [category, variant, device]);
+  }, [category, variant, device, designWidth]);
 
-  const measured = dimensions.width > 0 && dimensions.height > 0 && dimensions.contentHeight > 0;
-  const margin = device === "mobile" ? 5 : 12;
-  const scale = measured
-    ? Math.max(0.01, Math.min(
+  const gap = device === "mobile" ? 2 : 8;
+  const hasSpace = metrics.viewportWidth > gap * 2 && metrics.viewportHeight > gap * 2;
+  const fitted = hasSpace && metrics.contentHeight > 1;
+  const scale = fitted
+    ? Math.min(
         1,
-        (dimensions.width - margin * 2) / designWidth,
-        (dimensions.height - margin * 2) / dimensions.contentHeight
-      ))
+        (metrics.viewportWidth - gap * 2) / metrics.contentWidth,
+        (metrics.viewportHeight - gap * 2) / metrics.contentHeight
+      )
     : 1;
 
   return (
@@ -70,24 +91,35 @@ export function RichDemoScene({
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       role="region"
-      aria-label={"Demonstração " + device + " completa e ajustada proporcionalmente ao quadro"}
+      aria-label={"Demonstração " + device + " completa, ajustada ao quadro"}
     >
-      <div
-        ref={content}
-        className="vx-rich-canvas absolute left-1/2 top-1/2 overflow-visible"
-        style={{
-          width: designWidth,
-          transform: `translate(-50%, -50%) scale(${scale})`,
-          transformOrigin: "center center",
-        }}
-      >
-        <DemoVisual
-          category={category}
-          variant={variant}
-          device={device}
-          step={step}
-          playing={playing}
-        />
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div
+          className="relative shrink-0"
+          style={{
+            width: fitted ? metrics.contentWidth * scale : designWidth,
+            height: fitted ? metrics.contentHeight * scale : "auto",
+          }}
+        >
+          <div
+            ref={artwork}
+            data-vx-device={device}
+            className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
+            style={{
+              width: designWidth,
+              transform: `scale(${scale})`,
+              transformOrigin: "top left",
+            }}
+          >
+            <DemoVisual
+              category={category}
+              variant={variant}
+              device={device}
+              step={step}
+              playing={playing}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
