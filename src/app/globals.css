@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
@@ -109,22 +109,326 @@ body {
   }
 }
 
-/* WORDMARK-VORZAX-V2
-   A letra A oficial da marca nao possui barra horizontal. */
-svg[aria-label$="Vorzax"] + div > div:first-child {
-  font-size: 0 !important;
-  line-height: 1 !important;
+
+/* Vorzax motion system: fast, low-overhead UI motion. */
+.motion-task-enter { animation: vorzax-task-enter .55s cubic-bezier(.2,.85,.2,1) both; }
+.motion-line-draw { stroke-dasharray: 610; stroke-dashoffset: 610; animation: vorzax-chart 1.3s ease forwards; }
+@keyframes vorzax-task-enter { from { opacity: 0; transform: translateY(11px) scale(.96); } to { opacity:1; transform:none; } }
+@keyframes vorzax-chart { to { stroke-dashoffset:0; } }
+@media (prefers-reduced-motion: reduce) {
+  .motion-task-enter, .motion-line-draw { animation:none !important; }
+  .motion-line-draw { stroke-dashoffset:0; }
 }
 
-svg[aria-label$="Vorzax"] + div > div:first-child::after {
-  content: "VORZ\039B\0058";
-  display: block;
-  white-space: nowrap;
-  color: #ffffff;
-  font-family: Arial Black, Arial, Helvetica, sans-serif;
-  font-size: 1.25rem;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.18em;
+/* VORZAX / Studio-grade product storytelling */
+.showcase-blueprint {
+  background-image: linear-gradient(rgba(77,204,211,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(77,204,211,.08) 1px,transparent 1px);
+  background-size: 33px 33px;
+  mask-image: linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);
+}
+.showcase-appear {animation:showcase-appear .45s cubic-bezier(.2,.78,.3,1) both}
+.showcase-stage-appear {animation:showcase-appear .55s cubic-bezier(.2,.78,.3,1) both}
+.showcase-graph-draw {stroke-dasharray:600;stroke-dashoffset:600;animation:showcase-graph 1.4s ease-out forwards}
+@keyframes showcase-graph{to{stroke-dashoffset:0}}
+@keyframes showcase-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.showcase-graph-draw{stroke-dashoffset:0;animation:none}.showcase-appear,.showcase-stage-appear{animation:none}}
+
+/* The editorial reference: immersive photographic art direction with restrained motion. */
+.vx-reference-photo { animation: vx-reference-reveal 1250ms ease-out both; }
+.vx-reference-card { isolation: isolate; }
+.vx-reference-card::after { content: ""; position: absolute; pointer-events: none; inset: 0; border-radius: inherit; background: linear-gradient(120deg, transparent 30%, rgba(55,170,255,.065) 52%, transparent 74%); opacity: 0; transition: opacity .4s ease; }
+.vx-reference-card:hover::after { opacity: 1; }
+.vx-reference-reel[open] { flex: 1 1 100%; max-width: 100%; }
+.vx-reference-reel[open] > div { margin-left: auto; }
+@keyframes vx-reference-reveal { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .vx-reference-photo { animation: none !important; } .vx-reference-card:hover { transform: none !important; } }
+
+/* Vorzax premium hero film and aligned editorial demonstrations */
+.vx-hero-video-frame { transform: translateZ(0); }
+.vx-demo-card { isolation: isolate; }
+@media (prefers-reduced-motion: reduce) {
+  .vx-demo-card:hover { transform: none !important; }
+  .vx-demo-card img { transition: none !important; }
 }
 
+
+/* VORZAX / Institutional premium visual system - 2026-10-29 */
+.vx-section {
+  background-color: #040d1a;
+  background-image: radial-gradient(ellipse 62% 65% at 95% 10%, rgba(17, 77, 139, .09), transparent 78%);
+}
+.vx-process-section {
+  background-color: #040d1a;
+  background-image: radial-gradient(ellipse 52% 85% at 15% 35%, rgba(10, 79, 143, .12), transparent 85%);
+}
+.vx-section-mesh {
+  background-image: linear-gradient(rgba(54, 134, 205, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(54, 134, 205, .07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, transparent 95%);
+  opacity: .33;
+}
+.vx-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #60bdff;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .20em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+.vx-eyebrow-line { display: inline-block; height: 1px; width: 30px; flex-shrink: 0; background: #2bb8ff; }
+.vx-heading {
+  color: #f4f9ff;
+  font-size: clamp(2.25rem, 4vw, 3.9rem);
+  font-weight: 700;
+  line-height: 1.09;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.vx-gradient-text { color: #47aeff; }
+.vx-primary-button {
+  background: linear-gradient(110deg, #0066df, #148fff);
+  border: 1px solid #198de7;
+  box-shadow: 0 14px 36px rgba(1, 102, 231, .23), inset 0 1px 0 rgba(255,255,255,.19);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+}
+.vx-primary-button:hover { transform: translateY(-2px); border-color: #87d6ff; box-shadow: 0 17px 44px rgba(0, 119, 246, .35); }
+.vx-primary-button:focus-visible, .vx-contact-method:focus-visible { outline: 2px solid #9be6ff; outline-offset: 4px; }
+.vx-process-card, .vx-solution-row, .vx-portfolio-card, .vx-capability-tile {
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s ease, box-shadow .35s ease, background-color .35s ease;
+}
+.vx-process-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(140deg, rgba(43, 148, 255, .07), transparent 49%);
+  opacity: .5;
+  transition: opacity .4s ease;
+}
+.vx-process-card > * { position: relative; z-index: 1; }
+.vx-process-card:hover {
+  border-color: #317eaf;
+  transform: translateY(-5px);
+  background-color: #0a2036;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .20), 0 0 35px rgba(25, 139, 241, .045);
+}
+.vx-process-card:hover::after { opacity: 1; }
+.vx-solution-row:hover {
+  transform: translateX(3px);
+  border-color: #3f83b2;
+  background-color: #0b243b;
+  box-shadow: 0 14px 42px rgba(0,0,0,.18);
+}
+.vx-portfolio-card:hover {
+  transform: translateY(-5px);
+  border-color: #3588bd;
+  box-shadow: 0 30px 70px rgba(0,0,0,.24);
+}
+.vx-capability-tile:hover {
+  transform: translateY(-3px);
+  border-color: #3479a7;
+  background-color: #0c2b46;
+}
+.vx-solution-aside::after,
+.vx-contact-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 75% 90% at 94% 0%, rgba(29, 129, 222, .18), transparent 75%);
+}
+.vx-contact-panel {
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .32), 0 0 80px rgba(6, 103, 191, .06);
+}
+.vx-contact-method:hover { border-color: #4695c7; background-color: #123b56; }
+@media (max-width: 639px) {
+  .vx-heading { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .vx-process-card:hover, .vx-portfolio-card:hover, .vx-capability-tile:hover, .vx-solution-row:hover { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal][data-visible="true"] { animation: vx-content-arrive .75s cubic-bezier(.18,.75,.25,1) both; }
+  @keyframes vx-content-arrive { from { opacity: .55; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-process-card:hover, .vx-solution-row:hover, .vx-capability-tile:hover, .vx-portfolio-card:hover, .vx-primary-button:hover { transform: none !important; }
+}
+
+/* Revisão de legibilidade — aumenta contraste de textos secundários no site público. */
+main.vx-institutional .text-slate-500 { color: #9aafc5; }
+main.vx-institutional .text-slate-600 { color: #98adc4; }
+main.vx-institutional .text-slate-400 { color: #a7b9cb; }
+
+
+/* VORZAX / Visual refinement — editorial hero, service hierarchy and purposeful motion */
+.vx-hero-highlight {
+  color: #74c5ff;
+  text-shadow: 0 0 42px rgba(32, 135, 235, .13);
+}
+.vx-hero-video-frame {
+  transition: border-color .45s ease, box-shadow .45s ease;
+}
+.vx-hero-video-frame:hover {
+  border-color: #397bad;
+  box-shadow: 0 26px 82px rgba(0,0,0,.48), 0 0 78px rgba(15,124,235,.15);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vx-hero-copy { animation: vx-editorial-in .7s cubic-bezier(.2,.75,.25,1) both; }
+  .vx-hero-media { animation: vx-editorial-in .85s .12s cubic-bezier(.2,.75,.25,1) both; }
+  @keyframes vx-editorial-in {
+    from { opacity: .7; transform: translateY(13px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-hero-copy, .vx-hero-media { animation: none !important; }
+  .vx-hero-video-frame { transition: none !important; }
+}
+
+/* As cores secundárias da interface escura não podem vazar para o mockup claro. */
+main.vx-institutional .showcase-stage-sites .text-slate-500 { color: #475569; }
+main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
+
+
+/* Cinematic entry and simulated data motion, kept on compositor properties. */
+.vx-intro-dialog { isolation:isolate; animation:vx-intro-enter .35s ease-out both; }
+.vx-intro-screen { width: min(100%, 128dvh); margin-inline: auto; transform:translateZ(0); }
+@keyframes vx-intro-enter { from {opacity:0} to {opacity:1} }
+@media (prefers-reduced-motion: no-preference) {
+  .vx-bi-meter { transform-origin:left; animation:vx-bi-grow 1.1s cubic-bezier(.2,.75,.2,1) both; }
+  .vx-bi-ring { transform-origin:center; animation:vx-bi-ring-grow 1.3s ease both; }
+  .vx-bi-area { animation:vx-bi-area-show 1.4s ease both; }
+  .vx-bi-point { animation:vx-bi-point-show .45s ease both; }
+  @keyframes vx-bi-grow { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes vx-bi-ring-grow { from { stroke-dasharray:0 245; } }
+  @keyframes vx-bi-area-show { from { opacity:0; } to { opacity:1; } }
+  @keyframes vx-bi-point-show { from { opacity:0;transform:scale(.25);transform-origin:center; } to {opacity:1;transform:scale(1);} }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-intro-dialog, .vx-bi-meter, .vx-bi-ring, .vx-bi-area, .vx-bi-point { animation:none!important; }
+}
+
+@media (max-height: 650px) and (min-width: 768px) {
+  .vx-intro-screen { width: min(100%, 104dvh); }
+  .vx-intro-dialog > div:last-child { gap: .75rem; }
+}
+
+/* Estúdio interativo: transições discretas e sem tremor contínuo. */
+.vx-intro-scene { animation: vx-intro-dissolve .65s ease-out both; }
+.vx-gallery-stage { animation: vx-gallery-enter .4s ease-out both; }
+@keyframes vx-intro-dissolve { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vx-gallery-enter { from { opacity: .65; } to { opacity: 1; } }
+.vx-gallery-line { stroke-dasharray: 800; stroke-dashoffset: 0; }
+.vx-gallery-ring { transition: stroke-dasharray .5s ease; }
+.vx-flow-pulse { box-shadow: 0 0 0 3px rgba(112,251,223,.12); }
+@media (prefers-reduced-motion: no-preference) {
+  .vx-gallery-line { animation: vx-gallery-draw 1.15s ease-out both; }
+  @keyframes vx-gallery-draw { from { stroke-dashoffset: 800; } to { stroke-dashoffset: 0; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-intro-scene, .vx-gallery-stage, .vx-gallery-line { animation: none !important; }
+  .vx-preview-device { transition: none !important; }
+}
+
+/* Troca discreta de prévias, sem movimento permanente. */
+@media (prefers-reduced-motion: no-preference) { .vx-card-preview { animation: vx-gallery-enter .42s ease-out both; } }
+@media (prefers-reduced-motion: reduce) { .vx-card-preview { animation: none !important; } }
+
+/* VORZAX / motion system — deliberate interactions, no perpetual shaking */
+@media (prefers-reduced-motion: no-preference) {
+  .vx-draw-bar { animation: vx-draw-bar 920ms cubic-bezier(.17,.67,.3,1) both; transform-origin: left center; }
+  .vx-draw-bar[style*="height"] { animation-name: vx-draw-column; transform-origin: center bottom; }
+  .vx-demo-line { stroke-dasharray: 750; stroke-dashoffset: 0; animation: vx-line-draw 1250ms ease-out both; }
+  .vx-card-preview { animation: vx-gallery-enter .42s ease-out both; }
+  .vx-demo-card:has(button[aria-pressed="true"]) { border-color: #3a789d; }
+  .vx-motion-paused .vx-draw-bar,
+  .vx-motion-paused .vx-demo-line,
+  .vx-motion-paused .vx-gallery-line { animation: none !important; stroke-dashoffset: 0 !important; }
+  @keyframes vx-draw-bar { from { transform: scaleX(0); opacity:.5; } to { transform:scaleX(1);opacity:1;} }
+  @keyframes vx-draw-column { from { transform: scaleY(0);opacity:.5; } to { transform:scaleY(1);opacity:1;} }
+  @keyframes vx-line-draw { from { stroke-dashoffset: 750; } to { stroke-dashoffset:0; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-draw-bar, .vx-demo-line { animation:none !important;stroke-dashoffset:0 !important; }
+}
+
+/* Filme visual: apenas dissolve de opacidade, sem zoom, tremor ou loop permanente. */
+@media (prefers-reduced-motion: no-preference) {
+  .vx-reel-scene { animation: vx-reel-fade .65s ease-out both; }
+  @keyframes vx-reel-fade { from { opacity: .08; } to { opacity: 1; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-reel-scene { animation: none !important; }
+}
+
+/* Legibilidade dos exemplos: o painel rola por dentro, sem encolher todas as letras. */
+.vx-lab-readable [class~="text-[8px]"],
+.vx-lab-readable [class~="text-[9px]"] { font-size: 11px; line-height: 1.45; }
+.vx-lab-readable [class~="text-[10px]"] { font-size: 12px; line-height: 1.5; }
+.vx-lab-readable [class~="text-[11px]"] { font-size: 13px; line-height: 1.5; }
+.vx-lab-readable [class~="text-xs"] { font-size: 13px; line-height: 1.55; }
+.vx-lab-readable { scrollbar-width: thin; scrollbar-color: #5e97ba #0d2439; }
+.vx-lab-readable:focus-visible { outline: 2px solid #7ccfff; outline-offset: -3px; }
+
+/* Painéis originais em composição cinematográfica: manter contexto, tabela e gráfico principal,
+   sem empilhar gráficos adicionais que comprimiriam todo o conteúdo. */
+.vx-rich-canvas .vx-demo-optional { display: none !important; }
+.vx-rich-canvas [class*="min-h-[475px]"],
+.vx-rich-canvas [class*="min-h-[430px]"] { min-height: 0 !important; }
+.vx-rich-canvas [class*="shadow-[0_18px_50px"] { box-shadow: none !important; }
+
+/* VORZAX / Tela única no laboratório e no filme.
+   Remover a moldura do navegador e a barra de título duplicadas sem afetar
+   os previews fora dessas duas áreas. Preservar as interfaces reais da demo. */
+.vx-rich-canvas > [data-demo-layout] > div {
+  max-width: none !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.vx-rich-canvas > [data-demo-layout] > div > div:first-child {
+  display: none !important;
+}
+.vx-rich-canvas > [data-demo-layout] > div > div:nth-child(2) {
+  border-radius: 0 !important;
+}
+/* A prévia já possui um único contorno: não desenhar borda em volta da tela. */
+.vx-lab-single-frame { border: 0 !important; padding: 0 !important; }
+
+/* Enquadramento mobile dos sites do laboratório: condensar espaços internos
+   sem eliminar seções e sem afetar dashboards ou qualquer outra página. */
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[325px]"] {
+  min-height: 255px !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[290px]"] {
+  min-height: 250px !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[260px]"] {
+  min-height: 275px !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="py-7"] {
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="pt-8"] {
+  padding-top: 0.8rem !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="mt-5"] {
+  margin-top: 0.6rem !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="mt-4"] {
+  margin-top: 0.5rem !important;
+}
+
+/* A tela do iPhone é a mesma em todas as 15 demos. A raiz real da interface
+   deve cobrir até a barra gestual, mesmo que o conteúdo seja mais curto.
+   O excesso rola dentro da tela, sem reduzir gráficos, fotos ou texto. */
+.vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
+  min-height: var(--vx-mobile-content-min-height, 930px) !important;
+}

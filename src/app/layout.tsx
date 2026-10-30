@@ -14,10 +14,11 @@ const geistMono = Geist_Mono({
 
 const siteUrl = "https://www.vorzax.com.br";
 const siteName = "Vorzax Tecnologia";
+const isProduction = process.env.VERCEL_ENV === "production";
 const title =
-  "Vorzax Tecnologia | Sistemas, Automações, Dashboards e Sites";
+  "Vorzax Tecnologia | Sites, Automações, BI e Sistemas";
 const description =
-  "Sistemas sob medida, automações, dashboards e sites para reduzir retrabalho, organizar processos e melhorar a operação da sua empresa.";
+  "Soluções tecnológicas para empresas: sites e landing pages, automação de processos, dashboards, Business Intelligence e sistemas sob medida.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,11 +41,11 @@ export const metadata: Metadata = {
     telephone: false,
   },
   robots: {
-    index: true,
-    follow: true,
+    index: isProduction,
+    follow: isProduction,
     googleBot: {
-      index: true,
-      follow: true,
+      index: isProduction,
+      follow: isProduction,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
@@ -80,12 +81,12 @@ const organizationJsonLd = {
   url: siteUrl,
   logo: {
     "@type": "ImageObject",
-    url: `${siteUrl}/logo-vorzax.png`,
-    contentUrl: `${siteUrl}/logo-vorzax.png`,
-    width: 512,
-    height: 512,
+    url: `${siteUrl}/vorzax-logo-oficial.png`,
+    contentUrl: `${siteUrl}/vorzax-logo-oficial.png`,
+    width: 604,
+    height: 172,
   },
-  image: `${siteUrl}/logo-vorzax.png`,
+  image: `${siteUrl}/vorzax-logo-oficial.png`,
   description,
   email: "contato@vorzax.com.br",
   telephone: "+5531990681495",

@@ -1,0 +1,99 @@
+"use client";
+
+import { useState } from "react";
+
+type Group="automacao"|"sistemas"|"ia";
+const themes={
+ automacao:{accent:"#57c8fb",dark:"#0d2945",title:"Fluxos",kicker:"AUTOMAÇÃO OPERACIONAL"},
+ sistemas:{accent:"#73c0fa",dark:"#102c46",title:"Gestão",kicker:"SISTEMA DE GESTÃO"},
+ ia:{accent:"#b5a4ff",dark:"#282247",title:"Vorzax IA",kicker:"ASSISTENTE VIRTUAL"},
+};
+const cases:Record<Group,{name:string,detail:string,stats:[string,string,string],labels:[string,string,string],options:string[],statuses:string[],hint:string}[]>={
+ automacao:[
+  {name:"Captação de leads",detail:"Solicitação recebida pelo site e encaminhada ao comercial.",stats:["128","18","04"],labels:["Entradas","Qualificados","Etapas"],options:["Formulário recebido","Triagem de serviço","Oportunidade no CRM","Notificar comercial"],statuses:["Registrado","Classificado","Preparado","Aguardando"],hint:"Empresa: Comercial Jardim Sul • Manutenção preventiva"},
+  {name:"Agenda técnica",detail:"Visitas agendadas por dia, equipe e disponibilidade.",stats:["32","08","91%"],labels:["Visitas","Equipes","Ocupação"],options:["Seg · 08h00","Ter · 09h30","Qua · 14h00","Qui · 11h00"],statuses:["Reservado","Livre","Selecionado","Disponível"],hint:"Equipe B • Climatização comercial • Região Central"},
+  {name:"Cobranças e avisos",detail:"Carteira acompanhada por vencimento e retorno.",stats:["86","12","07"],labels:["Títulos","Pendentes","Avisos"],options:["FAT-1024 • Loja do Centro","FAT-1025 • Edifício Vista","FAT-1026 • Mercado Atlântico","FAT-1027 • Oficina Nobre"],statuses:["Liquidado","Pendente","Aviso preparado","Em análise"],hint:"Mensagens e cobranças não são enviadas nesta demonstração"},
+ ],
+ sistemas:[
+  {name:"Ordens de serviço",detail:"Acompanhe tarefas, status e responsáveis de campo.",stats:["48","12","08"],labels:["Ordens","Em curso","Equipes"],options:["OS-204 • Edifício Horizonte","OS-205 • Mercado Central","OS-206 • Centro Logístico"],statuses:["Em execução","Agendada","Finalizada"],hint:"Manutenção VRF • Equipe Norte • Prazo de exemplo"},
+  {name:"Controle de estoque",detail:"Consulte saldos, códigos e reposição.",stats:["286","07","35"],labels:["Itens","Alertas","Movimentos"],options:["Filtro HEPA • FLT-300","Sensor térmico • SNS-204","Compressor 2HP • CMP-210","Conector • CNX-083"],statuses:["38 em estoque","07 • Repor","12 em estoque","03 • Crítico"],hint:"Selecione um item para consultar a situação do estoque"},
+  {name:"Gestão de projetos",detail:"Tarefas e entregas organizadas por sprint.",stats:["24","08","76%"],labels:["Tarefas","Em curso","Progresso"],options:["Briefing inicial","Interface principal","Integração visual","Revisão responsiva"],statuses:["A fazer","Em execução","Em execução","Validação"],hint:"Selecione uma tarefa para ver seu estágio na sprint"},
+ ],
+ ia:[
+  {name:"Atendimento comercial",detail:"Chat ilustrativo para qualificação inicial.",stats:["128","96%","23"],labels:["Conversas","Respostas","Leads"],options:["Quero um orçamento","Quais são os serviços?","Falar com atendente"],statuses:["Identificar necessidade","Apresentar serviços","Transferir conversa"],hint:"Fluxo pré-definido, sem IA ou canal de mensagens conectado"},
+  {name:"Suporte e FAQ",detail:"Consulta guiada a uma base de conhecimento fictícia.",stats:["84%","14","03"],labels:["Autoajuda","Artigos","Assuntos"],options:["Como recuperar o acesso?","Como consultar um pedido?","Preciso abrir um chamado"],statuses:["Orientar recuperação","Consultar protocolo","Preparar encaminhamento"],hint:"Artigos de exemplo — nenhuma consulta externa é feita"},
+  {name:"Assistente operacional",detail:"Ajude a organizar solicitações sem executar ações reais.",stats:["38","12","06"],labels:["Pedidos","Resumos","Ações"],options:["Resumir solicitações","Preparar ordem de serviço","Consultar prioridades"],statuses:["Resumo para revisão","Rascunho aguardando","Lista de prioridades"],hint:"Nenhuma tarefa, OS ou relatório é criado de verdade"},
+ ],
+};
+const responses=[
+ ["Para preparar o orçamento, preciso entender o serviço e a área atendida.","Posso apresentar sites, automações, dashboards e sistemas.","Vou indicar o caminho para o atendimento humano."],
+ ["Utilize a opção de recuperação de acesso no portal.","O protocolo pode ser consultado na central de atendimento.","Posso registrar um resumo para um atendente."],
+ ["Agrupei três solicitações em uma lista para revisão.","Preparei um modelo de ordem de serviço ilustrativa.","Organizei as tarefas de exemplo por prioridade."],
+];
+export function MobileProductExperience({category,variant}:{category:Group;variant:number}){
+ const [chosen,setChosen]=useState(0);
+ const [query,setQuery]=useState("");
+ const [approved,setApproved]=useState(false);
+ const item=cases[category][variant], theme=themes[category];
+ const filtered=item.options.map((name,index)=>({name,index})).filter(x=>x.name.toLowerCase().includes(query.toLowerCase()));
+ const pick=(index:number)=>{setChosen(index);setApproved(false)};
+ const heading=category==="automacao"?"CENTRAL DE AUTOMAÇÕES":category==="sistemas"?"PAINEL OPERACIONAL":"VORZAX IA / CONCEITO";
+ return <div className="flex h-full min-h-0 flex-col overflow-hidden text-white" style={{background:category==="ia"?"#14152b":category==="sistemas"?"#071b29":"#071e30"}}>
+  <header className="flex h-[86px] shrink-0 items-end justify-between border-b border-white/15 px-5 pb-3 pt-[38px]">
+   <div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-lg bg-white/10 text-xl" style={{color:theme.accent}}>{category==="ia"?"✦":category==="sistemas"?"▦":"↗"}</span><div><p className="text-[9px] font-bold tracking-[.15em]" style={{color:theme.accent}}>{heading}</p><p className="text-[16px] font-bold tracking-tight">{category==="ia"?"Vorzax IA":category==="sistemas"?"Gestão integrada":"Fluxos em execução"}</p></div></div>
+   <span className="rounded-full border border-white/20 px-2.5 py-1 text-[10px] text-white/70">DEMO</span>
+  </header>
+  <main className="min-h-0 flex-1 px-5 pt-4">
+   <div className="mb-4"><p className="text-[10px] font-semibold tracking-[.11em]" style={{color:theme.accent}}>{theme.kicker}</p><h3 className="mt-1 text-[24px] font-bold leading-[1.12] tracking-[-.045em]">{item.name}</h3><p className="mt-1.5 text-[12px] leading-5 text-white/65">{item.detail}</p></div>
+   {category==="automacao"&&variant===0&&<>
+    <div className="rounded-xl border border-cyan-400/30 bg-[#0c354b] p-4"><div className="flex items-center justify-between"><span className="text-[11px] font-bold text-[#a1e9ff]">SOLICITAÇÃO RECEBIDA</span><span className="text-[10px] text-emerald-300">● Capturado</span></div><p className="mt-3 text-[17px] font-bold">Comercial Jardim Sul</p><p className="mt-1 text-[12px] text-white/70">Manutenção preventiva · climatização B2B</p><p className="mt-3 border-t border-white/15 pt-3 text-[11px] text-[#bfe7fa]">Origem: formulário do site → triagem comercial</p></div>
+    <div className="mt-4 flex items-center justify-between"><strong className="text-[13px]">Jornada da oportunidade</strong><span className="text-[10px] text-cyan-300">ETAPA 0{chosen+1}/04</span></div>
+    <div className="mt-3 space-y-2">{item.options.map((stage,i)=><button key={stage} onClick={()=>pick(i)} aria-pressed={chosen===i} className="flex w-full items-center gap-3 rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-left"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[12px] font-bold" style={{background:chosen===i?theme.accent:"#1d4660",color:chosen===i?"#062139":"#c3dded"}}>{i+1}</span><span className="flex-1 text-[12px] font-medium">{stage}</span><span className="text-[11px]" style={{color:chosen===i?theme.accent:"#8daabb"}}>{chosen===i?"●":"○"}</span></button>)}</div>
+    <p className="mt-4 rounded-lg bg-[#13445d] px-4 py-3 text-[12px] leading-5 text-[#d5edfa]">{item.statuses[chosen]} · Fluxo demonstrativo, sem CRM conectado.</p>
+   </>}
+   {category==="automacao"&&variant===1&&<>
+    <div className="flex items-center justify-between rounded-xl bg-[#0d4554] p-4"><div><p className="text-[11px] text-cyan-200">Agenda de visitas</p><p className="mt-1 text-[18px] font-bold">Semana operacional</p></div><span className="text-3xl">▦</span></div>
+    <div className="mt-4 grid grid-cols-4 gap-2">{["SEG","TER","QUA","QUI"].map((day,i)=><button key={day} onClick={()=>pick(i)} className="rounded-lg border p-3 text-center" style={{borderColor:chosen===i?theme.accent:"#366175",background:chosen===i?"#11516b":"#0d3248"}}><span className="block text-[10px] text-white/65">{day}</span><strong className="mt-2 block text-[18px]">{[26,27,28,29][i]}</strong><span className="mt-1 block text-[9px]">{i===chosen?"Ativo":"Ver"}</span></button>)}</div>
+    <div className="mt-4 rounded-xl border border-white/15 bg-white/5 p-4"><div className="flex items-center justify-between"><strong className="text-[14px]">Visita técnica programada</strong><span className="rounded-full bg-cyan-300/15 px-2 py-1 text-[10px] text-cyan-200">{item.statuses[chosen]}</span></div><p className="mt-4 text-[22px] font-bold">{item.options[chosen].split(" · ")[1]}</p><p className="mt-2 text-[13px] text-white/70">Equipe B · Manutenção de climatização</p><div className="mt-4 border-t border-white/15 pt-3 text-[11px] leading-5 text-white/70">Local demonstrativo: Região Central. Confirmação não enviada.</div></div>
+    <div className="mt-4 grid grid-cols-3 gap-2">{item.stats.map((s,i)=><div key={s} className="rounded-lg bg-[#10374d] p-3"><strong className="block text-[17px]">{s}</strong><span className="text-[10px] text-white/60">{item.labels[i]}</span></div>)}</div>
+   </>}
+   {category==="automacao"&&variant===2&&<>
+    <div className="grid grid-cols-3 gap-2">{item.stats.map((s,i)=><div key={i} className="rounded-lg bg-[#123a4f] p-3"><strong className="text-[21px] text-cyan-200">{s}</strong><span className="mt-1 block text-[10px] text-white/60">{item.labels[i]}</span></div>)}</div>
+    <div className="mt-4 flex items-center justify-between"><h4 className="text-[14px] font-bold">Carteira de títulos</h4><span className="text-[10px] text-white/55">4 registros de exemplo</span></div>
+    <div className="mt-3 space-y-2">{item.options.map((v,i)=><button key={v} onClick={()=>pick(i)} className="flex w-full items-center justify-between rounded-lg border border-white/15 bg-white/5 p-3 text-left"><div><span className="text-[12px] font-semibold">{v.split(" • ")[0]}</span><span className="mt-1 block text-[11px] text-white/60">{v.split(" • ")[1]}</span></div><span className="text-[10px]" style={{color:chosen===i?theme.accent:"#aac6d7"}}>{item.statuses[i]}</span></button>)}</div>
+    <div className="mt-4 rounded-xl bg-[#154156] p-4"><p className="text-[11px] text-cyan-200">REGRA DE COMUNICAÇÃO</p><p className="mt-2 text-[13px]">Preparar lembrete → revisar → aguardar envio autorizado.</p><p className="mt-2 text-[10px] text-white/60">Nenhuma cobrança é enviada nesta prévia.</p></div>
+   </>}
+   {category==="sistemas"&&variant===0&&<>
+    <div className="flex items-center justify-between"><strong className="text-[14px]">Fila de atendimento</strong><span className="rounded-full bg-emerald-400/10 px-3 py-1 text-[10px] text-emerald-300">12 em curso</span></div>
+    <div className="mt-3 space-y-2">{item.options.map((v,i)=><button key={v} onClick={()=>pick(i)} className="w-full rounded-xl border p-3 text-left" style={{background:chosen===i?"#173c55":"#0b2a3f",borderColor:chosen===i?theme.accent:"#254961"}}><div className="flex justify-between gap-2"><strong className="text-[12px]">{v.split(" • ")[0]}</strong><span className="text-[10px] text-[#9fd4f1]">{item.statuses[i]}</span></div><p className="mt-2 text-[12px] text-white/70">{v.split(" • ")[1]}</p></button>)}</div>
+    <div className="mt-4 rounded-xl border border-white/15 bg-[#102e44] p-4"><span className="text-[10px] font-bold text-sky-300">DETALHES DA ORDEM</span><h4 className="mt-2 text-[18px] font-bold">{item.options[chosen].split(" • ")[0]}</h4><div className="mt-3 grid grid-cols-2 gap-3 text-[12px]"><div><span className="text-white/55">Responsável</span><p className="mt-1 font-semibold">{["Equipe Norte","Equipe Sul","Equipe Leste"][chosen]}</p></div><div><span className="text-white/55">Situação</span><p className="mt-1 font-semibold">{item.statuses[chosen]}</p></div></div><p className="mt-4 border-t border-white/15 pt-3 text-[11px] leading-5 text-white/65">Exemplo de sistema de campo; nenhuma OS real será alterada.</p></div>
+   </>}
+   {category==="sistemas"&&variant===1&&<>
+    <label className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-[12px]"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Buscar material ou código" className="w-full bg-transparent text-white outline-none placeholder:text-white/45" /></label>
+    <div className="mt-3 flex items-center justify-between"><strong className="text-[13px]">Materiais cadastrados</strong><span className="text-[10px] text-amber-300">● 2 alertas</span></div>
+    <div className="mt-3 overflow-hidden rounded-xl border border-white/15"><div className="grid grid-cols-[1fr_76px] bg-[#143950] px-4 py-3 text-[10px] text-white/60"><span>PRODUTO</span><span className="text-right">SALDO</span></div>{filtered.map(({name,index})=><button key={name} onClick={()=>pick(index)} className="grid w-full grid-cols-[1fr_76px] items-center border-t border-white/10 bg-[#0e2b3f] px-4 py-3 text-left"><span className="text-[12px] font-medium">{name}</span><span className="text-right text-[11px]" style={{color:index===1||index===3?"#ffd18a":"#afe7c8"}}>{item.statuses[index]}</span></button>)}{filtered.length===0&&<p className="px-4 py-6 text-center text-[12px] text-white/60">Nenhum material encontrado.</p>}</div>
+    <div className="mt-4 rounded-xl bg-[#123950] p-4"><p className="text-[10px] font-semibold text-sky-300">ITEM SELECIONADO</p><p className="mt-2 text-[15px] font-bold">{item.options[chosen]}</p><p className="mt-2 text-[12px] text-white/75">Situação: {item.statuses[chosen]}</p><p className="mt-3 text-[10px] text-white/50">Estoque e movimentações demonstrativos.</p></div>
+   </>}
+   {category==="sistemas"&&variant===2&&<>
+    <div className="flex justify-between gap-3"><div className="rounded-lg bg-[#2c2957] px-3 py-2 text-[12px] text-[#d9ceff]">Sprint 04</div><div className="rounded-lg bg-[#302c52] px-3 py-2 text-[12px] text-[#d9ceff]">76% do ciclo</div></div>
+    <div className="mt-4 grid grid-cols-3 gap-2">{["A FAZER","EM CURSO","VALIDAÇÃO"].map((lane,i)=><div key={lane} className="rounded-xl bg-[#24253e] p-2"><p className="mb-3 text-[9px] font-bold text-[#bcafff]">{lane}</p>{item.options.filter((_,j)=>j===i||i===1&&j===2).map(task=><button key={task} onClick={()=>pick(item.options.indexOf(task))} className="mb-2 w-full rounded-lg border border-[#4d486c] bg-[#353453] px-2 py-3 text-left text-[10px] leading-4">{task}</button>)}</div>)}</div>
+    <div className="mt-4 rounded-xl border border-[#554b82] bg-[#262442] p-4"><p className="text-[10px] font-bold text-violet-300">DETALHE DA TAREFA</p><p className="mt-2 text-[16px] font-bold">{item.options[chosen]}</p><p className="mt-2 text-[12px] text-[#c8c3e6]">{item.statuses[chosen]} · Equipe de produto</p><p className="mt-3 border-t border-white/10 pt-3 text-[11px] text-white/60">Quadro ilustrativo, sem conexão com gestão de projetos real.</p></div>
+   </>}
+   {category==="ia"&&variant===0&&<>
+    <div className="overflow-hidden rounded-xl border border-violet-300/20 bg-[#1b2340]"><div className="flex items-center gap-3 border-b border-white/10 px-4 py-3"><span className="grid h-9 w-9 place-items-center rounded-full bg-violet-400/25 text-violet-200">✦</span><div><p className="text-[13px] font-bold">Assistente comercial</p><p className="text-[10px] text-emerald-300">● Fluxo de respostas simulado</p></div></div><div className="space-y-3 px-4 py-5"><p className="max-w-[83%] rounded-xl rounded-tl-sm bg-[#313454] px-3 py-3 text-[13px] leading-5">Olá! Como posso orientar você hoje?</p><p className="ml-auto w-fit max-w-[83%] rounded-xl rounded-tr-sm bg-[#5846ad] px-3 py-3 text-[13px]">{item.options[chosen]}</p><p className="max-w-[92%] rounded-xl rounded-tl-sm bg-[#313454] px-3 py-3 text-[13px] leading-5">{responses[0][chosen]}</p></div></div>
+    <p className="mt-4 text-[11px] font-bold text-violet-200">SELECIONE UMA INTENÇÃO</p><div className="mt-2 space-y-2">{item.options.map((q,i)=><button key={q} onClick={()=>pick(i)} className="flex w-full items-center justify-between rounded-lg border border-violet-300/25 bg-[#242745] px-4 py-3 text-left text-[12px]">{q}<span className="text-violet-300">↗</span></button>)}</div>
+    <p className="mt-4 text-[10px] text-white/55">Simulação local: nenhuma mensagem ou dado é enviado.</p>
+   </>}
+   {category==="ia"&&variant===1&&<>
+    <label className="flex items-center gap-2 rounded-xl border border-violet-300/30 bg-white/5 px-4 py-3"><span className="text-violet-300">⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Pesquisar na base de ajuda" className="w-full bg-transparent text-[12px] text-white outline-none placeholder:text-white/45" /></label>
+    <p className="mt-4 text-[11px] font-semibold text-violet-200">ARTIGOS MAIS CONSULTADOS</p><div className="mt-2 space-y-2">{filtered.map(({name,index})=><button key={name} onClick={()=>pick(index)} className="flex w-full items-center gap-3 rounded-lg border border-violet-300/15 bg-[#242640] p-3 text-left"><span className="text-[18px] text-violet-200">▤</span><span className="flex-1 text-[12px] font-semibold">{name}</span><span className="text-violet-300">↗</span></button>)}{filtered.length===0&&<p className="text-[12px] text-white/60">Nenhum artigo encontrado.</p>}</div>
+    <div className="mt-4 rounded-xl bg-[#303051] p-4"><p className="text-[10px] text-violet-200">ARTIGO DE EXEMPLO · AJUDA 00{chosen+1}</p><h4 className="mt-2 text-[16px] font-bold">{item.options[chosen]}</h4><p className="mt-3 text-[13px] leading-6 text-[#ddd9ee]">{responses[1][chosen]}</p><p className="mt-3 text-[10px] text-white/55">Conteúdo fictício, sem base externa conectada.</p></div>
+   </>}
+   {category==="ia"&&variant===2&&<>
+    <div className="rounded-xl border border-violet-300/20 bg-[#292944] p-4"><div className="flex items-center justify-between"><strong className="text-[13px]">Solicitações da operação</strong><span className="text-[10px] text-violet-300">03 DISPONÍVEIS</span></div><div className="mt-4 space-y-2">{item.options.map((task,i)=><button key={task} onClick={()=>pick(i)} className="flex w-full items-center gap-3 rounded-lg bg-[#38375b] px-3 py-3 text-left"><span className="grid h-7 w-7 place-items-center rounded-md bg-violet-300/10 text-violet-200">{i+1}</span><span className="flex-1 text-[12px]">{task}</span><span className="text-violet-200">↗</span></button>)}</div></div>
+    <div className="mt-4 rounded-xl border border-violet-300/20 bg-[#22233d] p-4"><p className="text-[10px] font-bold tracking-wider text-violet-300">PRÉVIA DO RASCUNHO</p><h4 className="mt-3 text-[17px] font-bold">{item.options[chosen]}</h4><p className="mt-3 text-[13px] leading-6 text-white/75">{responses[2][chosen]}</p><button onClick={()=>setApproved(x=>!x)} className="mt-4 w-full rounded-lg border border-violet-300/30 bg-[#51418a] py-3 text-[12px] font-bold">{approved?"Rascunho marcado para revisão":"Marcar para revisão"}</button><p className="mt-2 text-center text-[10px] text-white/50">Somente estado local — nenhuma ação externa</p></div>
+   </>}
+  </main>
+  <footer className="flex h-[47px] shrink-0 items-center justify-between border-t border-white/15 bg-black/15 px-5 text-[10px] text-white/55"><span>VORZAX • AMBIENTE DEMONSTRATIVO</span><span>Dados simulados</span></footer>
+ </div>;
+}
