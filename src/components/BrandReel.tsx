@@ -23,7 +23,7 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
 function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
   return <div data-reel-preview={category} className="flex h-full w-full items-center justify-center overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
     <div className="h-full w-full">
-      <FitDemoStage category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+      <FitDemoStage category={category} variant={variant} device="desktop" step={step} playing={playing} film/>
     </div>
   </div>;
 }
