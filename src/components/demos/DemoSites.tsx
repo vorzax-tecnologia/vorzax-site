@@ -17,38 +17,25 @@ export function DemoFrame({ children, device, compact = false, dark = true, titl
   </div>;
 }
 
-function HvacSite({ mobile }: { mobile:boolean }) {
-  const [service,setService]=useState(0);
-  const [contact,setContact]=useState(false);
-  const scopes=[
-    {name:"Instalação planejada",detail:"Dimensionamento, instalação e comissionamento para áreas comerciais."},
-    {name:"Manutenção preventiva",detail:"Rotinas de inspeção, limpeza e acompanhamento da climatização."},
-    {name:"Projetos comerciais",detail:"Estudo técnico e proposta conforme o perfil da operação."}
-  ];
-  return <div className="min-h-[475px] bg-[#061627] text-white">
-    <div className="flex items-center justify-between border-b border-[#1d415d] px-5 py-4">
-      <strong className="text-[17px] font-black tracking-[-.04em]"><span className="mr-2 text-[#3bcbfd]">✳</span>CLIMA<span className="text-[#3bcbfd]">FORTE</span></strong>
-      {mobile ? <span className="rounded-md border border-[#356580] px-2 py-1 text-sm">☰</span> : <div className="flex gap-5 text-[10px] font-medium text-[#bed3e4]"><span>Serviços</span><span>Segmentos</span><span>Atendimento</span><span className="text-[#61d2ff]">Orçamento ↗</span></div>}
-    </div>
-    <div className={`grid ${mobile ? "grid-cols-1" : "grid-cols-[1.08fr_.92fr]"} gap-3 px-5 py-7 sm:px-8`}>
-      <div className="flex flex-col justify-center">
-        <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#54d5ff]">ENGENHARIA DE CLIMATIZAÇÃO</p>
-        <h4 className="mt-4 max-w-[450px] text-[clamp(23px,3.6vw,42px)] font-bold leading-[1.09] tracking-[-.06em]">Sua operação no clima certo.</h4>
-        <p className="mt-4 max-w-[390px] text-xs leading-6 text-[#bad1e1]">Instalação e manutenção de ar-condicionado para estabelecimentos comerciais.</p>
-        <div className="mt-5 flex flex-wrap gap-2"><button type="button" onClick={()=>setContact(c=>!c)} className="rounded-lg bg-[#075f9b] px-4 py-2.5 text-[11px] font-bold text-white">{contact?"Fechar solicitação":"Solicitar orçamento ↗"}</button><button type="button" onClick={()=>setService(v=>(v+1)%3)} className="rounded-lg border border-[#32617a] px-4 py-2.5 text-[11px] text-[#b7d4e4]">Explorar serviços</button></div><p aria-live="polite" className="mt-3 min-h-9 text-[11px] leading-5 text-[#9bcce8]">{contact?"Exemplo de atendimento: informe o serviço desejado para uma proposta comercial. Nenhum pedido será enviado.":scopes[service].detail}</p>
-      </div>
-      <div className="relative min-h-[265px] overflow-hidden rounded-[16px] border border-[#3c7495]/60 bg-[#15334b] shadow-[0_18px_45px_rgba(0,0,0,.28)]"
-        role="img" aria-label="Fotografia ilustrativa de espaço corporativo com instalações técnicas aparentes"
-        style={{backgroundImage:'linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.75) 100%),url("/demo-hvac-workspace.webp")',backgroundSize:'cover',backgroundPosition:'center'}}>
-        <div className="absolute right-4 top-4 rounded-full border border-white/30 bg-[#0a2d43]/75 px-3 py-2 text-[9px] font-semibold tracking-[.08em] text-white backdrop-blur-sm">CLIMATIZAÇÃO COMERCIAL</div>
-        <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4">
-          <div><span className="text-[9px] font-bold uppercase tracking-[.17em] text-[#8fe0ff]">AMBIENTES COMERCIAIS</span><p className="mt-2 max-w-[240px] text-base font-semibold leading-5 text-white">Instalações pensadas para o seu negócio.</p></div>
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/50 bg-white/15 text-white">↗</span>
-        </div>
-      </div>
-    </div>
-    <div className={`grid ${mobile ? "grid-cols-1" : "grid-cols-3"} gap-2 px-5 pb-6 sm:px-8`}>{scopes.map((item,i)=><button key={item.name} type="button" aria-pressed={service===i} onClick={()=>setService(i)} className={`rounded-xl border p-4 text-left transition-colors ${service===i?"border-[#47a8df] bg-[#144367]":"border-[#285272] bg-[#0c2b44] hover:border-[#39799e]"}`}><span className="text-[#58cef5]">0{i+1} ─</span><p className="mt-3 text-[12px] font-bold">{item.name}</p><p className="mt-1 text-[11px] text-[#bed7e9]">{service===i?"Selecionado • ver descrição ↑":"Ver detalhes ↗"}</p></button>)}</div>
-  </div>;
+function HvacSite({mobile}:{mobile:boolean}) {
+ const [service,setService]=useState(0);
+ const [contact,setContact]=useState(false);
+ const [submitted,setSubmitted]=useState(false);
+ const [form,setForm]=useState({responsavel:"",empresa:"",servico:"Manutenção preventiva"});
+ const scopes=[
+  {name:"Instalação de sistemas",detail:"Vistoria técnica, dimensionamento e instalação de split, multi-split e VRF em espaços comerciais."},
+  {name:"Manutenção preventiva",detail:"Inspeções, higienização, revisão de componentes e programação de visitas técnicas."},
+  {name:"Projetos de climatização",detail:"Levantamento dos ambientes, análise de carga térmica e estudo de alternativas técnicas."}
+ ];
+ return <div className="relative min-h-[475px] bg-[#061627] text-white">
+  <header className="flex items-center justify-between border-b border-[#1d415d] px-6 py-4"><strong className="text-[19px] font-black tracking-[-.05em]"><span className="mr-2 text-[#3bcbfd]">✳</span>CLIMA<span className="text-[#3bcbfd]">FORTE</span></strong>{mobile?<span className="text-lg">☰</span>:<nav className="flex gap-5 text-[11px] font-medium text-[#bed3e4]"><span>Serviços</span><span>Áreas atendidas</span><span>Sobre</span><button type="button" onClick={()=>setContact(true)} className="font-bold text-[#61d2ff]">Orçamento ↗</button></nav>}</header>
+  <div className="grid gap-4 px-6 py-7 sm:px-8" style={{gridTemplateColumns:mobile?"1fr":"1.02fr .98fr"}}>
+   <div className="flex flex-col justify-center"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#54d5ff]">CLIMATIZAÇÃO PARA EMPRESAS</p><h4 className="mt-4 max-w-[500px] text-[clamp(28px,3.6vw,45px)] font-bold leading-[1.05] tracking-[-.06em]">Sua operação no clima certo.</h4><p className="mt-4 max-w-[430px] text-[13px] leading-6 text-[#bad1e1]">Instalação, projetos e manutenção preventiva de ar-condicionado para lojas, escritórios e operações comerciais.</p><div className="mt-5 flex flex-wrap gap-2"><button type="button" onClick={()=>setContact(true)} className="rounded-lg bg-[#087fc1] px-5 py-3 text-[12px] font-bold text-white transition hover:bg-[#1499de]">Solicitar orçamento ↗</button><button type="button" onClick={()=>setService(v=>(v+1)%3)} className="rounded-lg border border-[#32617a] px-4 py-3 text-[11px] text-[#b7d4e4]">Explorar serviços</button></div><p aria-live="polite" className="mt-4 min-h-10 max-w-[440px] text-[12px] leading-5 text-[#a6d8ec]">{submitted?"Solicitação de exemplo preparada. Nenhum contato foi enviado.":scopes[service].detail}</p></div>
+   <div className="relative min-h-[290px] overflow-hidden rounded-[12px] bg-[#15334b]" role="img" aria-label="Imagem conceitual de ambientes comerciais climatizados" style={{backgroundImage:'linear-gradient(180deg,rgba(2,14,27,.02) 15%,rgba(2,14,27,.78) 100%),url("/demo-hvac-workspace.webp")',backgroundSize:"cover",backgroundPosition:"center"}}><span className="absolute right-4 top-4 rounded-full bg-[#0a2d43]/85 px-3 py-2 text-[10px] font-semibold text-[#d8f4ff]">CLIMATIZAÇÃO COMERCIAL</span><div className="absolute inset-x-5 bottom-5"><p className="text-[10px] font-bold tracking-[.15em] text-[#8fe0ff]">INSTALAÇÃO · MANUTENÇÃO · PROJETOS</p><p className="mt-2 max-w-[330px] text-[19px] font-semibold leading-6">Soluções para manter ambientes empresariais funcionando.</p></div></div>
+  </div>
+  <section className="grid gap-3 px-6 pb-6 sm:px-8" style={{gridTemplateColumns:mobile?"1fr":"repeat(3,minmax(0,1fr))"}} aria-label="Serviços demonstrativos">{scopes.map((item,i)=><button key={item.name} type="button" aria-pressed={service===i} onClick={()=>setService(i)} className="rounded-xl border p-4 text-left transition-colors" style={{borderColor:service===i?"#47a8df":"#285272",background:service===i?"#144367":"#0c2b44"}}><span className="text-[10px] font-bold text-[#58cef5]">0{i+1} / SERVIÇO</span><p className="mt-2 text-[14px] font-bold">{item.name}</p><p className="mt-2 text-[11px] leading-4 text-[#bed7e9]">{item.detail}</p></button>)}</section>
+  {contact&&<div className="absolute inset-0 z-20 flex items-center justify-center bg-[#04121f]/95 p-5" role="dialog" aria-modal="true" aria-label="Formulário de orçamento demonstrativo"><form onSubmit={e=>{e.preventDefault();setSubmitted(true);setContact(false)}} className="w-full max-w-[560px] rounded-xl border border-[#3e89b2] bg-[#0b2941] p-6 shadow-2xl"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-bold tracking-[.14em] text-[#7cdbff]">SIMULAÇÃO DE ATENDIMENTO</p><h5 className="mt-2 text-[23px] font-bold">Solicitar orçamento</h5><p className="mt-2 text-[12px] leading-5 text-[#c6dbe8]">Preencha uma solicitação de exemplo. Nenhum dado será enviado ou armazenado.</p></div><button type="button" onClick={()=>setContact(false)} className="rounded-lg border border-white/20 px-3 py-2 text-sm" aria-label="Fechar formulário">✕</button></div><div className="mt-5 grid gap-3 sm:grid-cols-2"><label className="text-[11px] text-[#cae7f7]">Responsável<input required maxLength={60} value={form.responsavel} onChange={e=>setForm(v=>({...v,responsavel:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white" placeholder="Seu nome"/></label><label className="text-[11px] text-[#cae7f7]">Empresa<input required maxLength={60} value={form.empresa} onChange={e=>setForm(v=>({...v,empresa:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white" placeholder="Nome da empresa"/></label></div><label className="mt-4 block text-[11px] text-[#cae7f7]">Serviço desejado<select value={form.servico} onChange={e=>setForm(v=>({...v,servico:e.target.value}))} className="mt-2 block w-full rounded-lg border border-[#406b88] bg-[#061e32] px-3 py-3 text-[13px] text-white">{scopes.map(x=><option key={x.name}>{x.name}</option>)}</select></label><button type="submit" className="mt-5 w-full rounded-lg bg-[#087cbd] px-4 py-3 text-[13px] font-bold text-white">Pré-visualizar solicitação ↗</button></form></div>}
+ </div>;
 }
 
 function AccountingSite({ mobile }: { mobile:boolean }) {
