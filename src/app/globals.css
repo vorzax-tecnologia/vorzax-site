@@ -499,3 +499,38 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* Laboratório desktop: visão de conjunto compacta e sem distorcer fontes.
+   A visualização "Ver maior" mantém o tamanho nativo para leitura e interação.
+   Zoom CSS é uniforme (nunca scaleX/scaleY), e só atua no painel em miniatura. */
+@supports (zoom: 0.88) {
+  .vx-lab-compact .vx-lab-workspace-canvas {
+    zoom: 0.88;
+    width: 113.6364% !important;
+    min-height: 0 !important;
+  }
+}
+.vx-lab-compact .vx-lab-workspace-canvas [class~="min-h-[620px]"],
+.vx-lab-compact .vx-lab-workspace-canvas [class~="min-h-[640px]"] {
+  min-height: 0 !important;
+}
+.vx-lab-compact .vx-lab-workspace-canvas [class~="p-3"] {
+  padding: 0.55rem !important;
+}
+.vx-lab-compact .vx-lab-workspace-canvas [class~="mt-3"] {
+  margin-top: 0.5rem !important;
+}
+.vx-lab-compact .vx-lab-workspace-canvas svg[role="img"] {
+  max-height: 112px !important;
+}
+/* Notebook baixo: priorizar enquadramento total sem perder a possibilidade
+   de rolar no próprio painel quando um detalhe extra é aberto. */
+@media (max-height: 820px) and (min-width: 1024px) {
+  @supports (zoom: 0.84) {
+    .vx-lab-compact .vx-lab-workspace-canvas {
+      zoom: 0.84;
+      width: 119.0476% !important;
+    }
+  }
+}
