@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { RichDemoScene } from "./RichDemoScene";
+import { DemoStagePreview } from "./DemoStagePreview";
 import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 
 /**
@@ -55,7 +56,10 @@ export function FitDemoStage({
         data-expanded={String(expanded)}
         className="h-full w-full overflow-hidden bg-[#07192c]"
       >
-        <RichDemoScene category={category} variant={variant} step={step} playing={playing} />
+        {expanded
+          ? <RichDemoScene category={category} variant={variant} step={step} playing={playing} expanded />
+          : <DemoStagePreview category={category} variant={variant} step={step} playing={playing} />}
+
       </div>
     );
   }
