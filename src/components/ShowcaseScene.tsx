@@ -1,5 +1,6 @@
 "use client";
 
+import { MobileProductExperience } from "./MobileProductExperience";
 import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 
 /** 15 specially composed, fixed-canvas showcase screens. No scroll and no hidden content.
@@ -160,7 +161,7 @@ export function ShowcaseScene({category,variant,device="desktop",step=0,canvasWi
  const s=data[category][Math.min(2,Math.max(0,variant))];
  const phone=device==="mobile";
  return <div data-showcase-scene={category+"-"+variant+"-"+device} className={`relative overflow-hidden bg-[#071627] text-white ${phone?"h-[874px] w-[402px]":"h-[480px]"}`} style={phone?undefined:{width:canvasWidth}}>
-  {phone?category==="sites"?<SitePhone variant={variant}/>:<MobileScene s={s} category={category} step={step}/>:
+  {phone?category==="sites"?<SitePhone variant={variant}/>:category==="bi"?<MobileScene s={s} category={category} step={step}/>:<MobileProductExperience key={category+"-"+variant} category={category} variant={variant}/>:
    category==="sites" ? (
      // Um único cabeçalho: o menu da própria página fictícia, sem a moldura de um segundo aplicativo.
      <DesktopScene s={s} category={category} variant={variant} step={step}/>
