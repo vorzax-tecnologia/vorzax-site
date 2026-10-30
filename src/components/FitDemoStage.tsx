@@ -1,25 +1,57 @@
 "use client";
 
-import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
+import { useEffect, useRef, useState } from "react";
+import { ShowcaseScene } from "./ShowcaseScene";
+import type { DemoCategory, DemoDevice } from "./DemoVisuals";
+
+const SIZES={desktop:{w:900,h:480},mobile:{w:450,h:930}} as const;
 
 /**
- * Mostra a interface em tamanho de leitura, sem reduzir toda a UI para caber.
- * O Laboratório permanece com altura controlada e o usuário pode rolar
- * DENTRO da demonstração. A visualização ampliada usa o mesmo componente.
+ * Encaixe bidimensional SEM CORTE e SEM SCROLL:
+ * escala min(largura disponível / largura do canvas, altura / altura do canvas).
+ * Os 15 exemplos foram projetados para 900x480 ou 402x874 no iPhone 16 Pro.
  */
 export function FitDemoStage({category,variant,device,step,playing,expanded=false}:{category:DemoCategory;variant:number;device:DemoDevice;step:number;playing:boolean;expanded?:boolean}) {
-  return (
-    <div
-      data-fit-stage={category+"-"+variant+"-"+device}
-      data-expanded={expanded?"true":"false"}
-      tabIndex={0}
+  const ref=useRef<HTMLDivElement>(null);
+  const [area,setArea]=useState({width:0,height:0});
+  useEffect(()=>{
+    const node=ref.current;
+    if(!node)return;
+    const update=()=>setArea(prev=>{
+      const width=node.clientWidth,height=node.clientHeight;
+      return prev.width===width&&prev.height===height?prev:{width,height};
+    });
+    const observer=new ResizeObserver(update);
+    observer.observe(node);
+    update();
+    return()=>observer.disconnect();
+  },[]);
+  const size=SIZES[device];
+  const scale=area.width&&area.height?Math.min(area.width/size.w,area.height/size.h):0;
+  const frameWidth=size.w*scale,frameHeight=size.h*scale;
+  return <div ref={ref} data-fit-stage={category+"-"+variant+"-"+device} data-expanded={expanded?"true":"false"}
+      data-scale={scale.toFixed(3)}
       role="region"
-      aria-label={"Interface demonstrativa "+category+", visão "+device+". Use a rolagem para explorar os detalhes."}
-      className="vx-lab-readable h-full w-full overflow-auto overscroll-contain rounded-[13px] bg-[#071525] outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-    >
-      <div className={device==="mobile"?"mx-auto min-w-[300px] max-w-[390px] p-2 sm:p-4":expanded?"mx-auto min-w-[650px] max-w-[1400px] p-2 sm:p-4":"min-w-[600px] p-1.5 sm:p-2"}>
-        <DemoVisual category={category} variant={variant} device={device} step={step} playing={playing}/>
+      aria-label={category+" — "+(device==="mobile"?"visão iPhone 16 Pro":"visão desktop")+", exemplo visual completo sem rolagem"}
+      className="relative h-full w-full overflow-hidden rounded-[13px] bg-[radial-gradient(circle_at_center,#173451_0%,#08192c_70%)]">
+    {scale>0&&<div className="absolute left-1/2 top-1/2" style={{width:frameWidth,height:frameHeight,transform:"translate(-50%, -50%)"}}>
+      <div style={{width:size.w,height:size.h,transform:`scale(${scale})`,transformOrigin:"top left"}} className="relative">
+        {device==="mobile"?<div className="relative h-[930px] w-[450px] rounded-[65px] border-[7px] border-[#718295] bg-[linear-gradient(120deg,#161c28,#54647a_45%,#111924)] p-[8px] shadow-[0_25px_45px_rgba(0,0,0,.55)]" aria-label="Mockup visual inspirado no iPhone 16 Pro">
+          <div className="absolute -left-[9px] top-[165px] h-[68px] w-[4px] rounded-l-md bg-[#697d90]" aria-hidden="true"/>
+          <div className="absolute -right-[9px] top-[206px] h-[86px] w-[4px] rounded-r-md bg-[#697d90]" aria-hidden="true"/>
+          <div className="relative h-full overflow-hidden rounded-[50px] border-[5px] border-[#050a13] bg-[#080e1a]">
+            <div className="absolute inset-[0px] overflow-hidden rounded-[44px]">
+              <ShowcaseScene category={category} variant={variant} device="mobile" step={step} playing={playing}/>
+            </div>
+            <div className="pointer-events-none absolute left-1/2 top-[12px] z-10 h-[29px] w-[116px] -translate-x-1/2 rounded-full bg-[#040508] shadow-[0_2px_6px_rgba(0,0,0,.45)]" aria-hidden="true">
+              <span className="absolute right-[12px] top-[9px] h-[8px] w-[8px] rounded-full bg-[#17283d]"/>
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-[9px] z-10 mx-auto h-[5px] w-[126px] rounded-full bg-[#c8d3e0]/75" aria-hidden="true"/>
+          </div>
+        </div>:<div className="h-[480px] w-[900px] overflow-hidden rounded-[16px] border-[3px] border-[#395d7a] shadow-[0_16px_55px_rgba(0,0,0,.35)]">
+          <ShowcaseScene category={category} variant={variant} step={step} playing={playing}/>
+        </div>}
       </div>
-    </div>
-  );
+    </div>}
+  </div>;
 }
