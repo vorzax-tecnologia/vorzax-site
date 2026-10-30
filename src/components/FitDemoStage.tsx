@@ -12,7 +12,7 @@ import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 const PHONE = { width: 468, height: 988 };
 
 export function FitDemoStage({
-  category, variant, device, step, playing, expanded = false,
+  category, variant, device, step, playing, expanded = false, film = false,
 }: {
   category: DemoCategory;
   variant: number;
@@ -20,6 +20,7 @@ export function FitDemoStage({
   step: number;
   playing: boolean;
   expanded?: boolean;
+  film?: boolean;
 }) {
   const stage = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -53,9 +54,9 @@ export function FitDemoStage({
       <div
         data-fit-stage={category + "-" + variant + "-desktop"}
         data-expanded={String(expanded)}
-        className="h-full w-full overflow-hidden bg-[#07192c]"
+        className={film || expanded ? "h-full w-full overflow-hidden bg-[#07192c]" : "w-full min-w-0 overflow-visible bg-[#07192c]"}
       >
-        <RichDemoScene category={category} variant={variant} step={step} playing={playing} />
+        <RichDemoScene category={category} variant={variant} step={step} playing={playing} mode={film ? "film" : expanded ? "expanded" : "lab"} />
       </div>
     );
   }
