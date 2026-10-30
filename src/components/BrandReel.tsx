@@ -104,7 +104,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
                 <p className="text-[clamp(9px,1vw,14px)] font-bold uppercase tracking-[.12em] text-[#82d1ff]">{current.eyebrow}</p>
                 <p className="mt-1 text-[clamp(15px,2.1vw,28px)] font-semibold leading-tight tracking-[-.045em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
               </div>
-              <span className="ml-auto hidden text-[clamp(10px,.85vw,13px)] text-[#b5d2e6] sm:block">{current.caption}</span>
+              <span className="ml-auto mr-24 hidden text-[clamp(10px,.85vw,13px)] text-[#b5d2e6] lg:block">{current.caption}</span>
             </div>
             <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[3px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-[5px]">
               <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} />
@@ -117,7 +117,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         <span>VORZAX TECNOLOGIA</span>
       </div>
       {showPlayButton && (
-        <button type="button" onClick={toggle} aria-label={buttonLabel} className="absolute bottom-[8%] right-[4%] flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
+        <button type="button" onClick={toggle} aria-label={buttonLabel} className="absolute right-[3%] top-[3%] z-20 flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
           <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
           <span className="hidden sm:inline">{buttonLabel}</span>
         </button>
