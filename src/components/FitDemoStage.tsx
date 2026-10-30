@@ -6,7 +6,7 @@ import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 
 /**
  * Single frame in desktop/video. Mobile presents the SAME chart-rich React
- * demos inside a visually recognizable Pro Max-style phone, not a substitute
+ * demos inside a consistent mobile device frame, not a substitute
  * static illustration. Shell and content scale independently to fit fully.
  */
 const PHONE = { width: 468, height: 988 };
@@ -70,12 +70,12 @@ export function FitDemoStage({
   return (
     <div
       ref={stage}
-      data-fit-stage={category + "-" + variant + "-iphone-pro-max"}
+      data-fit-stage={category + "-" + variant + "-mobile"}
       data-expanded={String(expanded)}
       data-shell-scale={shellScale.toFixed(3)}
       className="relative h-full w-full overflow-hidden bg-[radial-gradient(ellipse_at_center,#12324d_0%,#061629_70%)]"
       role="region"
-      aria-label="Prévia completa em moldura ilustrativa inspirada no iPhone 16 Pro Max"
+      aria-label="Prévia ilustrativa na visão mobile"
     >
       <div className="absolute inset-0 flex items-center justify-center">
         <div
