@@ -4,8 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BrandReel } from "./BrandReel";
 
-const SESSION_KEY = "vorzax_intro_seen_v4";
-
 /**
  * A apresentação usa as mesmas interfaces do Laboratório,
  * renderizadas na resolução nativa do navegador para não perder nitidez.
@@ -15,20 +13,15 @@ export function VideoIntro() {
   const skipRef = useRef<HTMLButtonElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
 
+  // O vídeo é opcional: o visitante entra direto no site. O replay pode ser
+  // solicitado pelo rodapé, sem modal automático ou bloqueio da navegação.
   useEffect(() => {
-    let alreadySeen = false;
-    try { alreadySeen = sessionStorage.getItem(SESSION_KEY) === "1"; } catch { /* Armazenamento bloqueado */ }
-    let frame = 0;
-    if (!alreadySeen && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      previousFocus.current = document.activeElement as HTMLElement | null;
-      frame = requestAnimationFrame(() => setOpen(true));
-    }
     const replay = () => {
       previousFocus.current = document.activeElement as HTMLElement | null;
       setOpen(true);
     };
     window.addEventListener("vorzax:replay-intro", replay);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener("vorzax:replay-intro", replay); };
+    return () => window.removeEventListener("vorzax:replay-intro", replay);
   }, []);
 
   useEffect(() => {
@@ -56,7 +49,6 @@ export function VideoIntro() {
 
   function finish() {
     setOpen(false);
-    try { sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* Sessão sem armazenamento */ }
     window.setTimeout(() => previousFocus.current?.focus(), 0);
   }
 
@@ -81,7 +73,7 @@ export function VideoIntro() {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#73bdf1]">TECNOLOGIA PARA EMPRESAS</p>
             <p className="mt-2 text-lg font-semibold tracking-[-.04em] text-white sm:text-2xl">Presença digital, processos, dados, sistemas e IA em movimento.</p>
-            <p className="mt-2 text-xs leading-5 text-[#9bb4c9]">Interfaces e dados conceituais. Não representam clientes, contratos ou resultados reais.</p>
+            <p className="mt-2 text-xs leading-5 text-[#9bb4c9]">Conceitos visuais ilustrativos.</p>
           </div>
           <button type="button" onClick={finish} className="vx-intro-enter vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Entrar no site <span aria-hidden="true">→</span></button>
         </div>
