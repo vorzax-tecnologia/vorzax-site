@@ -55,7 +55,7 @@ export function FitDemoStage({
         data-expanded={String(expanded)}
         className="h-full w-full overflow-hidden bg-[#07192c]"
       >
-        <RichDemoScene category={category} variant={variant} step={step} playing={playing} />
+        <RichDemoScene category={category} variant={variant} step={step} playing={playing} expanded={expanded} />
       </div>
     );
   }
