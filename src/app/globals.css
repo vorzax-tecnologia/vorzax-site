@@ -373,3 +373,10 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-lab-readable [class~="text-xs"] { font-size: 13px; line-height: 1.55; }
 .vx-lab-readable { scrollbar-width: thin; scrollbar-color: #5e97ba #0d2439; }
 .vx-lab-readable:focus-visible { outline: 2px solid #7ccfff; outline-offset: -3px; }
+
+/* Painéis originais em composição cinematográfica: manter contexto, tabela e gráfico principal,
+   sem empilhar gráficos adicionais que comprimiriam todo o conteúdo. */
+.vx-rich-canvas .vx-demo-optional { display: none !important; }
+.vx-rich-canvas [class*="min-h-[475px]"],
+.vx-rich-canvas [class*="min-h-[430px]"] { min-height: 0 !important; }
+.vx-rich-canvas [class*="shadow-[0_18px_50px"] { box-shadow: none !important; }
