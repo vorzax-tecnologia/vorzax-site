@@ -1,44 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 
 /**
- * Ajusta a interface real à altura disponível sem reduzir a sessão inteira.
- * O conteúdo preserva a proporção; o recorte fica restrito à prévia.
+ * Mostra a interface em tamanho de leitura, sem reduzir toda a UI para caber.
+ * O Laboratório permanece com altura controlada e o usuário pode rolar
+ * DENTRO da demonstração. A visualização ampliada usa o mesmo componente.
  */
-export function FitDemoStage({category,variant,device,step,playing}:{category:DemoCategory;variant:number;device:DemoDevice;step:number;playing:boolean}) {
-  const stageRef=useRef<HTMLDivElement>(null);
-  const innerRef=useRef<HTMLDivElement>(null);
-  const [scale,setScale]=useState(1);
-
-  useEffect(()=>{
-    const stage=stageRef.current, inner=innerRef.current;
-    if(!stage||!inner)return;
-    let raf=0;
-    const measure=()=>{
-      cancelAnimationFrame(raf);
-      raf=requestAnimationFrame(()=>{
-        const w=stage.clientWidth;
-        const h=stage.clientHeight;
-        if(!w||!h)return;
-        const contentHeight=inner.scrollHeight;
-        if(!contentHeight)return;
-        const next=Math.min(1,Math.max(.18,(h*.95)/contentHeight));
-        setScale(prev=>Math.abs(prev-next)>.012?next:prev);
-      });
-    };
-    const observer=new ResizeObserver(measure);
-    observer.observe(stage);
-    observer.observe(inner);
-    measure();
-    return ()=>{cancelAnimationFrame(raf);observer.disconnect();};
-  },[category,variant,device]);
-
-  return <div ref={stageRef} data-fit-stage={category+"-"+variant+"-"+device} className="relative h-full w-full overflow-hidden rounded-[13px] bg-[#071525]" role="region" aria-label={"Demonstração "+category+" na visão "+device}>
-    <div ref={innerRef} className={`absolute left-0 top-0 origin-top-left ${device==="mobile"?"flex justify-center":"block"}`} style={{width:(100/scale)+"%",transform:`scale(${scale})`}}>
-      <DemoVisual category={category} variant={variant} device={device} step={step} playing={playing}/>
+export function FitDemoStage({category,variant,device,step,playing,expanded=false}:{category:DemoCategory;variant:number;device:DemoDevice;step:number;playing:boolean;expanded?:boolean}) {
+  return (
+    <div
+      data-fit-stage={category+"-"+variant+"-"+device}
+      data-expanded={expanded?"true":"false"}
+      tabIndex={0}
+      role="region"
+      aria-label={"Interface demonstrativa "+category+", visão "+device+". Use a rolagem para explorar os detalhes."}
+      className="vx-lab-readable h-full w-full overflow-auto overscroll-contain rounded-[13px] bg-[#071525] outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+    >
+      <div className={device==="mobile"?"mx-auto min-w-[300px] max-w-[390px] p-2 sm:p-4":expanded?"mx-auto min-w-[650px] max-w-[1400px] p-2 sm:p-4":"min-w-[600px] p-1.5 sm:p-2"}>
+        <DemoVisual category={category} variant={variant} device={device} step={step} playing={playing}/>
+      </div>
     </div>
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-[#071525]/70 to-transparent"/>
-  </div>;
+  );
 }
