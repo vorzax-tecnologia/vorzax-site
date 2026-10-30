@@ -34,13 +34,11 @@ export function RichDemoScene({category,variant,step,playing}:{category:DemoCate
     return()=>{cancelAnimationFrame(raf);observer.disconnect();};
   },[category,variant]);
   const scale=box.w&&box.h?Math.min(box.w/canvasWidth,box.h/box.contentH):0;
-  return <div ref={viewport} className="relative h-full w-full overflow-hidden bg-[#07192c]" data-rich-stage={category+"-"+variant} data-rich-scale={scale.toFixed(3)} role="region" aria-label="Demonstração completa com layout original, ajustada ao quadro sem cortes">
-    <div ref={artwork} className="vx-rich-canvas absolute left-1/2 top-1/2 overflow-visible" style={{
+  return <div ref={viewport} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#07192c]" data-rich-stage={category+"-"+variant} data-rich-scale={scale.toFixed(3)} role="region" aria-label="Demonstração completa com layout original, ajustada ao quadro sem cortes">
+    <div ref={artwork} className="vx-rich-canvas relative shrink-0 overflow-visible" style={{
        width:canvasWidth,
-       transform:`translate(-50%, -50%) scale(${scale || 0.001})`,
+       transform:`scale(${scale || 0.001})`,
        transformOrigin:"center center",
-       // Translation must be calculated in layout units, not scaled units:
-       marginTop:0
     }}>
       <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
     </div>
