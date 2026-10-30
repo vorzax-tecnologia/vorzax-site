@@ -384,7 +384,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 /* VORZAX / Tela única no laboratório e no filme.
    Remover a moldura do navegador e a barra de título duplicadas sem afetar
    os previews fora dessas duas áreas. Preservar as interfaces reais da demo. */
-.vx-rich-canvas > div {
+.vx-rich-canvas > [data-demo-layout] > div {
   max-width: none !important;
   margin: 0 !important;
   border: 0 !important;
@@ -392,10 +392,10 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
   box-shadow: none !important;
   overflow: visible !important;
 }
-.vx-rich-canvas > div > div:first-child {
+.vx-rich-canvas > [data-demo-layout] > div > div:first-child {
   display: none !important;
 }
-.vx-rich-canvas > div > div:nth-child(2) {
+.vx-rich-canvas > [data-demo-layout] > div > div:nth-child(2) {
   border-radius: 0 !important;
 }
 /* A prévia já possui um único contorno: não desenhar borda em volta da tela. */
