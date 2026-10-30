@@ -89,7 +89,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame h-[min(55svh,470px)] min-h-[280px] rounded-[12px] bg-[#071525] sm:h-[min(59svh,500px)] lg:h-[clamp(355px,calc(100svh-350px),570px)]" : "vx-lab-single-frame h-[min(47svh,410px)] min-h-[250px] rounded-[12px] bg-[#071525] sm:h-[min(51svh,450px)] lg:h-[clamp(365px,calc(100svh-335px),565px)]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame h-[min(55svh,470px)] min-h-[280px] rounded-[12px] bg-[#071525] sm:h-[min(59svh,500px)] lg:h-[clamp(345px,calc(100svh-445px),510px)]" : "vx-lab-single-frame h-[min(47svh,410px)] min-h-[250px] rounded-[12px] bg-[#071525] sm:h-[min(51svh,450px)] lg:h-[clamp(365px,calc(100svh-335px),565px)]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
