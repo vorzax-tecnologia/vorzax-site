@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ShowcaseScene } from "./ShowcaseScene";
+import { RichDemoScene } from "./RichDemoScene";
 import type { DemoCategory, DemoDevice } from "./DemoVisuals";
 
 const PHONE={w:450,h:930} as const;
@@ -33,6 +34,9 @@ export function FitDemoStage({category,variant,device,step,playing,expanded=fals
   const size=device==="mobile"?PHONE:{w:desktopWidth,h:DESKTOP_HEIGHT};
   const scale=area.width&&area.height?Math.min(area.width/size.w,area.height/size.h):0;
   const frameWidth=size.w*scale,frameHeight=size.h*scale;
+  if(device==="desktop")return <div data-fit-stage={category+"-"+variant+"-"+device} data-expanded={expanded?"true":"false"} className="h-full w-full overflow-hidden rounded-xl bg-[#07192c]">
+    <RichDemoScene category={category} variant={variant} step={step} playing={playing}/>
+  </div>;
   return <div ref={ref} data-fit-stage={category+"-"+variant+"-"+device} data-expanded={expanded?"true":"false"}
       data-scale={scale.toFixed(3)}
       role="region"
