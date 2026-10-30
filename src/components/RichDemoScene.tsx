@@ -33,8 +33,12 @@ export function RichDemoScene({
 }) {
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
-  const designWidth = device === "mobile" ? 402 : 1080;
   const mobile = device === "mobile";
+  // BI e Sistemas usam uma base desktop mais larga, com proporção de
+  // aplicação corporativa, para aproveitar o palco sem miniaturas centrais.
+  // Sites, automações, IA e toda a visão mobile mantêm a base anterior.
+  const desktopWorkspace = !mobile && (category === "bi" || category === "sistemas");
+  const designWidth = mobile ? 402 : desktopWorkspace ? 1500 : 1080;
   const [metrics, setMetrics] = useState({
     viewportWidth: 0,
     viewportHeight: 0,
@@ -82,8 +86,10 @@ export function RichDemoScene({
     };
   }, [category, variant, device, designWidth]);
 
-  // All mobile screens use the same width-based ratio, never a per-demo
-  // height-based ratio. Desktop maintains the previous two-axis fit.
+  // Mobile permanece com ajuste por largura e rolagem interna. As telas de
+  // BI e Sistemas no desktop ocupam a área total em ambos os eixos; como o
+  // conteúdo é medido, nenhuma linha é cortada nem há faixas laterais.
+  // Uma base desktop ampla reduz a diferença entre os dois fatores de escala.
   const gap = 0;
   const measured = metrics.viewportWidth > gap * 2 &&
     metrics.viewportHeight > gap * 2 && metrics.contentHeight > 1;
@@ -97,8 +103,16 @@ export function RichDemoScene({
         )
     : 1;
 
-  const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
-  const visibleHeight = measured ? metrics.contentHeight * scale : 1;
+  const fillDesktop = measured && desktopWorkspace &&
+    metrics.viewportWidth / metrics.viewportHeight >= 1.55;
+  const scaleX = fillDesktop
+    ? metrics.viewportWidth / metrics.contentWidth
+    : scale;
+  const scaleY = fillDesktop
+    ? metrics.viewportHeight / metrics.contentHeight
+    : scale;
+  const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
+  const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
   const background = mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
@@ -119,7 +133,9 @@ export function RichDemoScene({
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
-      data-desktop-screen={!mobile ? "uniform-single-stage" : undefined}
+      data-desktop-screen={!mobile ? (fillDesktop ? "full-bleed-workspace" : "uniform-single-stage") : undefined}
+      data-rich-scale-x={scaleX.toFixed(3)}
+      data-rich-scale-y={scaleY.toFixed(3)}
       role="region"
       aria-label={
         mobile
@@ -153,7 +169,7 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scale})`,
+              transform: `scale(${scaleX}, ${scaleY})`,
               transformOrigin: "top left",
             }}
           >
