@@ -23,7 +23,7 @@
 .vxsp-brand { min-width: 107px; display: flex; align-items: center; gap: 8px; }
 .vxsp-brand strong { display: block; font-size: 13px; letter-spacing: .09em; font-weight: 900; }
 .vxsp-brand small { display: block; font-size: 8px; color:#6bbdf2; letter-spacing: .12em; }
-.vxsp-emblem { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; font-size: 18px; font-weight: 900; font-style: italic; color: #81d6ff; background: #0d5896; }
+.vxsp-emblem { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; font-size: 0; font-weight: 900; color: transparent; background: #071827 url("/vorzax-logo-header.webp") left center / 97px 30px no-repeat; }
 .vxsp-header h3 { flex: 1; min-width: 0; margin:0; font-size: clamp(14px,1.5cqw,20px); font-weight: 800; letter-spacing: -.035em; }
 .vxsp-head-action { flex-shrink:0; display:flex; align-items:center; }
 .vxsp-options {display:flex; gap:3px; border-radius:6px; padding:3px; background:#193f61;}
@@ -153,7 +153,7 @@
  .vxsp-root{font-size:11px;}
  .vxsp-header{min-height:40px;padding:5px 9px;gap:7px;}
  .vxsp-brand{min-width:80px;gap:4px;}
- .vxsp-emblem{height:22px;width:22px;font-size:14px;}
+ .vxsp-emblem{height:22px;width:22px;font-size:0;background-size:76px 24px;}
  .vxsp-brand strong{font-size:11px;}.vxsp-brand small{font-size:7px;}
  .vxsp-header h3{font-size:14px;}
  .vxsp-body{gap:5px;padding:6px;}
