@@ -64,7 +64,7 @@ export function TechnologyInMotion() {
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
       <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Escolha um cenário, navegue pela interface e abra em tela ampliada para ler os detalhes.</p>
+      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Escolha um cenário. Cada interface cabe inteira no quadro, em desktop ou iPhone 16 Pro.</p>
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
@@ -95,7 +95,7 @@ export function TechnologyInMotion() {
           <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ampliar</button>
+          <button type="button" onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>
           <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="rounded-full border border-[#315572] px-3 py-2 text-[10px] font-semibold text-[#bfdef3] hover:border-[#61b9ee]">{playing?"Pausar animações":"Reproduzir animações"}</button>
           <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
@@ -113,7 +113,7 @@ export function TechnologyInMotion() {
     <div className="mx-auto mt-3 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl border border-[#315b7e] bg-[#071525]">
       <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>
     </div>
-    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">Role dentro da interface para explorar. Dados e marcas nas demonstrações são fictícios.</p>
+    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">A interface completa cabe dentro do quadro, sem rolagem ou cortes. Conteúdos e indicadores são fictícios.</p>
   </div>}
  </section>;
 }
