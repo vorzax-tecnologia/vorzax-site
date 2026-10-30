@@ -404,24 +404,24 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 /* Enquadramento mobile dos sites do laboratório: condensar espaços internos
    sem eliminar seções e sem afetar dashboards ou qualquer outra página. */
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[325px]"] {
-  min-height: 205px !important;
-}
-.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[290px]"] {
   min-height: 185px !important;
 }
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[290px]"] {
+  min-height: 165px !important;
+}
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class*="min-h-[260px]"] {
-  min-height: 190px !important;
+  min-height: 170px !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="py-7"] {
-  padding-top: 1.05rem !important;
-  padding-bottom: 1.05rem !important;
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="pt-8"] {
-  padding-top: 1.1rem !important;
+  padding-top: 0.8rem !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="mt-5"] {
-  margin-top: 0.8rem !important;
+  margin-top: 0.6rem !important;
 }
 .vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [class~="mt-4"] {
-  margin-top: 0.65rem !important;
+  margin-top: 0.5rem !important;
 }
