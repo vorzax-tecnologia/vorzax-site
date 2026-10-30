@@ -432,3 +432,94 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
   min-height: var(--vx-mobile-content-min-height, 930px) !important;
 }
+
+
+/*
+ * VORZAX / Laboratorio desktop responsivo (PR #11).
+ * As DEMONSTRACOES ORIGINAIS continuam intactas. O navegador as redesenha
+ * na largura real da caixa: nenhuma escala aplicada ao texto ou aos graficos.
+ * O conteudo que excede a altura da janela expande a pagina, nao e cortado.
+ */
+[data-desktop-screen="original-native-responsive"] {
+  width: 100%;
+  min-width: 0;
+  container-type: inline-size;
+  container-name: vx-lab-desktop;
+  overflow: visible !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+[data-desktop-screen="original-native-responsive"] .vx-rich-canvas,
+[data-desktop-screen="original-native-responsive"] [data-demo-layout] {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  transform: none !important;
+  zoom: 1 !important;
+}
+[data-desktop-screen="original-native-responsive"] [data-demo-layout] {
+  overflow-wrap: anywhere;
+}
+/* Letras diminutas eram aceitaveis no canvas de 1500px, nao no notebook.
+   Elevar somente os rotulos das demonstracoes, nunca as fontes da pagina. */
+[data-desktop-screen="original-native-responsive"] [class~="text-[8px]"],
+[data-desktop-screen="original-native-responsive"] [class~="text-[9px]"] {
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+[data-desktop-screen="original-native-responsive"] [class~="text-[10px]"] {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+[data-desktop-screen="original-native-responsive"] svg {
+  shape-rendering: geometricPrecision;
+}
+/* Os 15 exemplos passam a responder a largura UTIL do quadro, e nao
+   a largura do monitor. Regras so para a visualizacao desktop do laboratorio. */
+@container vx-lab-desktop (max-width: 1110px) {
+  [data-demo-layout^="sistemas"] [class~="grid-cols-4"],
+  [data-demo-layout^="bi"] [class~="grid-cols-4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@container vx-lab-desktop (max-width: 940px) {
+  /* Dashboards com tres colunas de graficos nao comprimem paineis. */
+  [data-demo-layout^="bi"] [class*="grid-cols-["],
+  [data-demo-layout^="sistemas"] [class*="grid-cols-["] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  [data-demo-layout^="bi"] [class~="grid-cols-3"],
+  [data-demo-layout^="sistemas"] [class~="grid-cols-3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  [data-demo-layout^="ia"] [class~="grid-cols-3"],
+  [data-demo-layout^="automacao"] [class~="grid-cols-3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@container vx-lab-desktop (max-width: 760px) {
+  [data-demo-layout^="sites"] [style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  [data-demo-layout^="sites"] [class~="grid-cols-3"],
+  [data-demo-layout^="automacao"] [class~="grid-cols-3"],
+  [data-demo-layout^="bi"] [class~="grid-cols-3"],
+  [data-demo-layout^="sistemas"] [class~="grid-cols-3"],
+  [data-demo-layout^="ia"] [class~="grid-cols-3"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  [data-demo-layout^="bi"] [class~="grid-cols-4"],
+  [data-demo-layout^="sistemas"] [class~="grid-cols-4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  [data-demo-layout^="sistemas"] aside,
+  [data-demo-layout^="bi"] aside {
+    width: 136px !important;
+    padding-inline: 7px !important;
+  }
+}
+/* A caixa mantem um unico contorno do laboratorio, sem moldura extra;
+   nunca aplicar overflow:hidden no conteudo das demos desktop. */
+[data-desktop-screen="original-native-responsive"] > .vx-rich-canvas {
+  overflow: visible !important;
+}
