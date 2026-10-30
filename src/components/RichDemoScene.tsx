@@ -24,21 +24,23 @@ export function RichDemoScene({
   step,
   playing,
   device = "desktop",
+  nativeWorkspace = false,
 }: {
   category: DemoCategory;
   variant: number;
   step: number;
   playing: boolean;
   device?: DemoDevice;
+  nativeWorkspace?: boolean;
 }) {
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
   const mobile = device === "mobile";
-  // BI e Sistemas usam uma base desktop mais larga, com proporção de
-  // aplicação corporativa, para aproveitar o palco sem miniaturas centrais.
-  // Sites, automações, IA e toda a visão mobile mantêm a base anterior.
+  // A versão cinematográfica continua com ajuste proporcional, mas sem
+  // escalas X/Y independentes: isso deformava fontes e gráficos.
+  // O laboratório de BI e Sistemas usa tamanho natural responsivo (abaixo).
   const desktopWorkspace = !mobile && (category === "bi" || category === "sistemas");
-  const designWidth = mobile ? 402 : desktopWorkspace ? 1500 : 1080;
+  const designWidth = mobile ? 402 : 1080;
   const [metrics, setMetrics] = useState({
     viewportWidth: 0,
     viewportHeight: 0,
@@ -86,10 +88,8 @@ export function RichDemoScene({
     };
   }, [category, variant, device, designWidth]);
 
-  // Mobile permanece com ajuste por largura e rolagem interna. As telas de
-  // BI e Sistemas no desktop ocupam a área total em ambos os eixos; como o
-  // conteúdo é medido, nenhuma linha é cortada nem há faixas laterais.
-  // Uma base desktop ampla reduz a diferença entre os dois fatores de escala.
+  // Nunca distorcer o desenho para preencher o quadro. No laboratório, BI
+  // e Sistemas não são escalados; seus painéis se adaptam ao contêiner.
   const gap = 0;
   const measured = metrics.viewportWidth > gap * 2 &&
     metrics.viewportHeight > gap * 2 && metrics.contentHeight > 1;
@@ -103,19 +103,33 @@ export function RichDemoScene({
         )
     : 1;
 
-  const fillDesktop = measured && desktopWorkspace &&
-    metrics.viewportWidth / metrics.viewportHeight >= 1.55;
-  const scaleX = fillDesktop
-    ? metrics.viewportWidth / metrics.contentWidth
-    : scale;
-  const scaleY = fillDesktop
-    ? metrics.viewportHeight / metrics.contentHeight
-    : scale;
-  const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
-  const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
+  const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
+  const visibleHeight = measured ? metrics.contentHeight * scale : 1;
   const background = mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
+
+  // BI e Sistemas no laboratório: renderização nativa e fontes nítidas em
+  // qualquer monitor. A área tem rolagem própria quando não cabe no palco.
+  // O filme e as outras demos mantêm o enquadramento cinematográfico original.
+  if (nativeWorkspace && desktopWorkspace) {
+    return (
+      <div
+        ref={viewport}
+        className="vx-lab-workspace h-full w-full overflow-x-hidden overflow-y-auto overscroll-contain"
+        style={{ backgroundColor: background, containerType: "inline-size", containerName: "vx-lab-workspace" }}
+        data-rich-stage={category + "-" + variant + "-desktop"}
+        data-desktop-screen="native-responsive"
+        role="region"
+        aria-label="Demonstração desktop responsiva; role dentro do quadro para explorar o painel"
+        tabIndex={0}
+      >
+        <div ref={artwork} data-vx-device="desktop" className="vx-rich-canvas vx-lab-workspace-canvas min-h-full w-full">
+          <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -133,9 +147,9 @@ export function RichDemoScene({
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
-      data-desktop-screen={!mobile ? (fillDesktop ? "full-bleed-workspace" : "uniform-single-stage") : undefined}
-      data-rich-scale-x={scaleX.toFixed(3)}
-      data-rich-scale-y={scaleY.toFixed(3)}
+      data-desktop-screen={!mobile ? "uniform-single-stage" : undefined}
+      data-rich-scale-x={scale.toFixed(3)}
+      data-rich-scale-y={scale.toFixed(3)}
       role="region"
       aria-label={
         mobile
@@ -169,7 +183,7 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scaleX}, ${scaleY})`,
+              transform: `scale(${scale})`,
               transformOrigin: "top left",
             }}
           >
