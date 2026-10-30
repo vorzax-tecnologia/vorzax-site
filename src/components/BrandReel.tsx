@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 const subscribeReduced = (callback: () => void) => { const media=window.matchMedia("(prefers-reduced-motion: reduce)"); media.addEventListener("change",callback); return ()=>media.removeEventListener("change",callback); };
 const snapshotReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const serverReduced = () => false;
-import { DemoVisual, type DemoCategory } from "./DemoVisuals";
+import { type DemoCategory } from "./DemoVisuals";
+import { FitDemoStage } from "./FitDemoStage";
 
 const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; headline: string; highlight: string; caption: string }[] = [
   { eyebrow: "VORZAX / TECNOLOGIA PARA EMPRESAS", headline: "Tecnologia que", highlight: "faz avançar.", caption: "Sites · Automações · Dados · Sistemas · IA" },
@@ -18,28 +19,14 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
   { eyebrow: "VORZAX TECNOLOGIA", headline: "Um universo", highlight: "de soluções.", caption: "Presença digital · Processos · Gestão · IA · Tecnologia" },
 ];
 
-/** A vitrine do filme utiliza a interface REAL do Laboratório, sem miniatura 33%.
- * Ajusta a largura do desktop ao painel e recorta apenas o conteúdo abaixo da dobra.
- * Assim a tela ocupa toda a largura do filme, inclusive em resoluções menores.
+/** O filme e o laboratório compartilham a mesma cena 900x480,
+ * totalmente enquadrada em ambas as dimensões. Não há recorte inferior.
  */
 function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
-  const stageRef=useRef<HTMLDivElement>(null);
-  const [scale,setScale]=useState(1);
-  const baseWidth=475;
-  useEffect(()=>{
-    const stage=stageRef.current;
-    if(!stage)return;
-    const resize=()=>setScale(Math.max(.25,stage.clientWidth/baseWidth));
-    resize();
-    const observer=new ResizeObserver(resize);
-    observer.observe(stage);
-    return ()=>observer.disconnect();
-  },[]);
-  return <div ref={stageRef} data-reel-preview={category} className="relative h-full w-full min-w-0 overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
-    <div className="pointer-events-none absolute left-0 top-0 origin-top-left" style={{width:baseWidth,transform:`scale(${scale})`}}>
-      <DemoVisual category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+  return <div data-reel-preview={category} className="flex h-full w-full items-center justify-center overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
+    <div className="aspect-[900/480] w-full">
+      <FitDemoStage category={category} variant={variant} device="desktop" step={step} playing={playing}/>
     </div>
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-[#061a2b]/70 to-transparent" />
   </div>;
 }
 
