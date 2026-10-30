@@ -61,8 +61,10 @@ export function FitDemoStage({
   }
 
   const fitted = size.width > 0 && size.height > 0;
+  // Sites get breathing room around the whole device; other demos keep their current framing.
+  const safeMargin = category === "sites" ? 24 : 10;
   const shellScale = fitted
-    ? Math.max(0.01, Math.min(1, (size.width - 10) / PHONE.width, (size.height - 10) / PHONE.height))
+    ? Math.max(0.01, Math.min(1, (size.width - safeMargin) / PHONE.width, (size.height - safeMargin) / PHONE.height))
     : 1;
 
   return (
@@ -75,7 +77,7 @@ export function FitDemoStage({
       role="region"
       aria-label="Prévia completa em moldura ilustrativa inspirada no iPhone 16 Pro Max"
     >
-      <div className="absolute inset-0 flex items-end justify-center pb-[6px]">
+      <div className={category === "sites" ? "absolute inset-0 flex items-center justify-center" : "absolute inset-0 flex items-end justify-center pb-[6px]"}>
         <div
           className="relative shrink-0"
           style={{
