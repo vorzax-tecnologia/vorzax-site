@@ -92,7 +92,7 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>CONCEITO INTERATIVO</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] min-h-[560px] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(86svh,900px)] lg:h-[min(86svh,920px)]" : "vx-lab-single-frame h-[min(72svh,720px)] min-h-[470px] w-full overflow-hidden bg-[#071525] sm:h-[min(72svh,740px)] lg:h-[min(76svh,780px)]"}>
+       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[min(82svh,850px)] lg:h-[min(82svh,870px)]" : "vx-lab-single-frame h-[min(62svh,640px)] min-h-[420px] w-full overflow-hidden bg-[#071525] sm:h-[min(66svh,650px)] lg:h-[clamp(460px,62svh,650px)]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] pt-2">
