@@ -75,20 +75,28 @@ export function FitDemoStage({
       role="region"
       aria-label="Prévia completa em moldura ilustrativa inspirada no iPhone 16 Pro Max"
     >
-      <div
-        className="absolute left-1/2 top-1/2 shrink-0"
-        style={{
-          width: PHONE.width,
-          height: PHONE.height,
-          transform: `translate(-50%, -50%) scale(${shellScale})`,
-          transformOrigin: "center center",
-        }}
-      >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="relative shrink-0"
+          style={{
+            width: PHONE.width * shellScale,
+            height: PHONE.height * shellScale,
+          }}
+        >
+          <div
+            className="absolute left-0 top-0"
+            style={{
+              width: PHONE.width,
+              height: PHONE.height,
+              transform: `scale(${shellScale})`,
+              transformOrigin: "top left",
+            }}
+          >
         <div className="pointer-events-none absolute inset-0 rounded-[68px] border-[8px] border-[#7c8b9f] bg-[linear-gradient(125deg,#1d293a,#5f6f86_40%,#172334)] shadow-[0_30px_70px_rgba(0,0,0,.62),0_0_0_2px_#101a29]" aria-hidden="true" />
         <div className="pointer-events-none absolute -left-[4px] top-[165px] h-[58px] w-[5px] rounded-l-lg bg-[#8290a3]" aria-hidden="true" />
         <div className="pointer-events-none absolute -right-[4px] top-[210px] h-[92px] w-[5px] rounded-r-lg bg-[#8290a3]" aria-hidden="true" />
         <div className="absolute inset-[14px] overflow-hidden rounded-[54px] border-[3px] border-[#050a12] bg-[#061324]">
-          <div className="absolute inset-x-[5px] bottom-[18px] top-[53px] overflow-hidden rounded-b-[33px] bg-[#07192c]">
+          <div className="absolute inset-x-[4px] bottom-[12px] top-[48px] overflow-hidden rounded-b-[36px] bg-[#07192c]">
             <RichDemoScene category={category} variant={variant} step={step} playing={playing} device="mobile" />
           </div>
           <div className="pointer-events-none absolute left-1/2 top-[12px] z-20 h-[32px] w-[136px] -translate-x-1/2 rounded-full bg-[#030509] shadow-[0_2px_7px_rgba(0,0,0,.55)]" aria-hidden="true">
@@ -97,6 +105,7 @@ export function FitDemoStage({
           <div className="pointer-events-none absolute left-[32px] top-[17px] z-10 text-[10px] font-semibold text-white/90" aria-hidden="true">9:41</div>
           <div className="pointer-events-none absolute right-[27px] top-[17px] z-10 text-[11px] text-white/90" aria-hidden="true">● ▰</div>
           <div className="pointer-events-none absolute bottom-[7px] left-1/2 z-20 h-[5px] w-[145px] -translate-x-1/2 rounded-full bg-white/65" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </div>
