@@ -24,7 +24,7 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
  */
 function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
   return <div data-reel-preview={category} className="flex h-full w-full items-center justify-center overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
-    <div className="aspect-[900/480] w-full">
+    <div className="h-full w-full">
       <FitDemoStage category={category} variant={variant} device="desktop" step={step} playing={playing}/>
     </div>
   </div>;
@@ -97,14 +97,16 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
             <p className="mt-3 hidden text-[clamp(11px,1vw,15px)] text-[#a5c2da] sm:block">{current.caption}</p>
           </div>
         ) : (
-          <div className="grid h-full w-full grid-cols-[.34fr_.66fr] items-center gap-[2%] max-sm:grid-cols-[.28fr_.72fr]">
-            <div className="min-w-0">
-              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="mb-[8%] h-auto w-full max-w-[220px]" />
-              <p className="text-[clamp(10px,1vw,14px)] font-bold uppercase tracking-[.11em] text-[#78cfff]">{current.eyebrow}</p>
-              <p className="mt-2 text-[clamp(15px,3vw,41px)] font-semibold leading-[1.08] tracking-[-.055em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
-              <p className="mt-3 hidden text-[clamp(10px,1.1vw,15px)] text-[#abc9df] sm:block">{current.caption}</p>
+          <div className="flex h-full w-full min-h-0 flex-col gap-[3%]">
+            <div className="flex h-[23%] min-h-0 shrink-0 items-center gap-[4%]">
+              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="h-auto w-[24%] max-w-[230px] shrink-0" />
+              <div className="min-w-0">
+                <p className="text-[clamp(9px,1vw,14px)] font-bold uppercase tracking-[.12em] text-[#82d1ff]">{current.eyebrow}</p>
+                <p className="mt-1 text-[clamp(15px,2.1vw,28px)] font-semibold leading-tight tracking-[-.045em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>
+              </div>
+              <span className="ml-auto hidden text-[clamp(10px,.85vw,13px)] text-[#b5d2e6] sm:block">{current.caption}</span>
             </div>
-            <div className="relative h-full min-h-0 min-w-0 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[2px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-1">
+            <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-[#3c80ac] bg-[#06192e] p-[3px] shadow-[0_15px_45px_rgba(0,0,0,.3)] sm:rounded-2xl sm:p-[5px]">
               <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} />
             </div>
           </div>
