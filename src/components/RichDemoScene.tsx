@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 
 /**
@@ -11,11 +11,11 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
  * into a tiny centered page. No scrolling or geometry changes to the desktop.
  */
 const mobileBackground: Record<DemoCategory, string[]> = {
-  sites: ["#061627", "#f8f7f2", "#e9e3d8"],
-  automacao: ["#071b2b", "#091d2c", "#071b2b"],
+  sites: ["#061627", "#f5f3ec", "#e9e3d8"],
+  automacao: ["#071b2b", "#f3f8f9", "#171b27"],
   bi: ["#ecf2f9", "#071d25", "#fcfaf6"],
-  sistemas: ["#091a2d", "#081c30", "#0a2035"],
-  ia: ["#071827", "#071827", "#071827"],
+  sistemas: ["#091a2d", "#f0f4f6", "#171726"],
+  ia: ["#071827", "#f1f7f8", "#101627"],
 };
 
 export function RichDemoScene({
@@ -100,6 +100,8 @@ export function RichDemoScene({
   const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
   const visibleHeight = measured ? metrics.contentHeight * scale : 1;
   const background = mobileBackground[category][variant] ?? "#07192c";
+  // In design pixels: fill the entire iPhone screen even when an example is short.
+  const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
 
   return (
     <div
@@ -109,7 +111,11 @@ export function RichDemoScene({
           ? "relative h-full w-full overflow-x-hidden overflow-y-auto overscroll-contain"
           : "relative h-full w-full overflow-hidden bg-[#07192c]"
       }
-      style={mobile ? { backgroundColor: background, scrollbarWidth: "none" } : undefined}
+      style={mobile ? {
+        backgroundColor: background,
+        scrollbarWidth: "none",
+        "--vx-mobile-content-min-height": `${mobileContentHeight}px`,
+      } as CSSProperties : undefined}
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
