@@ -111,7 +111,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         )}
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-[#030b18]/80 via-[#030b18]/15 to-transparent px-[5%] pb-[2%] pt-6 text-[clamp(7px,.75vw,10px)] font-semibold tracking-[.08em] text-[#b4d1e6]">
-        <span>CONCEITOS VISUAIS • DEMONSTRAÇÃO</span>
+        <span>CONCEITOS VISUAIS ILUSTRATIVOS</span>
         <span>VORZAX TECNOLOGIA</span>
       </div>
       {showPlayButton && (
