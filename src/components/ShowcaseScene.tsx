@@ -108,6 +108,39 @@ function DesktopScene({s,category,variant,step}:{s:Scenario;category:DemoCategor
    </div>
   </div>;
 }
+/** Versões mobile com a identidade visual de cada SITE original.
+ * Composição de 402 × 874, desenhada sem rolagem ou corte sob a Dynamic Island.
+ */
+function SitePhone({variant}:{variant:number}) {
+ if(variant===0)return <div className="flex h-full flex-col overflow-hidden bg-[#061828] text-white">
+  <div className="flex h-[101px] shrink-0 items-end justify-between border-b border-[#29506a] px-6 pb-3 pt-[44px]"><strong className="text-[22px] font-extrabold tracking-[-.04em]"><span className="text-[#40c9fc]">✳ </span>CLIMA<span className="text-[#40c9fc]">FORTE</span></strong><span className="text-xl">☰</span></div>
+  <div className="relative h-[340px] shrink-0" style={{backgroundImage:'linear-gradient(180deg,rgba(3,15,28,.15),rgba(2,18,34,.92)),url("/demo-hvac-workspace.webp")',backgroundSize:"cover",backgroundPosition:"center"}}>
+   <span className="absolute left-6 top-7 rounded-full border border-[#9dd9fa]/50 bg-[#08283b]/85 px-4 py-2 text-[11px] font-semibold text-[#b2eaff]">ENGENHARIA DE CLIMATIZAÇÃO</span>
+   <div className="absolute inset-x-6 bottom-7"><h4 className="max-w-[340px] text-[34px] font-bold leading-[1.02] tracking-[-.05em]">Sua operação no clima certo.</h4><p className="mt-3 text-[15px] leading-6 text-[#d4e9f4]">Instalação e manutenção para estabelecimentos comerciais.</p></div>
+  </div>
+  <div className="px-6 pt-5"><h5 className="text-[15px] font-semibold text-[#c8eaff]">Serviços especializados</h5><div className="mt-4 space-y-3">{["Instalação planejada","Manutenção preventiva","Projetos comerciais"].map((v,i)=><div key={v} className="flex items-center justify-between rounded-lg border border-[#295476] bg-[#0f304b] px-4 py-3 text-[14px]"><span><span className="mr-3 text-[#60c8ff]">0{i+1}</span>{v}</span><span>↗</span></div>)}</div></div>
+  <div className="mx-6 mt-auto mb-5 rounded-lg bg-[#0881c2] px-5 py-4 text-center text-[14px] font-bold">Solicitar orçamento ↗</div>
+  <div className="border-t border-[#254761] px-6 py-2 text-[10px] text-[#a9cce3]">CONCEITO VISUAL • CLIENTE FICTÍCIO</div>
+ </div>;
+ if(variant===1)return <div className="flex h-full flex-col overflow-hidden bg-[#f6f3eb] text-[#27453b]">
+  <div className="flex h-[101px] shrink-0 items-end justify-between border-b border-[#ccd7ca] px-6 pb-4 pt-[44px]"><strong className="font-serif text-[29px] tracking-[-.06em]"><span className="text-[#2e9379]">◈ </span>norte<span className="font-sans text-[13px] font-semibold"> contábil</span></strong><span className="text-[20px]">☰</span></div>
+  <div className="px-6 pt-6"><span className="rounded-full border border-[#b7d0bd] bg-[#e5eee7] px-3 py-2 text-[11px] font-semibold text-[#2a7d66]">CONTABILIDADE CONSULTIVA</span><h4 className="mt-5 font-serif text-[37px] leading-[1.08] tracking-[-.045em]">Boas decisões começam com <em className="text-[#248767]">clareza.</em></h4><p className="mt-3 text-[14px] leading-6 text-[#617266]">Contabilidade e orientação empresarial para quem valoriza proximidade.</p></div>
+  <div className="relative mx-6 mt-6 h-[215px] shrink-0 overflow-hidden rounded-[10px]" style={{backgroundImage:'linear-gradient(180deg,transparent,rgba(19,44,34,.5)),url("/demo-accounting-workspace.webp")',backgroundPosition:"center",backgroundSize:"cover"}}><span className="absolute bottom-4 left-4 rounded-lg bg-[#163f33]/85 px-4 py-2 text-[12px] font-semibold text-white">Organização para empreender.</span></div>
+  <div className="mx-6 mt-5 space-y-3">{["Contabilidade empresarial","Planejamento tributário","Gestão de folha"].map((v,i)=><div key={v} className="flex items-center justify-between border-b border-[#d3dcd2] py-2 text-[14px]"><span><span className="mr-3 text-[#26886e]">0{i+1}</span>{v}</span><span>↗</span></div>)}</div>
+  <div className="mx-6 mb-5 mt-auto rounded-full bg-[#24745e] px-5 py-4 text-center text-[14px] font-semibold text-white">Fale com um especialista ↗</div>
+  <div className="border-t border-[#d5ddd4] px-6 py-2 text-[10px] text-[#648274]">CONCEITO DE SITE • NÃO REPRESENTA CLIENTE REAL</div>
+ </div>;
+ return <div className="flex h-full flex-col overflow-hidden bg-[#ebe4d9] text-[#2c302b]">
+  <div className="flex h-[101px] shrink-0 items-end justify-between border-b border-[#b9b3a8] px-6 pb-4 pt-[44px]"><strong className="font-serif text-[33px] italic tracking-[-.07em]">linha <span className="font-sans text-[13px] not-italic">/ atelier</span></strong><span className="text-[17px]">MENU +</span></div>
+  <div className="relative mx-4 mt-4 h-[430px] shrink-0 overflow-hidden" style={{backgroundImage:'linear-gradient(0deg,rgba(17,28,20,.65),transparent 68%),url("/demo-architecture-residence.webp")',backgroundPosition:"center",backgroundSize:"cover"}}>
+   <span className="absolute left-5 top-5 border border-white/70 bg-[#242c25]/40 px-3 py-2 text-[11px] uppercase tracking-[.12em] text-white">PORTFÓLIO / 01</span>
+   <div className="absolute inset-x-5 bottom-5 text-white"><p className="text-[12px] tracking-[.15em]">PROJETO RESIDENCIAL</p><h4 className="mt-3 font-serif text-[35px] leading-[1.04]">Essência e arquitetura.</h4></div>
+  </div>
+  <div className="px-6 pt-6"><p className="text-[12px] font-semibold uppercase tracking-[.17em] text-[#6f6457]">ARQUITETURA AUTORAL</p><h5 className="mt-4 font-serif text-[29px] leading-[1.12]">Espaços que contam histórias.</h5><p className="mt-3 text-[14px] leading-6 text-[#554f47]">Interiores, arquitetura e experiências com identidade.</p></div>
+  <div className="mx-6 mb-6 mt-auto flex items-center justify-between border-t border-[#aca69b] pt-4 text-[13px] font-semibold"><span>Explorar projetos</span><span>↗</span></div>
+  <div className="border-t border-[#b9b3a8] px-6 py-2 text-[10px] text-[#726b60]">PORTFÓLIO CONCEITUAL • PROJETO FICTÍCIO</div>
+ </div>;
+}
 function MobileScene({s,category,step}:{s:Scenario;category:DemoCategory;step:number}){
  const c=colors[s.tone];
  return <div className="flex h-full flex-col bg-[#08192b] text-white">
@@ -127,7 +160,7 @@ export function ShowcaseScene({category,variant,device="desktop",step=0,canvasWi
  const s=data[category][Math.min(2,Math.max(0,variant))];
  const phone=device==="mobile";
  return <div data-showcase-scene={category+"-"+variant+"-"+device} className={`relative overflow-hidden bg-[#071627] text-white ${phone?"h-[874px] w-[402px]":"h-[480px]"}`} style={phone?undefined:{width:canvasWidth}}>
-  {phone?<MobileScene s={s} category={category} step={step}/>:
+  {phone?category==="sites"?<SitePhone variant={variant}/>:<MobileScene s={s} category={category} step={step}/>:
    category==="sites" ? (
      // Um único cabeçalho: o menu da própria página fictícia, sem a moldura de um segundo aplicativo.
      <DesktopScene s={s} category={category} variant={variant} step={step}/>
