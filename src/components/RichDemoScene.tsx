@@ -14,7 +14,7 @@ export function RichDemoScene({category,variant,step,playing}:{category:DemoCate
   const viewport=useRef<HTMLDivElement>(null);
   const artwork=useRef<HTMLDivElement>(null);
   const [box,setBox]=useState({w:0,h:0,contentH:540});
-  const canvasWidth=1080;
+  const canvasWidth=1220;
   useEffect(()=>{
     const stage=viewport.current,inner=artwork.current;
     if(!stage||!inner)return;
