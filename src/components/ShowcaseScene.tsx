@@ -123,16 +123,20 @@ function MobileScene({s,category,step}:{s:Scenario;category:DemoCategory;step:nu
   <div className="flex h-[54px] shrink-0 items-center justify-around border-t border-[#34516b] bg-[#071727] text-[12px] text-[#b4d2e7]"><span>⌂ Início</span><span>▤ Painel</span><span>☷ Menu</span></div>
  </div>;
 }
-export function ShowcaseScene({category,variant,device="desktop",step=0}:{category:DemoCategory;variant:number;device?:DemoDevice;step?:number;playing?:boolean}){
+export function ShowcaseScene({category,variant,device="desktop",step=0,canvasWidth=900}:{category:DemoCategory;variant:number;device?:DemoDevice;step?:number;playing?:boolean;canvasWidth?:number}){
  const s=data[category][Math.min(2,Math.max(0,variant))];
  const phone=device==="mobile";
- return <div data-showcase-scene={category+"-"+variant+"-"+device} className={`relative overflow-hidden bg-[#071627] text-white ${phone?"h-[874px] w-[402px]":"h-[480px] w-[900px]"}`}>
-  {phone?<MobileScene s={s} category={category} step={step}/>:<>
+ return <div data-showcase-scene={category+"-"+variant+"-"+device} className={`relative overflow-hidden bg-[#071627] text-white ${phone?"h-[874px] w-[402px]":"h-[480px]"}`} style={phone?undefined:{width:canvasWidth}}>
+  {phone?<MobileScene s={s} category={category} step={step}/>:
+   category==="sites" ? (
+     // Um único cabeçalho: o menu da própria página fictícia, sem a moldura de um segundo aplicativo.
+     <DesktopScene s={s} category={category} variant={variant} step={step}/>
+   ) : <>
    <div className="flex h-[65px] items-center justify-between border-b border-[#23405b] px-6">
     <div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl text-[22px]" style={{background:colors[s.tone].fade,color:colors[s.tone].soft}}>{s.icon}</div><div><p className="text-[12px] font-semibold uppercase tracking-[.1em]" style={{color:colors[s.tone].main}}>{s.kicker}</p><h2 className="mt-1 text-[20px] font-semibold tracking-[-.04em]">{s.title}</h2></div></div>
     <span className="rounded-full border border-[#365873] px-3 py-1.5 text-[12px] text-[#b5d7ef]">DEMO • DADOS SIMULADOS</span>
    </div>
-   <div className="h-[380px]">{<DesktopScene s={s} category={category} variant={variant} step={step}/>}</div>
+   <div className="h-[380px]"><DesktopScene s={s} category={category} variant={variant} step={step}/></div>
    <div className="flex h-[35px] items-center justify-between border-t border-[#254966] px-6 text-[11px] text-[#a7c7df]"><span>{s.foot}</span><span>VORZAX / VISUALIZAÇÃO CONCEITUAL</span></div>
   </>}
  </div>;
