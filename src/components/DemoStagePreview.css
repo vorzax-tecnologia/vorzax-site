@@ -31,7 +31,7 @@
 .vxsp-options button {border:0; border-radius:4px; padding:5px 8px; font-size:10px; white-space:nowrap; color:#aed0e6;}
 .vxsp-app-light .vxsp-options button {color:#316489;}
 .vxsp-options button.is-selected {background:#177bd0;color:white;}
-.vxsp-primary, .vxsp-footer button {border:1px solid #2477b9; border-radius:6px; background:#0877ce; color:white!important; font-size:11px!important; font-weight:700!important; padding:6px 11px; white-space:nowrap;}
+.vxsp-root .vxsp-primary, .vxsp-root .vxsp-footer button {border:1px solid #2477b9; border-radius:6px; background:#0877ce; color:white!important; font-size:11px!important; font-weight:700!important; padding:6px 11px; white-space:nowrap;}
 .vxsp-body { display:grid; grid-template-rows: minmax(0,.55fr) minmax(0,1.72fr) minmax(0,1.05fr); gap:7px; flex:1; min-height:0; padding:9px 10px 10px; }
 .vxsp-kpis {display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; min-height:0; }
 .vxsp-kpi {position:relative; display:flex; flex-direction:column; justify-content:center; min-width:0; padding:5px 10px; overflow:hidden; border:1px solid #244665; border-radius:8px; background:#13314c;}
