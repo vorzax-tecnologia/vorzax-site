@@ -60,39 +60,39 @@ export function TechnologyInMotion() {
   window.addEventListener("keydown",dismiss);
   return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss)};
  },[expanded]);
- return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
+ return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-4 sm:py-5 lg:py-1.5">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
   <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:px-9 xl:px-12">
    <div className="flex flex-wrap items-center justify-between gap-3">
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
-      <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces, gráficos e interações nas visões desktop e mobile.</p>
+      <h2 id="vx-showcase-title" className="mt-0.5 text-[clamp(1.35rem,2.1vw,2rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
+      <p className="mt-0.5 text-[11px] leading-4 text-[#a1bbd2] lg:hidden">Explore interfaces, gráficos e interações nas visões desktop e mobile.</p>
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
-   <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[175px_minmax(0,1fr)] xl:grid-cols-[190px_minmax(0,1fr)]">
+   <div className="mt-2 grid gap-2 lg:mt-1 lg:grid-cols-[175px_minmax(0,1fr)] xl:grid-cols-[190px_minmax(0,1fr)]">
     <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
       {categories.map(c=><button key={c.id} type="button" aria-pressed={active===c.id} onClick={()=>select(c.id)} className={`flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-left text-[11px] font-semibold transition-colors lg:w-full lg:py-3 ${active===c.id?"border-[#448ebd] bg-[#153856] text-white":"border-[#22415d] bg-[#081b30] text-[#a7c1d7] hover:border-[#3579a7] hover:text-white"}`}><span className="font-mono text-[#6dc9fa]">{c.number}</span>{c.label}</button>)}
       <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">{device==="desktop"&&(active==="bi"||active==="sistemas") ? "Conceitos ilustrativos. Role dentro do quadro para explorar o painel com letras legíveis." : "Conceitos visuais ilustrativos."}</p>
     </nav>
     <div className="flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-[#2c5777] bg-[#081b2e] shadow-[0_20px_55px_rgba(0,0,0,.22)]">
-      <div className="border-b border-[#264760] px-3 py-3 sm:px-5 lg:py-2.5">
+      <div className="border-b border-[#264760] px-3 py-2 sm:px-4 lg:py-1.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
          <div className="min-w-0"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#7bc7f8]">{demoCatalog[active].examples.length} IDEIAS PARA EXPLORAR</p>
-         <h3 className="mt-1 text-base font-semibold tracking-[-.04em] text-white sm:text-xl">{demoCatalog[active].title}</h3></div>
+         <h3 className="mt-0.5 text-base font-semibold tracking-[-.04em] text-white sm:text-[17px]">{demoCatalog[active].title}</h3></div>
          <div className="flex flex-wrap items-center gap-2">
            <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="min-h-9 rounded-lg border border-[#315572] bg-[#0c2941] px-3 py-2 text-[10px] font-semibold text-[#bfdef3] hover:border-[#61b9ee]">{playing?"Ⅱ Pausar":"▶ Reproduzir"}</button>
            <span className="rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8]">DEMONSTRAÇÃO</span>
          </div>
         </div>
-        <div role="group" aria-label="Escolher exemplo de solução" className="mt-2 flex snap-x gap-2 overflow-x-auto pb-1">
-         {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-2 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
+        <div role="group" aria-label="Escolher exemplo de solução" className="mt-1 flex snap-x gap-2 overflow-x-auto pb-0">
+         {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-1.5 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
         </div>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
-       <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]" : (active==="bi"||active==="sistemas") ? "vx-lab-single-frame h-[clamp(450px,calc(100svh-295px),720px)] w-full overflow-hidden bg-[#071525]" : "vx-lab-single-frame h-[clamp(340px,calc(100svh-405px),540px)] w-full overflow-hidden bg-[#071525]"}>
+      <div className="flex min-h-0 flex-1 flex-col px-1 pb-2 pt-1 sm:px-3">
+       <div className="mb-1 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
+       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]" : (active==="bi"||active==="sistemas") ? "vx-lab-single-frame vx-lab-compact h-[clamp(470px,calc(100svh-245px),670px)] w-full overflow-hidden bg-[#071525]" : "vx-lab-single-frame h-[clamp(340px,calc(100svh-405px),540px)] w-full overflow-hidden bg-[#071525]"}>
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} nativeWorkspace={device==="desktop"&&(active==="bi"||active==="sistemas")}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
