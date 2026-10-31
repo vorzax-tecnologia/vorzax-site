@@ -35,16 +35,27 @@ export function TechnologyInMotion() {
    if(!lab)return;
    let raf=0;
    const measure=()=>{
-     if(window.innerWidth<1024){
+     // Nunca reduzir a experiencia da tela de telefone.
+     // Notebooks com escalonamento do Windows podem ter menos de 1024 CSS px:
+     // neles o ajuste NAO pode ser desligado, como acontecia antes.
+     if(window.innerWidth<768){
        setLabZoom(z=>z===1?z:1);
        return;
      }
-     // scrollHeight e a altura natural em pixels de layout antes do zoom.
-     const naturalHeight=Math.max(1,lab.scrollHeight);
-     const viewportHeight=window.visualViewport?.height||window.innerHeight;
-     const space=Math.max(450,viewportHeight-42);
-     const next=Math.min(1,Math.max(.68,space/(naturalHeight+32)));
-     setLabZoom(z=>Math.abs(z-next)<.005?z:next);
+     // Medir o conteudo natural e o ESPACO RESTANTE abaixo do inicio real
+     // da secao. Antes, usavamos toda a altura da janela, ignorando o
+     // cabecalho, e o rodape desaparecia quando o laboratorio comecava
+     // mais abaixo na tela. CSS zoom altera a pintura, mas scrollHeight
+     // permanece em pixels de layout sem zoom no Chromium.
+     const naturalHeight=Math.max(1,lab.scrollHeight,lab.offsetHeight);
+     const visual=window.visualViewport;
+     const viewportBottom=(visual?.offsetTop||0)+(visual?.height||window.innerHeight);
+     const labTop=lab.getBoundingClientRect().top;
+     const available=Math.max(260,viewportBottom-Math.max(0,labTop)-24);
+     // Nenhum piso arbitrario de 68%: se a area real for mais baixa,
+     // o sistema deve preservar o rodape ao inves de corta-lo.
+     const next=Math.min(1,Math.max(.40,available/(naturalHeight+8)));
+     setLabZoom(z=>Math.abs(z-next)<.004?z:next);
    };
    const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure)};
    schedule();
