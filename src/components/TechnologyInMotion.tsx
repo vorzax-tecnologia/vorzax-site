@@ -145,7 +145,7 @@ export function TechnologyInMotion() {
 
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
-       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
+       <div data-vx-lab-footer className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
         <div role="group" aria-label="Visualizar demonstração em" className="flex items-center gap-1 rounded-lg border border-[#35688c] bg-[#0b2740] p-1">
           <button type="button" aria-pressed={device==="desktop"} onClick={()=>setDevice("desktop")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="desktop"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▣ Visão desktop</button>
           <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
@@ -156,7 +156,7 @@ export function TechnologyInMotion() {
           <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
        </div>
-       <p className="mt-1.5 text-[9px] leading-4 text-[#94b0c8]">Conceitos visuais ilustrativos.</p>
+       <p data-vx-lab-caption className="mt-1.5 text-[9px] leading-4 text-[#94b0c8]">Conceitos visuais ilustrativos.</p>
       </div>
     </div>
    </div>
