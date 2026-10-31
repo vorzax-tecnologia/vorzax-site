@@ -62,7 +62,7 @@ export function TechnologyInMotion() {
  },[expanded]);
  return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
-  <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:max-w-[min(78vw,1500px)] lg:px-9 xl:px-12">
+  <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:max-w-[min(78vw,1500px)] lg:px-[min(2.5vw,48px)]">
    <div className="flex flex-wrap items-center justify-between gap-3">
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
@@ -71,7 +71,7 @@ export function TechnologyInMotion() {
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
-   <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[175px_minmax(0,1fr)] xl:grid-cols-[190px_minmax(0,1fr)]">
+   <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[min(10vw,190px)_minmax(0,1fr)]">
     <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
       {categories.map(c=><button key={c.id} type="button" aria-pressed={active===c.id} onClick={()=>select(c.id)} className={`flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-left text-[11px] font-semibold transition-colors lg:w-full lg:py-3 ${active===c.id?"border-[#448ebd] bg-[#153856] text-white":"border-[#22415d] bg-[#081b30] text-[#a7c1d7] hover:border-[#3579a7] hover:text-white"}`}><span className="font-mono text-[#6dc9fa]">{c.number}</span>{c.label}</button>)}
       <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">Conceitos visuais ilustrativos.</p>
