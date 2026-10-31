@@ -166,8 +166,9 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
+              ...(mobile
+                ? { transform: `scale(${scale})`, transformOrigin: "top left" }
+                : { zoom: scale }),
             }}
           >
             <DemoVisual
