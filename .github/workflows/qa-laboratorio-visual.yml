@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - fix/padrao-desktop-proporcao-20261031
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
