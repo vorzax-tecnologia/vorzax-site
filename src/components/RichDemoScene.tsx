@@ -86,10 +86,9 @@ export function RichDemoScene({
     };
   }, [category, variant, device, designWidth]);
 
-  // Mobile permanece com ajuste por largura e rolagem interna. As telas de
-  // BI e Sistemas no desktop ocupam a área total em ambos os eixos; como o
-  // conteúdo é medido, nenhuma linha é cortada nem há faixas laterais.
-  // Uma base desktop ampla reduz a diferença entre os dois fatores de escala.
+  // Mobile mantém a rolagem e o enquadramento que já foram aprovados.
+  // Desktop e filme usam sempre a MESMA escala proporcional em ambos os eixos,
+  // para não deformar caracteres, fotografias e gráficos em monitores diferentes.
   const gap = 0;
   const measured = metrics.viewportWidth > gap * 2 &&
     metrics.viewportHeight > gap * 2 && metrics.contentHeight > 1;
@@ -103,17 +102,15 @@ export function RichDemoScene({
         )
     : 1;
 
-  const fillDesktop = measured && desktopWorkspace &&
-    metrics.viewportWidth / metrics.viewportHeight >= 1.55;
-  const scaleX = fillDesktop
-    ? metrics.viewportWidth / metrics.contentWidth
-    : scale;
-  const scaleY = fillDesktop
-    ? metrics.viewportHeight / metrics.contentHeight
-    : scale;
-  const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
-  const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
-  const background = mobileBackground[category][variant] ?? "#07192c";
+  const scaleX = scale;
+  const scaleY = scale;
+  const visibleWidth = measured ? metrics.contentWidth * scale : designWidth;
+  const visibleHeight = measured ? metrics.contentHeight * scale : 1;
+  // A primeira demo de BI tem fundo escuro. As barras claras do filme surgiam
+  // porque o canvas ao redor estava incorretamente pintado de cinza-claro.
+  const background = !mobile && category === "bi" && variant === 0
+    ? "#081b32"
+    : mobileBackground[category][variant] ?? "#07192c";
   // In design pixels: fill the entire iPhone screen even when an example is short.
   const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
 
@@ -133,7 +130,7 @@ export function RichDemoScene({
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
       data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
-      data-desktop-screen={!mobile ? (fillDesktop ? "full-bleed-workspace" : "uniform-single-stage") : undefined}
+      data-desktop-screen={!mobile ? "uniform-proportional-stage" : undefined}
       data-rich-scale-x={scaleX.toFixed(3)}
       data-rich-scale-y={scaleY.toFixed(3)}
       role="region"
@@ -169,8 +166,9 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scaleX}, ${scaleY})`,
-              transformOrigin: "top left",
+              ...(mobile
+                ? { transform: `scale(${scale})`, transformOrigin: "top left" }
+                : { zoom: scale }),
             }}
           >
             <DemoVisual
