@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { demoCatalog, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 import { FitDemoStage } from "./FitDemoStage";
 
@@ -25,6 +25,40 @@ export function TechnologyInMotion() {
  const [step,setStep]=useState(0);
  const [visible,setVisible]=useState(false);
  const sectionRef=useRef<HTMLElement>(null);
+ const labContentRef=useRef<HTMLDivElement>(null);
+ const [labZoom,setLabZoom]=useState(1);
+ // Ajusta o Laboratorio INTEIRO (cabecalho + demo + controles), sem
+ // comprimir apenas os graficos ou deixar o rodape fora do quadro.
+ // CSS zoom redesenha fontes vetoriais e ocupa a altura real escalada.
+ useLayoutEffect(()=>{
+   const lab=labContentRef.current;
+   if(!lab)return;
+   let raf=0;
+   const measure=()=>{
+     if(window.innerWidth<1024){
+       setLabZoom(z=>z===1?z:1);
+       return;
+     }
+     // scrollHeight e a altura natural em pixels de layout antes do zoom.
+     const naturalHeight=Math.max(1,lab.scrollHeight);
+     const viewportHeight=window.visualViewport?.height||window.innerHeight;
+     const space=Math.max(450,viewportHeight-42);
+     const next=Math.min(1,Math.max(.68,space/(naturalHeight+32)));
+     setLabZoom(z=>Math.abs(z-next)<.005?z:next);
+   };
+   const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure)};
+   schedule();
+   const observer=new ResizeObserver(schedule);
+   observer.observe(lab);
+   window.addEventListener("resize",schedule);
+   window.visualViewport?.addEventListener("resize",schedule);
+   return()=>{
+     cancelAnimationFrame(raf);
+     observer.disconnect();
+     window.removeEventListener("resize",schedule);
+     window.visualViewport?.removeEventListener("resize",schedule);
+   };
+ },[active,variant,device]);
 
  useEffect(()=>{
   const onDemo=(event:Event)=>{
@@ -62,7 +96,7 @@ export function TechnologyInMotion() {
  },[expanded]);
  return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
-  <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:max-w-[min(78vw,1500px)] lg:px-[min(2.5vw,48px)]">
+  <div ref={labContentRef} data-vx-lab-fit="desktop-native-zoom" data-vx-lab-zoom={labZoom.toFixed(3)} style={{zoom:labZoom}} className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:max-w-[min(78vw,1500px)] lg:px-[min(2.5vw,48px)]">
    <div className="flex flex-wrap items-center justify-between gap-3">
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
