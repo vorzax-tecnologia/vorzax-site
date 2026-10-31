@@ -41,24 +41,30 @@ export function TechnologyInMotion() {
    const measure=()=>{
      const rect=frame.getBoundingClientRect();
      const windowHeight=window.visualViewport?.height||window.innerHeight;
+     // O Laboratorio fica abaixo da primeira dobra da pagina.
+     // Nao medi-lo enquanto estiver fora da janela (o que forçava 310px
+     // na montagem inicial, antes mesmo de o usuario navegar ate ele).
+     if(rect.top > windowHeight-80 || rect.bottom < 0)return;
      // Reserva fixa para alternador Desktop/Mobile, "Ver maior", legenda e espacos.
      const remaining=windowHeight-rect.top-88;
      // Todas as 15 demos usam a mesma proporcao-alvo; se a janela for mais
      // baixa, diminuir APENAS o palco, preservando sua tipografia externa.
      const ideal=rect.width/2.15;
      const height=Math.round(Math.max(310,Math.min(600,ideal,remaining)));
-     setDesktopStageHeight(prev=>prev===height?prev:height);
+     setDesktopStageHeight(prev=>prev!==null && Math.abs(prev-height)<5?prev:height);
    };
    const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure);};
    schedule();
    const observer=new ResizeObserver(schedule);
    observer.observe(frame);
    window.addEventListener("resize",schedule);
+   window.addEventListener("scroll",schedule,{passive:true});
    window.visualViewport?.addEventListener("resize",schedule);
    return()=>{
      cancelAnimationFrame(raf);
      observer.disconnect();
      window.removeEventListener("resize",schedule);
+     window.removeEventListener("scroll",schedule);
      window.visualViewport?.removeEventListener("resize",schedule);
    };
  },[device,active,variant]);
