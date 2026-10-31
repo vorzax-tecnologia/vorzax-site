@@ -114,13 +114,13 @@ export function TechnologyInMotion() {
     </div>
     <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
    </div>
-   <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[min(10vw,190px)_minmax(0,1fr)]">
+   <div data-vx-lab-grid className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[min(10vw,190px)_minmax(0,1fr)]">
     <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
       {categories.map(c=><button key={c.id} type="button" aria-pressed={active===c.id} onClick={()=>select(c.id)} className={`flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-left text-[11px] font-semibold transition-colors lg:w-full lg:py-3 ${active===c.id?"border-[#448ebd] bg-[#153856] text-white":"border-[#22415d] bg-[#081b30] text-[#a7c1d7] hover:border-[#3579a7] hover:text-white"}`}><span className="font-mono text-[#6dc9fa]">{c.number}</span>{c.label}</button>)}
       <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">Conceitos visuais ilustrativos.</p>
     </nav>
     <div className="flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-[#2c5777] bg-[#081b2e] shadow-[0_20px_55px_rgba(0,0,0,.22)]">
-      <div className="border-b border-[#264760] px-3 py-3 sm:px-5 lg:py-2.5">
+      <div data-vx-lab-panel-top className="border-b border-[#264760] px-3 py-3 sm:px-5 lg:py-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
          <div className="min-w-0"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#7bc7f8]">{demoCatalog[active].examples.length} IDEIAS PARA EXPLORAR</p>
          <h3 className="mt-1 text-base font-semibold tracking-[-.04em] text-white sm:text-xl">{demoCatalog[active].title}</h3></div>
@@ -129,12 +129,12 @@ export function TechnologyInMotion() {
            <span className="rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8]">DEMONSTRAÇÃO</span>
          </div>
         </div>
-        <div role="group" aria-label="Escolher exemplo de solução" className="mt-2 flex snap-x gap-2 overflow-x-auto pb-1">
+        <div data-vx-lab-selector role="group" aria-label="Escolher exemplo de solução" className="mt-2 flex snap-x gap-2 overflow-x-auto pb-1">
          {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-2 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
         </div>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
-       <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
+      <div data-vx-lab-content className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
+       <div data-vx-lab-label className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
        <div
          ref={demoFrameRef}
          data-vx-stage-height={device==="desktop" ? desktopStageHeight ?? "auto" : undefined}
