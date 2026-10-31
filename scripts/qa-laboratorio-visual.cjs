@@ -25,19 +25,21 @@ fs.mkdirSync(output,{recursive:true});
       const frame=document.querySelector("[data-vx-stage-height]");
       const canvas=frame?.querySelector(".vx-rich-canvas");
       const controls=document.querySelector('[role="group"][aria-label="Visualizar demonstração em"]');
+      const caption=document.querySelector("[data-vx-lab-caption]");
       const scene=frame?.querySelector("[data-rich-stage]");
-      if(!frame||!canvas||!controls)return {error:"element missing"};
+      if(!frame||!canvas||!controls||!caption)return {error:"element missing"};
       function rect(el){const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,left:r.left,right:r.right,top:r.top,bottom:r.bottom}}
-      return {frame:rect(frame),canvas:rect(canvas),controls:rect(controls),scale:scene?.dataset.richScale,
+      return {frame:rect(frame),canvas:rect(canvas),controls:rect(controls),caption:rect(caption),scale:scene?.dataset.richScale,
        pageWidth:document.documentElement.scrollWidth,viewportWidth:document.documentElement.clientWidth,viewportHeight:innerHeight};
      });
      const fit=m.frame&&m.canvas&&m.canvas.left>=m.frame.left-6&&m.canvas.right<=m.frame.right+6&&m.canvas.top>=m.frame.top-6&&m.canvas.bottom<=m.frame.bottom+6;
      const horizontal=m.pageWidth<=m.viewportWidth+5;
-     const controlsVisible=!!m.controls&&m.controls.bottom<=m.viewportHeight+16;
-     results.push({width,height,category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,...m});
+     const controlsVisible=!!m.controls&&m.controls.bottom<=m.viewportHeight+6;
+     const captionVisible=!!m.caption&&m.caption.bottom<=m.viewportHeight+2;
+     results.push({width,height,category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,captionVisible,...m});
      if(vi===0 || (ci===3&&vi===2))
       await page.screenshot({path:path.join(output,width+"x"+height+"-"+ci+"-"+vi+".png")});
-     console.log("QA",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"controls",controlsVisible);
+     console.log("QA",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"controls",controlsVisible,"caption",captionVisible);
     }
    }
    await page.close();
@@ -46,7 +48,7 @@ fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,"measurements.json"),JSON.stringify(results,null,2));
   await browser.close();
  }
- const failures=results.filter(x=>!x.fit||!x.horizontal||!x.controlsVisible);
+ const failures=results.filter(x=>!x.fit||!x.horizontal||!x.controlsVisible||!x.captionVisible);
  console.log("QA TOTAL",results.length,"FAILURES",failures.length);
- if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,frame:x.frame,controls:x.controls})),null,2));process.exitCode=1}
+ if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,captionVisible:x.captionVisible,frame:x.frame,controls:x.controls,caption:x.caption})),null,2));process.exitCode=1}
 })().catch(e=>{console.error(e);process.exitCode=1});
