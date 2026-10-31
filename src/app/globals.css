@@ -432,3 +432,36 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
   min-height: var(--vx-mobile-content-min-height, 930px) !important;
 }
+
+/* QA de 31/10: em notebooks desktop de pouca altura, trazer os controles
+ * para dentro da janela SEM reduzir o tamanho das demos nem esconder conteúdo.
+ * Aplicado só ao Laboratório >= 1024px e com até 740px de altura.
+ */
+@media (min-width: 1024px) and (max-height: 740px) {
+  #tecnologia-em-acao {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-grid] {
+    margin-top: 2px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-panel-top] {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-selector] {
+    margin-top: 3px !important;
+    padding-bottom: 0 !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-selector] > button {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-content] {
+    padding-top: 3px !important;
+    padding-bottom: 4px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-label] {
+    margin-bottom: 3px !important;
+  }
+}
