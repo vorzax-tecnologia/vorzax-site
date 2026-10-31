@@ -437,7 +437,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
  * para dentro da janela SEM reduzir o tamanho das demos nem esconder conteúdo.
  * Aplicado só ao Laboratório >= 1024px e com até 740px de altura.
  */
-@media (min-width: 1024px) and (max-height: 740px) {
+@media (min-width: 1024px) and (max-height: 800px) {
   #tecnologia-em-acao {
     padding-top: 4px !important;
     padding-bottom: 4px !important;
@@ -463,5 +463,12 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
   }
   #tecnologia-em-acao [data-vx-lab-label] {
     margin-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-footer] {
+    margin-top: 3px !important;
+    padding-top: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-caption] {
+    margin-top: 2px !important;
   }
 }
