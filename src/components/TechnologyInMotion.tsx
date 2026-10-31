@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { demoCatalog, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 import { FitDemoStage } from "./FitDemoStage";
 
@@ -25,6 +25,43 @@ export function TechnologyInMotion() {
  const [step,setStep]=useState(0);
  const [visible,setVisible]=useState(false);
  const sectionRef=useRef<HTMLElement>(null);
+ const demoFrameRef=useRef<HTMLDivElement>(null);
+ const [desktopStageHeight,setDesktopStageHeight]=useState<number|null>(null);
+
+ // A altura do palco usa o espaco REAL abaixo dele (controles e rodape inclusos).
+ // Nao alterar a escala ou a tipografia do Laboratorio inteiro.
+ useLayoutEffect(()=>{
+   if(device!=="desktop"){
+     setDesktopStageHeight(null);
+     return;
+   }
+   const frame=demoFrameRef.current;
+   if(!frame)return;
+   let raf=0;
+   const measure=()=>{
+     const rect=frame.getBoundingClientRect();
+     const windowHeight=window.visualViewport?.height||window.innerHeight;
+     // Reserva fixa para alternador Desktop/Mobile, "Ver maior", legenda e espacos.
+     const remaining=windowHeight-rect.top-88;
+     // Todas as 15 demos usam a mesma proporcao-alvo; se a janela for mais
+     // baixa, diminuir APENAS o palco, preservando sua tipografia externa.
+     const ideal=rect.width/2.15;
+     const height=Math.round(Math.max(310,Math.min(600,ideal,remaining)));
+     setDesktopStageHeight(prev=>prev===height?prev:height);
+   };
+   const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure);};
+   schedule();
+   const observer=new ResizeObserver(schedule);
+   observer.observe(frame);
+   window.addEventListener("resize",schedule);
+   window.visualViewport?.addEventListener("resize",schedule);
+   return()=>{
+     cancelAnimationFrame(raf);
+     observer.disconnect();
+     window.removeEventListener("resize",schedule);
+     window.visualViewport?.removeEventListener("resize",schedule);
+   };
+ },[device,active,variant]);
 
  useEffect(()=>{
   const onDemo=(event:Event)=>{
@@ -92,7 +129,14 @@ export function TechnologyInMotion() {
       </div>
       <div className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
        <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]" : "vx-lab-single-frame aspect-[23/10] w-full overflow-hidden bg-[#071525]"}>
+       <div
+         ref={demoFrameRef}
+         data-vx-stage-height={device==="desktop" ? desktopStageHeight ?? "auto" : undefined}
+         style={device==="desktop" && desktopStageHeight!==null ? {height:desktopStageHeight} : undefined}
+         className={device==="mobile"
+           ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]"
+           : "vx-lab-single-frame aspect-[23/10] w-full overflow-hidden bg-[#071525]"}>
+
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
