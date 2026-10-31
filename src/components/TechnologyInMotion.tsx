@@ -103,7 +103,7 @@ export function TechnologyInMotion() {
   window.addEventListener("keydown",dismiss);
   return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss)};
  },[expanded]);
- return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
+ return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 lg:scroll-mt-0 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
   <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:max-w-[min(78vw,1500px)] lg:px-[min(2.5vw,48px)]">
    <div className="flex flex-wrap items-center justify-between gap-3">
