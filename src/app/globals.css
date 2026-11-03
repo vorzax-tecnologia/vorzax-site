@@ -485,3 +485,11 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
     margin-top: 2px !important;
   }
 }
+
+/* Mobile analytics use real view controls so full-size charts fit the phone. */
+[data-mobile-analysis][hidden] { display: none; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="p-3"] { padding: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="mt-4"] { margin-top: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="mt-3"] { margin-top: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="gap-3"] { gap: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="space-y-3"] > :not(:last-child) { margin-bottom: 6px; }

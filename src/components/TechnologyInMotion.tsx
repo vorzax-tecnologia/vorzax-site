@@ -39,7 +39,7 @@ export function TechnologyInMotion() {
      const height=window.visualViewport?.height||window.innerHeight;
      const chrome=section.offsetHeight-frame.offsetHeight;
      const available=height-chrome-80;
-     const ideal=device==="mobile" ? frame.clientWidth*988/468 : frame.clientWidth*9/16;
+     const ideal=device==="mobile" ? frame.clientWidth*988/468 : frame.clientWidth*620/1280;
      // On small screens the page can scroll; the preview itself always fits.
      const fitted=window.innerWidth>=1024 ? Math.min(ideal,Math.max(180,available)) : Math.min(ideal,height*0.72);
      setDesktopStageHeight(previous=>previous!==null&&Math.abs(previous-fitted)<1?previous:fitted);
@@ -120,9 +120,9 @@ export function TechnologyInMotion() {
       </div>
       <div data-vx-lab-content className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
        <div data-vx-lab-label className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
-       <div ref={demoFrameRef} data-vx-lab-stage data-device={device}
+       <div ref={demoFrameRef} data-vx-lab-stage data-vx-stage-height={desktopStageHeight??"auto"} data-device={device}
         style={desktopStageHeight===null?undefined:{height:desktopStageHeight}}
-        className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525]" : "vx-lab-single-frame aspect-video w-full overflow-hidden bg-[#071525]"}>
+        className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525]" : "vx-lab-single-frame aspect-[1280/620] w-full overflow-hidden bg-[#071525]"}>
 
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
