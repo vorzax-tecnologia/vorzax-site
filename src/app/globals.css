@@ -376,7 +376,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 
 /* Painéis originais em composição cinematográfica: manter contexto, tabela e gráfico principal,
    sem empilhar gráficos adicionais que comprimiriam todo o conteúdo. */
-.vx-rich-canvas .vx-demo-optional { display: none !important; }
+.vx-rich-canvas[data-vx-device="mobile"] .vx-demo-optional { display: none !important; }
 .vx-rich-canvas [class*="min-h-[475px]"],
 .vx-rich-canvas [class*="min-h-[430px]"] { min-height: 0 !important; }
 .vx-rich-canvas [class*="shadow-[0_18px_50px"] { box-shadow: none !important; }
