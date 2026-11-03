@@ -426,11 +426,24 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
   margin-top: 0.5rem !important;
 }
 
-/* A tela do iPhone é a mesma em todas as 15 demos. A raiz real da interface
-   deve cobrir até a barra gestual, mesmo que o conteúdo seja mais curto.
-   O excesso rola dentro da tela, sem reduzir gráficos, fotos ou texto. */
-.vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
-  min-height: var(--vx-mobile-content-min-height, 930px) !important;
+/* The design coordinates are independent from the browser viewport. Short
+   screens fill the canvas; long screens are measured and fitted proportionally. */
+.vx-rich-canvas > [data-demo-layout] > div > div:nth-child(2) {
+  min-height: var(--vx-demo-min-height) !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] { --vx-site-heading: 32px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [role="img"] {
+  min-height: 180px !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-0"] [aria-label="Serviços demonstrativos"] > button {
+  padding: 10px 12px;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-0"] [aria-label="Serviços demonstrativos"] p {
+  margin-top: 4px;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-1"] [class*="min-h-[90px]"] {
+  min-height: 0;
+  padding: 10px 12px;
 }
 
 /* QA de 31/10: em notebooks desktop de pouca altura, trazer os controles

@@ -28,46 +28,31 @@ export function TechnologyInMotion() {
  const demoFrameRef=useRef<HTMLDivElement>(null);
  const [desktopStageHeight,setDesktopStageHeight]=useState<number|null>(null);
 
- // A altura do palco usa o espaco REAL abaixo dele (controles e rodape inclusos).
- // Nao alterar a escala ou a tipografia do Laboratorio inteiro.
+ // Measure the section's chrome, not its position while scrolling. This avoids
+ // resize/scroll feedback and reserves the actual space used by the controls.
  useLayoutEffect(()=>{
-   if(device!=="desktop"){
-     setDesktopStageHeight(null);
-     return;
-   }
    const frame=demoFrameRef.current;
-   if(!frame)return;
+   const section=sectionRef.current;
+   if(!frame||!section)return;
    let raf=0;
    const measure=()=>{
-     const rect=frame.getBoundingClientRect();
-     const windowHeight=window.visualViewport?.height||window.innerHeight;
-     // O Laboratorio fica abaixo da primeira dobra da pagina.
-     // Nao medi-lo enquanto estiver fora da janela (o que forçava 310px
-     // na montagem inicial, antes mesmo de o usuario navegar ate ele).
-     if(rect.top > windowHeight-80 || rect.bottom < 0)return;
-     // Reserva fixa para alternador Desktop/Mobile, "Ver maior", legenda e espacos.
-     const remaining=windowHeight-rect.top-88;
-     // Todas as 15 demos usam a mesma proporcao-alvo; se a janela for mais
-     // baixa, diminuir APENAS o palco, preservando sua tipografia externa.
-     const ideal=rect.width/2.15;
-     const height=Math.round(Math.max(310,Math.min(600,ideal,remaining)));
-     setDesktopStageHeight(prev=>prev!==null && Math.abs(prev-height)<5?prev:height);
+     const height=window.visualViewport?.height||window.innerHeight;
+     const chrome=section.offsetHeight-frame.offsetHeight;
+     const available=height-chrome-80;
+     const ideal=device==="mobile" ? frame.clientWidth*988/468 : frame.clientWidth*9/16;
+     // On small screens the page can scroll; the preview itself always fits.
+     const fitted=window.innerWidth>=1024 ? Math.min(ideal,Math.max(180,available)) : Math.min(ideal,height*0.72);
+     setDesktopStageHeight(previous=>previous!==null&&Math.abs(previous-fitted)<1?previous:fitted);
    };
    const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure);};
-   schedule();
    const observer=new ResizeObserver(schedule);
+   observer.observe(section);
    observer.observe(frame);
+   schedule();
    window.addEventListener("resize",schedule);
-   window.addEventListener("scroll",schedule,{passive:true});
    window.visualViewport?.addEventListener("resize",schedule);
-   return()=>{
-     cancelAnimationFrame(raf);
-     observer.disconnect();
-     window.removeEventListener("resize",schedule);
-     window.removeEventListener("scroll",schedule);
-     window.visualViewport?.removeEventListener("resize",schedule);
-   };
- },[device,active,variant]);
+   return()=>{cancelAnimationFrame(raf);observer.disconnect();window.removeEventListener("resize",schedule);window.visualViewport?.removeEventListener("resize",schedule);};
+ },[device]);
 
  useEffect(()=>{
   const onDemo=(event:Event)=>{
@@ -135,13 +120,9 @@ export function TechnologyInMotion() {
       </div>
       <div data-vx-lab-content className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
        <div data-vx-lab-label className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
-       <div
-         ref={demoFrameRef}
-         data-vx-stage-height={device==="desktop" ? desktopStageHeight ?? "auto" : undefined}
-         style={device==="desktop" && desktopStageHeight!==null ? {height:desktopStageHeight} : undefined}
-         className={device==="mobile"
-           ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]"
-           : "vx-lab-single-frame aspect-[23/10] w-full overflow-hidden bg-[#071525]"}>
+       <div ref={demoFrameRef} data-vx-lab-stage data-device={device}
+        style={desktopStageHeight===null?undefined:{height:desktopStageHeight}}
+        className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525]" : "vx-lab-single-frame aspect-video w-full overflow-hidden bg-[#071525]"}>
 
          <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
        </div>
@@ -161,7 +142,7 @@ export function TechnologyInMotion() {
     </div>
    </div>
   </div>
-  {expanded&&<div role="dialog" aria-modal="true" aria-label="Demonstração ampliada do Laboratório" className="fixed inset-0 z-[210] flex flex-col bg-[#030b18]/98 p-3 text-white sm:p-5">
+  {expanded&&<div role="dialog" aria-modal="true" aria-label="Demonstração ampliada do Laboratório" className="fixed inset-x-0 top-0 h-[100dvh] z-[210] flex min-h-0 flex-col bg-[#030b18]/98 p-3 text-white sm:p-5">
     <div className="mx-auto flex w-full max-w-[1500px] flex-wrap items-center justify-between gap-3 border-b border-[#315370] pb-3">
       <div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#87ceff]">LABORATÓRIO VORZAX / VISÃO AMPLIADA</p><h3 className="mt-1 text-lg font-bold">{demoCatalog[active].examples[variant].name} · {demoCatalog[active].examples[variant].tag}</h3></div>
       <button type="button" autoFocus onClick={()=>setExpanded(false)} className="min-h-11 rounded-xl border border-[#518fba] bg-[#0c3658] px-5 text-sm font-semibold text-white hover:bg-[#19557c]">Fechar ✕</button>

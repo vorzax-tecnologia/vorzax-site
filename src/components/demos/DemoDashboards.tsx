@@ -18,7 +18,7 @@ function Shell({mobile,dark=false,name,label,nav,children}: {mobile:boolean;dark
   <div className="min-w-0 flex-1">
    <header className={`flex min-h-12 items-center justify-between gap-3 border-b px-4 py-2 ${dark?"border-[#274968] bg-[#0e2946]":"border-[#d9e4f0] bg-white"}`}>
      <div><p className={`text-[11px] font-bold ${dark?"text-[#e3f5ff]":"text-[#1f4163]"}`}>{name}</p><p className={`text-[9px] ${dark?"text-[#83adce]":"text-[#8297ab]"}`}>{label} · Conceito ilustrativo</p></div>
-     <div className="flex items-center gap-2"><span className={`hidden rounded-full px-3 py-1 text-[9px] sm:inline ${dark?"bg-[#153e66] text-[#a6dbfa]":"bg-[#e6f2ff] text-[#2b6baa]"}`}>Visão executiva</span><span className={`grid h-7 w-7 place-items-center rounded-full text-[10px] font-bold ${dark?"bg-[#245a87] text-white":"bg-[#d7e9fc] text-[#226db3]"}`}>V</span></div>
+     <div className="flex items-center gap-2"><span className={`inline rounded-full px-3 py-1 text-[9px] ${dark?"bg-[#153e66] text-[#a6dbfa]":"bg-[#e6f2ff] text-[#2b6baa]"}`}>Visão executiva</span><span className={`grid h-7 w-7 place-items-center rounded-full text-[10px] font-bold ${dark?"bg-[#245a87] text-white":"bg-[#d7e9fc] text-[#226db3]"}`}>V</span></div>
    </header>
    {mobile&&<nav className={`flex gap-2 overflow-x-auto border-b px-3 py-2 ${dark?"border-[#274968] bg-[#0e2946]":"border-[#d9e4f0] bg-white"}`}>{nav.map(n=><button key={n} type="button" onClick={()=>setMenu(n)} className={`shrink-0 rounded-md px-3 py-2 text-[10px] font-semibold ${menu===n?"bg-[#1569bf] text-white":dark?"bg-[#163857] text-[#add0ea]":"bg-[#e9f1fa] text-[#4a759c]"}`}>{n}</button>)}</nav>}
    <div className={`${mobile?"p-3":"p-4"} min-w-0`}>{children}</div>
