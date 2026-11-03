@@ -38,7 +38,8 @@ export function TechnologyInMotion() {
    const measure=()=>{
      const height=window.visualViewport?.height||window.innerHeight;
      const chrome=section.offsetHeight-frame.offsetHeight;
-     const available=height-chrome-80;
+     const anchorOffset=parseFloat(getComputedStyle(section).scrollMarginTop)||0;
+     const available=height-chrome-anchorOffset-16;
      const ideal=device==="mobile" ? frame.clientWidth*988/468 : frame.clientWidth*620/1280;
      // On small screens the page can scroll; the preview itself always fits.
      const fitted=window.innerWidth>=1024 ? Math.min(ideal,Math.max(180,available)) : Math.min(ideal,height*0.72);
