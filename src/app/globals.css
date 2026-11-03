@@ -376,7 +376,7 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 
 /* Painéis originais em composição cinematográfica: manter contexto, tabela e gráfico principal,
    sem empilhar gráficos adicionais que comprimiriam todo o conteúdo. */
-.vx-rich-canvas .vx-demo-optional { display: none !important; }
+.vx-rich-canvas[data-vx-device="mobile"] .vx-demo-optional { display: none !important; }
 .vx-rich-canvas [class*="min-h-[475px]"],
 .vx-rich-canvas [class*="min-h-[430px]"] { min-height: 0 !important; }
 .vx-rich-canvas [class*="shadow-[0_18px_50px"] { box-shadow: none !important; }
@@ -426,9 +426,75 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
   margin-top: 0.5rem !important;
 }
 
-/* A tela do iPhone é a mesma em todas as 15 demos. A raiz real da interface
-   deve cobrir até a barra gestual, mesmo que o conteúdo seja mais curto.
-   O excesso rola dentro da tela, sem reduzir gráficos, fotos ou texto. */
-.vx-rich-canvas[data-vx-device="mobile"] > [data-demo-layout] > div > div:nth-child(2) {
-  min-height: var(--vx-mobile-content-min-height, 930px) !important;
+/* The design coordinates are independent from the browser viewport. Short
+   screens fill the canvas; long screens are measured and fitted proportionally. */
+.vx-rich-canvas > [data-demo-layout] > div > div:nth-child(2) {
+  min-height: var(--vx-demo-min-height) !important;
 }
+.vx-rich-canvas[data-vx-device="mobile"] { --vx-site-heading: 32px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout^="sites"] [role="img"] {
+  min-height: 180px !important;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-0"] [aria-label="Serviços demonstrativos"] > button {
+  padding: 10px 12px;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-0"] [aria-label="Serviços demonstrativos"] p {
+  margin-top: 4px;
+}
+.vx-rich-canvas[data-vx-device="mobile"] [data-demo-layout="sites-1"] [class*="min-h-[90px]"] {
+  min-height: 0;
+  padding: 10px 12px;
+}
+
+/* QA de 31/10: em notebooks desktop de pouca altura, trazer os controles
+ * para dentro da janela SEM reduzir o tamanho das demos nem esconder conteúdo.
+ * Aplicado só ao Laboratório >= 1024px e com até 740px de altura.
+ */
+@media (min-width: 1024px) and (max-height: 800px) {
+  #tecnologia-em-acao {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-grid] {
+    margin-top: 2px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-panel-top] {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-selector] {
+    margin-top: 3px !important;
+    padding-bottom: 0 !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-selector] > button {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-content] {
+    padding-top: 3px !important;
+    padding-bottom: 4px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-label] {
+    margin-bottom: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-footer] {
+    margin-top: 3px !important;
+    padding-top: 3px !important;
+  }
+  #tecnologia-em-acao [data-vx-lab-caption] {
+    margin-top: 2px !important;
+  }
+}
+
+/* Mobile analytics use real view controls so full-size charts fit the phone. */
+[data-mobile-analysis][hidden] { display: none; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="p-3"] { padding: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="mt-4"] { margin-top: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="mt-3"] { margin-top: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="gap-3"] { gap: 8px; }
+.vx-rich-canvas[data-vx-device="mobile"] [data-system-view] [class~="space-y-3"] > :not(:last-child) { margin-bottom: 6px; }
+.vx-rich-canvas[data-vx-device="desktop"] [data-system-view="geral"] [class~="p-3"] { padding: 8px; }
+.vx-rich-canvas[data-vx-device="desktop"] [data-system-view="geral"] [class~="mt-3"] { margin-top: 8px; }
+.vx-rich-canvas[data-vx-device="desktop"] [data-system-view="geral"] [class~="mb-3"] { margin-bottom: 8px; }
+.vx-rich-canvas[data-vx-device="desktop"] [data-system-view="geral"] [class~="gap-3"] { gap: 8px; }
+.vx-rich-canvas[data-vx-device="desktop"] [data-system-view="geral"] [class~="h-[86px]"] { height: 65px; }

@@ -3,12 +3,9 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 
-/**
- * Desktop / film: fit the entire demonstration into the fixed cinematic frame.
- * iPhone: every demonstration fills the SAME physical screen from just below
- * the Dynamic Island to the home indicator. Fit to WIDTH only; long content
- * scrolls within the phone at a readable, consistent size instead of shrinking
- * into a tiny centered page. No scrolling or geometry changes to the desktop.
+/** A fixed design canvas keeps every preview identical across host viewports.
+ * Only a uniform transform is applied: no stretching, cropping or inner scroll.
+ * ResizeObserver also refits the canvas after demo interactions change its height.
  */
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
@@ -34,11 +31,10 @@ export function RichDemoScene({
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
   const mobile = device === "mobile";
-  // BI e Sistemas usam uma base desktop mais larga, com proporção de
-  // aplicação corporativa, para aproveitar o palco sem miniaturas centrais.
-  // Sites, automações, IA e toda a visão mobile mantêm a base anterior.
-  const desktopWorkspace = !mobile && (category === "bi" || category === "sistemas");
-  const designWidth = mobile ? 402 : desktopWorkspace ? 1500 : 1080;
+  const designWidth = mobile ? 402 : 1280;
+  // All variants share the same design area. A taller variant may grow after
+  // interaction, but the initial scale never varies between examples.
+  const designHeight = mobile ? 960 : 680;
   const [metrics, setMetrics] = useState({
     viewportWidth: 0,
     viewportHeight: 0,
@@ -86,75 +82,36 @@ export function RichDemoScene({
     };
   }, [category, variant, device, designWidth]);
 
-  // Mobile permanece com ajuste por largura e rolagem interna. As telas de
-  // BI e Sistemas no desktop ocupam a área total em ambos os eixos; como o
-  // conteúdo é medido, nenhuma linha é cortada nem há faixas laterais.
-  // Uma base desktop ampla reduz a diferença entre os dois fatores de escala.
-  const gap = 0;
-  const measured = metrics.viewportWidth > gap * 2 &&
-    metrics.viewportHeight > gap * 2 && metrics.contentHeight > 1;
+  const measured = metrics.viewportWidth > 0 && metrics.viewportHeight > 0 && metrics.contentHeight > 1;
   const scale = measured
-    ? mobile
-      ? metrics.viewportWidth / metrics.contentWidth
-      : Math.min(
-          1.08,
-          (metrics.viewportWidth - gap * 2) / metrics.contentWidth,
-          (metrics.viewportHeight - gap * 2) / metrics.contentHeight
-        )
+    ? Math.min(metrics.viewportWidth / metrics.contentWidth, metrics.viewportHeight / metrics.contentHeight)
     : 1;
-
-  const fillDesktop = measured && desktopWorkspace &&
-    metrics.viewportWidth / metrics.viewportHeight >= 1.55;
-  const scaleX = fillDesktop
-    ? metrics.viewportWidth / metrics.contentWidth
-    : scale;
-  const scaleY = fillDesktop
-    ? metrics.viewportHeight / metrics.contentHeight
-    : scale;
-  const visibleWidth = measured ? metrics.contentWidth * scaleX : designWidth;
-  const visibleHeight = measured ? metrics.contentHeight * scaleY : 1;
-  const background = mobileBackground[category][variant] ?? "#07192c";
-  // In design pixels: fill the entire iPhone screen even when an example is short.
-  const mobileContentHeight = Math.ceil(metrics.viewportHeight / Math.max(0.01, scale));
+  const visibleWidth = metrics.contentWidth * scale;
+  const visibleHeight = metrics.contentHeight * scale;
+  const background = !mobile && category === "bi" && variant === 0
+    ? "#081b32"
+    : mobileBackground[category][variant] ?? "#07192c";
 
   return (
     <div
       ref={viewport}
-      className={
-        mobile
-          ? "relative h-full w-full overflow-x-hidden overflow-y-auto overscroll-contain"
-          : "relative h-full w-full overflow-hidden"
-      }
-      style={mobile ? {
-        backgroundColor: background,
-        scrollbarWidth: "none",
-        "--vx-mobile-content-min-height": `${mobileContentHeight}px`,
-      } as CSSProperties : { backgroundColor: background }}
+      className="relative h-full w-full overflow-hidden"
+      style={{ backgroundColor: background, "--vx-demo-min-height": `${designHeight}px` } as CSSProperties}
       data-rich-stage={category + "-" + variant + "-" + device}
       data-rich-scale={scale.toFixed(3)}
-      data-mobile-screen={mobile ? "uniform-full-bleed" : undefined}
-      data-desktop-screen={!mobile ? (fillDesktop ? "full-bleed-workspace" : "uniform-single-stage") : undefined}
-      data-rich-scale-x={scaleX.toFixed(3)}
-      data-rich-scale-y={scaleY.toFixed(3)}
+      data-mobile-screen={mobile ? "uniform-contained" : undefined}
+      data-desktop-screen={!mobile ? "uniform-proportional-stage" : undefined}
+      data-rich-scale-x={scale.toFixed(3)}
+      data-rich-scale-y={scale.toFixed(3)}
       role="region"
       aria-label={
         mobile
-          ? "Demonstração mobile em tela inteira, com rolagem interna quando necessária"
+          ? "Demonstração mobile completa, ajustada ao quadro"
           : "Demonstração desktop completa, ajustada ao quadro"
       }
-      tabIndex={mobile ? 0 : undefined}
     >
       <div
-        className={
-          mobile
-            ? "relative w-full"
-            : "absolute inset-0 flex items-center justify-center overflow-hidden"
-        }
-        style={mobile ? {
-          height: Math.max(metrics.viewportHeight, visibleHeight),
-          minHeight: "100%",
-          backgroundColor: background,
-        } : undefined}
+        className="absolute inset-0 flex items-center justify-center overflow-hidden"
       >
         <div
           className="relative shrink-0"
@@ -169,7 +126,7 @@ export function RichDemoScene({
             className="vx-rich-canvas absolute left-0 top-0 overflow-visible"
             style={{
               width: designWidth,
-              transform: `scale(${scaleX}, ${scaleY})`,
+              transform: `scale(${scale})`,
               transformOrigin: "top left",
             }}
           >
