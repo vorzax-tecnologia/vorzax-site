@@ -8,6 +8,7 @@ const snapshotReduced = () => window.matchMedia("(prefers-reduced-motion: reduce
 const serverReduced = () => false;
 import { type DemoCategory } from "./DemoVisuals";
 import { FitDemoStage } from "./FitDemoStage";
+import { useMobileReel } from "./useMobileReel";
 
 const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; headline: string; highlight: string; caption: string }[] = [
   { eyebrow: "VORZAX / TECNOLOGIA PARA EMPRESAS", headline: "Tecnologia que", highlight: "faz avançar.", caption: "Sites · Automações · Dados · Sistemas · IA" },
@@ -20,10 +21,10 @@ const scenes: { category?: DemoCategory; variant?: number; eyebrow: string; head
 ];
 
 /** O filme e o laboratório usam a mesma interface real com ajuste proporcional. */
-function CinemaDemo({category,variant,step,playing}:{category:DemoCategory;variant:number;step:number;playing:boolean}) {
+function CinemaDemo({category,variant,step,playing,mobile}:{category:DemoCategory;variant:number;step:number;playing:boolean;mobile:boolean}) {
   return <div data-reel-preview={category} className="flex h-full w-full items-center justify-center overflow-hidden bg-[#081c30]" aria-hidden="true" inert>
     <div className="h-full w-full">
-      <FitDemoStage category={category} variant={variant} device="desktop" step={step} playing={playing}/>
+      <FitDemoStage category={category} variant={variant} device={mobile ? "mobile" : "desktop"} step={step} playing={playing}/>
     </div>
   </div>;
 }
@@ -45,6 +46,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const [interacted, setInteracted] = useState(false);
   const [allowMotion, setAllowMotion] = useState(false);
   const reduced = useSyncExternalStore(subscribeReduced, snapshotReduced, serverReduced);
+  const mobile = useMobileReel();
   const playing = running && !hovered && !touching && (!reduced || allowMotion);
 
   useEffect(() => {
@@ -83,10 +85,10 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const isBrand = !current.category;
   const buttonLabel = reduced && !allowMotion ? "Reproduzir filme" : running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme";
   return (
-    <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] ${compact ? "aspect-[4/3] sm:aspect-[1.50]" : "aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] aspect-[9/16] sm:aspect-[4/3] ${compact ? "" : "lg:aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
-      <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[3%] pb-[48px] pt-[3%]" aria-live="off">
+      <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[3%] pb-[38px] pt-[3%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
             <Image src="/vorzax-logo-header.webp" width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[52cqw]" : "w-[52cqw]"}`} />
@@ -96,7 +98,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
           </div>
         ) : (
           <div className="flex h-full w-full min-h-0 flex-col gap-[1.5%]">
-            <div className="flex h-[20%] min-h-0 shrink-0 items-center gap-[3%]">
+            <div className="flex h-[14%] min-h-0 shrink-0 items-center gap-[3%]">
               <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="h-auto w-[24%] max-w-[230px] shrink-0" />
               <div className="min-w-0">
                 <p className="text-[1.6cqw] font-bold uppercase tracking-[.12em] text-[#82d1ff]">{current.eyebrow}</p>
@@ -105,7 +107,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
               <span className="ml-auto hidden text-[1.6cqw] text-[#b5d2e6] lg:block">{current.caption}</span>
             </div>
             <div className="min-h-0 flex-1 overflow-hidden bg-[#06192e]">
-              <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} />
+              <CinemaDemo category={current.category ?? "sites"} variant={current.variant ?? 0} step={playing ? scene % 4 : 0} playing={playing} mobile={mobile} />
             </div>
           </div>
         )}

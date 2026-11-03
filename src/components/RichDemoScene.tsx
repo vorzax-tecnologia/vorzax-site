@@ -32,7 +32,9 @@ export function RichDemoScene({
   const artwork = useRef<HTMLDivElement>(null);
   const mobile = device === "mobile";
   const designWidth = mobile ? 402 : 1280;
-  const designHeight = mobile ? 850 : 620;
+  // All variants share the same design area. A taller variant may grow after
+  // interaction, but the initial scale never varies between examples.
+  const designHeight = mobile ? 960 : 850;
   const [metrics, setMetrics] = useState({
     viewportWidth: 0,
     viewportHeight: 0,
