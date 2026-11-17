@@ -46,17 +46,21 @@ export function TechnologyInMotion() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+        const chrome = Math.max(0, (sectionRef.current?.offsetHeight ?? 0) - stage.offsetHeight);
         const width = stage.clientWidth;
         const ideal = width * (device === "mobile" ? 988 / 468 : 680 / 1280);
         const limit = window.innerWidth < 640
           ? Math.max(360, viewportHeight - 135)
-          : Math.max(350, viewportHeight - 225);
+          : window.innerWidth >= 1024
+            ? Math.max(300, viewportHeight - chrome - 82)
+            : Math.max(350, viewportHeight - 225);
         const result = Math.max(280, Math.min(ideal, limit));
         setStageHeight(previous => previous !== null && Math.abs(previous - result) < 1 ? previous : result);
       });
     };
     const observer = new ResizeObserver(measure);
     observer.observe(stage);
+    if (sectionRef.current) observer.observe(sectionRef.current);
     measure();
     window.addEventListener("resize", measure);
     window.visualViewport?.addEventListener("resize", measure);
@@ -154,15 +158,15 @@ export function TechnologyInMotion() {
       ref={sectionRef}
       id="tecnologia-em-acao"
       aria-labelledby="vx-showcase-title"
-      className="relative scroll-mt-[72px] border-y border-[#173a57] bg-[#030d1c] py-3 text-white sm:py-4"
+      className="relative scroll-mt-[72px] border-y border-[#173a57] bg-[#030d1c] py-2 text-white sm:py-3"
     >
       <div className="mx-auto w-full max-w-[1700px] px-3 sm:px-5 lg:px-6">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="hidden text-[10px] font-bold uppercase tracking-[.19em] text-[#82cfff] sm:block">
+            <p className="hidden text-[9px] font-bold uppercase tracking-[.19em] text-[#82cfff] xl:block">
               VORZAX / LABORATÓRIO INTERATIVO
             </p>
-            <h2 id="vx-showcase-title" className="text-[21px] font-bold leading-tight tracking-[-.035em] sm:mt-1 sm:text-[27px]">
+            <h2 id="vx-showcase-title" className="text-[20px] font-bold leading-tight tracking-[-.035em] sm:text-[24px]">
               Soluções <span className="text-[#6acbff]">em demonstração.</span>
             </h2>
           </div>
@@ -171,7 +175,7 @@ export function TechnologyInMotion() {
           </span>
         </div>
 
-        <div className="sticky top-[68px] z-30 mt-2 grid grid-cols-2 gap-2 border-y border-[#102b45] bg-[#030d1c]/95 py-2 backdrop-blur-xl sm:top-[72px] lg:static lg:grid-cols-5 lg:border-0 lg:bg-transparent lg:py-0">
+        <div className="sticky top-[68px] z-30 mt-2 grid grid-cols-2 gap-2 border-y border-[#102b45] bg-[#030d1c]/95 py-2 backdrop-blur-xl sm:top-[72px] lg:static lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-2 lg:border-0 lg:bg-transparent lg:py-0">
           <label className="min-w-0 rounded-lg border border-[#325878] bg-[#0b2942] px-2 py-1 lg:hidden">
             <span className="block text-[9px] font-semibold uppercase tracking-wide text-[#79c6f4]">Categoria</span>
             <select
@@ -198,28 +202,25 @@ export function TechnologyInMotion() {
               ))}
             </select>
           </label>
-          <nav aria-label="Categorias das demonstrações" className="col-span-5 hidden grid-cols-5 gap-2 lg:grid">
+          <nav aria-label="Categorias das demonstrações" className="hidden min-w-0 grid-cols-5 gap-1.5 lg:grid">
             {categories.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
                 aria-pressed={category === item.id}
                 onClick={() => selectCategory(item.id)}
-                className={"flex h-11 items-center justify-center gap-2 rounded-lg border px-3 text-[12px] font-semibold transition-colors " + selection(category === item.id)}
+                className={"flex h-10 min-w-0 items-center justify-center gap-1 rounded-lg border px-1.5 text-[11px] font-semibold transition-colors " + selection(category === item.id)}
               >
                 <span className="font-mono text-[#72cafc]">0{index + 1}</span>
-                {item.name}
+                {item.short}
               </button>
             ))}
           </nav>
-        </div>
-
-        <div data-vx-lab-grid className="min-w-0">
           <div
             data-vx-lab-selector
             role="group"
             aria-label="Escolher exemplo de solução"
-            className="mt-2 hidden grid-cols-3 gap-2 lg:grid"
+            className="hidden min-w-0 grid-cols-3 gap-1.5 lg:grid"
           >
             {demoCatalog[category].examples.map((item, index) => (
               <button
@@ -227,7 +228,7 @@ export function TechnologyInMotion() {
                 type="button"
                 aria-pressed={variant === index}
                 onClick={() => selectVariant(index)}
-                className={"flex h-10 min-w-0 items-center justify-center gap-2 rounded-lg border px-3 text-[12px] font-semibold transition-colors " + selection(variant === index)}
+                className={"flex h-10 min-w-0 items-center justify-center gap-1 rounded-lg border px-2 text-[11px] font-semibold transition-colors " + selection(variant === index)}
               >
                 <span className="font-mono text-[10px] text-[#7ac7f8]">0{index + 1}</span>
                 <span className="truncate">{item.name}</span>
@@ -235,7 +236,10 @@ export function TechnologyInMotion() {
             ))}
           </div>
 
-          <div className="mt-2 overflow-hidden rounded-xl border border-[#37617e] bg-[#07192b] shadow-[0_18px_70px_rgba(0,0,0,.28)]">
+        </div>
+
+        <div data-vx-lab-grid className="min-w-0">
+          <div className="mt-1.5 overflow-hidden rounded-xl border border-[#37617e] bg-[#07192b] shadow-[0_18px_70px_rgba(0,0,0,.28)]">
             <div data-vx-lab-panel-top className="flex min-h-11 flex-wrap items-center justify-between gap-2 border-b border-[#294d68] bg-[#0a2339] px-2 py-1.5 sm:px-3">
               <div data-vx-lab-label className="min-w-0 flex-1">
                 <h3 className="truncate text-[13px] font-bold text-white sm:text-[14px]">{selected.name}</h3>
