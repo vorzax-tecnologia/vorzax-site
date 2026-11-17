@@ -44,7 +44,8 @@ fs.mkdirSync(output,{recursive:true});
      // Larger interactive dashboards need a little more height than editorial
      // pages, but they may not shrink into a tiny island inside the frame.
      const consistentScale=Number(m.scale)>=standardScale*0.84;
-     results.push({width,height,device:"desktop",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,captionVisible,consistentScale,...m});
+     const stageOccupancy=m.frame&&m.canvas?m.canvas.width/m.frame.width:0;
+     results.push({width,height,device:"desktop",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,captionVisible,consistentScale,stageOccupancy,...m});
      if(vi===0 || (ci===3&&vi===2))
       await page.screenshot({path:path.join(output,width+"x"+height+"-"+ci+"-"+vi+".png")});
      console.log("QA",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"controls",controlsVisible,"caption",captionVisible,"sameScale",consistentScale);
@@ -80,8 +81,10 @@ fs.mkdirSync(output,{recursive:true});
      if(standardScale===null)standardScale=m.scale;
      if(standardShell===null)standardShell=m.shell;
      const consistentScale=Math.abs(m.scale-standardScale)<0.002&&Math.abs(m.shell-standardShell)<0.002;
-     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,...m});
-     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale);
+     const screenOccupancy=m.scene&&m.canvas?m.canvas.width/m.scene.width:0;
+     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,screenOccupancy,...m});
+     if(width===390 && (vi===0 || (ci===3&&vi===2))) await page.screenshot({path:path.join(output,"mobile-"+width+"-"+ci+"-"+vi+".png"),fullPage:false});
+     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale,"fill",screenOccupancy.toFixed(3));
     }
    }
    await page.close();
@@ -90,7 +93,7 @@ fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,"measurements.json"),JSON.stringify(results,null,2));
   await browser.close();
  }
- const failures=results.filter(x=>!x.fit||!x.horizontal||!x.consistentScale||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible)));
+ const failures=results.filter(x=>!x.fit||!x.horizontal||!x.consistentScale||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible))||(x.device==="mobile"&&x.screenOccupancy<0.93));
  console.log("QA TOTAL",results.length,"FAILURES",failures.length);
  if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,captionVisible:x.captionVisible,frame:x.frame,controls:x.controls,caption:x.caption})),null,2));process.exitCode=1}
 })().catch(e=>{console.error(e);process.exitCode=1});

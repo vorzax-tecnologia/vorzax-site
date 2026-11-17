@@ -146,6 +146,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [whatsappOpen, setWhatsappOpen] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+  const [labVisible, setLabVisible] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
@@ -253,6 +254,14 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const lab = document.getElementById("tecnologia-em-acao");
+    if (!lab) return;
+    const observer = new IntersectionObserver(([entry]) => setLabVisible(entry.isIntersecting), { threshold: 0.22 });
+    observer.observe(lab);
+    return () => observer.disconnect();
+  }, []);
+
   const handleDiagnosticChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -333,7 +342,7 @@ export default function Home() {
   };
 
   return (
-    <main className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+    <main data-vx-demo-active={labVisible ? "true" : "false"} className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
       <VideoIntro />
       <style>{`
         [data-reveal] {
@@ -590,7 +599,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:right-6">
+      <div className="vx-floating-contact fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 transition-all duration-200 sm:right-6">
   {whatsappOpen && (
     <div className="w-[min(340px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-white/10 bg-[#07101f]/95 shadow-2xl shadow-black/40 backdrop-blur-xl">
       <div className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4">
