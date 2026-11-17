@@ -4,9 +4,18 @@ import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 
 /** A fixed design canvas keeps every preview identical across host viewports.
- * Only a uniform transform is applied: no stretching, cropping or inner scroll.
+ * Each category has its own landscape design width so that the physical preview
+ * fills the common stage without stretching, cropping or inner scroll.
  * ResizeObserver also refits the canvas after demo interactions change its height.
  */
+const desktopDesignWidth: Record<DemoCategory, number> = {
+  sites: 1280,
+  automacao: 1480,
+  bi: 1440,
+  sistemas: 1640,
+  ia: 1430,
+};
+
 const mobileBackground: Record<DemoCategory, string[]> = {
   sites: ["#061627", "#f5f3ec", "#e9e3d8"],
   automacao: ["#071b2b", "#f3f8f9", "#171b27"],
@@ -31,7 +40,7 @@ export function RichDemoScene({
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
   const mobile = device === "mobile";
-  const designWidth = mobile ? 456 : 1280;
+  const designWidth = mobile ? 456 : desktopDesignWidth[category];
   // All variants share the same design area. A taller variant may grow after
   // interaction, but the initial scale never varies between examples.
   const designHeight = mobile ? 960 : 560;
