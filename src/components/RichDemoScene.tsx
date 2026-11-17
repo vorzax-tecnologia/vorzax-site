@@ -8,12 +8,12 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
  * fills the common stage without stretching, cropping or inner scroll.
  * ResizeObserver also refits the canvas after demo interactions change its height.
  */
-const desktopDesignWidth: Record<DemoCategory, number> = {
-  sites: 1280,
-  automacao: 1480,
-  bi: 1480,
-  sistemas: 1680,
-  ia: 1530,
+const desktopDesignWidth: Record<DemoCategory, [number, number, number]> = {
+  sites: [1384, 1378, 1330],
+  automacao: [1640, 1480, 1640],
+  bi: [1592, 1640, 1608],
+  sistemas: [1844, 1740, 1680],
+  ia: [1576, 1574, 1680],
 };
 
 const mobileBackground: Record<DemoCategory, string[]> = {
@@ -40,7 +40,7 @@ export function RichDemoScene({
   const viewport = useRef<HTMLDivElement>(null);
   const artwork = useRef<HTMLDivElement>(null);
   const mobile = device === "mobile";
-  const designWidth = mobile ? 456 : desktopDesignWidth[category];
+  const designWidth = mobile ? 456 : desktopDesignWidth[category][variant] ?? desktopDesignWidth[category][0];
   // All variants share the same design area. A taller variant may grow after
   // interaction, but the initial scale never varies between examples.
   const designHeight = mobile ? 960 : 560;

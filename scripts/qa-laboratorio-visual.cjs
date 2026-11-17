@@ -101,7 +101,7 @@ fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,"measurements.json"),JSON.stringify(results,null,2));
   await browser.close();
  }
- const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||!x.aligned||x.stageOccupancy<0.87))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93||!x.fullPhoneVisible||!x.phoneCentered||!x.aligned)));
+ const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||!x.aligned||x.stageOccupancy<0.94))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93||!x.fullPhoneVisible||!x.phoneCentered||!x.aligned)));
  console.log("QA TOTAL",results.length,"FAILURES",failures.length);
  if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,captionVisible:x.captionVisible,frame:x.frame,controls:x.controls,caption:x.caption})),null,2));process.exitCode=1}
 })().catch(e=>{console.error(e);process.exitCode=1});
