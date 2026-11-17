@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { demoCatalog, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 import { FitDemoStage } from "./FitDemoStage";
+import { useMobileReel } from "./useMobileReel";
 
 type Chapter = DemoCategory;
 const categories: { id: Chapter; label: string; number: string }[] = [
@@ -16,10 +17,10 @@ const categories: { id: Chapter; label: string; number: string }[] = [
 export function TechnologyInMotion() {
  const [active,setActive]=useState<Chapter>("sites");
  const [variant,setVariant]=useState(0);
- const [device,setDevice]=useState<DemoDevice>("desktop");
- useEffect(()=>{
-   if(window.matchMedia("(max-width: 639px)").matches)setDevice("mobile");
- },[]);
+ const mobileViewport=useMobileReel();
+ const [deviceOverride,setDeviceOverride]=useState<DemoDevice|null>(null);
+ const device=deviceOverride??(mobileViewport?"mobile":"desktop");
+ const setDevice=(nextDevice:DemoDevice)=>setDeviceOverride(nextDevice);
  const [playing,setPlaying]=useState(true);
  const [expanded,setExpanded]=useState(false);
  const [step,setStep]=useState(0);
@@ -87,6 +88,7 @@ export function TechnologyInMotion() {
   if(!expanded)return;
   const previous=document.body.style.overflow;
   document.body.style.overflow="hidden";
+  const trigger=expandedTriggerRef.current;
   expandedCloseRef.current?.focus();
   const dismiss=(e:KeyboardEvent)=>{
     if(e.key==="Escape"){e.preventDefault();setExpanded(false);return;}
@@ -99,7 +101,7 @@ export function TechnologyInMotion() {
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   };
   window.addEventListener("keydown",dismiss);
-  return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss);expandedTriggerRef.current?.focus();};
+  return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss);trigger?.focus();};
  },[expanded]);
  return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 lg:scroll-mt-0 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>

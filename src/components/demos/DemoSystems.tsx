@@ -171,7 +171,6 @@ const sampleTasks:Task[]=[
 ];
 const lanes:Lane[]=["Planejado","Em andamento","Em revisão","Concluído"];
 const taskNav=[{id:"geral",label:"Visão geral",icon:"grid"},{id:"quadro",label:"Quadro de tarefas",icon:"tasks"},{id:"prazos",label:"Prazos",icon:"calendar"}] as const;
-const taskTone=(lane:Lane):Tone=>lane==="Concluído"?"teal":lane==="Em andamento"?"blue":lane==="Em revisão"?"amber":"slate";
 function ProjectsDemo({mobile}:{mobile:boolean}){
  const [tasks,setTasks]=useState<Task[]>(sampleTasks);const [view,setView]=useState("geral");const [project,setProject]=useState("Todos");const [newOpen,setNewOpen]=useState(false);const [draft,setDraft]=useState({name:"",project:"Portal operacional",owner:"Ana",priority:"Média" as Task["priority"]});
  const projects=["Portal operacional","Painel de indicadores","Automação interna"];

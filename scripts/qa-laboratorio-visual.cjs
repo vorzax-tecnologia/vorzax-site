@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Testes de CI executados em CommonJS. */
 const { chromium } = require("playwright");
 const fs = require("node:fs");
 const path = require("node:path");

@@ -5,7 +5,6 @@ import { DemoFrame, type VisualProps } from "./DemoSites";
 
 /** Three illustrative corporate BI workspaces. Every accent belongs to the Vorzax blue palette. */
 const blue = {navy:"#061c34",deep:"#0b2847",primary:"#1477d4",cyan:"#42b9ed",light:"#dbeeff",muted:"#7894ad"};
-type ViewTheme = "light"|"dark";
 function Shell({mobile,dark=false,name,label,nav,children}: {mobile:boolean;dark?:boolean;name:string;label:string;nav:string[];children:ReactNode}) {
  const [menu,setMenu]=useState(nav[0]);
  return <div className={`flex w-full font-sans ${mobile?"min-h-[900px] flex-col":"min-h-[640px]"} ${dark?"bg-[#081b32] text-[#edf7ff]":"bg-[#f1f6fc] text-[#162f4b]"}`}>
@@ -48,7 +47,7 @@ function Meter({rows,dark=false}:{rows:{label:string;percent:number;note?:string
  return <div className="mt-3 space-y-2.5">{rows.map((r,i)=><div key={r.label}><div className={`mb-1 flex justify-between text-[10px] ${dark?"text-[#bdd6e8]":"text-[#5c7690]"}`}><span>{r.label}</span><span className="font-bold">{r.note??`${r.percent}%`}</span></div><div className={`h-2.5 overflow-hidden rounded-full ${dark?"bg-[#234869]":"bg-[#e5eef7]"}`}><div className="h-full rounded-full" style={{width:`${r.percent}%`,backgroundColor:i===0?blue.primary:i===1?blue.cyan:i===2?"#6a9ac4":"#9bbbd7"}}/></div></div>)}</div>;
 }
 function Donut({sections,dark=false,center}:{sections:number[];dark?:boolean;center:string}){
- let offset=0;const segments=sections.map((v,i)=>{const st=offset;offset+=v;return `${[blue.primary,blue.cyan,"#6297c3","#9ac7e8"][i%4]} ${st}% ${offset}%`});return <div className="relative mx-auto mt-3 grid h-[122px] w-[122px] place-items-center rounded-full" style={{background:`conic-gradient(${segments.join(",")})`}}><div className={`grid h-[87px] w-[87px] place-items-center rounded-full ${dark?"bg-[#102e4b] text-white":"bg-white text-[#1c4b70]"}`}><strong className="text-[17px] font-black tracking-[-.04em]">{center}</strong></div></div>;
+ const segments=sections.map((v,i)=>{const start=sections.slice(0,i).reduce((sum,value)=>sum+value,0);const end=start+v;return `${[blue.primary,blue.cyan,"#6297c3","#9ac7e8"][i%4]} ${start}% ${end}%`});return <div className="relative mx-auto mt-3 grid h-[122px] w-[122px] place-items-center rounded-full" style={{background:`conic-gradient(${segments.join(",")})`}}><div className={`grid h-[87px] w-[87px] place-items-center rounded-full ${dark?"bg-[#102e4b] text-white":"bg-white text-[#1c4b70]"}`}><strong className="text-[17px] font-black tracking-[-.04em]">{center}</strong></div></div>;
 }
 
 function SalesBI({mobile}:{mobile:boolean}){

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Testes de CI executados em CommonJS. */
 // Testes não destrutivos: nenhuma mensagem é enviada nem dados reais são modificados.
 const { chromium } = require("playwright");
 const fs = require("node:fs");
