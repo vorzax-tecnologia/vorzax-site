@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vorzax Tecnologia — site institucional
 
-## Getting Started
+Site institucional e laboratório de demonstrações da Vorzax Tecnologia.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js 16 (App Router), React 19, TypeScript e Tailwind CSS 4.
+- Supabase para as áreas privadas `/sistema` e `/central`.
+- Vercel para prévias e produção.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Ambiente local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Instale Node.js compatível com a versão definida na Vercel (atualmente 24.x).
+2. Execute `npm ci`.
+3. Configure as variáveis Supabase em `.env.local` **somente no seu computador**, sem versionar chaves.
+4. Execute `npm run dev` e abra `http://localhost:3000`.
+5. Valide com `npm run lint` e `npm run build`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Variáveis públicas utilizadas pelas áreas privadas: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (ou `NEXT_PUBLIC_SUPABASE_ANON_KEY`). **Nunca** inclua a `service_role` em variáveis `NEXT_PUBLIC_`.
 
-## Learn More
+A compilação executa `scripts/sync-showcase-assets.mjs` para preparar fotografias e a marca. Esse passo ainda depende de arquivos externos e deve ser revisado antes da publicação definitiva.
 
-To learn more about Next.js, take a look at the following resources:
+## Principais caminhos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Caminho | Responsabilidade |
+| --- | --- |
+| `src/app/page.tsx` | Site institucional e contato |
+| `src/components/ReferenceLanding.tsx` | Hero e vitrine de serviços |
+| `src/components/TechnologyInMotion.tsx` | Laboratório de demonstrações |
+| `src/components/demos/` | Telas demonstrativas |
+| `src/app/plataforma/page.tsx` | Conceito de plataforma |
+| `src/app/central/` | Administração (autenticada) |
+| `src/app/sistema/` | Plataforma privada |
+| `scripts/qa-laboratorio-visual.cjs` | Teste de enquadramento em desktop/mobile |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Publicação segura
 
-## Deploy on Vercel
+- Desenvolver alterações em branch específica, nunca diretamente na produção.
+- Validar Vercel Preview, build, lint, demonstrações, formulário, navegação e dispositivos.
+- Garantir que exemplos e dados ilustrativos estejam identificados como tais.
+- Não editar tabelas reais ou habilitar módulos sem migração e testes de integridade.
+- Obter aprovação expressa para mesclar a `main` e publicar em `www.vorzax.com.br`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contatos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Site: https://www.vorzax.com.br
+- E-mail: contato@vorzax.com.br

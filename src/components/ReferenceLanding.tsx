@@ -24,7 +24,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[linear-gradient(100deg,transparent_62%,rgba(25,103,189,.045)_80%,transparent)]" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-[1780px] px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-20 lg:pt-16 xl:px-16">
         <div className="grid items-center gap-8 pb-10 lg:min-h-[540px] lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-6 lg:pb-14 xl:gap-10">
-          <div className="vx-hero-copy order-2 min-w-0 lg:order-1">
+          <div className="vx-hero-copy order-1 min-w-0 lg:order-1">
             <div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.20em] text-[#4abfff] sm:text-[11px]">
               <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
             </div>
@@ -43,7 +43,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
           </div>
 
-          <div className="vx-hero-media order-1 min-w-0 lg:order-2">
+          <div className="vx-hero-media order-2 min-w-0 lg:order-2">
             <div className="mb-3 flex items-center justify-between gap-2 px-1">
               <span className="text-[10px] font-semibold uppercase tracking-[.19em] text-[#73bff0]">VORZAX / TECNOLOGIA EM MOVIMENTO</span>
               <span className="text-[10px] tracking-[.09em] text-[#768ca6]">FILME CONCEITUAL</span>
