@@ -39,6 +39,8 @@ jobs:
           exit 1
       - name: Conferir 15 demonstracoes nos 4 tamanhos
         run: node scripts/qa-laboratorio-visual.cjs
+      - name: Conferir home, formulário e links
+        run: node scripts/qa-home.cjs
       - name: Salvar prints e medidas
         if: always()
         uses: actions/upload-artifact@v4
