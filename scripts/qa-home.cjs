@@ -55,35 +55,49 @@ function ensure(condition, message) {
         ensure(result.headline.top < height * 0.75, "Proposta de valor não aparece na primeira tela");
       }
 
-      // O antigo filme cinematográfico foi substituído por uma demonstração
-      // com a mesma renderização do Laboratório e somente dois formatos.
-      const hero = page.locator("#inicio [data-vx-hero-demo]");
-      const stage = hero.locator("[data-vx-hero-stage]");
-      ensure(await hero.count() === 1, `Demonstração única ausente em ${device}`);
-      ensure(await page.locator("#inicio .vx-brand-reel").count() === 0, "O filme antigo continua na primeira tela");
+      // O filme original deve continuar rodando suas cinco demonstrações,
+      // sempre contidas na caixa sem distorções ou alternância de dispositivo.
+      const hero = page.locator("#inicio .vx-brand-reel");
+      ensure(await hero.count() === 1, `Filme da Vorzax ausente em ${device}`);
+      ensure(await page.locator("#inicio [data-vx-hero-demo]").count() === 0,
+        "A demonstração estática da revisão anterior ainda aparece no hero");
+      ensure(await hero.getByRole("button", { name: /Desktop|Mobile/i }).count() === 0,
+        "O filme superior não deve oferecer troca de dispositivo");
 
-      await hero.getByRole("button", { name: "Versão desktop" }).click();
-      ensure(await stage.getAttribute("data-device") === "desktop", "Alternância para desktop falhou");
-      ensure(await stage.locator("[data-fit-stage$='-desktop'] [data-rich-stage]").count() === 1,
-        "Demonstração desktop não renderizou");
-      await hero.screenshot({ path: path.join(OUT, `hero-${device}-desktop.png`) });
+      await hero.scrollIntoViewIfNeeded();
+      for (let scene = 1; scene <= 5; scene++) {
+        await page.waitForFunction(
+          sceneIndex => document.querySelector("#inicio .vx-brand-reel")?.getAttribute("data-reel-scene") === String(sceneIndex),
+          scene,
+          { timeout: 24000 }
+        );
+        const fit = await hero.evaluate(element => {
+          const screen = element.querySelector("[data-reel-preview]");
+          const viewport = screen?.querySelector("[data-rich-stage]");
+          const content = viewport?.querySelector(".vx-rich-canvas");
+          if (!screen || !viewport || !content) return { ok: false, reason: "Cena sem demonstração" };
+          const outer = viewport.getBoundingClientRect();
+          const inner = content.getBoundingClientRect();
+          return {
+            ok: inner.left >= outer.left - 3 && inner.right <= outer.right + 3 &&
+              inner.top >= outer.top - 3 && inner.bottom <= outer.bottom + 3,
+            scaleX: viewport.getAttribute("data-rich-scale-x"),
+            scaleY: viewport.getAttribute("data-rich-scale-y"),
+          };
+        });
+        ensure(fit.ok && fit.scaleX === fit.scaleY,
+          `Enquadramento incorreto no filme ${device}, cena ${scene}: ${JSON.stringify(fit)}`);
+        await hero.screenshot({ path: path.join(OUT, `filme-${device}-cena-${scene}.png`) });
+      }
 
-      await hero.getByRole("button", { name: "Versão mobile" }).click();
-      ensure(await stage.getAttribute("data-device") === "mobile", "Alternância para mobile falhou");
-      await stage.locator("[data-vx-phone-frame]").waitFor({ state: "visible" });
-      const geometry = await stage.evaluate(element => {
-        const stageRect = element.getBoundingClientRect();
-        const frame = element.querySelector("[data-vx-phone-frame]");
-        const phone = frame?.getBoundingClientRect();
-        return phone && {
-          centered: Math.abs((phone.left + phone.right) / 2 - (stageRect.left + stageRect.right) / 2) <= 2,
-          fullyContained: phone.top >= stageRect.top - 2 && phone.bottom <= stageRect.bottom + 2,
-        };
-      });
-      ensure(geometry?.centered && geometry?.fullyContained,
-        `Moldura mobile desalinhada em ${device}: ${JSON.stringify(geometry)}`);
-      await hero.screenshot({ path: path.join(OUT, `hero-${device}-mobile.png`) });
-      if (device === "desktop") await hero.getByRole("button", { name: "Versão desktop" }).click();
+      // No Laboratório, os rótulos visíveis solicitados são Desktop e Mobile.
+      const lab = page.locator("#tecnologia-em-acao");
+      await lab.scrollIntoViewIfNeeded();
+      const deviceControls = lab.getByRole("group", { name: "Visualizar demonstração em" });
+      ensure(await deviceControls.getByRole("button", { name: "Visão desktop" }).innerText() === "Desktop",
+        `Rótulo Desktop incorreto em ${device}`);
+      ensure(await deviceControls.getByRole("button", { name: "Visão mobile" }).innerText() === "Mobile",
+        `Rótulo Mobile incorreto em ${device}`);
 
       await page.screenshot({ path: path.join(OUT, `home-${device}.png`) });
 

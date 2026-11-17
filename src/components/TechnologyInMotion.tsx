@@ -254,14 +254,14 @@ export function TechnologyInMotion() {
                     aria-pressed={device === "desktop"}
                     onClick={() => selectDevice("desktop")}
                     className={"rounded px-2 py-1.5 text-[11px] font-semibold " + (device === "desktop" ? "bg-[#1b78bd] text-white" : "text-[#a6c7dd]")}
-                  >PC</button>
+                  >Desktop</button>
                   <button
                     type="button"
                     aria-label="Visão mobile"
                     aria-pressed={device === "mobile"}
                     onClick={() => selectDevice("mobile")}
                     className={"rounded px-2 py-1.5 text-[11px] font-semibold " + (device === "mobile" ? "bg-[#1b78bd] text-white" : "text-[#a6c7dd]")}
-                  >iPhone</button>
+                  >Mobile</button>
                 </div>
                 <button
                   type="button"
