@@ -52,7 +52,7 @@ export function TechnologyInMotion() {
         const limit = window.innerWidth < 640
           ? Math.max(360, viewportHeight - 135)
           : window.innerWidth >= 1024
-            ? Math.max(300, viewportHeight - chrome - 82)
+            ? Math.max(300, viewportHeight - chrome - 12)
             : Math.max(350, viewportHeight - 225);
         const result = Math.max(280, Math.min(ideal, limit));
         setStageHeight(previous => previous !== null && Math.abs(previous - result) < 1 ? previous : result);
@@ -158,7 +158,7 @@ export function TechnologyInMotion() {
       ref={sectionRef}
       id="tecnologia-em-acao"
       aria-labelledby="vx-showcase-title"
-      className="relative scroll-mt-[72px] border-y border-[#173a57] bg-[#030d1c] py-2 text-white sm:py-3"
+      className="relative scroll-mt-16 border-y border-[#173a57] bg-[#030d1c] py-2 text-white sm:py-3 lg:scroll-mt-0"
     >
       <div className="mx-auto w-full max-w-[1700px] px-3 sm:px-5 lg:px-6">
         <div className="flex items-center justify-between gap-3">
