@@ -59,13 +59,14 @@ fs.mkdirSync(output,{recursive:true});
    await page.getByRole("link",{name:"Ver demonstrações"}).click();
    await page.getByRole("button",{name:"Ⅱ Pausar"}).click();
    await page.getByRole("button",{name:"▯ Visão mobile"}).click();
-   const nav=page.getByRole("navigation",{name:"Categorias das demonstrações"});
-   const choices=page.getByRole("group",{name:"Escolher exemplo de solução"});
+   const nav=page.getByRole("combobox",{name:"Selecionar categoria das demonstrações"});
+   const choices=page.getByRole("combobox",{name:"Escolher demonstração"});
+   const keys=["sites","automacao","bi","sistemas","ia"];
    let standardScale=null, standardShell=null;
    for(let ci=0;ci<categories.length;ci++){
-    await nav.getByRole("button").nth(ci).click();
+    await nav.selectOption(keys[ci]);
     for(let vi=0;vi<3;vi++){
-     await choices.getByRole("button").nth(vi).click();
+     await choices.selectOption(String(vi));
      await page.waitForTimeout(220);
      const m=await page.evaluate(()=>{
       const frame=document.querySelector("[data-vx-stage-height]");
