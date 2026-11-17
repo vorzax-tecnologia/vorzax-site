@@ -75,17 +75,18 @@ fs.mkdirSync(output,{recursive:true});
       const canvas=scene?.querySelector(".vx-rich-canvas");
       if(!frame||!phone||!scene||!canvas)return {error:"element missing"};
       const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
-      return {frame:rect(frame),phone:rect(phone),scene:rect(scene),canvas:rect(canvas),scale:Number(scene.dataset.richScale),shell:Number(phone.dataset.shellScale),pageWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth};
+      return {frame:rect(frame),phone:rect(phone),scene:rect(scene),canvas:rect(canvas),scale:Number(scene.dataset.richScale),shell:Number(phone.dataset.shellScale),pageWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,viewportHeight:innerHeight};
      });
      const fit=m.scene&&m.canvas&&m.canvas.left>=m.scene.left-2&&m.canvas.right<=m.scene.right+2&&m.canvas.top>=m.scene.top-2&&m.canvas.bottom<=m.scene.bottom+2;
      const horizontal=m.pageWidth<=m.viewportWidth+5;
+     const fullPhoneVisible=m.frame&&m.frame.top>=-4&&m.frame.bottom<=m.viewportHeight+4;
      if(standardScale===null)standardScale=m.scale;
      if(standardShell===null)standardShell=m.shell;
      const consistentScale=Math.abs(m.scale-standardScale)<0.002&&Math.abs(m.shell-standardShell)<0.002;
      const screenOccupancy=m.scene&&m.canvas?m.canvas.width/m.scene.width:0;
-     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,screenOccupancy,...m});
+     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,screenOccupancy,fullPhoneVisible,...m});
      if(width===390) await page.screenshot({path:path.join(output,"mobile-"+width+"-"+ci+"-"+vi+".png"),fullPage:false});
-     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale,"fill",screenOccupancy.toFixed(3));
+     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale,"fill",screenOccupancy.toFixed(3),"inViewport",fullPhoneVisible);
     }
    }
    await page.close();
@@ -94,7 +95,7 @@ fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,"measurements.json"),JSON.stringify(results,null,2));
   await browser.close();
  }
- const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||x.stageOccupancy<0.87))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93)));
+ const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||x.stageOccupancy<0.87))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93||!x.fullPhoneVisible)));
  console.log("QA TOTAL",results.length,"FAILURES",failures.length);
  if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,captionVisible:x.captionVisible,frame:x.frame,controls:x.controls,caption:x.caption})),null,2));process.exitCode=1}
 })().catch(e=>{console.error(e);process.exitCode=1});

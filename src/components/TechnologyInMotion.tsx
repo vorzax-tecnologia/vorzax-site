@@ -82,7 +82,9 @@ export function TechnologyInMotion() {
   return()=>window.clearInterval(id);
  },[visible,playing,active,variant]);
 
- const select=(key:Chapter)=>{setActive(key);setVariant(0);setStep(0);};
+ const revealOnMobile=()=>{if(window.innerWidth<1024)requestAnimationFrame(()=>sectionRef.current?.scrollIntoView({behavior:"instant",block:"start"}));};
+ const select=(key:Chapter)=>{setActive(key);setVariant(0);setStep(0);revealOnMobile();};
+ const chooseVariant=(next:number)=>{setVariant(next);setStep(0);revealOnMobile();};
  const example=demoCatalog[active].examples[variant];
  useEffect(()=>{
   if(!expanded)return;
@@ -130,9 +132,9 @@ export function TechnologyInMotion() {
            <span className="hidden rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8] lg:inline-flex">DEMONSTRAÇÃO</span>
          </div>
         </div>
-        <select aria-label="Escolher demonstração" value={variant} onChange={event=>{setVariant(Number(event.target.value));setStep(0)}} className="mt-2 w-full rounded-lg border border-[#417ca8] bg-[#123450] px-3 py-2 text-[13px] font-semibold text-white outline-none sm:hidden">{demoCatalog[active].examples.map((item,i)=><option key={item.name} value={i} className="bg-[#123450]">{`0${i+1} / 03 · ${item.name}`}</option>)}</select>
+        <select aria-label="Escolher demonstração" value={variant} onChange={event=>chooseVariant(Number(event.target.value))} className="mt-2 w-full rounded-lg border border-[#417ca8] bg-[#123450] px-3 py-2 text-[13px] font-semibold text-white outline-none sm:hidden">{demoCatalog[active].examples.map((item,i)=><option key={item.name} value={i} className="bg-[#123450]">{`0${i+1} / 03 · ${item.name}`}</option>)}</select>
         <div data-vx-lab-selector role="group" aria-label="Escolher exemplo de solução" className="mt-1 hidden snap-x gap-2 overflow-x-auto pb-0.5 sm:flex">
-         {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-1.5 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
+         {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>chooseVariant(i)} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-1.5 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
         </div>
       </div>
       <div data-vx-lab-content className="flex min-h-0 flex-1 flex-col px-1 pb-2 pt-1 sm:px-3">
@@ -145,8 +147,8 @@ export function TechnologyInMotion() {
        </div>
        <div data-vx-lab-footer className="mt-1 flex flex-wrap items-center justify-between gap-1 border-t border-[#284861] px-2 pt-1 sm:px-0">
         <div role="group" aria-label="Visualizar demonstração em" className="flex items-center gap-1 rounded-lg border border-[#35688c] bg-[#0b2740] p-1">
-          <button type="button" aria-pressed={device==="desktop"} onClick={()=>setDevice("desktop")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="desktop"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▣ Visão desktop</button>
-          <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
+          <button type="button" aria-pressed={device==="desktop"} onClick={()=>{setDevice("desktop");revealOnMobile()}} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="desktop"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▣ Visão desktop</button>
+          <button type="button" aria-pressed={device==="mobile"} onClick={()=>{setDevice("mobile");revealOnMobile()}} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
         </div>
         <div className="flex items-center gap-2">
           <button type="button" ref={expandedTriggerRef} onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>

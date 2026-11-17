@@ -11,9 +11,9 @@ import { DemoVisual, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 const desktopDesignWidth: Record<DemoCategory, number> = {
   sites: 1280,
   automacao: 1480,
-  bi: 1440,
-  sistemas: 1640,
-  ia: 1430,
+  bi: 1480,
+  sistemas: 1680,
+  ia: 1530,
 };
 
 const mobileBackground: Record<DemoCategory, string[]> = {
