@@ -45,7 +45,8 @@ export function TechnologyInMotion() {
      const available=height-chrome-anchorOffset-8;
      const ideal=device==="mobile" ? frame.clientWidth*988/468 : frame.clientWidth*680/1280;
      // On small screens the page can scroll; the preview itself always fits.
-     const fitted=window.innerWidth>=1024 ? Math.min(ideal,Math.max(320,available)) : Math.min(ideal,height*0.67);
+     const mobileHeightLimit=window.innerWidth<=360 ? height*0.55 : height*0.67;
+     const fitted=window.innerWidth>=1024 ? Math.min(ideal,Math.max(320,available)) : Math.min(ideal,mobileHeightLimit);
      setDesktopStageHeight(previous=>previous!==null&&Math.abs(previous-fitted)<1?previous:fitted);
    };
    const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(measure);};
