@@ -268,7 +268,7 @@ export function TechnologyInMotion() {
                   aria-label={playing ? "Pausar demonstração" : "Reproduzir demonstração"}
                   aria-pressed={!playing}
                   onClick={() => setPlaying(previous => !previous)}
-                  className="grid h-8 w-8 place-items-center rounded-md border border-[#37617d] bg-[#0f314a] text-[13px] text-[#caeaff] sm:w-auto sm:px-2"
+                  className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#37617d] bg-[#0f314a] text-[13px] text-[#caeaff] sm:w-auto sm:px-2"
                 >
                   <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
                   <span className="ml-1 hidden text-[11px] font-medium sm:inline">{playing ? "Pausar" : "Reproduzir"}</span>
@@ -278,7 +278,7 @@ export function TechnologyInMotion() {
                   type="button"
                   aria-label="Ampliar demonstração para leitura"
                   onClick={() => setExpanded(true)}
-                  className="grid h-8 w-8 place-items-center rounded-md border border-[#4c99c9] bg-[#123d5e] text-[15px] text-[#def4ff] sm:w-auto sm:px-3"
+                  className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#4c99c9] bg-[#123d5e] text-[15px] text-[#def4ff] sm:w-auto sm:px-3"
                 >
                   <span aria-hidden="true">⛶</span>
                   <span className="ml-1 hidden text-[11px] font-semibold sm:inline">Ampliar</span>
