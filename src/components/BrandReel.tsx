@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const subscribeReduced = (callback: () => void) => { const media=window.matchMedia("(prefers-reduced-motion: reduce)"); media.addEventListener("change",callback); return ()=>media.removeEventListener("change",callback); };
 const snapshotReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -39,6 +39,8 @@ type BrandReelProps = {
 };
 
 export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlayButton = true, loop = false, pauseOnHover = false }: BrandReelProps) {
+  const reelRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
   const [scene, setScene] = useState(0);
   const [running, setRunning] = useState(autoPlay);
   const [hovered, setHovered] = useState(false);
@@ -47,7 +49,16 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const [allowMotion, setAllowMotion] = useState(false);
   const reduced = useSyncExternalStore(subscribeReduced, snapshotReduced, serverReduced);
   const mobile = useMobileReel();
-  const playing = running && !hovered && !touching && (!reduced || allowMotion);
+  const playing = running && inView && !hovered && !touching && (!reduced || allowMotion);
+
+  // Suspende a animação fora da área visível, evitando renderizações desnecessárias.
+  useEffect(() => {
+    const element = reelRef.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.05 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!playing) return;
@@ -85,7 +96,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const isBrand = !current.category;
   const buttonLabel = reduced && !allowMotion ? "Reproduzir filme" : running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme";
   return (
-    <div data-reel-scene={scene} onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] aspect-[9/16] sm:aspect-[4/3] ${compact ? "" : "lg:aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div ref={reelRef} data-reel-scene={scene} onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] aspect-[9/16] sm:aspect-[4/3] ${compact ? "" : "lg:aspect-video"} w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[3%] pb-[38px] pt-[3%]" aria-live="off">

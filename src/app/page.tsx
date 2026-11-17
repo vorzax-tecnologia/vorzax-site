@@ -277,15 +277,15 @@ export default function Home() {
       return;
     }
 
-    if (!nome || !telefone || !empresa || !diagnosticData.segmento || !diagnosticData.tipo_solucao) {
+    if (!nome || !telefone || !objetivo) {
       setDiagnosticStatus("error");
       setDiagnosticError("Preencha os campos obrigatórios para enviar.");
       return;
     }
 
-    if (objetivo.length < 20) {
+    if (objetivo.length < 10) {
       setDiagnosticStatus("error");
-      setDiagnosticError("Descreva seu objetivo com mais detalhes (no mínimo 20 caracteres).");
+      setDiagnosticError("Descreva seu objetivo com mais detalhes (no mínimo 10 caracteres).");
       return;
     }
 
@@ -305,9 +305,9 @@ export default function Home() {
       `Nome: ${nome}`,
       `WhatsApp: ${telefone}`,
       diagnosticData.email.trim() ? `E-mail: ${diagnosticData.email.trim()}` : null,
-      `Empresa: ${empresa}`,
-      `Segmento: ${diagnosticData.segmento}`,
-      `Solução desejada: ${diagnosticData.tipo_solucao}`,
+      `Empresa: ${empresa || "Não informada"}`,
+      `Segmento: ${diagnosticData.segmento || "Não informado"}`,
+      `Solução desejada: ${diagnosticData.tipo_solucao || "Preciso de orientação"}`,
       `Objetivo ou dificuldade: ${objetivo}`,
       `Prazo: ${diagnosticData.prazo || "Ainda não definido"}`,
     ]
@@ -444,12 +444,11 @@ export default function Home() {
                 </label>
 
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Empresa *</span>
+                  <span className="text-xs font-semibold text-slate-300">Empresa <span className="font-normal text-slate-500">(opcional)</span></span>
                   <input
                     name="empresa"
                     value={diagnosticData.empresa}
                     onChange={handleDiagnosticChange}
-                    required
                     autoComplete="organization"
                     placeholder="Nome da empresa"
                     className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
@@ -459,12 +458,11 @@ export default function Home() {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Segmento da empresa *</span>
+                  <span className="text-xs font-semibold text-slate-300">Segmento da empresa <span className="font-normal text-slate-500">(opcional)</span></span>
                   <select
                     name="segmento"
                     value={diagnosticData.segmento}
                     onChange={handleDiagnosticChange}
-                    required
                     className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
                     <option value="">Selecione uma opção</option>
@@ -487,12 +485,11 @@ export default function Home() {
                 </label>
 
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? *</span>
+                  <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? <span className="font-normal text-slate-500">(opcional)</span></span>
                   <select
                     name="tipo_solucao"
                     value={diagnosticData.tipo_solucao}
                     onChange={handleDiagnosticChange}
-                    required
                     className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
                     <option value="">Selecione uma opção</option>
@@ -515,7 +512,7 @@ export default function Home() {
                   value={diagnosticData.objetivo}
                   onChange={handleDiagnosticChange}
                   required
-                  minLength={20}
+                  minLength={10}
                   rows={4}
                   placeholder="Conte brevemente o que precisa melhorar ou construir."
                   className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"

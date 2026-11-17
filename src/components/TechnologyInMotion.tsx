@@ -25,6 +25,8 @@ export function TechnologyInMotion() {
  const [step,setStep]=useState(0);
  const [visible,setVisible]=useState(false);
  const sectionRef=useRef<HTMLElement>(null);
+ const expandedTriggerRef=useRef<HTMLButtonElement>(null);
+ const expandedCloseRef=useRef<HTMLButtonElement>(null);
  const demoFrameRef=useRef<HTMLDivElement>(null);
  const [desktopStageHeight,setDesktopStageHeight]=useState<number|null>(null);
 
@@ -85,9 +87,19 @@ export function TechnologyInMotion() {
   if(!expanded)return;
   const previous=document.body.style.overflow;
   document.body.style.overflow="hidden";
-  const dismiss=(e:KeyboardEvent)=>{if(e.key==="Escape")setExpanded(false)};
+  expandedCloseRef.current?.focus();
+  const dismiss=(e:KeyboardEvent)=>{
+    if(e.key==="Escape"){e.preventDefault();setExpanded(false);return;}
+    if(e.key!=="Tab")return;
+    const dialog=document.querySelector<HTMLElement>('[data-vx-expanded-dialog="true"]');
+    const buttons=dialog?.querySelectorAll<HTMLButtonElement>("button:not([disabled])");
+    if(!buttons?.length)return;
+    const first=buttons[0],last=buttons[buttons.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  };
   window.addEventListener("keydown",dismiss);
-  return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss)};
+  return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss);expandedTriggerRef.current?.focus();};
  },[expanded]);
  return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 lg:scroll-mt-0 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
@@ -98,7 +110,7 @@ export function TechnologyInMotion() {
       <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
       <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces, gráficos e interações nas visões desktop e mobile.</p>
     </div>
-    <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
+    <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 DEMONSTRAÇÕES • 4 SERVIÇOS + IA CONCEITUAL</span>
    </div>
    <div data-vx-lab-grid className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[min(10vw,190px)_minmax(0,1fr)]">
     <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
@@ -133,7 +145,7 @@ export function TechnologyInMotion() {
           <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>
+          <button type="button" ref={expandedTriggerRef} onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>
           
           <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
         </div>
@@ -143,10 +155,10 @@ export function TechnologyInMotion() {
     </div>
    </div>
   </div>
-  {expanded&&<div role="dialog" aria-modal="true" aria-label="Demonstração ampliada do Laboratório" className="fixed inset-x-0 top-0 h-[100dvh] z-[210] flex min-h-0 flex-col bg-[#030b18]/98 p-3 text-white sm:p-5">
+  {expanded&&<div data-vx-expanded-dialog="true" role="dialog" aria-modal="true" aria-label="Demonstração ampliada do Laboratório" className="fixed inset-x-0 top-0 h-[100dvh] z-[210] flex min-h-0 flex-col bg-[#030b18]/98 p-3 text-white sm:p-5">
     <div className="mx-auto flex w-full max-w-[1500px] flex-wrap items-center justify-between gap-3 border-b border-[#315370] pb-3">
       <div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#87ceff]">LABORATÓRIO VORZAX / VISÃO AMPLIADA</p><h3 className="mt-1 text-lg font-bold">{demoCatalog[active].examples[variant].name} · {demoCatalog[active].examples[variant].tag}</h3></div>
-      <button type="button" autoFocus onClick={()=>setExpanded(false)} className="min-h-11 rounded-xl border border-[#518fba] bg-[#0c3658] px-5 text-sm font-semibold text-white hover:bg-[#19557c]">Fechar ✕</button>
+      <button type="button" ref={expandedCloseRef} autoFocus onClick={()=>setExpanded(false)} className="min-h-11 rounded-xl border border-[#518fba] bg-[#0c3658] px-5 text-sm font-semibold text-white hover:bg-[#19557c]">Fechar ✕</button>
     </div>
     <div className="vx-lab-single-frame mx-auto mt-2 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl bg-[#071525]">
       <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>

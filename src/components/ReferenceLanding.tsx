@@ -9,7 +9,7 @@ const cards = [
   { slug: "automacao", number: "02", kicker: "EFICIÊNCIA OPERACIONAL", title: "Automação de processos", description: "Conecte etapas e reduza tarefas repetitivas com fluxos sob medida.", tags: ["Entradas", "Regras", "Ações"] },
   { slug: "bi", number: "03", kicker: "INTELIGÊNCIA DE DADOS", title: "Dashboards e BI", description: "Reúna indicadores e acompanhe sua operação com mais clareza.", tags: ["Dados", "Indicadores", "Decisões"] },
   { slug: "sistemas", number: "04", kicker: "SOFTWARE PARA NEGÓCIOS", title: "Sistemas sob medida", description: "Organize informações, equipes e processos em soluções adaptadas.", tags: ["Fluxos", "Equipes", "Gestão"] },
-  { slug: "ia", number: "05", kicker: "ASSISTENTES VIRTUAIS", title: "Vorzax IA", description: "Explore atendimento, suporte e apoio operacional em uma interface ilustrativa.", tags: ["Conversas", "Suporte", "IA"] },
+  { slug: "ia", number: "05", kicker: "LABORATÓRIO CONCEITUAL", title: "Conceitos de IA", description: "Conheça três simulações de assistentes virtuais. Não são ferramentas de IA disponíveis para uso.", tags: ["Conversas", "Suporte", "IA"] },
 ] as const;
 
 function selectDemo(slug: string, example = 0) {
@@ -29,10 +29,10 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
             </div>
             <h1 className="max-w-[720px] text-balance text-[clamp(2.3rem,3.8vw,4.3rem)] font-bold leading-[1.065] tracking-[-.062em] text-white">
-              Tecnologia para empresas <span className="vx-hero-highlight text-[#69bcff]">que querem evoluir.</span>
+              Menos retrabalho. <span className="vx-hero-highlight text-[#69bcff]">Mais clareza para avançar.</span>
             </h1>
             <p className="mt-5 max-w-[585px] text-[15px] leading-[1.75] text-[#bac8d9] sm:text-[17px]">
-              Unimos presença digital, automação, dados e desenvolvimento de sistemas para criar soluções tecnológicas que ajudam empresas a apresentar, organizar e evoluir seus negócios.
+              Desenvolvemos sites para apresentar seu negócio, automações para reduzir tarefas repetitivas, dashboards para acompanhar indicadores e sistemas sob medida para organizar sua operação.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
@@ -40,7 +40,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
               <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas · Vorzax IA</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
           </div>
 
           <div className="vx-hero-media order-1 min-w-0 lg:order-2">
@@ -52,7 +52,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <MotionFilm variant="principal" />
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
-              <span>Apresentação visual das cinco frentes tecnológicas.</span>
+              <span>Quatro serviços e uma visão conceitual de IA.</span>
               <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 05</span>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">O QUE A VORZAX DESENVOLVE</span>
-              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Cinco frentes de tecnologia. <span className="text-[#77c7ff]">Uma solução para cada desafio.</span></h2>
+              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Quatro frentes para sua empresa. <span className="text-[#77c7ff]">Um laboratório para explorar o futuro.</span></h2>
             </div>
             <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#9edaff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Explorar o Laboratório <span aria-hidden="true">↗</span></a>
           </div>
@@ -82,8 +82,8 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
             ))}
           </div>
-          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as cinco áreas →</p>
-          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 15 interfaces demonstrativas em desktop e mobile. A Vorzax IA é um conceito ilustrativo, não um assistente ativo.</p>
+          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as soluções →</p>
+          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Explore 15 interfaces demonstrativas em desktop e mobile. Os exemplos não são projetos de clientes; a categoria de IA contém simulações, não assistentes ativos.</p>
         </div>
       </div>
     </section>

@@ -16,9 +16,9 @@ const siteUrl = "https://www.vorzax.com.br";
 const siteName = "Vorzax Tecnologia";
 const isProduction = process.env.VERCEL_ENV === "production";
 const title =
-  "Vorzax Tecnologia | Sites, Automações, BI e Sistemas";
+  "Vorzax Tecnologia | Sites, Automações, BI e Sistemas sob Medida";
 const description =
-  "Soluções tecnológicas para empresas: sites e landing pages, automação de processos, dashboards, Business Intelligence e sistemas sob medida.";
+  "Sites, automações, dashboards e sistemas sob medida para organizar processos, apresentar seu negócio e acompanhar indicadores. Conheça a Vorzax Tecnologia.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

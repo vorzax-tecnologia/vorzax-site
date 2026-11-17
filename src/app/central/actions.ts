@@ -14,24 +14,59 @@ export async function reviewModuleRequest(input: {
   if (
     !UUID.test(input.requestId) ||
     !UUID.test(input.organizationId) ||
-    !/^[a-z0-9_]{2,40}$/.test(input.moduleKey)
+    !/^[a-z0-9_]{2,40}$/.test(input.moduleKey) ||
+    (input.decision !== "approved" && input.decision !== "rejected")
   ) {
     return { ok: false, message: "Solicitação inválida." };
   }
 
   const supabase = await createClient();
   const { data: claimData } = await supabase.auth.getClaims();
-  const userId =
-    typeof claimData?.claims?.sub === "string" ? claimData.claims.sub : null;
+  const userId = typeof claimData?.claims?.sub === "string" ? claimData.claims.sub : null;
   if (!userId) return { ok: false, message: "Sessão expirada." };
 
-  const { data: admin } = await supabase
+  const { data: admin, error: adminError } = await supabase
     .from("platform_admins")
     .select("active")
     .eq("user_id", userId)
     .eq("active", true)
     .maybeSingle();
-  if (!admin) return { ok: false, message: "Acesso administrativo necessário." };
+  if (adminError || !admin) {
+    return { ok: false, message: "Acesso administrativo necessário." };
+  }
+
+  // Confirma que a solicitação pertence à organização e ao módulo informados.
+  const { data: request, error: requestError } = await supabase
+    .from("module_requests")
+    .select("id")
+    .eq("id", input.requestId)
+    .eq("organization_id", input.organizationId)
+    .eq("module_key", input.moduleKey)
+    .eq("status", "pending")
+    .maybeSingle();
+
+  if (requestError || !request) {
+    return { ok: false, message: "Solicitação não encontrada ou já revisada." };
+  }
+
+  // Reserva a solicitação: só a atualização efetiva de uma linha pendente autoriza a ativação.
+  const { data: reviewed, error: reviewError } = await supabase
+    .from("module_requests")
+    .update({
+      status: input.decision,
+      reviewed_by: userId,
+      reviewed_at: new Date().toISOString(),
+    })
+    .eq("id", input.requestId)
+    .eq("organization_id", input.organizationId)
+    .eq("module_key", input.moduleKey)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
+
+  if (reviewError || !reviewed) {
+    return { ok: false, message: "Não foi possível revisar esta solicitação." };
+  }
 
   if (input.decision === "approved") {
     const { error: moduleError } = await supabase
@@ -45,27 +80,33 @@ export async function reviewModuleRequest(input: {
         },
         { onConflict: "organization_id,module_key" },
       );
-    if (moduleError) return { ok: false, message: "Não foi possível ativar o módulo." };
+
+    if (moduleError) {
+      // Compensação quando a ativação falha. Atomicidade completa exigirá RPC transacional.
+      const { data: reverted, error: revertError } = await supabase
+        .from("module_requests")
+        .update({ status: "pending", reviewed_by: null, reviewed_at: null })
+        .eq("id", input.requestId)
+        .eq("status", "approved")
+        .eq("reviewed_by", userId)
+        .select("id")
+        .maybeSingle();
+
+      return {
+        ok: false,
+        message: revertError || !reverted
+          ? "A ativação falhou e exige conferência manual na Central."
+          : "A ativação falhou; a solicitação voltou para pendente.",
+      };
+    }
   }
 
-  const { error } = await supabase
-    .from("module_requests")
-    .update({
-      status: input.decision,
-      reviewed_by: userId,
-      reviewed_at: new Date().toISOString(),
-    })
-    .eq("id", input.requestId)
-    .eq("status", "pending");
-
-  if (error) return { ok: false, message: "Não foi possível revisar a solicitação." };
   revalidatePath("/central");
   revalidatePath("/sistema");
   return {
     ok: true,
-    message:
-      input.decision === "approved"
-        ? "Módulo ativado com sucesso."
-        : "Solicitação recusada.",
+    message: input.decision === "approved"
+      ? "Módulo ativado com sucesso."
+      : "Solicitação recusada.",
   };
 }
