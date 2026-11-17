@@ -46,7 +46,7 @@ function ensure(condition, message) {
       });
 
       ensure(result.headline, `Headline ausente em ${device}`);
-      ensure(result.media, `Filme ausente em ${device}`);
+      ensure(result.media, `Demonstração principal ausente em ${device}`);
       ensure(result.overflow <= 3, `Rolagem horizontal indevida em ${device}: ${result.overflow}px`);
       ensure(result.missingAnchors.length === 0, `Âncoras sem destino: ${result.missingAnchors.join(", ")}`);
 
@@ -54,6 +54,36 @@ function ensure(condition, message) {
         ensure(result.headline.top < result.media.top, "No celular, vídeo está antes da proposta de valor");
         ensure(result.headline.top < height * 0.75, "Proposta de valor não aparece na primeira tela");
       }
+
+      // O antigo filme cinematográfico foi substituído por uma demonstração
+      // com a mesma renderização do Laboratório e somente dois formatos.
+      const hero = page.locator("#inicio [data-vx-hero-demo]");
+      const stage = hero.locator("[data-vx-hero-stage]");
+      ensure(await hero.count() === 1, `Demonstração única ausente em ${device}`);
+      ensure(await page.locator("#inicio .vx-brand-reel").count() === 0, "O filme antigo continua na primeira tela");
+
+      await hero.getByRole("button", { name: "Versão desktop" }).click();
+      ensure(await stage.getAttribute("data-device") === "desktop", "Alternância para desktop falhou");
+      ensure(await stage.locator("[data-fit-stage$='-desktop'] [data-rich-stage]").count() === 1,
+        "Demonstração desktop não renderizou");
+      await hero.screenshot({ path: path.join(OUT, `hero-${device}-desktop.png`) });
+
+      await hero.getByRole("button", { name: "Versão mobile" }).click();
+      ensure(await stage.getAttribute("data-device") === "mobile", "Alternância para mobile falhou");
+      await stage.locator("[data-vx-phone-frame]").waitFor({ state: "visible" });
+      const geometry = await stage.evaluate(element => {
+        const stageRect = element.getBoundingClientRect();
+        const frame = element.querySelector("[data-vx-phone-frame]");
+        const phone = frame?.getBoundingClientRect();
+        return phone && {
+          centered: Math.abs((phone.left + phone.right) / 2 - (stageRect.left + stageRect.right) / 2) <= 2,
+          fullyContained: phone.top >= stageRect.top - 2 && phone.bottom <= stageRect.bottom + 2,
+        };
+      });
+      ensure(geometry?.centered && geometry?.fullyContained,
+        `Moldura mobile desalinhada em ${device}: ${JSON.stringify(geometry)}`);
+      await hero.screenshot({ path: path.join(OUT, `hero-${device}-mobile.png`) });
+      if (device === "desktop") await hero.getByRole("button", { name: "Versão desktop" }).click();
 
       await page.screenshot({ path: path.join(OUT, `home-${device}.png`) });
 

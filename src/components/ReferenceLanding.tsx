@@ -1,6 +1,6 @@
 "use client";
 
-import { MotionFilm } from "@/components/MotionFilm";
+import { HeroDemoShowcase } from "@/components/HeroDemoShowcase";
 
 const WHATSAPP_URL = "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa.";
 
@@ -44,17 +44,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           </div>
 
           <div className="vx-hero-media order-2 min-w-0 lg:order-2">
-            <div className="mb-3 flex items-center justify-between gap-2 px-1">
-              <span className="text-[10px] font-semibold uppercase tracking-[.19em] text-[#73bff0]">VORZAX / TECNOLOGIA EM MOVIMENTO</span>
-              <span className="text-[10px] tracking-[.09em] text-[#768ca6]">FILME CONCEITUAL</span>
-            </div>
-            <div className="vx-hero-video-frame relative mx-auto w-full overflow-hidden rounded-[19px] border border-[#21496f] bg-[#071426] shadow-[0_24px_80px_rgba(0,0,0,.50),0_0_65px_rgba(0,127,255,.12)] sm:rounded-[25px]">
-              <MotionFilm variant="principal" />
-            </div>
-            <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
-              <span>Quatro serviços e uma visão conceitual de IA.</span>
-              <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 05</span>
-            </div>
+            <HeroDemoShowcase />
           </div>
         </div>
 

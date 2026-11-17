@@ -147,6 +147,7 @@ export default function Home() {
   const [whatsappOpen, setWhatsappOpen] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
   const [labVisible, setLabVisible] = useState(false);
+  const [heroDemoVisible, setHeroDemoVisible] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
@@ -262,6 +263,17 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const heroDemo = document.querySelector("[data-vx-hero-demo]");
+    if (!heroDemo) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroDemoVisible(entry.isIntersecting),
+      { threshold: 0.22 }
+    );
+    observer.observe(heroDemo);
+    return () => observer.disconnect();
+  }, []);
+
   const handleDiagnosticChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -342,7 +354,7 @@ export default function Home() {
   };
 
   return (
-    <main data-vx-demo-active={labVisible ? "true" : "false"} className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+    <main data-vx-demo-active={labVisible || heroDemoVisible ? "true" : "false"} className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
       <VideoIntro />
       <style>{`
         [data-reveal] {
