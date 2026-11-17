@@ -506,3 +506,10 @@ main.vx-institutional .showcase-stage-sites .text-slate-600 { color: #334155; }
 .vx-rich-canvas[data-vx-device="desktop"] [class~="text-[11px]"] { font-size: 13px; line-height: 1.35; }
 
 [data-vx-demo-active="true"] .vx-floating-contact { opacity: 0; pointer-events: none; transform: translateY(12px); }
+
+/* O scroll-margin global de [id] (96px) deslocava o Laboratório para baixo
+   e cortava os controles inferiores em notebooks. Usar a margem real por tela. */
+#tecnologia-em-acao { scroll-margin-top: 68px; }
+@media (min-width: 1024px) {
+  #tecnologia-em-acao { scroll-margin-top: 0; }
+}
