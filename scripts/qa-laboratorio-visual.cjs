@@ -16,14 +16,14 @@ fs.mkdirSync(output,{recursive:true});
    await page.goto("http://127.0.0.1:3000/",{waitUntil:"domcontentloaded",timeout:90000});
    await page.evaluate(()=>document.getElementById("tecnologia-em-acao").scrollIntoView({block:"start",behavior:"instant"}));
    const nav=page.getByRole("navigation",{name:"Categorias das demonstrações"});
-   const choices=page.getByRole("group",{name:"Escolher exemplo de solução"});
+   const choices=page.getByRole("combobox",{name:"Escolher exemplo no desktop"});
    await page.waitForTimeout(450);
    await page.getByRole("button",{name:"Pausar demonstração"}).click();
    let standardScale=null;
    for(let ci=0;ci<categories.length;ci++){
     await nav.getByRole("button").nth(ci).click();
     for(let vi=0;vi<3;vi++){
-     await choices.getByRole("button").nth(vi).click();
+     await choices.selectOption(String(vi));
      await page.waitForTimeout(200);
      const m=await page.evaluate(()=>{
       const frame=document.querySelector("[data-vx-stage-height]");

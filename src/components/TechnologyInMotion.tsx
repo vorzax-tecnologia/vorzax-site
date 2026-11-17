@@ -52,7 +52,7 @@ export function TechnologyInMotion() {
         const limit = window.innerWidth < 640
           ? Math.max(360, viewportHeight - 135)
           : window.innerWidth >= 1024
-            ? Math.max(300, viewportHeight - chrome - 12)
+            ? Math.max(300, viewportHeight - chrome - 36)
             : Math.max(350, viewportHeight - 225);
         const result = Math.max(280, Math.min(ideal, limit));
         setStageHeight(previous => previous !== null && Math.abs(previous - result) < 1 ? previous : result);
@@ -163,19 +163,19 @@ export function TechnologyInMotion() {
       <div className="mx-auto w-full max-w-[1700px] px-3 sm:px-5 lg:px-6">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="hidden text-[9px] font-bold uppercase tracking-[.19em] text-[#82cfff] xl:block">
+            <p className="hidden text-[9px] font-bold uppercase tracking-[.19em] text-[#82cfff]">
               VORZAX / LABORATÓRIO INTERATIVO
             </p>
-            <h2 id="vx-showcase-title" className="text-[20px] font-bold leading-tight tracking-[-.035em] sm:text-[24px]">
+            <h2 id="vx-showcase-title" className="text-[20px] font-bold leading-tight tracking-[-.035em] sm:text-[21px]">
               Soluções <span className="text-[#6acbff]">em demonstração.</span>
             </h2>
           </div>
-          <span className="hidden rounded-full border border-[#294f6d] bg-[#09233a] px-3 py-1.5 text-[11px] font-semibold text-[#a5d8f7] lg:inline-flex">
+          <span className="hidden rounded-full border border-[#294f6d] bg-[#09233a] px-3 py-1.5 text-[11px] font-semibold text-[#a5d8f7]">
             15 EXEMPLOS INTERATIVOS
           </span>
         </div>
 
-        <div className="sticky top-[68px] z-30 mt-2 grid grid-cols-2 gap-2 border-y border-[#102b45] bg-[#030d1c]/95 py-2 backdrop-blur-xl sm:top-[72px] lg:static lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-2 lg:border-0 lg:bg-transparent lg:py-0">
+        <div className="sticky top-[68px] z-30 mt-2 grid grid-cols-2 gap-2 border-y border-[#102b45] bg-[#030d1c]/95 py-2 backdrop-blur-xl sm:top-[72px] lg:static lg:grid-cols-1 lg:items-center lg:gap-1 lg:border-0 lg:bg-transparent lg:py-0">
           <label className="min-w-0 rounded-lg border border-[#325878] bg-[#0b2942] px-2 py-1 lg:hidden">
             <span className="block text-[9px] font-semibold uppercase tracking-wide text-[#79c6f4]">Categoria</span>
             <select
@@ -220,7 +220,7 @@ export function TechnologyInMotion() {
             data-vx-lab-selector
             role="group"
             aria-label="Escolher exemplo de solução"
-            className="hidden min-w-0 grid-cols-3 gap-1.5 lg:grid"
+            className="hidden min-w-0 grid-cols-3 gap-1.5"
           >
             {demoCatalog[category].examples.map((item, index) => (
               <button
@@ -241,7 +241,8 @@ export function TechnologyInMotion() {
         <div data-vx-lab-grid className="min-w-0">
           <div className="mt-1.5 overflow-hidden rounded-xl border border-[#37617e] bg-[#07192b] shadow-[0_18px_70px_rgba(0,0,0,.28)]">
             <div data-vx-lab-panel-top className="flex min-h-11 flex-wrap items-center justify-between gap-2 border-b border-[#294d68] bg-[#0a2339] px-2 py-1.5 sm:px-3">
-              <div data-vx-lab-label className="min-w-0 flex-1">
+              <select aria-label="Escolher exemplo no desktop" value={variant} onChange={event => selectVariant(Number(event.target.value))} className="hidden h-8 w-[min(32vw,330px)] shrink-0 rounded-md border border-[#4d86a9] bg-[#0f314d] px-2 text-[12px] font-semibold text-white outline-none lg:block">{demoCatalog[category].examples.map((item, index) => <option key={item.name} value={index} className="bg-[#0a263d]">{`0${index+1} · ${item.name}`}</option>)}</select>
+              <div data-vx-lab-label className="min-w-0 flex-1 lg:hidden">
                 <h3 className="truncate text-[13px] font-bold text-white sm:text-[14px]">{selected.name}</h3>
                 <p className="hidden truncate text-[11px] text-[#9dbcd4] sm:block">{selected.subtitle}</p>
               </div>
