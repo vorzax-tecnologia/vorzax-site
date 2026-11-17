@@ -18,7 +18,7 @@ fs.mkdirSync(output,{recursive:true});
    const nav=page.getByRole("navigation",{name:"Categorias das demonstrações"});
    const choices=page.getByRole("group",{name:"Escolher exemplo de solução"});
    await page.waitForTimeout(450);
-   await page.getByRole("button",{name:"Ⅱ Pausar"}).click();
+   await page.getByRole("button",{name:"Pausar demonstração"}).click();
    let standardScale=null;
    for(let ci=0;ci<categories.length;ci++){
     await nav.getByRole("button").nth(ci).click();
@@ -29,23 +29,25 @@ fs.mkdirSync(output,{recursive:true});
       const frame=document.querySelector("[data-vx-stage-height]");
       const canvas=frame?.querySelector(".vx-rich-canvas");
       const controls=document.querySelector('[role="group"][aria-label="Visualizar demonstração em"]');
+      const toolbar=document.querySelector("[data-vx-lab-panel-top]");
       const caption=document.querySelector("[data-vx-lab-caption]");
       const scene=frame?.querySelector("[data-rich-stage]");
-      if(!frame||!canvas||!controls||!caption)return {error:"element missing"};
+      if(!frame||!canvas||!controls||!caption||!toolbar)return {error:"element missing"};
       function rect(el){const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,left:r.left,right:r.right,top:r.top,bottom:r.bottom}}
-      return {frame:rect(frame),canvas:rect(canvas),controls:rect(controls),caption:rect(caption),scale:scene?.dataset.richScale,
+      return {frame:rect(frame),canvas:rect(canvas),controls:rect(controls),caption:rect(caption),toolbar:rect(toolbar),scale:scene?.dataset.richScale,
        pageWidth:document.documentElement.scrollWidth,viewportWidth:document.documentElement.clientWidth,viewportHeight:innerHeight};
      });
      const fit=m.frame&&m.canvas&&m.canvas.left>=m.frame.left-6&&m.canvas.right<=m.frame.right+6&&m.canvas.top>=m.frame.top-6&&m.canvas.bottom<=m.frame.bottom+6;
      const horizontal=m.pageWidth<=m.viewportWidth+5;
      const controlsVisible=!!m.controls&&m.controls.bottom<=m.viewportHeight+6;
      const captionVisible=!!m.caption&&m.caption.bottom<=m.viewportHeight+2;
+     const aligned=!!m.toolbar&&Math.abs(m.toolbar.left-m.frame.left)<=2&&Math.abs(m.toolbar.right-m.frame.right)<=2;
      if(standardScale===null) standardScale=Number(m.scale);
      // Comparar a ocupação visual, e não a escala numérica de fontes
      // com larguras de projeto diferentes por categoria.
      const consistentScale=Number(m.scale)>=standardScale*0.84;
      const stageOccupancy=m.frame&&m.canvas?m.canvas.width/m.frame.width:0;
-     results.push({width,height,device:"desktop",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,captionVisible,consistentScale,stageOccupancy,...m});
+     results.push({width,height,device:"desktop",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,controlsVisible,captionVisible,aligned,consistentScale,stageOccupancy,...m});
      if(width===1366 || vi===0 || (ci===3&&vi===2))
       await page.screenshot({path:path.join(output,width+"x"+height+"-"+ci+"-"+vi+".png")});
      console.log("QA",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"controls",controlsVisible,"caption",captionVisible,"sameScale",consistentScale);
@@ -57,8 +59,8 @@ fs.mkdirSync(output,{recursive:true});
    const page=await browser.newPage({viewport:{width,height}});
    await page.goto("http://127.0.0.1:3000/",{waitUntil:"domcontentloaded",timeout:90000});
    await page.getByRole("link",{name:"Ver demonstrações"}).click();
-   await page.getByRole("button",{name:"Ⅱ Pausar"}).click();
-   await page.getByRole("button",{name:"▯ Visão mobile"}).click();
+   await page.getByRole("button",{name:"Pausar demonstração"}).click();
+   await page.getByRole("button",{name:"Visão mobile"}).click();
    const nav=page.getByRole("combobox",{name:"Selecionar categoria das demonstrações"});
    const choices=page.getByRole("combobox",{name:"Escolher demonstração"});
    const keys=["sites","automacao","bi","sistemas","ia"];
@@ -73,20 +75,24 @@ fs.mkdirSync(output,{recursive:true});
       const phone=frame?.querySelector('[data-fit-stage$="-mobile"]');
       const scene=frame?.querySelector("[data-rich-stage]");
       const canvas=scene?.querySelector(".vx-rich-canvas");
-      if(!frame||!phone||!scene||!canvas)return {error:"element missing"};
+      const shell=frame?.querySelector("[data-vx-phone-frame]");
+      const toolbar=document.querySelector("[data-vx-lab-panel-top]");
+      if(!frame||!phone||!scene||!canvas||!shell||!toolbar)return {error:"element missing"};
       const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
-      return {frame:rect(frame),phone:rect(phone),scene:rect(scene),canvas:rect(canvas),scale:Number(scene.dataset.richScale),shell:Number(phone.dataset.shellScale),pageWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,viewportHeight:innerHeight};
+      return {frame:rect(frame),phone:rect(phone),scene:rect(scene),canvas:rect(canvas),shellRect:rect(shell),toolbar:rect(toolbar),scale:Number(scene.dataset.richScale),shell:Number(phone.dataset.shellScale),pageWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,viewportHeight:innerHeight};
      });
      const fit=m.scene&&m.canvas&&m.canvas.left>=m.scene.left-2&&m.canvas.right<=m.scene.right+2&&m.canvas.top>=m.scene.top-2&&m.canvas.bottom<=m.scene.bottom+2;
      const horizontal=m.pageWidth<=m.viewportWidth+5;
-     const fullPhoneVisible=m.frame&&m.frame.top>=-4&&m.frame.bottom<=m.viewportHeight+4;
+     const fullPhoneVisible=m.shellRect&&m.shellRect.top>=-4&&m.shellRect.bottom<=m.viewportHeight+4;
+     const phoneCentered=!!m.shellRect&&Math.abs((m.shellRect.left+m.shellRect.right)/2-(m.frame.left+m.frame.right)/2)<=2;
+     const aligned=!!m.toolbar&&Math.abs(m.toolbar.left-m.frame.left)<=2&&Math.abs(m.toolbar.right-m.frame.right)<=2;
      if(standardScale===null)standardScale=m.scale;
      if(standardShell===null)standardShell=m.shell;
      const consistentScale=Math.abs(m.scale-standardScale)<0.002&&Math.abs(m.shell-standardShell)<0.002;
      const screenOccupancy=m.scene&&m.canvas?m.canvas.width/m.scene.width:0;
-     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,screenOccupancy,fullPhoneVisible,...m});
+     results.push({width,height,device:"mobile",category:categories[ci],variant:vi+1,fit:!!fit,horizontal,consistentScale,screenOccupancy,fullPhoneVisible,phoneCentered,aligned,...m});
      if(width===390) await page.screenshot({path:path.join(output,"mobile-"+width+"-"+ci+"-"+vi+".png"),fullPage:false});
-     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale,"fill",screenOccupancy.toFixed(3),"inViewport",fullPhoneVisible);
+     console.log("QA mobile",width,height,categories[ci],vi+1,"fit",fit,"horiz",horizontal,"sameScale",consistentScale,"fill",screenOccupancy.toFixed(3),"inViewport",fullPhoneVisible,"centered",phoneCentered,"aligned",aligned);
     }
    }
    await page.close();
@@ -95,7 +101,7 @@ fs.mkdirSync(output,{recursive:true});
   fs.writeFileSync(path.join(output,"measurements.json"),JSON.stringify(results,null,2));
   await browser.close();
  }
- const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||x.stageOccupancy<0.87))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93||!x.fullPhoneVisible)));
+ const failures=results.filter(x=>!x.fit||!x.horizontal||(x.device==="desktop"&&(!x.controlsVisible||!x.captionVisible||!x.aligned||x.stageOccupancy<0.87))||(x.device==="mobile"&&(!x.consistentScale||x.screenOccupancy<0.93||!x.fullPhoneVisible||!x.phoneCentered||!x.aligned)));
  console.log("QA TOTAL",results.length,"FAILURES",failures.length);
  if(failures.length){console.error(JSON.stringify(failures.map(x=>({width:x.width,height:x.height,category:x.category,variant:x.variant,fit:x.fit,horizontal:x.horizontal,controlsVisible:x.controlsVisible,captionVisible:x.captionVisible,frame:x.frame,controls:x.controls,caption:x.caption})),null,2));process.exitCode=1}
 })().catch(e=>{console.error(e);process.exitCode=1});
