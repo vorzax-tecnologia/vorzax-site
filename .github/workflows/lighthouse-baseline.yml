@@ -27,11 +27,15 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: public-lighthouse-test-key
+          # Habilita a politica de indexacao equivalente ao site oficial apenas no CI.
+          VERCEL_ENV: production
         run: npm run build
       - name: Iniciar servidor da compilacao
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: public-lighthouse-test-key
+          # Habilita a politica de indexacao equivalente ao site oficial apenas no CI.
+          VERCEL_ENV: production
         run: |
           npm run start -- --hostname 127.0.0.1 --port 3000 > /tmp/vorzax-lighthouse.log 2>&1 &
           for i in $(seq 1 60); do
