@@ -37,7 +37,7 @@ export function BusinessShell({ children, active }: {children: ReactNode; active
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-start justify-between gap-6 px-5 py-9 text-[12px] text-[#9ebbd1] sm:px-8">
           <div>
             <p className="font-semibold text-white">Vorzax Tecnologia</p>
-            <p className="mt-2">Atendimento online a partir de Minas Gerais, Brasil.</p>
+            <p className="mt-2">Atendimento online para todo o Brasil.</p>
             <p className="mt-1">Soluções digitais mediante diagnóstico e proposta.</p>
           </div>
           <div className="flex flex-col gap-2">

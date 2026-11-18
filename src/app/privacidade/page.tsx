@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         <div className="mt-12 space-y-4 text-sm leading-7 text-[#b9cce0]">
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">1. Quem somos</h2>
-            <p className="mt-3">A Vorzax Tecnologia, com atendimento online a partir de Minas Gerais, desenvolve sistemas, automações, dashboards e experiências digitais para empresas. Para solicitações e direitos do titular, o canal de contato é contato@vorzax.com.br. Esta política refere-se aos dados de visitantes deste site; contratos de clientes com sistemas próprios exigem análise específica.</p>
+            <p className="mt-3">A Vorzax Tecnologia oferece atendimento online para todo o Brasil e desenvolve sistemas, automações, dashboards e experiências digitais para empresas. Para solicitações e direitos do titular, o canal de contato é contato@vorzax.com.br. Esta política refere-se aos dados de visitantes deste site; contratos de clientes com sistemas próprios exigem análise específica.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">

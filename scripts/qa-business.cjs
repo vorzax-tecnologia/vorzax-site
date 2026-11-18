@@ -43,6 +43,8 @@ const routes=[
       ensure(info.overflow<=3,route+" não deve ter rolagem horizontal: "+info.overflow);
       ensure(info.canonical,route+" precisa de canonical");
       ensure(info.skip,route+" precisa de link para pular o menu");
+      const nationalFooter=page.locator("footer").getByText("Atendimento online para todo o Brasil.",{exact:true});
+      ensure(await nationalFooter.count()===1,route+" precisa comunicar atendimento em todo o Brasil");
       const header=page.locator("header");
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");

@@ -46,6 +46,8 @@ function ensure(condition, message) {
       });
 
       ensure(result.headline, `Headline ausente em ${device}`);
+      ensure(await page.getByText("Minas Gerais, Brasil",{exact:true}).count()>=1,
+        "A localização Minas Gerais, Brasil deve permanecer na página inicial");
       ensure(await page.locator("header img[alt=\"Vorzax Tecnologia\"]").count()===1,"Marca deve aparecer no cabeçalho");
       ensure(result.media, `Demonstração principal ausente em ${device}`);
       ensure(await page.getByRole("heading",{name:/Respostas claras. Sem promessas vagas./}).count()===1,"FAQ comercial ausente");
