@@ -881,7 +881,7 @@ export default function Home() {
       <footer className="relative border-t border-[#163a55] bg-[#030a14]">
         <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10 xl:px-16">
           <div data-reveal="left">
-            <Logo />
+            <BrandLogo />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
               Sites, automações, dashboards, BI e sistemas sob medida para empresas.
             </p>
