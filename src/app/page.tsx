@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ReferenceLanding } from "@/components/ReferenceLanding";
 import { VideoIntro } from "@/components/VideoIntro";
-import { TechnologyInMotion } from "@/components/TechnologyInMotion";
+import { DeferredTechnologyInMotion } from "@/components/DeferredTechnologyInMotion";
 import { ConversionBridge, CommercialFAQ } from "@/components/CommercialTrust";
 import {
   useEffect,
@@ -764,7 +764,7 @@ export default function Home() {
       <ReferenceLanding onContact={openDiagnostic} />
 
 
-      <TechnologyInMotion />
+      <DeferredTechnologyInMotion />
       <ConversionBridge />
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">

@@ -19,9 +19,13 @@ function selection(isSelected: boolean) {
     : "border-[#29445e] bg-[#091c2f] text-[#a9c4dc] hover:border-[#488bad] hover:bg-[#102b45]";
 }
 
-export function TechnologyInMotion() {
-  const [category, setCategory] = useState<DemoCategory>("sites");
-  const [variant, setVariant] = useState(0);
+export function TechnologyInMotion({ initialSelection }: { initialSelection?: {slug:DemoCategory;example?:number} } = {}) {
+  const selectedCategory = initialSelection?.slug && initialSelection.slug in demoCatalog
+    ? initialSelection.slug : "sites";
+  const selectedVariant = typeof initialSelection?.example === "number" &&
+    initialSelection.example >= 0 && initialSelection.example < 3 ? initialSelection.example : 0;
+  const [category, setCategory] = useState<DemoCategory>(selectedCategory);
+  const [variant, setVariant] = useState(selectedVariant);
   const mobileViewport = useMobileReel();
   const [deviceOverride, setDeviceOverride] = useState<DemoDevice | null>(null);
   const device: DemoDevice = deviceOverride ?? (mobileViewport ? "mobile" : "desktop");

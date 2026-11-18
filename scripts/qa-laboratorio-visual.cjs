@@ -17,7 +17,7 @@ fs.mkdirSync(output,{recursive:true});
    await page.evaluate(()=>document.getElementById("tecnologia-em-acao").scrollIntoView({block:"start",behavior:"instant"}));
    const nav=page.getByRole("navigation",{name:"Categorias das demonstrações"});
    const choices=page.getByRole("combobox",{name:"Escolher exemplo no desktop"});
-   await page.waitForTimeout(450);
+   await nav.waitFor({state:"visible",timeout:30000});
    await page.locator("#tecnologia-em-acao").getByRole("button",{name:"Pausar",exact:true}).click();
    let standardScale=null;
    for(let ci=0;ci<categories.length;ci++){
