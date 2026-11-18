@@ -5,13 +5,14 @@ import { BusinessShell, SectionHeading } from "@/components/BusinessShell";
 
 export const metadata: Metadata = {
   title: "Serviços para empresas",
-  description: "Conheça os serviços da Vorzax: sites institucionais, automações, dashboards e sistemas sob medida. Escopo, entregáveis e proposta técnica.",
+  description: "Conheça os serviços da Vorzax: sites, automações, dashboards e sistemas sob medida. Atendimento online para todo o Brasil, com escopo e proposta técnica.",
   alternates: { canonical: "/servicos" }
 };
 
 export default function ServicesIndex() {
   return <BusinessShell active="servicos">
     <SectionHeading eyebrow="VORZAX / SOLUÇÕES" title="Tecnologia aplicada a problemas reais." description="Quatro frentes de desenvolvimento. Conheça o que pode ser entregue, quais limites precisam ser definidos e como solicitar uma proposta."/>
+    <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#8fd8ff]"><span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#38bdf8]" />Atendimento online para todo o Brasil</p>
     <div className="mt-10 grid gap-4 md:grid-cols-2">
       {offerings.map((offer,index)=><article key={offer.slug} className="flex flex-col rounded-[20px] border border-[#2c5677] bg-[#0a2238] p-6 sm:p-8">
         <p className="text-xs font-bold tracking-[.16em] text-[#8bd2ff]">0{index+1} / {offer.eyebrow}</p>
