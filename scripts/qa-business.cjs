@@ -47,6 +47,7 @@ const routes=[
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
       ensure((await logo.getAttribute("src"))?.includes("vorzax-logo-clean.png"),route+" usa o logotipo incorreto");
+      ensure((await logo.getAttribute("sizes"))==="(max-width: 639px) 174px, 193px",route+" imagem do logotipo não tem tamanhos responsivos");
       ensure(!(await logo.getAttribute("class"))?.includes("mix-blend-screen"),
         route+" ainda depende de mistura CSS para remover o fundo da marca");
       const siteLogo=await page.evaluate(()=>{
