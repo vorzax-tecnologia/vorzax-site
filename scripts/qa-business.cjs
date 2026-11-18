@@ -45,6 +45,10 @@ const routes=[
       ensure(info.skip,route+" precisa de link para pular o menu");
       const nationalFooter=page.locator("footer").getByText("Atendimento online para todo o Brasil.",{exact:true});
       ensure(await nationalFooter.count()===1,route+" precisa comunicar atendimento em todo o Brasil");
+      if(route==="/servicos" || route.startsWith("/servicos/") || route==="/solicitar-proposta"){
+        const nationalHighlight=page.locator("main").getByText("Atendimento online para todo o Brasil",{exact:true});
+        ensure(await nationalHighlight.count()===1,route+" precisa destacar o atendimento nacional proximo ao titulo");
+      }
       const header=page.locator("header");
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
