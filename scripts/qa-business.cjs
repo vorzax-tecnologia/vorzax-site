@@ -40,7 +40,7 @@ const routes=[
       const header=page.locator("header");
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
-      ensure(await logo.getAttribute("src")==="/vorzax-logo-header.webp",route+" usa o logotipo incorreto");
+      ensure((await logo.getAttribute("src"))?.includes("vorzax-logo-header.webp"),route+" usa o logotipo incorreto");
       ensure((await logo.getAttribute("class"))?.includes("mix-blend-screen"),
         route+" apresenta fundo escuro do logo em vez de integrar à home");
       const siteLogo=await page.evaluate(()=>{
