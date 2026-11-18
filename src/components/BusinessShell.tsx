@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export function BusinessShell({ children, active }: {children: ReactNode; active?: "servicos"|"proposta"|"processo"|"seguranca"}) {
   const nav = [
@@ -14,10 +14,10 @@ export function BusinessShell({ children, active }: {children: ReactNode; active
       <a href="#conteudo" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#d7f3ff] focus:px-4 focus:py-3 focus:text-[#04223c]">
         Ir para o conteúdo
       </a>
-      <header className="sticky top-0 z-40 border-b border-[#24445f] bg-[#051526]/95 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
-          <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial" className="inline-flex shrink-0 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7bd3ff]">
-            <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="Vorzax Tecnologia" priority className="h-auto w-[174px] sm:w-[193px]"/>
+      <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
+        <div className="relative mx-auto flex min-h-[68px] w-full max-w-[1680px] flex-wrap items-center justify-between gap-2 px-5 py-2 sm:min-h-[72px] sm:px-8 lg:px-10 xl:px-16">
+          <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial" className="inline-flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7bd3ff]">
+            <BrandLogo />
           </Link>
           <nav aria-label="Navegação de serviços" className="flex max-w-full flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-medium text-[#c6d8ea]">
             <Link href="/" aria-label="Voltar ao site principal" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#356181] bg-[#0a2741] px-3 font-semibold text-[#a7dfff] transition hover:border-[#6ac7ff] hover:bg-[#123b5b] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7bd3ff]">

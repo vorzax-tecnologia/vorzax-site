@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import { ReferenceLanding } from "@/components/ReferenceLanding";
 import { VideoIntro } from "@/components/VideoIntro";
 import { TechnologyInMotion } from "@/components/TechnologyInMotion";
@@ -40,10 +40,6 @@ const process = [
   },
 ];
 
-function Logo() {
-  // Original mark supplied by Vorzax. Never redraw as text or a generated symbol.
-  return <Image src="/vorzax-logo-header.webp" alt="Vorzax Tecnologia" width={539} height={165} className="h-auto w-[174px] sm:w-[193px]" priority />;
-}
 function ArrowIcon() {
   return (
     <svg
@@ -677,7 +673,7 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
         <div className="relative mx-auto flex h-[68px] max-w-[1680px] items-center justify-between px-5 sm:h-[72px] sm:px-8 lg:px-10 xl:px-16">
           <a href="#inicio" aria-label="Vorzax - início" onClick={() => setMenuOpen(false)}>
-            <Logo />
+            <BrandLogo />
           </a>
 
           <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:flex xl:gap-7">

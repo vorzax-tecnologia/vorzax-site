@@ -41,6 +41,18 @@ const routes=[
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
       ensure(await logo.getAttribute("src")==="/vorzax-logo-header.webp",route+" usa o logotipo incorreto");
+      ensure((await logo.getAttribute("class"))?.includes("mix-blend-screen"),
+        route+" apresenta fundo escuro do logo em vez de integrar à home");
+      const siteLogo=await page.evaluate(()=>{
+        const img=document.querySelector('header img[alt="Vorzax Tecnologia"]');
+        const hdr=document.querySelector("header");
+        return { source:img?.getAttribute("src"), blend:img?getComputedStyle(img).mixBlendMode:null,
+          headerBackground:hdr?getComputedStyle(hdr).backgroundColor:null,
+          imageWidth:img?.getBoundingClientRect().width };
+      });
+      ensure(siteLogo.blend==="screen",route+" efeito do logo não está uniforme");
+      ensure(Math.abs((siteLogo.imageWidth??0)-(width<640?174:193))<2,
+        route+" tamanho do logo difere do padrão da home: "+JSON.stringify(siteLogo));
       const returnLink=header.getByRole("link",{name:"Voltar ao site principal"});
       ensure(await returnLink.count()===1,route+" não exibe volta ao site principal");
       ensure(await returnLink.getAttribute("href")==="/",route+" possui link de retorno inválido");
