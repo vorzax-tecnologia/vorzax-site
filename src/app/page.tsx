@@ -673,6 +673,7 @@ export default function Home() {
   </button>
 </div>
 
+      <a href="#inicio" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:not-sr-only focus:rounded-lg focus:bg-[#e3f5ff] focus:px-4 focus:py-3 focus:text-[#06253f]">Pular para o conteúdo</a>
       <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
         <div className="relative mx-auto flex h-[68px] max-w-[1680px] items-center justify-between px-5 sm:h-[72px] sm:px-8 lg:px-10 xl:px-16">
           <a href="#inicio" aria-label="Vorzax - início" onClick={() => setMenuOpen(false)}>
@@ -681,32 +682,21 @@ export default function Home() {
 
           <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:flex xl:gap-7">
             <a className="transition hover:text-white" href="#inicio">Início</a>
-            <a className="transition hover:text-white" href="#solucoes">Soluções</a>
-            <a className="transition hover:text-white" href="#processo">Como funciona</a>
+            <Link className="transition hover:text-white" href="/servicos">Serviços</Link>
+            <Link className="transition hover:text-white" href="/como-trabalhamos">Como trabalhamos</Link>
             <a className="transition hover:text-white" href="#tecnologia-em-acao">Demonstrações</a>
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
-            <Link className="transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
+            <Link className="transition hover:text-sky-300" href="/solicitar-proposta">Proposta técnica</Link>
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex"
-            >
-              Solicitar orçamento
-            </a>
-
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden"
-            >
-              Orçamento
-            </a>
+            <Link href="/solicitar-proposta" className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex">
+              Solicitar proposta
+            </Link>
+            <Link href="/solicitar-proposta" className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden">
+              Proposta
+            </Link>
 
             <button
               type="button"
@@ -740,12 +730,13 @@ export default function Home() {
             >
               {[
                 ["Início", "#inicio"],
-                ["Soluções", "#solucoes"],
-                ["Como funciona", "#processo"],
+                ["Serviços", "/servicos"],
+                ["Como trabalhamos", "/como-trabalhamos"],
                 ["Demonstrações", "#tecnologia-em-acao"],
                 ["Sobre", "#sobre"],
                 ["Contato", "#contato"],
-                ["Plataforma", "/plataforma"],
+                ["Segurança e dados", "/seguranca"],
+                ["Proposta técnica", "/solicitar-proposta"],
               ].map(([label, href]) => (
                 <a
                   key={href}
@@ -859,7 +850,7 @@ export default function Home() {
               <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SEU PRÓXIMO PROJETO</p>
               <h2 className="vx-heading mt-6 max-w-[650px]">O próximo passo da sua empresa <span className="vx-gradient-text">pode começar aqui.</span></h2>
               <p className="mt-6 max-w-xl text-sm leading-7 text-[#b0c3d6] sm:text-base">Conte o que você precisa desenvolver ou melhorar. Vamos entender a demanda e avaliar uma proposta adequada ao seu momento.</p>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-primary-button mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Conversar sobre meu projeto <ArrowIcon /></a>
+              <Link href="/solicitar-proposta" className="vx-primary-button mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Solicitar proposta técnica <ArrowIcon /></Link>
               <p className="mt-5 text-xs text-[#83a1bd]">Primeiro contato sem compromisso de contratação.</p>
             </div>
             <div className="relative z-10 border-t border-[#275071] bg-[#07182b]/85 p-5 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
@@ -868,6 +859,11 @@ export default function Home() {
                 <h3 className="mt-6 text-[22px] font-semibold tracking-[-.04em] text-white">Vamos entender sua necessidade.</h3>
                 <p className="mt-2 text-sm leading-6 text-[#97b1c7]">Escolha por onde prefere iniciar a conversa.</p>
                 <div className="mt-7 grid gap-3">
+                  <Link href="/solicitar-proposta" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#4988b3] bg-[#0d3351] p-4 transition hover:bg-[#145179]">
+                    <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#185d9c] text-2xl text-white">↗</span>
+                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#9cdfff]">CONTATO CORPORATIVO</span><span className="mt-1 block text-sm font-semibold text-white">Solicitar proposta por e-mail</span></span>
+                    <ArrowIcon />
+                  </Link>
                   <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#2a536d] bg-[#0c2b3d] p-4 transition">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0d5945] text-[#a5ffe1]"><WhatsAppIcon /></span>
                     <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#8abed3]">WHATSAPP</span><span className="mt-1 block text-sm font-semibold text-white">{CONTACT_PHONE}</span></span>
@@ -899,10 +895,13 @@ export default function Home() {
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-400">NAVEGAÇÃO</p>
             <div className="mt-5 space-y-3 text-sm text-slate-500">
               <a className="block transition hover:text-white" href="#inicio">Início</a>
-              <a className="block transition hover:text-white" href="#solucoes">Soluções</a>
+              <Link className="block transition hover:text-white" href="/servicos">Serviços e escopos</Link>
               <a className="block transition hover:text-white" href="#sobre">Sobre</a>
               <button type="button" onClick={() => window.dispatchEvent(new Event("vorzax:replay-intro"))} className="block text-left text-[#9bd5fa] transition hover:text-white">Rever apresentação ↗</button>
-              <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
+              <Link className="block transition hover:text-sky-300" href="/como-trabalhamos">Como trabalhamos</Link>
+              <Link className="block transition hover:text-sky-300" href="/seguranca">Segurança e dados</Link>
+              <Link className="block transition hover:text-sky-300" href="/solicitar-proposta">Solicitar proposta técnica</Link>
+              <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma conceitual</Link>
             </div>
           </div>
 

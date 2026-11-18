@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionFilm } from "@/components/MotionFilm";
+import Link from "next/link";
 
 const WHATSAPP_URL = "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa.";
 
@@ -39,6 +40,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
                 Conversar sobre meu projeto <span aria-hidden="true">↗</span>
               </a>
               <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
+              <Link href="/solicitar-proposta" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f] px-5 py-3 text-sm font-semibold text-[#95d8ff] hover:bg-[#123653]">Solicitar proposta técnica ↗</Link>
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
           </div>
@@ -81,6 +83,12 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
                 </div>
               </a>
             ))}
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2" aria-label="Ver detalhes de cada serviço">
+            <Link href="/servicos/sites" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: sites ↗</Link>
+            <Link href="/servicos/automacoes" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: automações ↗</Link>
+            <Link href="/servicos/dashboards-bi" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: dashboards ↗</Link>
+            <Link href="/servicos/sistemas-sob-medida" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: sistemas ↗</Link>
           </div>
           <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as soluções →</p>
           <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Explore 15 interfaces demonstrativas em desktop e mobile. Os exemplos não são projetos de clientes; a categoria de IA contém simulações, não assistentes ativos.</p>

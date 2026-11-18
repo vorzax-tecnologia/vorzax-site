@@ -21,17 +21,17 @@ export default function PrivacyPage() {
       <article className="relative mx-auto max-w-[900px] px-5 py-20 sm:px-8 sm:py-28">
         <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> VORZAX / PRIVACIDADE</p>
         <h1 className="vx-heading mt-6">Política de Privacidade</h1>
-        <p className="mt-5 text-sm leading-7 text-[#9ab2c9]">Última atualização: 30 de outubro de 2026</p>
+        <p className="mt-5 text-sm leading-7 text-[#9ab2c9]">Última atualização: 17 de novembro de 2026</p>
 
         <div className="mt-12 space-y-4 text-sm leading-7 text-[#b9cce0]">
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">1. Quem somos</h2>
-            <p className="mt-3">A Vorzax Tecnologia, com atendimento online a partir de Minas Gerais, desenvolve sistemas, automações, dashboards e experiências digitais para empresas. Esta política explica como tratamos os dados enviados pelo site.</p>
+            <p className="mt-3">A Vorzax Tecnologia, com atendimento online a partir de Minas Gerais, desenvolve sistemas, automações, dashboards e experiências digitais para empresas. Para solicitações e direitos do titular, o canal de contato é contato@vorzax.com.br. Esta política refere-se aos dados de visitantes deste site; contratos de clientes com sistemas próprios exigem análise específica.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">2. Dados que recebemos</h2>
-            <p className="mt-3">Quando você solicita um diagnóstico, podemos receber nome, telefone, e-mail, empresa, segmento, solução desejada, objetivo e prazo. Também podemos receber dados técnicos básicos necessários para segurança e funcionamento do site.</p>
+            <p className="mt-3">Quando você prepara um contato, podem ser incluídos nome, telefone, e-mail, empresa, segmento, serviço desejado, objetivo e prazo. A página de proposta prepara uma mensagem no próprio navegador para seu aplicativo de e-mail. Também podem ser tratados dados técnicos mínimos de acesso e funcionamento conforme a infraestrutura de hospedagem.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">4. Compartilhamento e armazenamento</h2>
-            <p className="mt-3">Quando você confirma o envio da mensagem no WhatsApp, as informações fornecidas são recebidas para atendimento e seguem as condições de uso dessa plataforma. O formulário de contato deste site não grava automaticamente seus dados em um banco de leads. Podemos manter os registros das conversas necessários ao atendimento, com acesso restrito e pelo tempo adequado à finalidade.</p>
+            <p className="mt-3">Quando você confirma o envio no WhatsApp ou no seu aplicativo de e-mail, as informações seguem o canal escolhido e as regras da respectiva plataforma. Os formulários públicos do site não gravam automaticamente uma base de leads. Podemos conservar registros de conversas e propostas pelo período necessário ao atendimento, às obrigações aplicáveis e à defesa de direitos, observada a necessidade de revisão periódica e os pedidos legais dos titulares. A duração específica depende da finalidade e do contexto contratual.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
@@ -50,7 +50,11 @@ export default function PrivacyPage() {
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
-            <h2 className="text-xl font-semibold tracking-[-.03em] text-white">6. Atualizações</h2>
+            <h2 className="text-xl font-semibold tracking-[-.03em] text-white">6. Canais externos e solicitações</h2>
+            <p className="mt-3">Ao usar WhatsApp, e-mail ou Instagram, o visitante também fica sujeito às condições dessas plataformas. Evite enviar senhas, informações de terceiros ou bases internas no primeiro contato. Demandas de acesso, correção ou eliminação de dados podem ser encaminhadas a contato@vorzax.com.br, com verificação de legitimidade quando necessário.</p>
+          </section>
+          <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
+            <h2 className="text-xl font-semibold tracking-[-.03em] text-white">7. Atualizações</h2>
             <p className="mt-3">Podemos atualizar esta política para refletir mudanças no site, nos serviços ou na legislação. A versão vigente estará sempre disponível nesta página.</p>
           </section>
         </div>

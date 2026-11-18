@@ -58,6 +58,7 @@ export const metadata: Metadata = {
     siteName,
     title,
     description,
+    images: [{url:"/vorzax-logo-oficial.png",width:604,height:172,alt:"Vorzax Tecnologia"}],
   },
   twitter: {
     card: "summary_large_image",
