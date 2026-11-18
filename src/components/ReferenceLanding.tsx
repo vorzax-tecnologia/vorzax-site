@@ -84,6 +84,28 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
             ))}
           </div>
+          <div className="mt-7">
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+              <h3 className="text-[18px] font-semibold tracking-tight text-white">Três exemplos explicados</h3>
+              <p className="text-[11px] text-[#9bb9cf]">Problema ilustrativo → proposta de solução → benefício esperado, sem resultados medidos.</p>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {[
+                {title:"Site para climatização",slug:"sites",problem:"Serviços técnicos pouco claros para o comprador B2B.",solution:"Páginas organizadas por serviço e contato para orçamento.",goal:"Facilitar a descoberta e a solicitação de atendimento."},
+                {title:"Fluxo de captação de leads",slug:"automacao",problem:"Solicitações chegam sem uma sequência padronizada.",solution:"Etapas simuladas de entrada, qualificação e encaminhamento.",goal:"Reduzir o retrabalho na passagem de informações."},
+                {title:"Dashboard comercial",slug:"bi",problem:"Indicadores de vendas dispersos em relatórios.",solution:"Painel demonstrativo de origem, funil e oportunidades.",goal:"Apoiar a análise do processo comercial."}
+              ].map((item,index)=>(
+                <a key={item.slug} href="#tecnologia-em-acao" onClick={()=>selectDemo(item.slug)} className="group flex min-h-[180px] flex-col rounded-xl border border-[#284f70] bg-[#092238] px-4 py-4 transition hover:border-[#68bdec] hover:bg-[#0e304e]">
+                  <span className="text-[10px] font-bold tracking-[.15em] text-[#79caff]">EXEMPLO 0{index+1}</span>
+                  <strong className="mt-2 text-[15px] text-white">{item.title}</strong>
+                  <p className="mt-2 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Problema:</b> {item.problem}</p>
+                  <p className="mt-1 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Solução proposta:</b> {item.solution}</p>
+                  <p className="mt-1 flex-1 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Objetivo:</b> {item.goal}</p>
+                  <span className="mt-3 text-[11px] font-semibold text-[#8ad8ff] group-hover:text-white">Explorar interface ilustrativa ↗</span>
+                </a>
+              ))}
+            </div>
+          </div>
           <div className="mt-5 flex flex-wrap gap-2" aria-label="Ver detalhes de cada serviço">
             <Link href="/servicos/sites" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: sites ↗</Link>
             <Link href="/servicos/automacoes" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: automações ↗</Link>
