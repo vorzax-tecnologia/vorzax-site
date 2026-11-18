@@ -36,13 +36,16 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               Desenvolvemos sites para apresentar seu negócio, automações para reduzir tarefas repetitivas, dashboards para acompanhar indicadores e sistemas sob medida para organizar sua operação.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
-                Conversar sobre meu projeto <span aria-hidden="true">↗</span>
-              </a>
+              <Link href="/solicitar-proposta" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                Solicitar avaliação do meu projeto <span aria-hidden="true">↗</span>
+              </Link>
               <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
-              <Link href="/solicitar-proposta" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f] px-5 py-3 text-sm font-semibold text-[#95d8ff] hover:bg-[#123653]">Solicitar proposta técnica ↗</Link>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#a6bfd2]">
+              <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#89d6ff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar no WhatsApp? ↗</a>
+              <button type="button" onClick={onContact} className="font-semibold text-[#89d6ff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Enviar briefing pelo WhatsApp ↗</button>
+            </div>
           </div>
 
           <div className="vx-hero-media order-2 min-w-0 lg:order-2">

@@ -5,6 +5,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { ReferenceLanding } from "@/components/ReferenceLanding";
 import { VideoIntro } from "@/components/VideoIntro";
 import { TechnologyInMotion } from "@/components/TechnologyInMotion";
+import { ConversionBridge, CommercialFAQ } from "@/components/CommercialTrust";
 import {
   useEffect,
   useRef,
@@ -764,6 +765,7 @@ export default function Home() {
 
 
       <TechnologyInMotion />
+      <ConversionBridge />
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
         <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
@@ -792,7 +794,7 @@ export default function Home() {
           </div>
           <div className="mt-6 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
             <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></a>
+            <Link href="/solicitar-proposta" className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Solicitar avaliação do projeto <ArrowIcon /></Link>
           </div>
         </div>
       </section>
@@ -837,6 +839,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <CommercialFAQ />
 
       <section id="contato" className="relative overflow-hidden bg-[#030b17]">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0563bb]/10 blur-[150px]" aria-hidden="true" />
@@ -857,7 +860,7 @@ export default function Home() {
                 <div className="mt-7 grid gap-3">
                   <Link href="/solicitar-proposta" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#4988b3] bg-[#0d3351] p-4 transition hover:bg-[#145179]">
                     <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#185d9c] text-2xl text-white">↗</span>
-                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#9cdfff]">CONTATO CORPORATIVO</span><span className="mt-1 block text-sm font-semibold text-white">Solicitar proposta por e-mail</span></span>
+                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#9cdfff]">CONTATO CORPORATIVO</span><span className="mt-1 block text-sm font-semibold text-white">Solicitar avaliação estruturada</span></span>
                     <ArrowIcon />
                   </Link>
                   <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#2a536d] bg-[#0c2b3d] p-4 transition">

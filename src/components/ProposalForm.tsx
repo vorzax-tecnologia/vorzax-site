@@ -51,6 +51,8 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
     "Aguardo orientações para os próximos passos."
   ].join("\n");
   const mailto="mailto:contato@vorzax.com.br?subject="+encodeURIComponent("Solicitação de proposta técnica - "+(company||name||"novo contato"))+"&body="+encodeURIComponent(text);
+  const whatsapp="https://wa.me/5531990681495?text="+encodeURIComponent(text);
+  const quickWhatsapp="https://wa.me/5531990681495?text="+encodeURIComponent("Olá, Vorzax! Vim do site e quero avaliar uma solução de "+serviceName.toLowerCase()+". Podemos conversar?");
 
   async function submit(e:FormEvent<HTMLFormElement>){
     e.preventDefault();
@@ -96,8 +98,8 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
   return <BusinessShell active="proposta">
     <SectionHeading
       eyebrow="VORZAX / CONTATO CORPORATIVO"
-      title="Vamos conversar sobre o seu projeto."
-      description="Descreva sua necessidade e escolha a melhor forma de contato. A Vorzax avalia o escopo antes de apresentar condições e prazos."
+      title="Seu próximo projeto começa com uma conversa."
+      description="Conte o que precisa resolver. Você escolhe como encaminhar sua solicitação, e nós avaliamos o escopo antes de apresentar uma proposta."
     />
     <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
       <div className="rounded-2xl border border-[#315f7e] bg-[#0a253b] p-5 sm:p-8">
@@ -128,17 +130,18 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
           </div>
           <label className="flex items-start gap-3 text-[12px] leading-6 text-[#c2d6e6]"><input type="checkbox" required checked={consent} onChange={e=>setConsent(e.target.checked)} className="mt-1.5 h-4 w-4 accent-[#3ca6e9]"/><span>Li a <Link className="font-semibold text-[#8dd8ff] underline" href="/privacidade">Política de Privacidade</Link> e concordo com o envio dos dados informados para atendimento desta solicitação.</span></label>
           <button type="submit" disabled={sending} className="min-h-12 w-full rounded-lg bg-[#1478ca] px-6 text-sm font-semibold text-white transition hover:bg-[#248fe2] disabled:cursor-wait disabled:opacity-60 sm:w-auto">
-            {sending?"Enviando solicitação...":delivery==="direct"?"Enviar solicitação de proposta →":"Preparar e-mail de proposta →"}
+            {sending?"Enviando solicitação...":delivery==="direct"?"Enviar solicitação de proposta →":"Preparar mensagem de contato →"}
           </button>
           <p className="text-[11px] leading-5 text-[#95b7cf]">{delivery==="direct"
             ?"Envio direto protegido ao e-mail da Vorzax; uma confirmação será exibida após o provedor aceitar o pedido."
-            :"O envio direto ainda não está disponível. Você poderá enviar pelo seu aplicativo de e-mail; nenhuma mensagem é enviada automaticamente."}</p>
+            :"Escolha entre WhatsApp e e-mail na próxima etapa. Nada será enviado sem sua confirmação."}</p>
         </form> : <div aria-live="polite">
           <h2 className="text-2xl font-semibold text-white">Sua mensagem está preparada.</h2>
           {error&&<p role="alert" className="mt-4 rounded-lg border border-[#ad6d48] bg-[#40271e] px-4 py-3 text-sm text-[#f9ddc9]">{error}</p>}
-          <p className="mt-3 text-sm leading-7 text-[#bad4e8]">Nenhum envio foi confirmado por este site. Abra seu aplicativo de e-mail e <strong className="text-white">confirme o envio</strong>. Se o aplicativo não abrir, copie a mensagem.</p>
+          <p className="mt-3 text-sm leading-7 text-[#bad4e8]">Seu briefing está pronto, mas <strong className="text-white">ainda não foi enviado</strong>. Escolha o canal para abrir a conversa e confirme o envio no aplicativo selecionado.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href={mailto} className="inline-flex min-h-12 items-center rounded-lg bg-[#1478ca] px-5 text-sm font-semibold text-white hover:bg-[#238cda]">Abrir aplicativo de e-mail →</a>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center rounded-lg bg-[#086e56] px-5 text-sm font-semibold text-white hover:bg-[#0c8668]">Continuar no WhatsApp ↗</a>
+            <a href={mailto} className="inline-flex min-h-12 items-center rounded-lg border border-[#70add2] px-5 text-sm font-semibold text-[#cae8ff] hover:bg-[#153f5a]">Abrir aplicativo de e-mail ↗</a>
             <button type="button" onClick={copy} className="min-h-12 rounded-lg border border-[#70add2] px-5 text-sm font-semibold text-[#c7e8ff] hover:bg-[#153f5a]">Copiar mensagem</button>
             <button type="button" onClick={()=>setPrepared(false)} className="min-h-12 px-3 text-sm font-semibold text-[#94cbed] underline">Editar dados</button>
           </div>
@@ -155,7 +158,8 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
         <div className="rounded-xl border border-[#2f5977] bg-[#09253b] p-5 text-sm leading-7 text-[#bbd4e6]">
           <h2 className="text-lg font-semibold text-white">Próximo passo</h2>
           <p className="mt-2">Após receber a solicitação, a Vorzax poderá avaliar o contexto, pedir informações adicionais e elaborar uma proposta. Prazos, preço e condições dependem do escopo.</p>
-          <p className="mt-3">Prefere outro canal? <a className="text-[#9bdeff] underline" href="https://wa.me/5531990681495" target="_blank" rel="noopener noreferrer">Conversar no WhatsApp</a>.</p>
+          <a href={quickWhatsapp} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#247d72] bg-[#0b3b39] px-4 text-[13px] font-semibold text-[#b9f7e4] transition hover:bg-[#11554c]">Iniciar conversa rápida pelo WhatsApp ↗</a>
+          <p className="mt-2 text-[11px] leading-5 text-[#9ebed2]">Atalho sem formulário. Sua mensagem só será enviada após confirmar no WhatsApp.</p>
         </div>
       </aside>
     </div>

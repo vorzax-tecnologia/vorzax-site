@@ -85,8 +85,11 @@ const routes=[
       await page.close();
       continue;
     }
-    await form.getByRole("button",{name:/Preparar e-mail/}).click();
+    await form.getByRole("button",{name:/Preparar mensagem de contato/}).click();
     await page.getByRole("heading",{name:/Sua mensagem está preparada/}).waitFor();
+    const whatsapp=await page.getByRole("link",{name:/Continuar no WhatsApp/}).getAttribute("href");
+    ensure(whatsapp?.startsWith("https://wa.me/5531990681495?text="),"Não preparou mensagem de WhatsApp");
+    ensure(whatsapp.includes("Pessoa%20de%20exemplo"),"WhatsApp não preservou o briefing");
     const mail=await page.getByRole("link",{name:/Abrir aplicativo de e-mail/}).getAttribute("href");
     ensure(mail?.startsWith("mailto:contato@vorzax.com.br?"),"Não preparou e-mail para contato corporativo");
     ensure(mail.includes("Sites%20e%20landing"),"Serviço da URL não foi preservado");

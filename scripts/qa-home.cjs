@@ -48,6 +48,12 @@ function ensure(condition, message) {
       ensure(result.headline, `Headline ausente em ${device}`);
       ensure(await page.locator("header img[alt=\"Vorzax Tecnologia\"]").count()===1,"Marca deve aparecer no cabeçalho");
       ensure(result.media, `Demonstração principal ausente em ${device}`);
+      ensure(await page.getByRole("heading",{name:/Respostas claras. Sem promessas vagas./}).count()===1,"FAQ comercial ausente");
+      ensure(await page.getByRole("heading",{name:/Gostou de uma ideia/}).count()===1,"Ponte de conversão ausente");
+      ensure(await page.locator("#inicio").getByRole("link",{name:/Solicitar avaliação do meu projeto/}).count()===1,
+        "CTA principal da home precisa apontar para avaliação de projeto");
+      ensure(await page.locator("#inicio").getByRole("link",{name:/Solicitar avaliação do meu projeto/}).getAttribute("href")==="/solicitar-proposta",
+        "CTA comercial principal com destino incorreto");
       ensure(result.overflow <= 3, `Rolagem horizontal indevida em ${device}: ${result.overflow}px`);
       ensure(result.missingAnchors.length === 0, `Âncoras sem destino: ${result.missingAnchors.join(", ")}`);
 
