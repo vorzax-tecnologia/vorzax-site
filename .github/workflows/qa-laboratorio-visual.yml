@@ -8,6 +8,11 @@ on:
       - main
   workflow_dispatch:
 
+# Só validar o commit mais recente da PR, evitando filas e custos desnecessários.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
