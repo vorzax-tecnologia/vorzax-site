@@ -102,7 +102,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[2%] pb-[30px] pt-[2%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
-            <Image src="/vorzax-logo-clean.png" width={539} height={165} priority alt="Vorzax Tecnologia" className="h-auto w-[52cqw]" />
+            <Image src="/vorzax-logo-clean.png" width={539} height={165} priority sizes="(max-width: 639px) 200px, (max-width: 1023px) 340px, 420px" alt="Vorzax Tecnologia" className="h-auto w-[52cqw]" />
             <p className="mt-3 text-[1.6cqw] font-bold uppercase tracking-[.15em] text-[#83d0ff]">{current.eyebrow}</p>
             <p className="mt-4 text-[5cqw] font-semibold leading-[1.05] tracking-[-.06em]">{current.headline} <span className="text-[#70c8ff]">{current.highlight}</span></p>
             <p className="mt-3 hidden text-[1.8cqw] text-[#a5c2da] sm:block">{current.caption}</p>
@@ -110,7 +110,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         ) : (
           <div className="flex h-full w-full min-h-0 flex-col gap-[0.8%]">
             <div className="flex h-[11%] min-h-0 shrink-0 items-center gap-[2.2%]">
-              <Image src="/vorzax-logo-clean.png" width={539} height={165} alt="" className="h-auto w-[20%] max-w-[190px] shrink-0" />
+              <Image src="/vorzax-logo-clean.png" width={539} height={165} sizes="(max-width: 639px) 100px, (max-width: 1023px) 140px, 190px" alt="" className="h-auto w-[20%] max-w-[190px] shrink-0" />
               <div className="min-w-0">
                 <p className="text-[clamp(8px,1.6cqw,14px)] font-bold uppercase tracking-[.10em] text-[#82d1ff]">{current.eyebrow}</p>
                 <p className="mt-1 text-[clamp(11px,2.8cqw,24px)] font-semibold leading-tight tracking-[-.045em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>

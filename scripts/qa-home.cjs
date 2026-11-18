@@ -46,6 +46,16 @@ function ensure(condition, message) {
       });
 
       ensure(result.headline, `Headline ausente em ${device}`);
+      // O logo do filme tem sua própria largura de exibição e não deve
+      // fazer o celular baixar a versão grande de 1080px.
+      if (device==="mobile") {
+        const oversizedLogo=await page.evaluate(() =>
+          performance.getEntriesByType("resource").some(resource =>
+            resource.name.includes("vorzax-logo-clean.png") &&
+            /(?:\?|&)w=1080(?:&|$)/.test(resource.name)
+          ));
+        ensure(!oversizedLogo,"Logo do filme requer largura excessiva no celular");
+      }
       ensure(await page.getByText("Minas Gerais, Brasil",{exact:true}).count()>=1,
         "A localização Minas Gerais, Brasil deve permanecer na página inicial");
       ensure(await page.locator("header img[alt=\"Vorzax Tecnologia\"]").count()===1,"Marca deve aparecer no cabeçalho");

@@ -80,6 +80,7 @@ const organizationJsonLd = {
   name: siteName,
   alternateName: "Vorzax",
   url: siteUrl,
+  areaServed: { "@type": "Country", name: "Brasil" },
   logo: {
     "@type": "ImageObject",
     url: `${siteUrl}/vorzax-logo-oficial.png`,
