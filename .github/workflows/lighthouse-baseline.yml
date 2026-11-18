@@ -25,9 +25,10 @@ jobs:
       - name: Instalar dependencias
         run: |
           npm ci --no-audit --no-fund
-          npm install --no-save --package-lock=false lighthouse@12 playwright@1.56.0
-          npx playwright install --with-deps chromium
-          echo "CHROME_PATH=$(node -p "require('playwright').chromium.executablePath()")" >> "$GITHUB_ENV"
+          npm install --no-save --package-lock=false lighthouse@12
+          # Google Chrome já é fornecido pelo runner ubuntu-24.04.
+          command -v google-chrome
+          echo "CHROME_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
       - name: Compilar site no modo de producao
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
