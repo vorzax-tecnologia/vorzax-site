@@ -131,8 +131,10 @@ function expect(ok, message, data) {
             }
           }
           if (width < 375) {
-            expect(!Array.from(document.querySelectorAll("header a")).some(a =>
-              a.textContent.trim() === "Proposta" && a.getBoundingClientRect().width > 0),
+            const compactProposalVisible = await page.evaluate(() =>
+              Array.from(document.querySelectorAll("header a")).some(a =>
+                a.textContent.trim() === "Proposta" && a.getBoundingClientRect().width > 0));
+            expect(!compactProposalVisible,
               "Botão secundário sobrepondo o menu no celular compacto", info);
           }
         } else {
