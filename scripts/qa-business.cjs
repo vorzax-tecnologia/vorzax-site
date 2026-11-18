@@ -71,10 +71,20 @@ const routes=[
     await page.goto(BASE+"/solicitar-proposta?servico=sites",{waitUntil:"domcontentloaded"});
     const form=page.getByRole("form",{name:"Preparar solicitação de proposta"});
     await page.waitForFunction(()=>document.querySelector('form[aria-label="Preparar solicitação de proposta"]')?.getAttribute("data-vx-proposal-hydrated")==="true",{timeout:12000});
+    const delivery=(await page.request.get(BASE+"/api/contato"));
+    ensure(delivery.status()===200,"Consulta ao canal de contato indisponível");
+    const {direct}=await delivery.json();
+    ensure(typeof direct==="boolean","Estado de entrega não identificado");
     await form.getByLabel(/Seu nome/).fill("Pessoa de exemplo");
     await form.getByLabel(/E-mail para resposta/).fill("comprador@example.com");
     await form.getByLabel(/Problema, necessidade/).fill("Precisamos apresentar nossos serviços com clareza.");
     await form.getByRole("checkbox").check();
+    if(direct){
+      // Nunca dispare e-mails reais nos testes automatizados.
+      console.log("QA PROPOSAL",viewportName,"Envio direto configurado; teste de envio real não executado");
+      await page.close();
+      continue;
+    }
     await form.getByRole("button",{name:/Preparar e-mail/}).click();
     await page.getByRole("heading",{name:/Sua mensagem está preparada/}).waitFor();
     const mail=await page.getByRole("link",{name:/Abrir aplicativo de e-mail/}).getAttribute("href");
@@ -83,6 +93,8 @@ const routes=[
     ensure((await page.getByText("Nenhum dado foi enviado por este site.").count())===0
         || await page.getByRole("heading",{name:/Sua mensagem está preparada/}).isVisible(),
         "Confirmação enganosa");
+    const post=await page.request.post(BASE+"/api/contato",{data:{name:"Teste",email:"teste@example.com",objective:"Não enviar, apenas testar indisponibilidade",service:"site",company:"",deadline:"",website:"",consent:true},headers:{"Origin":BASE}});
+    ensure(post.status()===503,"Canal sem credenciais precisa rejeitar envios: "+post.status());
     ensure(errors.length===0,"Erros JS em "+viewportName+": "+errors.join("; "));
     console.log("QA PROPOSAL",viewportName,"OK");
     await page.close();

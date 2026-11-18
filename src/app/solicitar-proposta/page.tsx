@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ProposalForm } from "@/components/ProposalForm";
 export const metadata: Metadata = {
   title: "Solicitar proposta técnica",
-  description: "Prepare uma solicitação de proposta para sites, automações, BI ou sistemas sob medida e envie por e-mail à Vorzax Tecnologia.",
+  description: "Solicite uma proposta técnica para sites, automações, BI e sistemas sob medida. Contato empresarial organizado pela Vorzax Tecnologia.",
   alternates: { canonical: "/solicitar-proposta" }
 };
 export default async function ProposalPage({ searchParams }: { searchParams: Promise<{servico?:string}> }) {

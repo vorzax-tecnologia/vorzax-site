@@ -31,7 +31,7 @@ export default function PrivacyPage() {
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">2. Dados que recebemos</h2>
-            <p className="mt-3">Quando você prepara um contato, podem ser incluídos nome, telefone, e-mail, empresa, segmento, serviço desejado, objetivo e prazo. A página de proposta prepara uma mensagem no próprio navegador para seu aplicativo de e-mail. Também podem ser tratados dados técnicos mínimos de acesso e funcionamento conforme a infraestrutura de hospedagem.</p>
+            <p className="mt-3">Quando você prepara um contato, podem ser incluídos nome, telefone, e-mail, empresa, segmento, serviço desejado, objetivo e prazo. A página de proposta prepara uma mensagem no próprio navegador para seu aplicativo de e-mail. Quando o envio direto estiver habilitado, a solicitação será transmitida ao serviço de e-mail transacional utilizado pela Vorzax, exclusivamente para encaminhar seu contato. Também podem ser tratados dados técnicos mínimos de acesso e funcionamento conforme a infraestrutura de hospedagem.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
             <h2 className="text-xl font-semibold tracking-[-.03em] text-white">4. Compartilhamento e armazenamento</h2>
-            <p className="mt-3">Quando você confirma o envio no WhatsApp ou no seu aplicativo de e-mail, as informações seguem o canal escolhido e as regras da respectiva plataforma. Os formulários públicos do site não gravam automaticamente uma base de leads. Podemos conservar registros de conversas e propostas pelo período necessário ao atendimento, às obrigações aplicáveis e à defesa de direitos, observada a necessidade de revisão periódica e os pedidos legais dos titulares. A duração específica depende da finalidade e do contexto contratual.</p>
+            <p className="mt-3">Quando você confirma o envio no WhatsApp ou no seu aplicativo de e-mail, as informações seguem o canal escolhido e as regras da respectiva plataforma. Os formulários públicos do site não gravam automaticamente uma base de leads. Quando o envio direto estiver habilitado, o provedor transacional poderá manter registros técnicos de entrega conforme suas políticas e responsabilidades aplicáveis. Podemos conservar registros de conversas e propostas pelo período necessário ao atendimento, às obrigações aplicáveis e à defesa de direitos, observada a necessidade de revisão periódica e os pedidos legais dos titulares. A duração específica depende da finalidade e do contexto contratual.</p>
           </section>
 
           <section className="rounded-[18px] border border-[#234562] bg-[#081b2e] p-6 sm:p-8">
