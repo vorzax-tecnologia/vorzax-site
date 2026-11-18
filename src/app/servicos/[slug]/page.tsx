@@ -27,6 +27,7 @@ export default async function ServiceDetails({params}:{params:Promise<{slug:stri
   return <BusinessShell active="servicos">
     <Link href="/servicos" className="text-sm font-semibold text-[#91d7ff] hover:underline">← Todos os serviços</Link>
     <div className="mt-7"><SectionHeading eyebrow={offer.eyebrow} title={offer.headline} description={offer.description}/></div>
+    <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#8fd8ff]"><span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#38bdf8]" />Atendimento online para todo o Brasil</p>
     <div className="mt-8 flex flex-wrap items-center gap-3">
       <Link href={"/solicitar-proposta?servico="+encodeURIComponent(offer.slug)} className="inline-flex min-h-12 items-center rounded-xl bg-[#0f78cb] px-6 text-sm font-semibold text-white hover:bg-[#2099ef]">Solicitar proposta técnica →</Link>
       <Link href="/#tecnologia-em-acao" className="inline-flex min-h-12 items-center rounded-xl border border-[#4e8eb7] px-6 text-sm font-semibold text-[#bcdef3] hover:bg-[#13344e]">Explorar demonstrações</Link>
