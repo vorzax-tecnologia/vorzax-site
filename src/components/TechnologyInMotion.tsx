@@ -238,6 +238,7 @@ export function TechnologyInMotion() {
 
         </div>
 
+        <h3 className="sr-only">Demonstração selecionada: {selected.name}</h3>
         <div data-vx-lab-grid className="min-w-0">
           <div className="mt-1.5 overflow-hidden rounded-xl border border-[#37617e] bg-[#07192b] shadow-[0_18px_70px_rgba(0,0,0,.28)]">
             <div data-vx-lab-panel-top className="flex min-h-11 flex-wrap items-center justify-between gap-2 border-b border-[#294d68] bg-[#0a2339] px-2 py-1.5 sm:px-3">
@@ -270,7 +271,9 @@ export function TechnologyInMotion() {
                   onClick={() => setPlaying(previous => !previous)}
                   className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#37617d] bg-[#0f314a] text-[13px] text-[#caeaff] sm:w-auto sm:px-2"
                 >
-                  <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="13" height="13" fill="currentColor">
+            {playing ? <><rect x="4" y="3" width="4" height="14" rx="1" /><rect x="12" y="3" width="4" height="14" rx="1" /></> : <path d="M6 3.5a1 1 0 0 1 1.5-.86l10 6.5a1 1 0 0 1 0 1.72l-10 6.5A1 1 0 0 1 6 16.5v-13Z" />}
+          </svg>
                   <span className="ml-1 hidden text-[11px] font-medium sm:inline">{playing ? "Pausar" : "Reproduzir"}</span>
                 </button>
                 <button

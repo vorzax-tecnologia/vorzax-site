@@ -129,7 +129,9 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
       </div>
       {showPlayButton && (
         <button type="button" onClick={toggle} aria-label={buttonLabel} className="absolute right-[3%] bottom-[6px] z-20 flex min-h-9 items-center gap-2 rounded-full border border-[#5c9ac7] bg-[#071d37]/90 px-3 py-2 text-[11px] font-semibold text-white shadow-lg transition-colors hover:bg-[#16476b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9fddff]">
-          <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="13" height="13" fill="currentColor">
+            {playing ? <><rect x="4" y="3" width="4" height="14" rx="1" /><rect x="12" y="3" width="4" height="14" rx="1" /></> : <path d="M6 3.5a1 1 0 0 1 1.5-.86l10 6.5a1 1 0 0 1 0 1.72l-10 6.5A1 1 0 0 1 6 16.5v-13Z" />}
+          </svg>
           <span className="hidden sm:inline">{buttonLabel}</span>
         </button>
       )}
