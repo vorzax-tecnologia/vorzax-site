@@ -108,7 +108,7 @@ function ensure(condition, message) {
 
       await page.screenshot({ path: path.join(OUT, `home-${device}.png`) });
 
-      const contact = page.getByRole("button", { name: /Prefere detalhar/ });
+      const contact = page.getByRole("button", { name: /Enviar briefing pelo WhatsApp/ });
       await contact.click();
       const dialog = page.getByRole("dialog", { name: /Conte o que deseja desenvolver/ });
       await dialog.waitFor({ state: "visible" });
