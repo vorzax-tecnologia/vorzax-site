@@ -18,7 +18,7 @@ fs.mkdirSync(output,{recursive:true});
    const nav=page.getByRole("navigation",{name:"Categorias das demonstrações"});
    const choices=page.getByRole("combobox",{name:"Escolher exemplo no desktop"});
    await page.waitForTimeout(450);
-   await page.getByRole("button",{name:"Pausar demonstração"}).click();
+   await page.getByRole("button",{name:"Pausar",exact:true}).click();
    let standardScale=null;
    for(let ci=0;ci<categories.length;ci++){
     await nav.getByRole("button").nth(ci).click();
@@ -59,7 +59,7 @@ fs.mkdirSync(output,{recursive:true});
    const page=await browser.newPage({viewport:{width,height}});
    await page.goto("http://127.0.0.1:3000/",{waitUntil:"domcontentloaded",timeout:90000});
    await page.getByRole("link",{name:"Ver demonstrações"}).click();
-   await page.getByRole("button",{name:"Pausar demonstração"}).click();
+   await page.getByRole("button",{name:"Pausar",exact:true}).click();
    await page.getByRole("button",{name:"Visão mobile"}).click();
    const nav=page.getByRole("combobox",{name:"Selecionar categoria das demonstrações"});
    const choices=page.getByRole("combobox",{name:"Escolher demonstração"});

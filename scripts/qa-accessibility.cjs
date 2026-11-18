@@ -20,15 +20,15 @@ const routes=["/","/servicos","/servicos/sites","/servicos/automacoes","/servico
        if(!response||response.status()!==200)throw Error("A11y rota indisponível "+route);
        const violations=(await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]).analyze()).violations;
        const findings=violations.map(v=>({rule:v.id,impact:v.impact,description:v.help,count:v.nodes.length,selectors:v.nodes.slice(0,4).map(n=>n.target)}));
-       const errors=findings.filter(f=>f.impact==="critical");
+       const errors=findings.filter(f=>f.impact==="critical"||f.impact==="serious");
        critical+=errors.reduce((sum,v)=>sum+v.count,0);
        summary.push({device,route,findings});
-       console.log("A11Y",device,route,"violations",findings.length,"critical",errors.length);
+       console.log("A11Y",device,route,"violations",findings.length,"serious/critical",errors.length);
      }
      await context.close();
    }
  }finally{await browser.close();}
  fs.writeFileSync(path.join(out,"acessibilidade-axe.json"),JSON.stringify({date:new Date().toISOString(),summary},null,2));
- console.log("A11Y CRITICAL",critical,"(demais violações constam no relatório; testes automáticos não constituem conformidade WCAG)");
+ console.log("A11Y SERIOUS/CRITICAL",critical,"(impactos menores constam no relatório; testes automáticos não constituem conformidade WCAG)");
  if(critical)process.exitCode=1;
 })().catch(e=>{console.error("A11Y FAILED",e);process.exitCode=1});

@@ -265,7 +265,7 @@ export function TechnologyInMotion() {
                 </div>
                 <button
                   type="button"
-                  aria-label={playing ? "Pausar demonstração" : "Reproduzir demonstração"}
+                  aria-label={playing ? "Pausar" : "Reproduzir"}
                   aria-pressed={!playing}
                   onClick={() => setPlaying(previous => !previous)}
                   className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#37617d] bg-[#0f314a] text-[13px] text-[#caeaff] sm:w-auto sm:px-2"
