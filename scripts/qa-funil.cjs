@@ -20,6 +20,18 @@ function ensure(condition,explanation){if(!condition)throw Error(explanation);}
    await q.click();
    ensure(await q.evaluate(e=>e.parentElement?.open===true),"Pergunta comercial não abre");
    ensure(await section.getByText(/Você pode começar descrevendo a dificuldade atual/).isVisible(),"Resposta não aparece");
+   // Selecionar uma demo na primeira página deve funcionar até quando o
+   // Laboratório ainda não baixou seu código (carregamento sob demanda).
+   const demoCard=page.locator('#solucoes a[href="#tecnologia-em-acao"]').filter({hasText:"Automação de processos"}).first();
+   await demoCard.click();
+   await page.waitForFunction(()=>{
+     const lab=document.getElementById("tecnologia-em-acao");
+     return !!lab?.querySelector('nav[aria-label="Categorias das demonstrações"]');
+   },{timeout:30000});
+   const selectedDemo=await page.evaluate(()=>
+     document.querySelector('#tecnologia-em-acao nav[aria-label="Categorias das demonstrações"] button[aria-pressed="true"]')?.textContent?.trim()
+   );
+   ensure(selectedDemo?.includes("Automações"),"Seleção do cartão não foi preservada no Laboratório adiado: "+selectedDemo);
    const cta=page.locator("#inicio").getByRole("link",{name:/Solicitar avaliação do meu projeto/});
    await cta.click();
    await page.waitForURL("**/solicitar-proposta");
