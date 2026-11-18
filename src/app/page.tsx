@@ -827,7 +827,7 @@ export default function Home() {
           <div data-reveal>
             <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SOBRE A VORZAX</p>
             <h2 className="vx-heading mt-5 max-w-xl">Tecnologia com visão de negócio, <span className="vx-gradient-text">sem complicar o essencial.</span></h2>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia em estruturação. Atuamos no planejamento e desenvolvimento de soluções digitais para necessidades reais das empresas.</p>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia voltada ao desenvolvimento de soluções digitais para negócios. Nosso trabalho começa por entender o desafio, definir o escopo e construir a solução adequada à operação.</p>
             <p className="mt-3 max-w-xl text-sm leading-7 text-[#a6b9cf]">Desenvolvemos soluções de presença digital, automação, inteligência de dados e sistemas sob medida. As demonstrações apresentadas são ilustrativas.</p>
             <div className="mt-6 space-y-3 border-t border-[#24435f] pt-5">
               {["Contato direto e alinhamento de expectativas", "Propostas com escopo e etapas definidos", "Design, performance e experiência de uso"].map((item) => (
