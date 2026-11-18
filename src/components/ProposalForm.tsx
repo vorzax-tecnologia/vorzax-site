@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { BusinessShell, SectionHeading } from "@/components/BusinessShell";
 import { offerings } from "@/lib/offerings";
 
@@ -15,6 +15,8 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
   const [consent,setConsent]=useState(false);
   const [prepared,setPrepared]=useState(false);
   const [copyStatus,setCopyStatus]=useState("");
+  const [hydrated,setHydrated]=useState(false);
+  useEffect(()=>setHydrated(true),[]);
 
   const serviceName=offerings.find(x=>x.slug===service)?.title??"Avaliação inicial do projeto";
   const text=[
@@ -51,7 +53,7 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
     <SectionHeading eyebrow="VORZAX / CONTATO CORPORATIVO" title="Solicitar proposta técnica." description="Descreva a demanda e prepare um e-mail para a Vorzax. Esta página não transmite dados automaticamente nem cria um protocolo. Você confirma o envio no seu aplicativo de e-mail."/>
     <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
       <div className="rounded-2xl border border-[#315f7e] bg-[#0a253b] p-5 sm:p-8">
-        {!prepared ? <form onSubmit={submit} className="space-y-5" aria-label="Preparar solicitação de proposta">
+        {!prepared ? <form onSubmit={submit} data-vx-proposal-hydrated={hydrated?"true":"false"} className="space-y-5" aria-label="Preparar solicitação de proposta">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-semibold text-white">Seu nome <span aria-hidden="true">*</span>
               <input required maxLength={90} autoComplete="name" value={name} onChange={e=>setName(e.target.value)} className="mt-2 min-h-12 w-full rounded-lg border border-[#557996] bg-[#071827] px-3 text-white outline-none focus:border-[#78cdff]"/></label>

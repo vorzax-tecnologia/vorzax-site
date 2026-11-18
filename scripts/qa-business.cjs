@@ -44,6 +44,7 @@ const routes=[
     }
     await page.goto(BASE+"/solicitar-proposta?servico=sites",{waitUntil:"domcontentloaded"});
     const form=page.getByRole("form",{name:"Preparar solicitação de proposta"});
+    await page.waitForFunction(()=>document.querySelector('form[aria-label="Preparar solicitação de proposta"]')?.getAttribute("data-vx-proposal-hydrated")==="true",{timeout:12000});
     await form.getByLabel(/Seu nome/).fill("Pessoa de exemplo");
     await form.getByLabel(/E-mail para resposta/).fill("comprador@example.com");
     await form.getByLabel(/Problema, necessidade/).fill("Precisamos apresentar nossos serviços com clareza.");
