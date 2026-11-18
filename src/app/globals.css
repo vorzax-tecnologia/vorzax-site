@@ -284,6 +284,11 @@ main.vx-institutional .text-slate-400 { color: #a7b9cb; }
     to { opacity: 1; transform: translateY(0); }
   }
 }
+/* No celular, mostrar a mensagem principal imediatamente reduz o LCP.
+   A apresentação ilustrativa continua animada dentro da própria moldura. */
+@media (max-width: 639px) {
+  .vx-hero-copy, .vx-hero-media { animation: none !important; }
+}
 @media (prefers-reduced-motion: reduce) {
   .vx-hero-copy, .vx-hero-media { animation: none !important; }
   .vx-hero-video-frame { transition: none !important; }
