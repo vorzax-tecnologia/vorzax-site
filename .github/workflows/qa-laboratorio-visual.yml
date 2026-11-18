@@ -41,6 +41,8 @@ jobs:
         run: node scripts/qa-laboratorio-visual.cjs
       - name: Conferir home, formulário e links
         run: node scripts/qa-home.cjs
+      - name: Conferir páginas corporativas e proposta por e-mail
+        run: node scripts/qa-business.cjs
       - name: Salvar prints e medidas
         if: always()
         uses: actions/upload-artifact@v4
