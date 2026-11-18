@@ -13,7 +13,8 @@ const routes=["/","/servicos","/servicos/sites","/servicos/automacoes","/servico
  let critical=0;
  try{
    for(const [device,width,height] of [["desktop",1440,900],["mobile",390,844]]){
-     const page=await browser.newPage({viewport:{width,height},reducedMotion:"reduce"});
+     const context=await browser.newContext({viewport:{width,height},reducedMotion:"reduce"});
+     const page=await context.newPage();
      for(const route of routes){
        const response=await page.goto(base+route,{waitUntil:"domcontentloaded",timeout:90000});
        if(!response||response.status()!==200)throw Error("A11y rota indisponível "+route);
@@ -24,7 +25,7 @@ const routes=["/","/servicos","/servicos/sites","/servicos/automacoes","/servico
        summary.push({device,route,findings});
        console.log("A11Y",device,route,"violations",findings.length,"critical",errors.length);
      }
-     await page.close();
+     await context.close();
    }
  }finally{await browser.close();}
  fs.writeFileSync(path.join(out,"acessibilidade-axe.json"),JSON.stringify({date:new Date().toISOString(),summary},null,2));
