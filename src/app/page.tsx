@@ -253,7 +253,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const lab = document.getElementById("tecnologia-em-acao");
+    const lab = document.querySelector("[data-vx-lab-container]");
     if (!lab) return;
     const observer = new IntersectionObserver(([entry]) => setLabVisible(entry.isIntersecting), { threshold: 0.22 });
     observer.observe(lab);
