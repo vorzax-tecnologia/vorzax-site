@@ -101,6 +101,7 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
       title="Seu próximo projeto começa com uma conversa."
       description="Conte o que precisa resolver. Você escolhe como encaminhar sua solicitação, e nós avaliamos o escopo antes de apresentar uma proposta."
     />
+    <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#8fd8ff]"><span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#38bdf8]" />Atendimento online para todo o Brasil</p>
     <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
       <div className="rounded-2xl border border-[#315f7e] bg-[#0a253b] p-5 sm:p-8">
         {delivered ? <div role="status" aria-live="polite" className="rounded-xl border border-[#287b9c] bg-[#103a50] p-5">
