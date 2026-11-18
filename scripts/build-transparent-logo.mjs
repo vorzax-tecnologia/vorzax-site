@@ -46,6 +46,8 @@ for(let i=0;i<data.length;i+=4){
 }
 if(visible/(info.width*info.height)<0.025)throw Error("Máscara excessiva: a marca ficou ilegível");
 await sharp(data,{raw:{width:info.width,height:info.height,channels:4}})
+  // Aspecto original intacto, com canvas do mesmo tamanho das páginas.
+  .resize(539,165,{fit:"contain",background:{r:0,g:0,b:0,alpha:0}})
   .png({compressionLevel:9,palette:false})
   .toFile(target);
 console.log("[Vorzax] Logotipo sem fundo produzido a partir do arquivo oficial:",info.width+"x"+info.height);
