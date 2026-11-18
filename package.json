@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/sync-showcase-assets.mjs",
+    "predev": "node scripts/sync-showcase-assets.mjs && node scripts/build-transparent-logo.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/sync-showcase-assets.mjs",
+    "prebuild": "node scripts/sync-showcase-assets.mjs && node scripts/build-transparent-logo.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

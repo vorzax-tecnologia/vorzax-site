@@ -13,7 +13,7 @@ function SalesAssistant({mobile,step=0}:{mobile:boolean;step?:number}) {
     {label:"Quais serviços oferecem?",answer:"A demonstração apresenta serviços, identifica necessidades e sugere o próximo passo.",tag:"Informações de serviços"},
     {label:"Quero falar com alguém",answer:"Vou registrar a intenção e indicar atendimento humano. Nenhum contato real é enviado nesta demonstração.",tag:"Atendimento humano"}
   ];
-  return <div className="min-h-[430px] bg-[#071827] p-3 text-white sm:p-5">
+  return <div className="min-h-[430px] bg-[#071827] p-5 text-white">
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#274b6a] pb-3">
       <div><p className="text-[9px] font-semibold tracking-[.18em] text-[#77d0ff]">VORZAX IA / COMERCIAL</p><h4 className="mt-1 text-lg font-bold tracking-[-.04em]">Atendimento comercial assistido</h4></div>
       <span className="rounded-full border border-[#306d81] bg-[#0f3442] px-3 py-1.5 text-[9px] text-[#a5e7e4]">● SIMULAÇÃO</span>
@@ -48,7 +48,7 @@ function SupportAssistant({mobile}:{mobile:boolean}){
     {title:"Acompanhar solicitação",answer:"Consulte o protocolo no portal de atendimento. Se necessário, encaminhe à equipe.",ref:"ART-021"},
     {title:"Falar com suporte",answer:"Registre o assunto e o contexto para facilitar a transferência ao atendimento humano.",ref:"ART-034"}
   ];
-  return <div className="min-h-[430px] bg-[#f1f7f8] p-3 text-[#173544] sm:p-5">
+  return <div className="min-h-[430px] bg-[#f1f7f8] p-5 text-[#173544]">
     <header className="flex flex-wrap justify-between gap-2 border-b border-[#cddfe5] pb-3"><div><span className="text-[9px] font-bold uppercase tracking-[.16em] text-[#177a88]">CENTRAL DE CONHECIMENTO / DEMO</span><h4 className="mt-1 text-xl font-bold tracking-[-.04em]">Suporte com respostas contextualizadas.</h4></div><span className="h-fit rounded-lg bg-[#d6efed] px-3 py-2 text-[10px] font-semibold text-[#185c62]">BASE ILUSTRATIVA</span></header>
     <div className="mt-3 grid grid-cols-3 gap-2">{[["84%","Autoatendimento"],["14","Artigos"],["3","Filas"]].map(([n,l])=><div key={l} className="rounded-lg border border-[#cfdfe3] bg-white p-3"><p className="text-[9px] text-[#476775]">{l}</p><p className="mt-1 text-xl font-bold">{n}</p></div>)}</div>
     <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[.8fr_1.2fr]"}`}>
@@ -70,7 +70,7 @@ function OperationsAssistant({mobile,step=0}:{mobile:boolean;step?:number}){
     {title:"Preparar ordem de serviço",detail:"Estruturar uma ordem de serviço a partir de um pedido ilustrativo.",tags:["Solicitação","OS em rascunho","Aprovação"]},
     {title:"Consultar prioridades",detail:"Agrupar tarefas simuladas conforme urgência e prazo.",tags:["Prioridades","Prazos","Equipe"]}
   ];
-  return <div className="min-h-[430px] bg-[#101627] p-3 text-white sm:p-5">
+  return <div className="min-h-[430px] bg-[#101627] p-5 text-white">
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#353856] pb-3"><div><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#beb4ff]">COPILOTO OPERACIONAL / DEMO</p><h4 className="mt-1 text-xl font-bold tracking-[-.04em]">Assistente de operações.</h4></div><span className="rounded-full border border-[#6561a6] bg-[#332c5a] px-3 py-2 text-[9px] font-bold text-[#ddd4ff]">✦ VORZAX IA</span></div>
     <div className="mt-3 grid grid-cols-3 gap-2">{[["38","Solicitações"],["12","Resumos"],["06","Ações"]].map(([n,l])=><div key={l} className="rounded-lg border border-[#3d405b] bg-[#25263f] p-3"><span className="text-[9px] text-[#c5c2e3]">{l}</span><p className="mt-1 text-xl font-bold">{n}</p></div>)}</div>
     <div className={`mt-3 grid gap-3 ${mobile?"grid-cols-1":"grid-cols-[.85fr_1.15fr]"}`}>

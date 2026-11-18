@@ -5,8 +5,8 @@ export async function proxy(request: NextRequest) {
   return updateSession(request);
 }
 
+// Sessões Supabase são necessárias apenas nas áreas privadas.
+// Páginas públicas permanecem disponíveis mesmo se a autenticação oscilar.
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/sistema/:path*", "/central/:path*"],
 };

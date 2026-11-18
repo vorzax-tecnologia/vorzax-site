@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionFilm } from "@/components/MotionFilm";
+import Link from "next/link";
 
 const WHATSAPP_URL = "https://wa.me/5531990681495?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20uma%20solu%C3%A7%C3%A3o%20tecnol%C3%B3gica%20para%20minha%20empresa.";
 
@@ -9,7 +10,7 @@ const cards = [
   { slug: "automacao", number: "02", kicker: "EFICIÊNCIA OPERACIONAL", title: "Automação de processos", description: "Conecte etapas e reduza tarefas repetitivas com fluxos sob medida.", tags: ["Entradas", "Regras", "Ações"] },
   { slug: "bi", number: "03", kicker: "INTELIGÊNCIA DE DADOS", title: "Dashboards e BI", description: "Reúna indicadores e acompanhe sua operação com mais clareza.", tags: ["Dados", "Indicadores", "Decisões"] },
   { slug: "sistemas", number: "04", kicker: "SOFTWARE PARA NEGÓCIOS", title: "Sistemas sob medida", description: "Organize informações, equipes e processos em soluções adaptadas.", tags: ["Fluxos", "Equipes", "Gestão"] },
-  { slug: "ia", number: "05", kicker: "ASSISTENTES VIRTUAIS", title: "Vorzax IA", description: "Explore atendimento, suporte e apoio operacional em uma interface ilustrativa.", tags: ["Conversas", "Suporte", "IA"] },
+  { slug: "ia", number: "05", kicker: "LABORATÓRIO CONCEITUAL", title: "Conceitos de IA", description: "Conheça três simulações de assistentes virtuais. Não são ferramentas de IA disponíveis para uso.", tags: ["Conversas", "Suporte", "IA"] },
 ] as const;
 
 function selectDemo(slug: string, example = 0) {
@@ -24,26 +25,30 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[linear-gradient(100deg,transparent_62%,rgba(25,103,189,.045)_80%,transparent)]" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-[1780px] px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-20 lg:pt-16 xl:px-16">
         <div className="grid items-center gap-8 pb-10 lg:min-h-[540px] lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-6 lg:pb-14 xl:gap-10">
-          <div className="vx-hero-copy order-2 min-w-0 lg:order-1">
+          <div className="vx-hero-copy order-1 min-w-0 lg:order-1">
             <div className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.20em] text-[#4abfff] sm:text-[11px]">
               <span className="h-px w-8 bg-[#25b4ff]" /> TECNOLOGIA PARA EMPRESAS
             </div>
             <h1 className="max-w-[720px] text-balance text-[clamp(2.3rem,3.8vw,4.3rem)] font-bold leading-[1.065] tracking-[-.062em] text-white">
-              Tecnologia para empresas <span className="vx-hero-highlight text-[#69bcff]">que querem evoluir.</span>
+              Menos retrabalho. <span className="vx-hero-highlight text-[#69bcff]">Mais clareza para avançar.</span>
             </h1>
             <p className="mt-5 max-w-[585px] text-[15px] leading-[1.75] text-[#bac8d9] sm:text-[17px]">
-              Unimos presença digital, automação, dados e desenvolvimento de sistemas para criar soluções tecnológicas que ajudam empresas a apresentar, organizar e evoluir seus negócios.
+              Desenvolvemos sites para apresentar seu negócio, automações para reduzir tarefas repetitivas, dashboards para acompanhar indicadores e sistemas sob medida para organizar sua operação.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
-                Conversar sobre meu projeto <span aria-hidden="true">↗</span>
-              </a>
+              <Link href="/solicitar-proposta" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#0766d5] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_35px_rgba(2,104,241,.21)] transition hover:-translate-y-0.5 hover:bg-[#0757b8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                Solicitar avaliação do meu projeto <span aria-hidden="true">↗</span>
+              </Link>
               <a href="#tecnologia-em-acao" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#3d739f]/65 bg-[#061321]/75 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#73baff] hover:bg-[#11263c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">Ver demonstrações</a>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#94a9be]"><span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas · Vorzax IA</span><button type="button" onClick={onContact} className="font-semibold text-[#78caff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere detalhar? Envie sua ideia ↗</button></div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 text-[11px] text-[#a6bfd2]">
+              <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" /> Sites · Automações · BI · Sistemas</span>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#89d6ff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Prefere conversar no WhatsApp? ↗</a>
+              <button type="button" onClick={onContact} className="font-semibold text-[#89d6ff] underline decoration-[#245b88] underline-offset-4 transition hover:text-white">Enviar briefing pelo WhatsApp ↗</button>
+            </div>
           </div>
 
-          <div className="vx-hero-media order-1 min-w-0 lg:order-2">
+          <div className="vx-hero-media order-2 min-w-0 lg:order-2">
             <div className="mb-3 flex items-center justify-between gap-2 px-1">
               <span className="text-[10px] font-semibold uppercase tracking-[.19em] text-[#73bff0]">VORZAX / TECNOLOGIA EM MOVIMENTO</span>
               <span className="text-[10px] tracking-[.09em] text-[#768ca6]">FILME CONCEITUAL</span>
@@ -52,7 +57,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               <MotionFilm variant="principal" />
             </div>
             <div className="mt-3 flex items-center justify-between gap-3 px-1 text-[10px] text-[#7991a8] sm:text-[11px]">
-              <span>Apresentação visual das cinco frentes tecnológicas.</span>
+              <span>Quatro serviços e uma visão conceitual de IA.</span>
               <span className="hidden shrink-0 font-mono tracking-[.12em] text-[#5e839f] sm:inline">01 — 05</span>
             </div>
           </div>
@@ -62,7 +67,7 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[.20em] text-[#4dc0fc]">O QUE A VORZAX DESENVOLVE</span>
-              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Cinco frentes de tecnologia. <span className="text-[#77c7ff]">Uma solução para cada desafio.</span></h2>
+              <h2 className="mt-2 text-[clamp(1.45rem,2.35vw,2rem)] font-semibold tracking-[-.045em] text-white">Quatro frentes para sua empresa. <span className="text-[#77c7ff]">Um laboratório para explorar o futuro.</span></h2>
             </div>
             <a href="#tecnologia-em-acao" className="inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#9edaff] transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">Explorar o Laboratório <span aria-hidden="true">↗</span></a>
           </div>
@@ -82,8 +87,36 @@ export function ReferenceLanding({ onContact }: { onContact: () => void }) {
               </a>
             ))}
           </div>
-          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as cinco áreas →</p>
-          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Conheça as possibilidades aqui. No Laboratório, explore 15 interfaces demonstrativas em desktop e mobile. A Vorzax IA é um conceito ilustrativo, não um assistente ativo.</p>
+          <div className="mt-7">
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+              <h3 className="text-[18px] font-semibold tracking-tight text-white">Três exemplos explicados</h3>
+              <p className="text-[11px] text-[#9bb9cf]">Problema ilustrativo → proposta de solução → benefício esperado, sem resultados medidos.</p>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {[
+                {title:"Site para climatização",slug:"sites",problem:"Serviços técnicos pouco claros para o comprador B2B.",solution:"Páginas organizadas por serviço e contato para orçamento.",goal:"Facilitar a descoberta e a solicitação de atendimento."},
+                {title:"Fluxo de captação de leads",slug:"automacao",problem:"Solicitações chegam sem uma sequência padronizada.",solution:"Etapas simuladas de entrada, qualificação e encaminhamento.",goal:"Reduzir o retrabalho na passagem de informações."},
+                {title:"Dashboard comercial",slug:"bi",problem:"Indicadores de vendas dispersos em relatórios.",solution:"Painel demonstrativo de origem, funil e oportunidades.",goal:"Apoiar a análise do processo comercial."}
+              ].map((item,index)=>(
+                <a key={item.slug} href="#tecnologia-em-acao" onClick={()=>selectDemo(item.slug)} className="group flex min-h-[180px] flex-col rounded-xl border border-[#284f70] bg-[#092238] px-4 py-4 transition hover:border-[#68bdec] hover:bg-[#0e304e]">
+                  <span className="text-[10px] font-bold tracking-[.15em] text-[#79caff]">EXEMPLO 0{index+1}</span>
+                  <strong className="mt-2 text-[15px] text-white">{item.title}</strong>
+                  <p className="mt-2 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Problema:</b> {item.problem}</p>
+                  <p className="mt-1 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Solução proposta:</b> {item.solution}</p>
+                  <p className="mt-1 flex-1 text-[12px] leading-5 text-[#b2c8d9]"><b className="text-[#d4e9f6]">Objetivo:</b> {item.goal}</p>
+                  <span className="mt-3 text-[11px] font-semibold text-[#8ad8ff] group-hover:text-white">Explorar interface ilustrativa ↗</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2" aria-label="Ver detalhes de cada serviço">
+            <Link href="/servicos/sites" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: sites ↗</Link>
+            <Link href="/servicos/automacoes" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: automações ↗</Link>
+            <Link href="/servicos/dashboards-bi" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: dashboards ↗</Link>
+            <Link href="/servicos/sistemas-sob-medida" className="rounded-lg border border-[#367299] px-3 py-2 text-xs font-medium text-[#b0ddfa] hover:bg-[#15476c]">Detalhes: sistemas ↗</Link>
+          </div>
+          <p className="mt-2 text-[11px] font-medium text-[#91c8ed] sm:hidden">Deslize para conhecer as soluções →</p>
+          <p className="mt-3 text-[11px] leading-5 text-[#93a9be]">Explore 15 interfaces demonstrativas em desktop e mobile. Os exemplos não são projetos de clientes; a categoria de IA contém simulações, não assistentes ativos.</p>
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import { ReferenceLanding } from "@/components/ReferenceLanding";
 import { VideoIntro } from "@/components/VideoIntro";
-import { TechnologyInMotion } from "@/components/TechnologyInMotion";
+import { DeferredTechnologyInMotion } from "@/components/DeferredTechnologyInMotion";
+import { ConversionBridge, CommercialFAQ } from "@/components/CommercialTrust";
 import {
   useEffect,
   useRef,
@@ -40,10 +41,6 @@ const process = [
   },
 ];
 
-function Logo() {
-  // Original mark supplied by Vorzax. Never redraw as text or a generated symbol.
-  return <Image src="/vorzax-logo-header.webp" alt="Vorzax Tecnologia" width={539} height={165} className="h-auto w-[174px] sm:w-[193px]" priority />;
-}
 function ArrowIcon() {
   return (
     <svg
@@ -146,6 +143,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [whatsappOpen, setWhatsappOpen] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+  const [labVisible, setLabVisible] = useState(false);
+  const [heroFilmVisible, setHeroFilmVisible] = useState(false);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [diagnosticData, setDiagnosticData] = useState<DiagnosticFormData>(initialDiagnosticForm);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
@@ -253,6 +252,25 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const lab = document.querySelector("[data-vx-lab-container]");
+    if (!lab) return;
+    const observer = new IntersectionObserver(([entry]) => setLabVisible(entry.isIntersecting), { threshold: 0.22 });
+    observer.observe(lab);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const heroFilm = document.querySelector("#inicio .vx-brand-reel");
+    if (!heroFilm) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroFilmVisible(entry.isIntersecting),
+      { threshold: 0.22 }
+    );
+    observer.observe(heroFilm);
+    return () => observer.disconnect();
+  }, []);
+
   const handleDiagnosticChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -277,15 +295,15 @@ export default function Home() {
       return;
     }
 
-    if (!nome || !telefone || !empresa || !diagnosticData.segmento || !diagnosticData.tipo_solucao) {
+    if (!nome || !telefone || !objetivo) {
       setDiagnosticStatus("error");
       setDiagnosticError("Preencha os campos obrigatórios para enviar.");
       return;
     }
 
-    if (objetivo.length < 20) {
+    if (objetivo.length < 10) {
       setDiagnosticStatus("error");
-      setDiagnosticError("Descreva seu objetivo com mais detalhes (no mínimo 20 caracteres).");
+      setDiagnosticError("Descreva seu objetivo com mais detalhes (no mínimo 10 caracteres).");
       return;
     }
 
@@ -305,9 +323,9 @@ export default function Home() {
       `Nome: ${nome}`,
       `WhatsApp: ${telefone}`,
       diagnosticData.email.trim() ? `E-mail: ${diagnosticData.email.trim()}` : null,
-      `Empresa: ${empresa}`,
-      `Segmento: ${diagnosticData.segmento}`,
-      `Solução desejada: ${diagnosticData.tipo_solucao}`,
+      `Empresa: ${empresa || "Não informada"}`,
+      `Segmento: ${diagnosticData.segmento || "Não informado"}`,
+      `Solução desejada: ${diagnosticData.tipo_solucao || "Preciso de orientação"}`,
       `Objetivo ou dificuldade: ${objetivo}`,
       `Prazo: ${diagnosticData.prazo || "Ainda não definido"}`,
     ]
@@ -333,7 +351,7 @@ export default function Home() {
   };
 
   return (
-    <main className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
+    <main data-vx-demo-active={labVisible || heroFilmVisible ? "true" : "false"} className="vx-institutional relative isolate min-h-screen overflow-hidden bg-[#020611] text-white">
       <VideoIntro />
       <style>{`
         [data-reveal] {
@@ -444,12 +462,11 @@ export default function Home() {
                 </label>
 
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Empresa *</span>
+                  <span className="text-xs font-semibold text-slate-300">Empresa <span className="font-normal text-slate-500">(opcional)</span></span>
                   <input
                     name="empresa"
                     value={diagnosticData.empresa}
                     onChange={handleDiagnosticChange}
-                    required
                     autoComplete="organization"
                     placeholder="Nome da empresa"
                     className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
@@ -459,12 +476,11 @@ export default function Home() {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">Segmento da empresa *</span>
+                  <span className="text-xs font-semibold text-slate-300">Segmento da empresa <span className="font-normal text-slate-500">(opcional)</span></span>
                   <select
                     name="segmento"
                     value={diagnosticData.segmento}
                     onChange={handleDiagnosticChange}
-                    required
                     className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
                     <option value="">Selecione uma opção</option>
@@ -487,12 +503,11 @@ export default function Home() {
                 </label>
 
                 <label className="block">
-                  <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? *</span>
+                  <span className="text-xs font-semibold text-slate-300">O que você quer desenvolver? <span className="font-normal text-slate-500">(opcional)</span></span>
                   <select
                     name="tipo_solucao"
                     value={diagnosticData.tipo_solucao}
                     onChange={handleDiagnosticChange}
-                    required
                     className="mt-2 w-full rounded-xl border border-white/10 bg-[#0b1729] px-4 py-3 text-sm text-white outline-none transition focus:border-sky-400/60"
                   >
                     <option value="">Selecione uma opção</option>
@@ -515,7 +530,7 @@ export default function Home() {
                   value={diagnosticData.objetivo}
                   onChange={handleDiagnosticChange}
                   required
-                  minLength={20}
+                  minLength={10}
                   rows={4}
                   placeholder="Conte brevemente o que precisa melhorar ou construir."
                   className="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400/60 focus:bg-white/[0.06]"
@@ -593,7 +608,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:right-6">
+      <div className="vx-floating-contact fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 transition-all duration-200 sm:right-6">
   {whatsappOpen && (
     <div className="w-[min(340px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-white/10 bg-[#07101f]/95 shadow-2xl shadow-black/40 backdrop-blur-xl">
       <div className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4">
@@ -655,40 +670,30 @@ export default function Home() {
   </button>
 </div>
 
+      <a href="#inicio" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:not-sr-only focus:rounded-lg focus:bg-[#e3f5ff] focus:px-4 focus:py-3 focus:text-[#06253f]">Pular para o conteúdo</a>
       <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
         <div className="relative mx-auto flex h-[68px] max-w-[1680px] items-center justify-between px-5 sm:h-[72px] sm:px-8 lg:px-10 xl:px-16">
           <a href="#inicio" aria-label="Vorzax - início" onClick={() => setMenuOpen(false)}>
-            <Logo />
+            <BrandLogo />
           </a>
 
           <nav className="hidden items-center gap-5 text-[12px] font-medium text-[#b6c5d5] xl:flex xl:gap-7">
             <a className="transition hover:text-white" href="#inicio">Início</a>
-            <a className="transition hover:text-white" href="#solucoes">Soluções</a>
-            <a className="transition hover:text-white" href="#processo">Como funciona</a>
+            <Link className="transition hover:text-white" href="/servicos">Serviços</Link>
+            <Link className="transition hover:text-white" href="/como-trabalhamos">Como trabalhamos</Link>
             <a className="transition hover:text-white" href="#tecnologia-em-acao">Demonstrações</a>
             <a className="transition hover:text-white" href="#sobre">Sobre</a>
             <a className="transition hover:text-white" href="#contato">Contato</a>
-            <Link className="transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
+            <Link className="transition hover:text-sky-300" href="/solicitar-proposta">Proposta técnica</Link>
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex"
-            >
-              Solicitar orçamento
-            </a>
-
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden"
-            >
-              Orçamento
-            </a>
+            <Link href="/solicitar-proposta" className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex">
+              Solicitar proposta
+            </Link>
+            <Link href="/solicitar-proposta" className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden">
+              Proposta
+            </Link>
 
             <button
               type="button"
@@ -722,12 +727,13 @@ export default function Home() {
             >
               {[
                 ["Início", "#inicio"],
-                ["Soluções", "#solucoes"],
-                ["Como funciona", "#processo"],
+                ["Serviços", "/servicos"],
+                ["Como trabalhamos", "/como-trabalhamos"],
                 ["Demonstrações", "#tecnologia-em-acao"],
                 ["Sobre", "#sobre"],
                 ["Contato", "#contato"],
-                ["Plataforma", "/plataforma"],
+                ["Segurança e dados", "/seguranca"],
+                ["Proposta técnica", "/solicitar-proposta"],
               ].map(([label, href]) => (
                 <a
                   key={href}
@@ -758,7 +764,8 @@ export default function Home() {
       <ReferenceLanding onContact={openDiagnostic} />
 
 
-      <TechnologyInMotion />
+      <DeferredTechnologyInMotion />
+      <ConversionBridge />
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
         <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
@@ -787,7 +794,7 @@ export default function Home() {
           </div>
           <div className="mt-6 flex flex-col justify-between gap-5 border-t border-[#173450] pt-7 sm:flex-row sm:items-center">
             <p className="max-w-lg text-xs leading-6 text-[#849ab2]">Cada proposta é definida de acordo com o projeto. Escopo, prazos e condições são alinhados antes do desenvolvimento.</p>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Falar sobre meu projeto <ArrowIcon /></a>
+            <Link href="/solicitar-proposta" className="vx-primary-button inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Solicitar avaliação do projeto <ArrowIcon /></Link>
           </div>
         </div>
       </section>
@@ -820,7 +827,7 @@ export default function Home() {
           <div data-reveal>
             <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SOBRE A VORZAX</p>
             <h2 className="vx-heading mt-5 max-w-xl">Tecnologia com visão de negócio, <span className="vx-gradient-text">sem complicar o essencial.</span></h2>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia em estruturação. Atuamos no planejamento e desenvolvimento de soluções digitais para necessidades reais das empresas.</p>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-[#a6b9cf] sm:text-base">A Vorzax é uma empresa brasileira de tecnologia voltada ao desenvolvimento de soluções digitais para negócios. Nosso trabalho começa por entender o desafio, definir o escopo e construir a solução adequada à operação.</p>
             <p className="mt-3 max-w-xl text-sm leading-7 text-[#a6b9cf]">Desenvolvemos soluções de presença digital, automação, inteligência de dados e sistemas sob medida. As demonstrações apresentadas são ilustrativas.</p>
             <div className="mt-6 space-y-3 border-t border-[#24435f] pt-5">
               {["Contato direto e alinhamento de expectativas", "Propostas com escopo e etapas definidos", "Design, performance e experiência de uso"].map((item) => (
@@ -832,6 +839,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <CommercialFAQ />
 
       <section id="contato" className="relative overflow-hidden bg-[#030b17]">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0563bb]/10 blur-[150px]" aria-hidden="true" />
@@ -841,7 +849,7 @@ export default function Home() {
               <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SEU PRÓXIMO PROJETO</p>
               <h2 className="vx-heading mt-6 max-w-[650px]">O próximo passo da sua empresa <span className="vx-gradient-text">pode começar aqui.</span></h2>
               <p className="mt-6 max-w-xl text-sm leading-7 text-[#b0c3d6] sm:text-base">Conte o que você precisa desenvolver ou melhorar. Vamos entender a demanda e avaliar uma proposta adequada ao seu momento.</p>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-primary-button mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Conversar sobre meu projeto <ArrowIcon /></a>
+              <Link href="/solicitar-proposta" className="vx-primary-button mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-xl px-6 py-3 text-sm font-semibold text-white">Solicitar proposta técnica <ArrowIcon /></Link>
               <p className="mt-5 text-xs text-[#83a1bd]">Primeiro contato sem compromisso de contratação.</p>
             </div>
             <div className="relative z-10 border-t border-[#275071] bg-[#07182b]/85 p-5 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
@@ -850,6 +858,11 @@ export default function Home() {
                 <h3 className="mt-6 text-[22px] font-semibold tracking-[-.04em] text-white">Vamos entender sua necessidade.</h3>
                 <p className="mt-2 text-sm leading-6 text-[#97b1c7]">Escolha por onde prefere iniciar a conversa.</p>
                 <div className="mt-7 grid gap-3">
+                  <Link href="/solicitar-proposta" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#4988b3] bg-[#0d3351] p-4 transition hover:bg-[#145179]">
+                    <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#185d9c] text-2xl text-white">↗</span>
+                    <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#9cdfff]">CONTATO CORPORATIVO</span><span className="mt-1 block text-sm font-semibold text-white">Solicitar avaliação estruturada</span></span>
+                    <ArrowIcon />
+                  </Link>
                   <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="vx-contact-method group flex min-w-0 items-center gap-4 rounded-[13px] border border-[#2a536d] bg-[#0c2b3d] p-4 transition">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0d5945] text-[#a5ffe1]"><WhatsAppIcon /></span>
                     <span className="min-w-0 flex-1"><span className="block text-[10px] font-bold uppercase tracking-[.13em] text-[#8abed3]">WHATSAPP</span><span className="mt-1 block text-sm font-semibold text-white">{CONTACT_PHONE}</span></span>
@@ -871,7 +884,7 @@ export default function Home() {
       <footer className="relative border-t border-[#163a55] bg-[#030a14]">
         <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10 xl:px-16">
           <div data-reveal="left">
-            <Logo />
+            <BrandLogo priority={false} />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
               Sites, automações, dashboards, BI e sistemas sob medida para empresas.
             </p>
@@ -881,10 +894,13 @@ export default function Home() {
             <p className="text-xs font-semibold tracking-[0.18em] text-slate-400">NAVEGAÇÃO</p>
             <div className="mt-5 space-y-3 text-sm text-slate-500">
               <a className="block transition hover:text-white" href="#inicio">Início</a>
-              <a className="block transition hover:text-white" href="#solucoes">Soluções</a>
+              <Link className="block transition hover:text-white" href="/servicos">Serviços e escopos</Link>
               <a className="block transition hover:text-white" href="#sobre">Sobre</a>
               <button type="button" onClick={() => window.dispatchEvent(new Event("vorzax:replay-intro"))} className="block text-left text-[#9bd5fa] transition hover:text-white">Rever apresentação ↗</button>
-              <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma</Link>
+              <Link className="block transition hover:text-sky-300" href="/como-trabalhamos">Como trabalhamos</Link>
+              <Link className="block transition hover:text-sky-300" href="/seguranca">Segurança e dados</Link>
+              <Link className="block transition hover:text-sky-300" href="/solicitar-proposta">Solicitar proposta técnica</Link>
+              <Link className="block transition hover:text-sky-300" href="/plataforma">Plataforma conceitual</Link>
             </div>
           </div>
 
@@ -909,7 +925,7 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-3">
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.05] text-slate-400"><OnlineIcon /></span>
-                <span>Atendimento online</span>
+                <span>Atendimento online para todo o Brasil</span>
               </span>
             </div>
           </div>

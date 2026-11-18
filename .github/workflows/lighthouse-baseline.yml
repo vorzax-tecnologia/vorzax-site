@@ -1,0 +1,65 @@
+name: Lighthouse - medicao da qualidade (build homologacao)
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Só validar o commit mais recente da PR, evitando filas e custos desnecessários.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Instalar dependencias
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --no-save --package-lock=false lighthouse@12
+          # Google Chrome já é fornecido pelo runner ubuntu-24.04.
+          command -v google-chrome
+          echo "CHROME_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+      - name: Compilar site no modo de producao
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: public-lighthouse-test-key
+          # Habilita a politica de indexacao equivalente ao site oficial apenas no CI.
+          VERCEL_ENV: production
+        run: npm run build
+      - name: Iniciar servidor da compilacao
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: public-lighthouse-test-key
+          # Habilita a politica de indexacao equivalente ao site oficial apenas no CI.
+          VERCEL_ENV: production
+        run: |
+          npm run start -- --hostname 127.0.0.1 --port 3000 > /tmp/vorzax-lighthouse.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3000/ >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/vorzax-lighthouse.log
+          exit 1
+      - name: Executar Lighthouse mobile e desktop
+        run: |
+          mkdir -p qa-results
+          npx lighthouse http://127.0.0.1:3000/ --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --quiet --output=json --output-path=qa-results/lighthouse-home-mobile.json
+          npx lighthouse http://127.0.0.1:3000/ --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --quiet --output=json --output-path=qa-results/lighthouse-home-desktop.json
+          node scripts/report-lighthouse.cjs
+      - name: Publicar relatorios
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-build-homologacao
+          path: qa-results/lighthouse-*
+          if-no-files-found: warn

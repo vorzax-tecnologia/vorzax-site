@@ -10,21 +10,26 @@ const assets = [
     name: "vorzax-logo-header.webp",
     source: "https://www.vorzax.com.br/vorzax-logo-header.webp",
     type: "marca oficial da Vorzax",
+    fallback: "vorzax-logo-oficial.png",
+    convertToWebP: true,
   },
   {
     name: "demo-hvac-workspace.webp",
     source: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=960&h=720&fit=crop&fm=webp&q=77",
     type: "fotografia ilustrativa de ambiente comercial",
+    fallback: "vorzax-reference-service-1.webp",
   },
   {
     name: "demo-accounting-workspace.webp",
     source: "https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=960&h=720&fit=crop&fm=webp&q=77",
     type: "fotografia ilustrativa de ambiente administrativo",
+    fallback: "vorzax-reference-service-2.webp",
   },
   {
     name: "demo-architecture-residence.webp",
     source: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=960&h=720&fit=crop&fm=webp&q=79",
     type: "fotografia ilustrativa de projeto arquitetônico",
+    fallback: "vorzax-reference-service-3.webp",
   },
 ];
 
@@ -60,7 +65,21 @@ for (const asset of assets) {
     data = Buffer.from(await response.arrayBuffer());
     if (!isWebP(data)) throw new Error("Imagem WebP inválida ou incompleta");
   } catch (error) {
-    throw new Error(`Não foi possível obter ${asset.type} (${asset.name}): ${error.message}`);
+    // Build determinístico se as URLs externas estiverem indisponíveis.
+    // Priorizar a marca e as ilustrações já versionadas em /public.
+    try {
+      const fallbackPath = join(output, asset.fallback);
+      if (asset.convertToWebP) {
+        const sharp = (await import("sharp")).default;
+        data = await sharp(fallbackPath).webp({ quality: 88 }).toBuffer();
+      } else {
+        data = await readFile(fallbackPath);
+      }
+      if (!isWebP(data)) throw new Error("fallback WebP inválido");
+      console.warn(`[Vorzax] Fonte externa indisponível para ${asset.name}; usando arquivo local versionado: ${asset.fallback}`);
+    } catch (fallbackError) {
+      throw new Error(`Falha ao preparar ${asset.name}. Fonte externa: ${error.message}. Fallback: ${fallbackError.message}`);
+    }
   } finally {
     clearTimeout(timeout);
   }

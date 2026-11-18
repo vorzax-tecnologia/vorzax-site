@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,18 +7,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 const siteUrl = "https://www.vorzax.com.br";
 const siteName = "Vorzax Tecnologia";
 const isProduction = process.env.VERCEL_ENV === "production";
 const title =
-  "Vorzax Tecnologia | Sites, Automações, BI e Sistemas";
+  "Vorzax Tecnologia | Sites, Automações, BI e Sistemas sob Medida";
 const description =
-  "Soluções tecnológicas para empresas: sites e landing pages, automação de processos, dashboards, Business Intelligence e sistemas sob medida.";
+  "Sites, automações, dashboards e sistemas sob medida para organizar processos, apresentar seu negócio e acompanhar indicadores. Conheça a Vorzax Tecnologia.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -58,6 +53,7 @@ export const metadata: Metadata = {
     siteName,
     title,
     description,
+    images: [{url:"/vorzax-logo-oficial.png",width:604,height:172,alt:"Vorzax Tecnologia"}],
   },
   twitter: {
     card: "summary_large_image",
@@ -79,6 +75,7 @@ const organizationJsonLd = {
   name: siteName,
   alternateName: "Vorzax",
   url: siteUrl,
+  areaServed: { "@type": "Country", name: "Brasil" },
   logo: {
     "@type": "ImageObject",
     url: `${siteUrl}/vorzax-logo-oficial.png`,
@@ -125,7 +122,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={geistSans.variable}>
         {children}
         <script
           type="application/ld+json"

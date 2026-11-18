@@ -1,0 +1,113 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- QA executado em CommonJS. */
+const { chromium } = require("playwright");
+const sharp=require("sharp");
+const fs = require("node:fs");
+const path = require("node:path");
+const BASE = "http://127.0.0.1:3000";
+const OUT = path.resolve("qa-results");
+fs.mkdirSync(OUT,{recursive:true});
+function ensure(ok,msg){if(!ok)throw Error(msg)}
+const routes=[
+ "/servicos","/servicos/sites","/servicos/automacoes","/servicos/dashboards-bi","/servicos/sistemas-sob-medida",
+ "/como-trabalhamos","/seguranca","/solicitar-proposta"
+];
+(async()=>{
+ const logoPath=path.resolve("public/vorzax-logo-clean.png");
+ const {data:logoData,info:logoInfo}=await sharp(logoPath).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ const cornerAlpha=logoData[3], opposite=logoData[(logoInfo.width*logoInfo.height-1)*4+3];
+ ensure(cornerAlpha<20 && opposite<20,"O logo ainda contém fundo opaco nos cantos");
+ console.log("QA LOGO transparente",logoInfo.width,logoInfo.height);
+ const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
+ try {
+   for(const [viewportName,width,height] of [["desktop",1440,900],["mobile",390,844]]){
+    const page=await browser.newPage({viewport:{width,height}});
+    const errors=[];
+    page.on("pageerror",e=>errors.push(e.message));
+    for(const route of routes){
+      const response=await page.goto(BASE+route,{waitUntil:"domcontentloaded",timeout:90000});
+      ensure(response&&response.status()===200,route+" retornou HTTP "+response?.status());
+      const security=response.headers();
+      ensure(security["x-content-type-options"]==="nosniff",route+" sem proteção de tipo MIME");
+      ensure(security["x-frame-options"]==="DENY",route+" sem proteção contra enquadramento externo");
+      const info=await page.evaluate(()=>{
+        const main=document.querySelector("main");
+        return {
+          title:document.title,
+          h1:main?.querySelectorAll("h1").length,
+          overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+          canonical:document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+          skip:!!document.querySelector('a[href="#conteudo"]')
+        };
+      });
+      ensure(info.h1===1,route+" deve ter um H1");
+      ensure(info.overflow<=3,route+" não deve ter rolagem horizontal: "+info.overflow);
+      ensure(info.canonical,route+" precisa de canonical");
+      ensure(info.skip,route+" precisa de link para pular o menu");
+      const nationalFooter=page.locator("footer").getByText("Atendimento online para todo o Brasil.",{exact:true});
+      ensure(await nationalFooter.count()===1,route+" precisa comunicar atendimento em todo o Brasil");
+      if(route==="/servicos" || route.startsWith("/servicos/") || route==="/solicitar-proposta"){
+        const nationalHighlight=page.locator("main").getByText("Atendimento online para todo o Brasil",{exact:true});
+        ensure(await nationalHighlight.count()===1,route+" precisa destacar o atendimento nacional proximo ao titulo");
+      }
+      const header=page.locator("header");
+      const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
+      ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
+      ensure((await logo.getAttribute("src"))?.includes("vorzax-logo-clean.png"),route+" usa o logotipo incorreto");
+      ensure((await logo.getAttribute("sizes"))==="(max-width: 639px) 174px, 193px",route+" imagem do logotipo não tem tamanhos responsivos");
+      ensure(!(await logo.getAttribute("class"))?.includes("mix-blend-screen"),
+        route+" ainda depende de mistura CSS para remover o fundo da marca");
+      const siteLogo=await page.evaluate(()=>{
+        const img=document.querySelector('header img[alt="Vorzax Tecnologia"]');
+        const hdr=document.querySelector("header");
+        return { source:img?.getAttribute("src"), blend:img?getComputedStyle(img).mixBlendMode:null,
+          headerBackground:hdr?getComputedStyle(hdr).backgroundColor:null,
+          imageWidth:img?.getBoundingClientRect().width };
+      });
+      ensure(siteLogo.blend==="normal",route+" logotipo deve ter transparência real");
+      ensure(Math.abs((siteLogo.imageWidth??0)-(width<640?174:193))<2,
+        route+" tamanho do logo difere do padrão da home: "+JSON.stringify(siteLogo));
+      const returnLink=header.getByRole("link",{name:"Voltar ao site principal"});
+      ensure(await returnLink.count()===1,route+" não exibe volta ao site principal");
+      ensure(await returnLink.getAttribute("href")==="/",route+" possui link de retorno inválido");
+      ensure(await returnLink.isVisible(),route+" deveria exibir retorno ao site principal no "+viewportName);
+      if(["/servicos","/como-trabalhamos","/solicitar-proposta"].includes(route)){
+        await page.screenshot({path:path.join(OUT,"corporativo-"+viewportName+"-"+route.substring(1).replaceAll("/","-")+".png")});
+      }
+      console.log("QA BUSINESS",viewportName,route,"OK");
+    }
+    await page.goto(BASE+"/solicitar-proposta?servico=sites",{waitUntil:"domcontentloaded"});
+    const form=page.getByRole("form",{name:"Preparar solicitação de proposta"});
+    await page.waitForFunction(()=>document.querySelector('form[aria-label="Preparar solicitação de proposta"]')?.getAttribute("data-vx-proposal-hydrated")==="true",{timeout:12000});
+    const delivery=(await page.request.get(BASE+"/api/contato"));
+    ensure(delivery.status()===200,"Consulta ao canal de contato indisponível");
+    const {direct}=await delivery.json();
+    ensure(typeof direct==="boolean","Estado de entrega não identificado");
+    await form.getByLabel(/Seu nome/).fill("Pessoa de exemplo");
+    await form.getByLabel(/E-mail para resposta/).fill("comprador@example.com");
+    await form.getByLabel(/Problema, necessidade/).fill("Precisamos apresentar nossos serviços com clareza.");
+    await form.getByRole("checkbox").check();
+    if(direct){
+      // Nunca dispare e-mails reais nos testes automatizados.
+      console.log("QA PROPOSAL",viewportName,"Envio direto configurado; teste de envio real não executado");
+      await page.close();
+      continue;
+    }
+    await form.getByRole("button",{name:/Preparar mensagem de contato/}).click();
+    await page.getByRole("heading",{name:/Sua mensagem está preparada/}).waitFor();
+    const whatsapp=await page.getByRole("link",{name:/Continuar no WhatsApp/}).getAttribute("href");
+    ensure(whatsapp?.startsWith("https://wa.me/5531990681495?text="),"Não preparou mensagem de WhatsApp");
+    ensure(whatsapp.includes("Pessoa%20de%20exemplo"),"WhatsApp não preservou o briefing");
+    const mail=await page.getByRole("link",{name:/Abrir aplicativo de e-mail/}).getAttribute("href");
+    ensure(mail?.startsWith("mailto:contato@vorzax.com.br?"),"Não preparou e-mail para contato corporativo");
+    ensure(mail.includes("Sites%20e%20landing"),"Serviço da URL não foi preservado");
+    ensure((await page.getByText("Nenhum dado foi enviado por este site.").count())===0
+        || await page.getByRole("heading",{name:/Sua mensagem está preparada/}).isVisible(),
+        "Confirmação enganosa");
+    const post=await page.request.post(BASE+"/api/contato",{data:{name:"Teste",email:"teste@example.com",objective:"Não enviar, apenas testar indisponibilidade",service:"site",company:"",deadline:"",website:"",consent:true},headers:{"Origin":BASE}});
+    ensure(post.status()===503,"Canal sem credenciais precisa rejeitar envios: "+post.status());
+    ensure(errors.length===0,"Erros JS em "+viewportName+": "+errors.join("; "));
+    console.log("QA PROPOSAL",viewportName,"OK");
+    await page.close();
+   }
+ }finally{await browser.close()}
+})().catch(e=>{console.error("QA BUSINESS FAILED",e);process.exitCode=1});

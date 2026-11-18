@@ -79,6 +79,7 @@ export function FitDemoStage({
     >
       <div className="absolute inset-0 flex items-center justify-center">
         <div
+          data-vx-phone-frame="true"
           className="relative shrink-0"
           style={{
             width: PHONE.width * shellScale,

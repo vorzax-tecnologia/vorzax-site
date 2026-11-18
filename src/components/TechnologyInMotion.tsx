@@ -1,125 +1,357 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { demoCatalog, type DemoCategory, type DemoDevice } from "./DemoVisuals";
 import { FitDemoStage } from "./FitDemoStage";
+import { useMobileReel } from "./useMobileReel";
 
-type Chapter = DemoCategory;
-const categories: { id: Chapter; label: string; number: string }[] = [
-  { id:"sites",label:"Sites",number:"01" },
-  { id:"automacao",label:"Automações",number:"02" },
-  { id:"bi",label:"Dashboards e BI",number:"03" },
-  { id:"sistemas",label:"Sistemas sob medida",number:"04" },
-  { id:"ia",label:"Vorzax IA",number:"05" },
+const categories: { id: DemoCategory; name: string; short: string }[] = [
+  { id: "sites", name: "Sites", short: "Sites" },
+  { id: "automacao", name: "Automações", short: "Automações" },
+  { id: "bi", name: "Dashboards e BI", short: "BI / Dados" },
+  { id: "sistemas", name: "Sistemas sob medida", short: "Sistemas" },
+  { id: "ia", name: "Conceitos de IA", short: "IA" },
 ];
 
-export function TechnologyInMotion() {
- const [active,setActive]=useState<Chapter>("sites");
- const [variant,setVariant]=useState(0);
- const [device,setDevice]=useState<DemoDevice>("desktop");
- useEffect(()=>{
-   if(window.matchMedia("(max-width: 639px)").matches)setDevice("mobile");
- },[]);
- const [playing,setPlaying]=useState(true);
- const [expanded,setExpanded]=useState(false);
- const [step,setStep]=useState(0);
- const [visible,setVisible]=useState(false);
- const sectionRef=useRef<HTMLElement>(null);
+function selection(isSelected: boolean) {
+  return isSelected
+    ? "border-[#69c7ff] bg-[#123c5c] text-white shadow-[inset_0_0_0_1px_rgba(105,199,255,.12)]"
+    : "border-[#29445e] bg-[#091c2f] text-[#a9c4dc] hover:border-[#488bad] hover:bg-[#102b45]";
+}
 
- useEffect(()=>{
-  const onDemo=(event:Event)=>{
-    const {slug,example}=(event as CustomEvent<{slug?:Chapter;example?:number}>).detail||{};
-    if(slug && slug in demoCatalog){
-      setActive(slug);
-      setVariant(typeof example==="number"&&example>=0&&example<3?example:0);
+export function TechnologyInMotion({ initialSelection }: { initialSelection?: {slug:DemoCategory;example?:number} } = {}) {
+  const selectedCategory = initialSelection?.slug && initialSelection.slug in demoCatalog
+    ? initialSelection.slug : "sites";
+  const selectedVariant = typeof initialSelection?.example === "number" &&
+    initialSelection.example >= 0 && initialSelection.example < 3 ? initialSelection.example : 0;
+  const [category, setCategory] = useState<DemoCategory>(selectedCategory);
+  const [variant, setVariant] = useState(selectedVariant);
+  const mobileViewport = useMobileReel();
+  const [deviceOverride, setDeviceOverride] = useState<DemoDevice | null>(null);
+  const device: DemoDevice = deviceOverride ?? (mobileViewport ? "mobile" : "desktop");
+  const [playing, setPlaying] = useState(true);
+  const [step, setStep] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [stageHeight, setStageHeight] = useState<number | null>(null);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const expandRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Medimos somente a largura do palco e a janela. Nunca o conteúdo das demos:
+  // isso evita que uma categoria altere a altura de todas as demais.
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    let frame = 0;
+    const measure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+        const chrome = Math.max(0, (sectionRef.current?.offsetHeight ?? 0) - stage.offsetHeight);
+        const width = stage.clientWidth;
+        const ideal = width * (device === "mobile" ? 988 / 468 : 680 / 1280);
+        const limit = window.innerWidth < 640
+          ? Math.max(360, viewportHeight - 135)
+          : window.innerWidth >= 1024
+            ? Math.max(300, viewportHeight - chrome - 36)
+            : Math.max(350, viewportHeight - 225);
+        const result = Math.max(280, Math.min(ideal, limit));
+        setStageHeight(previous => previous !== null && Math.abs(previous - result) < 1 ? previous : result);
+      });
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(stage);
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    measure();
+    window.addEventListener("resize", measure);
+    window.visualViewport?.addEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
+    };
+  }, [device]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.1 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible || !playing || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const interval = window.setInterval(() => setStep(previous => (previous + 1) % 4), 3200);
+    return () => window.clearInterval(interval);
+  }, [visible, playing, category, variant]);
+
+  useEffect(() => {
+    const handle = (event: Event) => {
+      const detail = (event as CustomEvent<{ slug?: DemoCategory; example?: number }>).detail;
+      if (!detail?.slug || !(detail.slug in demoCatalog)) return;
+      setCategory(detail.slug);
+      setVariant(typeof detail.example === "number" && detail.example >= 0 && detail.example < 3 ? detail.example : 0);
       setStep(0);
-    }
-  };
-  window.addEventListener("vorzax:demo",onDemo);
-  return()=>window.removeEventListener("vorzax:demo",onDemo);
- },[]);
- useEffect(()=>{
-  const el=sectionRef.current;if(!el)return;
-  const ob=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting),{threshold:.1});
-  ob.observe(el);
-  return()=>ob.disconnect();
- },[]);
- useEffect(()=>{
-  if(!visible||!playing||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const id=window.setInterval(()=>setStep(v=>(v+1)%4),3200);
-  return()=>window.clearInterval(id);
- },[visible,playing,active,variant]);
+      sectionRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    };
+    window.addEventListener("vorzax:demo", handle);
+    return () => window.removeEventListener("vorzax:demo", handle);
+  }, []);
 
- const select=(key:Chapter)=>{setActive(key);setVariant(0);setStep(0);};
- const example=demoCatalog[active].examples[variant];
- useEffect(()=>{
-  if(!expanded)return;
-  const previous=document.body.style.overflow;
-  document.body.style.overflow="hidden";
-  const dismiss=(e:KeyboardEvent)=>{if(e.key==="Escape")setExpanded(false)};
-  window.addEventListener("keydown",dismiss);
-  return()=>{document.body.style.overflow=previous;window.removeEventListener("keydown",dismiss)};
- },[expanded]);
- return <section ref={sectionRef} id="tecnologia-em-acao" aria-labelledby="vx-showcase-title" className="relative scroll-mt-16 border-y border-[#1b405f] bg-[#040e1c] py-7 sm:py-8 lg:py-4">
-  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(14,98,170,.12),transparent_58%)]" aria-hidden="true"/>
-  <div className="relative mx-auto w-full max-w-[1500px] px-2 sm:px-7 lg:px-9 xl:px-12">
-   <div className="flex flex-wrap items-center justify-between gap-3">
-    <div className="min-w-0">
-      <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#79c9fa]">VORZAX / LABORATÓRIO DE SOLUÇÕES</p>
-      <h2 id="vx-showcase-title" className="mt-1 text-[clamp(1.5rem,2.4vw,2.35rem)] font-semibold leading-[1.1] tracking-[-.05em] text-white">Explore as soluções <span className="text-[#68c4ff]">em ação.</span></h2>
-      <p className="mt-1 text-[11px] leading-5 text-[#a1bbd2]">Explore interfaces, gráficos e interações nas visões desktop e mobile.</p>
-    </div>
-    <span className="w-fit shrink-0 rounded-full border border-[#275579] bg-[#0a2740] px-3 py-1.5 text-[10px] font-semibold text-[#a3dbfb]">15 CONCEITOS • 5 FRENTES</span>
-   </div>
-   <div className="mt-4 grid gap-3 lg:mt-3 lg:grid-cols-[175px_minmax(0,1fr)] xl:grid-cols-[190px_minmax(0,1fr)]">
-    <nav aria-label="Categorias das demonstrações" className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
-      {categories.map(c=><button key={c.id} type="button" aria-pressed={active===c.id} onClick={()=>select(c.id)} className={`flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-left text-[11px] font-semibold transition-colors lg:w-full lg:py-3 ${active===c.id?"border-[#448ebd] bg-[#153856] text-white":"border-[#22415d] bg-[#081b30] text-[#a7c1d7] hover:border-[#3579a7] hover:text-white"}`}><span className="font-mono text-[#6dc9fa]">{c.number}</span>{c.label}</button>)}
-      <p className="mt-2 hidden border-t border-[#24445e] pt-3 text-[10px] leading-5 text-[#9cb7cf] lg:block">Conceitos visuais ilustrativos.</p>
-    </nav>
-    <div className="flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-[#2c5777] bg-[#081b2e] shadow-[0_20px_55px_rgba(0,0,0,.22)]">
-      <div className="border-b border-[#264760] px-3 py-3 sm:px-5 lg:py-2.5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-         <div className="min-w-0"><p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#7bc7f8]">{demoCatalog[active].examples.length} IDEIAS PARA EXPLORAR</p>
-         <h3 className="mt-1 text-base font-semibold tracking-[-.04em] text-white sm:text-xl">{demoCatalog[active].title}</h3></div>
-         <div className="flex flex-wrap items-center gap-2">
-           <button type="button" onClick={()=>setPlaying(v=>!v)} aria-pressed={!playing} className="min-h-9 rounded-lg border border-[#315572] bg-[#0c2941] px-3 py-2 text-[10px] font-semibold text-[#bfdef3] hover:border-[#61b9ee]">{playing?"Ⅱ Pausar":"▶ Reproduzir"}</button>
-           <span className="rounded-md border border-[#2e6285] bg-[#0b2e48] px-2.5 py-1 text-[9px] text-[#9cd7f8]">DEMONSTRAÇÃO</span>
-         </div>
+  const positionPhone = () => {
+    if (window.innerWidth >= 640) return;
+    requestAnimationFrame(() => stageRef.current?.scrollIntoView({ block: "end", behavior: "instant" }));
+  };
+
+  const selectCategory = (next: DemoCategory) => {
+    setCategory(next);
+    setVariant(0);
+    setStep(0);
+    positionPhone();
+  };
+  const selectVariant = (next: number) => {
+    setVariant(next);
+    setStep(0);
+    positionPhone();
+  };
+  const selectDevice = (next: DemoDevice) => {
+    setDeviceOverride(next);
+    positionPhone();
+  };
+
+  useEffect(() => {
+    if (!expanded) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const trigger = expandRef.current;
+    closeRef.current?.focus();
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setExpanded(false);
+      }
+      if (event.key !== "Tab") return;
+      const dialog = document.querySelector<HTMLElement>('[data-vx-expanded-dialog="true"]');
+      const buttons = dialog?.querySelectorAll<HTMLButtonElement>("button:not([disabled])");
+      if (!buttons?.length) return;
+      if (event.shiftKey && document.activeElement === buttons[0]) {
+        event.preventDefault();
+        buttons[buttons.length - 1].focus();
+      } else if (!event.shiftKey && document.activeElement === buttons[buttons.length - 1]) {
+        event.preventDefault();
+        buttons[0].focus();
+      }
+    };
+    window.addEventListener("keydown", keydown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", keydown);
+      trigger?.focus();
+    };
+  }, [expanded]);
+
+  const selected = demoCatalog[category].examples[variant];
+
+  return (
+    <section
+      ref={sectionRef}
+      id="tecnologia-em-acao"
+      aria-labelledby="vx-showcase-title"
+      className="relative scroll-mt-16 border-y border-[#173a57] bg-[#030d1c] py-2 text-white sm:py-3 lg:scroll-mt-0"
+    >
+      <div className="mx-auto w-full max-w-[1700px] px-3 sm:px-5 lg:px-6">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="hidden text-[9px] font-bold uppercase tracking-[.19em] text-[#82cfff]">
+              VORZAX / LABORATÓRIO INTERATIVO
+            </p>
+            <h2 id="vx-showcase-title" className="text-[20px] font-bold leading-tight tracking-[-.035em] sm:text-[21px]">
+              Soluções <span className="text-[#6acbff]">em demonstração.</span>
+            </h2>
+          </div>
+          <span className="hidden rounded-full border border-[#294f6d] bg-[#09233a] px-3 py-1.5 text-[11px] font-semibold text-[#a5d8f7]">
+            15 EXEMPLOS INTERATIVOS
+          </span>
         </div>
-        <div role="group" aria-label="Escolher exemplo de solução" className="mt-2 flex snap-x gap-2 overflow-x-auto pb-1">
-         {demoCatalog[active].examples.map((item,i)=><button type="button" key={item.name} aria-pressed={variant===i} onClick={()=>{setVariant(i);setStep(0)}} className={`min-w-[135px] flex-1 snap-start rounded-lg border px-3 py-2 text-left transition-colors ${variant===i?"border-[#55b6f2] bg-[#123b60] text-white":"border-[#2c4a63] bg-[#0b2338] text-[#afc5d8] hover:border-[#4687b5]"}`}><span className="block text-[9px] font-semibold text-[#88d0ff]">0{i+1} / 03</span><span className="mt-1 block text-[11px] font-semibold">{item.name}</span></button>)}
+
+        <div className="sticky top-[68px] z-30 mt-2 grid grid-cols-2 gap-2 border-y border-[#102b45] bg-[#030d1c]/95 py-2 backdrop-blur-xl sm:top-[72px] lg:static lg:grid-cols-1 lg:items-center lg:gap-1 lg:border-0 lg:bg-transparent lg:py-0">
+          <label className="min-w-0 rounded-lg border border-[#325878] bg-[#0b2942] px-2 py-1 lg:hidden">
+            <span className="block text-[9px] font-semibold uppercase tracking-wide text-[#79c6f4]">Categoria</span>
+            <select
+              aria-label="Selecionar categoria das demonstrações"
+              value={category}
+              onChange={event => selectCategory(event.target.value as DemoCategory)}
+              className="h-6 w-full min-w-0 bg-transparent text-[12px] font-semibold text-white outline-none"
+            >
+              {categories.map(item => (
+                <option key={item.id} value={item.id} className="bg-[#0b2942]">{item.short}</option>
+              ))}
+            </select>
+          </label>
+          <label className="min-w-0 rounded-lg border border-[#325878] bg-[#0b2942] px-2 py-1 lg:hidden">
+            <span className="block text-[9px] font-semibold uppercase tracking-wide text-[#79c6f4]">Demonstração</span>
+            <select
+              aria-label="Escolher demonstração"
+              value={variant}
+              onChange={event => selectVariant(Number(event.target.value))}
+              className="h-6 w-full min-w-0 bg-transparent text-[12px] font-semibold text-white outline-none"
+            >
+              {demoCatalog[category].examples.map((item, index) => (
+                <option key={item.name} value={index} className="bg-[#0b2942]">{item.name}</option>
+              ))}
+            </select>
+          </label>
+          <nav aria-label="Categorias das demonstrações" className="hidden min-w-0 grid-cols-5 gap-1.5 lg:grid">
+            {categories.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                aria-pressed={category === item.id}
+                onClick={() => selectCategory(item.id)}
+                className={"flex h-10 min-w-0 items-center justify-center gap-1 rounded-lg border px-1.5 text-[11px] font-semibold transition-colors " + selection(category === item.id)}
+              >
+                <span className="font-mono text-[#72cafc]">0{index + 1}</span>
+                {item.short}
+              </button>
+            ))}
+          </nav>
+          <div
+            data-vx-lab-selector
+            role="group"
+            aria-label="Escolher exemplo de solução"
+            className="hidden min-w-0 grid-cols-3 gap-1.5"
+          >
+            {demoCatalog[category].examples.map((item, index) => (
+              <button
+                key={item.name}
+                type="button"
+                aria-pressed={variant === index}
+                onClick={() => selectVariant(index)}
+                className={"flex h-10 min-w-0 items-center justify-center gap-1 rounded-lg border px-2 text-[11px] font-semibold transition-colors " + selection(variant === index)}
+              >
+                <span className="font-mono text-[10px] text-[#7ac7f8]">0{index + 1}</span>
+                <span className="truncate">{item.name}</span>
+              </button>
+            ))}
+          </div>
+
+        </div>
+
+        <h3 className="sr-only">Demonstração selecionada: {selected.name}</h3>
+        <div data-vx-lab-grid className="min-w-0">
+          <div className="mt-1.5 overflow-hidden rounded-xl border border-[#37617e] bg-[#07192b] shadow-[0_18px_70px_rgba(0,0,0,.28)]">
+            <div data-vx-lab-panel-top className="flex min-h-11 flex-wrap items-center justify-between gap-2 border-b border-[#294d68] bg-[#0a2339] px-2 py-1.5 sm:px-3">
+              <select aria-label="Escolher exemplo no desktop" value={variant} onChange={event => selectVariant(Number(event.target.value))} className="hidden h-8 w-[min(32vw,330px)] shrink-0 rounded-md border border-[#4d86a9] bg-[#0f314d] px-2 text-[12px] font-semibold text-white outline-none lg:block">{demoCatalog[category].examples.map((item, index) => <option key={item.name} value={index} className="bg-[#0a263d]">{`0${index+1} · ${item.name}`}</option>)}</select>
+              <div data-vx-lab-label className="min-w-0 flex-1 lg:hidden">
+                <h3 className="truncate text-[13px] font-bold text-white sm:text-[14px]">{selected.name}</h3>
+                <p className="hidden truncate text-[11px] text-[#9dbcd4] sm:block">{selected.subtitle}</p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <div role="group" aria-label="Visualizar demonstração em" className="flex rounded-md border border-[#386b8b] bg-[#051628] p-0.5">
+                  <button
+                    type="button"
+                    aria-label="Visão desktop"
+                    aria-pressed={device === "desktop"}
+                    onClick={() => selectDevice("desktop")}
+                    className={"rounded px-2 py-1.5 text-[11px] font-semibold " + (device === "desktop" ? "bg-[#1b78bd] text-white" : "text-[#a6c7dd]")}
+                  >Desktop</button>
+                  <button
+                    type="button"
+                    aria-label="Visão mobile"
+                    aria-pressed={device === "mobile"}
+                    onClick={() => selectDevice("mobile")}
+                    className={"rounded px-2 py-1.5 text-[11px] font-semibold " + (device === "mobile" ? "bg-[#1b78bd] text-white" : "text-[#a6c7dd]")}
+                  >Mobile</button>
+                </div>
+                <button
+                  type="button"
+                  aria-label={playing ? "Pausar" : "Reproduzir"}
+                  aria-pressed={!playing}
+                  onClick={() => setPlaying(previous => !previous)}
+                  className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#37617d] bg-[#0f314a] text-[13px] text-[#caeaff] sm:w-auto sm:px-2"
+                >
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="13" height="13" fill="currentColor">
+            {playing ? <><rect x="4" y="3" width="4" height="14" rx="1" /><rect x="12" y="3" width="4" height="14" rx="1" /></> : <path d="M6 3.5a1 1 0 0 1 1.5-.86l10 6.5a1 1 0 0 1 0 1.72l-10 6.5A1 1 0 0 1 6 16.5v-13Z" />}
+          </svg>
+                  <span className="ml-1 hidden text-[11px] font-medium sm:inline">{playing ? "Pausar" : "Reproduzir"}</span>
+                </button>
+                <button
+                  ref={expandRef}
+                  type="button"
+                  aria-label="Ampliar demonstração para leitura"
+                  onClick={() => setExpanded(true)}
+                  className="inline-flex h-8 w-8 items-center justify-center gap-1 rounded-md border border-[#4c99c9] bg-[#123d5e] text-[15px] text-[#def4ff] sm:w-auto sm:px-3"
+                >
+                  <span aria-hidden="true">⛶</span>
+                  <span className="ml-1 hidden text-[11px] font-semibold sm:inline">Ampliar</span>
+                </button>
+              </div>
+            </div>
+            <div
+              ref={stageRef}
+              data-vx-lab-stage
+              data-vx-stage-height={stageHeight ?? "auto"}
+              data-device={device}
+              style={stageHeight === null ? undefined : { height: stageHeight }}
+              className="vx-lab-single-frame aspect-[1280/680] w-full scroll-mb-3 overflow-hidden bg-[#071725]"
+            >
+              <FitDemoStage
+                key={category + "-" + variant + "-" + device}
+                category={category}
+                variant={variant}
+                device={device}
+                step={step}
+                playing={playing}
+              />
+            </div>
+            <div data-vx-lab-caption className="flex h-7 items-center justify-between gap-3 border-t border-[#23425b] bg-[#091c2f] px-3">
+              <span className="truncate text-[10px] text-[#a9c4d8]">{selected.tag}</span>
+              <span className="shrink-0 text-[10px] text-[#87a9c2]">Demonstração ilustrativa · 0{variant + 1}/03</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col px-1 pb-3 pt-2 sm:px-5">
-       <div className="mb-2 flex flex-wrap items-center justify-between gap-2 px-2 sm:px-0"><div className="min-w-0"><span className="text-[9px] font-semibold uppercase tracking-[.12em] text-[#76c3f4]">{example.tag}</span><p className="text-[11px] font-medium text-white">{example.subtitle}</p></div><span className="text-[9px] text-[#9cb7ce]"><span className="mr-1 text-[#4dc5ff]">●</span>DEMONSTRAÇÃO ILUSTRATIVA</span></div>
-       <div className={device==="mobile" ? "vx-lab-single-frame aspect-[468/988] w-full overflow-hidden bg-[#071525] sm:aspect-auto sm:h-[clamp(380px,calc(100svh-385px),560px)]" : "vx-lab-single-frame h-[clamp(340px,calc(100svh-405px),540px)] w-full overflow-hidden bg-[#071525]"}>
-         <FitDemoStage key={active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing}/>
-       </div>
-       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-[#284861] px-2 pt-2 sm:px-0">
-        <div role="group" aria-label="Visualizar demonstração em" className="flex items-center gap-1 rounded-lg border border-[#35688c] bg-[#0b2740] p-1">
-          <button type="button" aria-pressed={device==="desktop"} onClick={()=>setDevice("desktop")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="desktop"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▣ Visão desktop</button>
-          <button type="button" aria-pressed={device==="mobile"} onClick={()=>setDevice("mobile")} className={`flex min-h-9 items-center gap-1.5 rounded-md px-3 text-[10px] font-semibold transition-colors ${device==="mobile"?"bg-[#1573b8] text-white":"text-[#b4cde1] hover:bg-[#14415f]"}`}>▯ Visão mobile</button>
+
+      {expanded && (
+        <div
+          data-vx-expanded-dialog="true"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Demonstração ampliada do Laboratório"
+          className="fixed inset-0 z-[210] flex flex-col bg-[#020a15] p-2 text-white sm:p-4"
+        >
+          <div className="mx-auto flex w-full max-w-[1700px] items-center justify-between gap-3 border-b border-[#305873] pb-2">
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[.15em] text-[#77c7fa]">Laboratório Vorzax</p>
+              <h3 className="truncate text-[14px] font-semibold sm:text-lg">{selected.name}</h3>
+            </div>
+            <button
+              ref={closeRef}
+              autoFocus
+              type="button"
+              onClick={() => setExpanded(false)}
+              className="min-h-10 shrink-0 rounded-lg border border-[#5395bd] bg-[#123852] px-4 text-[12px] font-bold text-white"
+            >Fechar ✕</button>
+          </div>
+          <div className="mx-auto mt-2 min-h-0 w-full max-w-[1700px] flex-1 overflow-hidden rounded-lg bg-[#061626]">
+            <FitDemoStage
+              key={"expanded-" + category + "-" + variant + "-" + device}
+              category={category}
+              variant={variant}
+              device={device}
+              step={step}
+              playing={playing}
+              expanded
+            />
+          </div>
+          <p className="mt-1 text-center text-[10px] text-[#a0c2d8]">Exemplo ilustrativo, não contém dados reais de clientes.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={()=>setExpanded(true)} className="rounded-full border border-[#3d89b7] bg-[#103a5b] px-3 py-2 text-[11px] font-semibold text-[#d4efff] transition hover:bg-[#18537e]" aria-label="Ampliar demonstração para leitura">⛶ Ver maior</button>
-          
-          <span className="text-[9px] text-[#88a6bb]">0{variant+1} / 03</span>
-        </div>
-       </div>
-       <p className="mt-1.5 text-[9px] leading-4 text-[#94b0c8]">Conceitos visuais ilustrativos.</p>
-      </div>
-    </div>
-   </div>
-  </div>
-  {expanded&&<div role="dialog" aria-modal="true" aria-label="Demonstração ampliada do Laboratório" className="fixed inset-0 z-[210] flex flex-col bg-[#030b18]/98 p-3 text-white sm:p-5">
-    <div className="mx-auto flex w-full max-w-[1500px] flex-wrap items-center justify-between gap-3 border-b border-[#315370] pb-3">
-      <div><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-[#87ceff]">LABORATÓRIO VORZAX / VISÃO AMPLIADA</p><h3 className="mt-1 text-lg font-bold">{demoCatalog[active].examples[variant].name} · {demoCatalog[active].examples[variant].tag}</h3></div>
-      <button type="button" autoFocus onClick={()=>setExpanded(false)} className="min-h-11 rounded-xl border border-[#518fba] bg-[#0c3658] px-5 text-sm font-semibold text-white hover:bg-[#19557c]">Fechar ✕</button>
-    </div>
-    <div className="vx-lab-single-frame mx-auto mt-2 min-h-0 w-full max-w-[1500px] flex-1 overflow-hidden rounded-xl bg-[#071525]">
-      <FitDemoStage key={"expanded-"+active+"-"+variant+"-"+device} category={active} variant={variant} device={device} step={step} playing={playing} expanded/>
-    </div>
-    <p className="mx-auto mt-2 w-full max-w-[1500px] text-xs text-[#b5cfe1]">Demonstração ilustrativa. Explore os detalhes e interações.</p>
-  </div>}
- </section>;
+      )}
+    </section>
+  );
 }
