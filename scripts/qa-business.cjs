@@ -37,6 +37,14 @@ const routes=[
       ensure(info.overflow<=3,route+" não deve ter rolagem horizontal: "+info.overflow);
       ensure(info.canonical,route+" precisa de canonical");
       ensure(info.skip,route+" precisa de link para pular o menu");
+      const header=page.locator("header");
+      const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
+      ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
+      ensure(await logo.getAttribute("src")==="/vorzax-logo-header.webp",route+" usa o logotipo incorreto");
+      const returnLink=header.getByRole("link",{name:"Voltar ao site principal"});
+      ensure(await returnLink.count()===1,route+" não exibe volta ao site principal");
+      ensure(await returnLink.getAttribute("href")==="/",route+" possui link de retorno inválido");
+      ensure(await returnLink.isVisible(),route+" deveria exibir retorno ao site principal no "+viewportName);
       if(["/servicos","/como-trabalhamos","/solicitar-proposta"].includes(route)){
         await page.screenshot({path:path.join(OUT,"corporativo-"+viewportName+"-"+route.substring(1).replaceAll("/","-")+".png")});
       }

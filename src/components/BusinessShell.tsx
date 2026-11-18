@@ -16,10 +16,13 @@ export function BusinessShell({ children, active }: {children: ReactNode; active
       </a>
       <header className="sticky top-0 z-40 border-b border-[#24445f] bg-[#051526]/95 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
-          <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial">
-            <Image src="/vorzax-logo-oficial.png" width={604} height={172} alt="Vorzax Tecnologia" priority className="h-auto w-[140px] sm:w-[175px]"/>
+          <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial" className="inline-flex shrink-0 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7bd3ff]">
+            <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="Vorzax Tecnologia" priority className="h-auto w-[174px] sm:w-[193px]"/>
           </Link>
           <nav aria-label="Navegação de serviços" className="flex max-w-full flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-medium text-[#c6d8ea]">
+            <Link href="/" aria-label="Voltar ao site principal" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#356181] bg-[#0a2741] px-3 font-semibold text-[#a7dfff] transition hover:border-[#6ac7ff] hover:bg-[#123b5b] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7bd3ff]">
+              <span aria-hidden="true">←</span> Voltar ao site principal
+            </Link>
             {nav.map(item => <Link key={item.href} href={item.href} aria-current={active===item.id?"page":undefined} className={active===item.id?"text-[#8ed8ff] underline underline-offset-4":"transition hover:text-white focus-visible:underline"}>{item.label}</Link>)}
           </nav>
         </div>
