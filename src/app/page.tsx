@@ -691,7 +691,7 @@ export default function Home() {
             <Link href="/solicitar-proposta" className="hidden rounded-full border border-[#156995] bg-[#06243b] px-5 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:inline-flex">
               Solicitar proposta
             </Link>
-            <Link href="/solicitar-proposta" className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white sm:hidden">
+            <Link href="/solicitar-proposta" className="inline-flex min-h-11 items-center rounded-full border border-[#156995] bg-[#06243b] px-3 py-2.5 text-xs font-semibold text-[#85d7ff] transition hover:border-[#35b9f9] hover:bg-[#103f65] hover:text-white max-[374px]:hidden sm:hidden">
               Proposta
             </Link>
 
@@ -769,7 +769,7 @@ export default function Home() {
 
       <section id="processo" className="vx-section vx-process-section relative overflow-hidden border-t border-[#173451]">
         <div className="vx-section-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-10 lg:py-16 xl:px-16">
+        <div className="relative mx-auto max-w-[1680px] px-5 py-12 sm:px-8 lg:px-10 lg:py-16 xl:px-16">
           <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
             <div className="max-w-3xl" data-reveal>
               <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> COMO FUNCIONA / 01—03</p>
@@ -804,7 +804,7 @@ export default function Home() {
 
       <section id="sobre" className="vx-section relative overflow-hidden border-b border-[#173450] bg-[#040e1b]">
         <div className="pointer-events-none absolute right-[-180px] top-[-150px] h-[580px] w-[580px] rounded-full bg-[#125baf]/10 blur-[140px]" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12 lg:px-10 lg:py-16 xl:px-16">
+        <div className="relative mx-auto grid max-w-[1680px] items-center gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12 lg:px-10 lg:py-16 xl:px-16">
           <div className="vx-capability-panel relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-[24px] border border-[#245277] bg-[radial-gradient(circle_at_70%_45%,#10395d_0%,#071b30_45%,#061324_100%)] p-6 shadow-[0_30px_80px_rgba(0,0,0,.2)] sm:p-10" data-reveal>
             <div className="vx-section-mesh pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"/>
             <div className="pointer-events-none absolute -right-28 top-12 h-[330px] w-[330px] rounded-full border border-[#327bab]/25 shadow-[0_0_90px_rgba(14,135,242,.12)]" aria-hidden="true"/>
@@ -843,7 +843,7 @@ export default function Home() {
 
       <section id="contato" className="relative overflow-hidden bg-[#030b17]">
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0563bb]/10 blur-[150px]" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
+        <div className="relative mx-auto max-w-[1680px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-16">
           <div className="vx-contact-panel relative grid overflow-hidden rounded-[24px] border border-[#28608b] bg-[#081b31] lg:grid-cols-[1.07fr_.93fr]" data-reveal>
             <div className="relative z-10 flex flex-col items-start px-6 py-11 sm:px-10 sm:py-14 lg:px-12 lg:py-16">
               <p className="vx-eyebrow"><span className="vx-eyebrow-line" /> SEU PRÓXIMO PROJETO</p>
@@ -882,7 +882,7 @@ export default function Home() {
       </section>
 
       <footer className="relative border-t border-[#163a55] bg-[#030a14]">
-        <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10 xl:px-16">
+        <div className="mx-auto grid max-w-[1680px] gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-10 xl:px-16">
           <div data-reveal="left">
             <BrandLogo priority={false} />
             <p className="mt-5 max-w-sm text-sm leading-6 text-slate-500">
@@ -932,7 +932,7 @@ export default function Home() {
         </div>
 
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-6 text-xs text-[#6f859c] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10 xl:px-16">
+          <div className="mx-auto flex max-w-[1680px] flex-col gap-3 px-5 py-6 text-xs text-[#6f859c] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10 xl:px-16">
             <p>© 2026 Vorzax Tecnologia. Todos os direitos reservados.</p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
               <span>Tecnologia para empresas • Conceitos ilustrativos</span>
