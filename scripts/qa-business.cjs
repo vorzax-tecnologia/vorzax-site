@@ -20,6 +20,9 @@ const routes=[
     for(const route of routes){
       const response=await page.goto(BASE+route,{waitUntil:"domcontentloaded",timeout:90000});
       ensure(response&&response.status()===200,route+" retornou HTTP "+response?.status());
+      const security=response.headers();
+      ensure(security["x-content-type-options"]==="nosniff",route+" sem proteção de tipo MIME");
+      ensure(security["x-frame-options"]==="DENY",route+" sem proteção contra enquadramento externo");
       const info=await page.evaluate(()=>{
         const main=document.querySelector("main");
         return {
