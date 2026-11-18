@@ -29,8 +29,8 @@ function SitePhoto({
         src={source}
         alt=""
         fill
-        unoptimized
-        sizes="(max-width: 640px) 402px, 960px"
+        unoptimized={source !== local}
+        sizes="(max-width: 640px) 320px, (max-width: 1024px) 520px, 700px"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         onError={() => {
           if (source === local) setSource(remote);
