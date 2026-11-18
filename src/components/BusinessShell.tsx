@@ -22,7 +22,7 @@ export function BusinessShell({ children, active }: {children: ReactNode; active
             </Link>
             <span aria-hidden="true" className="hidden h-7 w-px bg-[#244661] lg:block" />
             <Link href="/" aria-label="Voltar ao site principal" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#356181] bg-[#0a2741] px-3 text-[11px] font-semibold text-[#a7dfff] transition hover:border-[#6ac7ff] hover:bg-[#123b5b] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7bd3ff] sm:text-[12px]">
-              <span aria-hidden="true">←</span> <span className="sm:hidden">Voltar ao site</span><span className="hidden sm:inline">Voltar ao site principal</span>
+              <span aria-hidden="true">←</span> <span className="hidden min-[375px]:inline sm:hidden">Voltar ao site</span><span className="hidden sm:inline">Voltar ao site principal</span>
             </Link>
           </div>
           <nav aria-label="Navegação de serviços" className="flex w-full flex-wrap items-center gap-x-5 gap-y-2 border-t border-[#193a53] pt-2 text-[12px] font-medium text-[#c6d8ea] sm:gap-x-6 lg:w-auto lg:gap-x-6 lg:border-0 lg:pt-0 lg:text-[13px]">

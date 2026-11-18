@@ -42,6 +42,8 @@ jobs:
           done
           cat /tmp/vorzax-next.log
           exit 1
+      - name: Conferir alinhamento responsivo em 10 tamanhos de tela
+        run: node scripts/qa-responsive.cjs
       - name: Conferir 15 demonstracoes nos 4 tamanhos
         run: node scripts/qa-laboratorio-visual.cjs
       - name: Conferir home, formulário e links
