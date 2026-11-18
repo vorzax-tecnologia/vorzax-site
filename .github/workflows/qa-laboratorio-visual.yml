@@ -48,6 +48,8 @@ jobs:
         run: node scripts/qa-home.cjs
       - name: Conferir páginas corporativas e proposta por e-mail
         run: node scripts/qa-business.cjs
+      - name: Validar jornada de conversao completa em desktop e mobile
+        run: node scripts/qa-funil.cjs
       - name: Analisar acessibilidade automatizada (WCAG 2.2)
         run: node scripts/qa-accessibility.cjs
       - name: Salvar prints e medidas
