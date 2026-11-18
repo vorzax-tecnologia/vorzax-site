@@ -63,7 +63,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   useEffect(() => {
     if (!playing) return;
     const last = scene === scenes.length - 1;
-    const duration = scene === 0 || last ? 1700 : 2300;
+    const duration = scene === 0 || last ? 2200 : 4600;
     const timer = window.setTimeout(() => {
       if (!last) setScene(current => current + 1);
       else if (loop) setScene(0);
@@ -96,13 +96,13 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
   const isBrand = !current.category;
   const buttonLabel = reduced && !allowMotion ? "Reproduzir filme" : running ? (hovered||touching ? "Pausado ao interagir" : "Pausar") : scene === scenes.length - 1 && !loop ? "Rever filme" : interacted ? "Continuar" : "Assistir filme";
   return (
-    <div ref={reelRef} data-reel-scene={scene} onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] aspect-[9/16] sm:aspect-[16/10] lg:aspect-video w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces demonstrativas reais do site">
+    <div ref={reelRef} data-reel-scene={scene} onPointerEnter={event=>{if(pauseOnHover && event.pointerType==="mouse")setHovered(true)}} onPointerLeave={()=>{setHovered(false);setTouching(false)}} onPointerDown={event=>{if(pauseOnHover && event.pointerType!=="mouse")setTouching(true)}} onPointerUp={()=>setTouching(false)} onPointerCancel={()=>setTouching(false)} className={`vx-brand-reel relative isolate [container-type:inline-size] aspect-[9/16] sm:aspect-[16/10] lg:aspect-video w-full overflow-hidden bg-[#041123] text-white`} aria-label="Filme de apresentação Vorzax, com interfaces ilustrativas dos serviços">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(13,110,206,.2),transparent_68%)]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(#28669a22_1px,transparent_1px),linear-gradient(90deg,#28669a22_1px,transparent_1px)] [background-size:65px_65px]" aria-hidden="true" />
       <div key={scene} className="vx-reel-scene absolute inset-0 flex items-center px-[2%] pb-[30px] pt-[2%]" aria-live="off">
         {isBrand ? (
           <div className="mx-auto flex max-w-[90%] flex-col items-center justify-center text-center">
-            <Image src="/vorzax-logo-header.webp" width={539} height={165} priority alt="Vorzax Tecnologia" className={`h-auto drop-shadow-[0_15px_28px_rgba(0,0,0,.22)] ${compact ? "w-[52cqw]" : "w-[52cqw]"}`} />
+            <Image src="/vorzax-logo-clean.png" width={539} height={165} priority alt="Vorzax Tecnologia" className="h-auto w-[52cqw]" />
             <p className="mt-3 text-[1.6cqw] font-bold uppercase tracking-[.15em] text-[#83d0ff]">{current.eyebrow}</p>
             <p className="mt-4 text-[5cqw] font-semibold leading-[1.05] tracking-[-.06em]">{current.headline} <span className="text-[#70c8ff]">{current.highlight}</span></p>
             <p className="mt-3 hidden text-[1.8cqw] text-[#a5c2da] sm:block">{current.caption}</p>
@@ -110,7 +110,7 @@ export function BrandReel({ autoPlay = false, onEnded, compact = false, showPlay
         ) : (
           <div className="flex h-full w-full min-h-0 flex-col gap-[0.8%]">
             <div className="flex h-[11%] min-h-0 shrink-0 items-center gap-[2.2%]">
-              <Image src="/vorzax-logo-header.webp" width={539} height={165} alt="" className="h-auto w-[20%] max-w-[190px] shrink-0" />
+              <Image src="/vorzax-logo-clean.png" width={539} height={165} alt="" className="h-auto w-[20%] max-w-[190px] shrink-0" />
               <div className="min-w-0">
                 <p className="text-[clamp(8px,1.6cqw,14px)] font-bold uppercase tracking-[.10em] text-[#82d1ff]">{current.eyebrow}</p>
                 <p className="mt-1 text-[clamp(11px,2.8cqw,24px)] font-semibold leading-tight tracking-[-.045em] text-[#f5faff]">{current.headline} <span className="text-[#80cfff]">{current.highlight}</span></p>

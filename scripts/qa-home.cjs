@@ -46,6 +46,7 @@ function ensure(condition, message) {
       });
 
       ensure(result.headline, `Headline ausente em ${device}`);
+      ensure(await page.locator("header img[alt=\"Vorzax Tecnologia\"]").count()===1,"Marca deve aparecer no cabeçalho");
       ensure(result.media, `Demonstração principal ausente em ${device}`);
       ensure(result.overflow <= 3, `Rolagem horizontal indevida em ${device}: ${result.overflow}px`);
       ensure(result.missingAnchors.length === 0, `Âncoras sem destino: ${result.missingAnchors.join(", ")}`);

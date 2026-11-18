@@ -15,15 +15,18 @@ export function BusinessShell({ children, active }: {children: ReactNode; active
         Ir para o conteúdo
       </a>
       <header className="sticky top-0 z-40 border-b border-[#15324d] bg-[#020a16]/90 shadow-[0_12px_35px_rgba(0,0,0,.13)] backdrop-blur-2xl">
-        <div className="relative mx-auto flex min-h-[68px] w-full max-w-[1680px] flex-wrap items-center justify-between gap-2 px-5 py-2 sm:min-h-[72px] sm:px-8 lg:px-10 xl:px-16">
-          <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial" className="inline-flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7bd3ff]">
-            <BrandLogo />
-          </Link>
-          <nav aria-label="Navegação de serviços" className="flex max-w-full flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-medium text-[#c6d8ea]">
-            <Link href="/" aria-label="Voltar ao site principal" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#356181] bg-[#0a2741] px-3 font-semibold text-[#a7dfff] transition hover:border-[#6ac7ff] hover:bg-[#123b5b] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7bd3ff]">
-              <span aria-hidden="true">←</span> Voltar ao site principal
+        <div className="relative mx-auto flex w-full max-w-[1680px] flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 sm:px-8 lg:gap-x-10 lg:px-10 xl:px-16">
+          <div className="flex min-h-[46px] shrink-0 items-center gap-3 sm:gap-5">
+            <Link href="/" aria-label="Vorzax Tecnologia, voltar à página inicial" className="inline-flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7bd3ff]">
+              <BrandLogo />
             </Link>
-            {nav.map(item => <Link key={item.href} href={item.href} aria-current={active===item.id?"page":undefined} className={active===item.id?"text-[#8ed8ff] underline underline-offset-4":"transition hover:text-white focus-visible:underline"}>{item.label}</Link>)}
+            <span aria-hidden="true" className="hidden h-7 w-px bg-[#244661] lg:block" />
+            <Link href="/" aria-label="Voltar ao site principal" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#356181] bg-[#0a2741] px-3 text-[11px] font-semibold text-[#a7dfff] transition hover:border-[#6ac7ff] hover:bg-[#123b5b] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7bd3ff] sm:text-[12px]">
+              <span aria-hidden="true">←</span> <span className="sm:hidden">Voltar ao site</span><span className="hidden sm:inline">Voltar ao site principal</span>
+            </Link>
+          </div>
+          <nav aria-label="Navegação de serviços" className="flex w-full flex-wrap items-center gap-x-5 gap-y-2 border-t border-[#193a53] pt-2 text-[12px] font-medium text-[#c6d8ea] sm:gap-x-6 lg:w-auto lg:gap-x-6 lg:border-0 lg:pt-0 lg:text-[13px]">
+            {nav.map(item => <Link key={item.href} href={item.href} aria-current={active===item.id?"page":undefined} className={active===item.id?"text-[#8ed8ff] underline decoration-[#6bc7fd] underline-offset-8":"transition hover:text-white focus-visible:underline"}>{item.label}</Link>)}
           </nav>
         </div>
       </header>

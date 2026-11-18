@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export const metadata: Metadata = {
   title: "Política de Privacidade",
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     <main className="relative min-h-screen overflow-hidden bg-[#030b17] text-white">
       <header className="relative z-10 border-b border-[#1e3c56] bg-[#020a15]/90 backdrop-blur-2xl">
         <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-10 xl:px-16">
-          <Link href="/" aria-label="Vorzax Tecnologia — voltar ao início"><Image src="/vorzax-logo-oficial.png" alt="Vorzax Tecnologia" width={604} height={172} className="h-auto w-[158px] sm:w-[185px]" priority /></Link>
+          <Link href="/" aria-label="Vorzax Tecnologia — voltar ao início"><BrandLogo /></Link>
           <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-[#2c5679] bg-[#08243a] px-4 py-2 text-xs font-semibold text-[#91d4ff] transition hover:border-[#49b9ff] hover:text-white">← Voltar ao site</Link>
         </div>
       </header>

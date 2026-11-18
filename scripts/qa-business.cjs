@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports -- QA executado em CommonJS. */
 const { chromium } = require("playwright");
+const sharp=require("sharp");
 const fs = require("node:fs");
 const path = require("node:path");
 const BASE = "http://127.0.0.1:3000";
@@ -11,6 +12,11 @@ const routes=[
  "/como-trabalhamos","/seguranca","/solicitar-proposta"
 ];
 (async()=>{
+ const logoPath=path.resolve("public/vorzax-logo-clean.png");
+ const {data:logoData,info:logoInfo}=await sharp(logoPath).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ const cornerAlpha=logoData[3], opposite=logoData[(logoInfo.width*logoInfo.height-1)*4+3];
+ ensure(cornerAlpha<20 && opposite<20,"O logo ainda contém fundo opaco nos cantos");
+ console.log("QA LOGO transparente",logoInfo.width,logoInfo.height);
  const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
  try {
    for(const [viewportName,width,height] of [["desktop",1440,900],["mobile",390,844]]){
@@ -40,9 +46,9 @@ const routes=[
       const header=page.locator("header");
       const logo=header.getByRole("img",{name:"Vorzax Tecnologia"});
       ensure(await logo.count()===1,route+" deve usar a mesma marca da home");
-      ensure((await logo.getAttribute("src"))?.includes("vorzax-logo-header.webp"),route+" usa o logotipo incorreto");
-      ensure((await logo.getAttribute("class"))?.includes("mix-blend-screen"),
-        route+" apresenta fundo escuro do logo em vez de integrar à home");
+      ensure((await logo.getAttribute("src"))?.includes("vorzax-logo-clean.png"),route+" usa o logotipo incorreto");
+      ensure(!(await logo.getAttribute("class"))?.includes("mix-blend-screen"),
+        route+" ainda depende de mistura CSS para remover o fundo da marca");
       const siteLogo=await page.evaluate(()=>{
         const img=document.querySelector('header img[alt="Vorzax Tecnologia"]');
         const hdr=document.querySelector("header");
@@ -50,7 +56,7 @@ const routes=[
           headerBackground:hdr?getComputedStyle(hdr).backgroundColor:null,
           imageWidth:img?.getBoundingClientRect().width };
       });
-      ensure(siteLogo.blend==="screen",route+" efeito do logo não está uniforme");
+      ensure(siteLogo.blend==="normal",route+" logotipo deve ter transparência real");
       ensure(Math.abs((siteLogo.imageWidth??0)-(width<640?174:193))<2,
         route+" tamanho do logo difere do padrão da home: "+JSON.stringify(siteLogo));
       const returnLink=header.getByRole("link",{name:"Voltar ao site principal"});
