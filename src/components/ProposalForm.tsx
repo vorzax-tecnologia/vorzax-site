@@ -16,7 +16,10 @@ export function ProposalForm({ initialService = "" }: { initialService?: string 
   const [prepared,setPrepared]=useState(false);
   const [copyStatus,setCopyStatus]=useState("");
   const [hydrated,setHydrated]=useState(false);
-  useEffect(()=>setHydrated(true),[]);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setHydrated(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const serviceName=offerings.find(x=>x.slug===service)?.title??"Avaliação inicial do projeto";
   const text=[
